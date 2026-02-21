@@ -210,19 +210,22 @@ L’analisi consente di individuare:
 
 ### Focus tecnico
 
-L’implementazione del problema prevede:
-- analisi del file CSV delle transazioni
-- raggruppamento per IBAN beneficiario
-- conteggio mittenti unici su finestre temporali
-- correlazione tra frequenza, importi e tempo
-- generazione di alert e log dedicati
+L'implementazione del problema si basa esclusivamente su **cattura e analisi del traffico di rete in tempo reale**, senza interrogare il database per aggregazioni o conteggi.
 
+Attività principali:
+- cattura pacchetti HTTP verso l'endpoint `/bonifico` tramite **`tshark`**
+- estrazione di IP sorgente e payload delle richieste POST
+- parsing del corpo della richiesta per identificare IBAN beneficiario
+- conteggio in memoria dei mittenti unici per ciascun IBAN
+- confronto con soglia AML (es. 3+ mittenti distinti)
+- segnalazione automatica in blacklist
 
-### Strumenti e concetti chiave:
-- parsing e analisi log applicativi
-- finestre temporali scorrevoli
-- metriche comportamentali
-- simulazione di alert AML
+Strumenti e comandi chiave:
+- **`tshark -i lo -f "tcp port 8000" -Y "http.request.method == POST"`**
+- **`tshark -T fields -e ip.src -e http.file_data`**
+- parsing JSON del payload per estrarre `iban_beneficiario`
+- file temporanei (`/logs/*.tmp`) per tracciamento in-memory
+- **aggregazione bash** con array associativi
 
 ### Risposta operativa:
 Quando un conto riceve numerosi bonifici da IBAN differenti in un intervallo temporale ristretto, il sistema attiva automaticamente una procedura di verifica antifrode.
@@ -287,19 +290,23 @@ I conti identificati possono essere soggetti a:
 
 ### Focus tecnico
 
-L’implementazione del problema prevede:
-- analisi dei log di autenticazione
-- tracciamento delle sessioni attive
-- correlazione temporale tra login e logout
-- associazione sessione–IP–timestamp
-- rilevamento di overlap temporali
+L'implementazione del problema si basa esclusivamente su **monitoraggio delle connessioni TCP attive in tempo reale**, senza analizzare log applicativi o database.
 
-Strumenti e concetti chiave:
-- parsing dei log di accesso
-- gestione delle sessioni applicative
-- correlazione temporale
-- analisi per account
-- simulazione di alert di sicurezza
+Attività principali:
+- monitoraggio delle socket TCP verso il server bancario (porta 8000)
+- utilizzo di **`ss`** per ispezionare connessioni nello stato `ESTABLISHED`
+- estrazione degli indirizzi IP sorgente
+- conteggio delle connessioni simultanee per ciascun IP
+- confronto con soglia di sicurezza (es. ≥ 2 connessioni contemporanee)
+- identificazione account tramite lookup puntuale nel database (`LIMIT 1`)
+
+Strumenti e comandi chiave:
+- **`ss -tn state established`** → visualizza socket TCP attive
+- **`grep ":8000 "`** → filtra solo il server bancario
+- **`awk '{print $4}'`** → estrae IP:porta remota
+- **`cut -d: -f1`** → isola l'indirizzo IP
+- **`sort | uniq -c`** → conta connessioni per IP
+- query puntuale SQLite solo per recuperare `customer_id` da IP
 
 ### Risposta operativa:
 Quando vengono rilevate sessioni attive contemporaneamente da indirizzi IP differenti per lo stesso account, il sistema interpreta l’evento come possibile compromissione delle credenziali.
@@ -365,19 +372,23 @@ I risultati possono portare a:
 
 ### Focus tecnico
 
-La risoluzione del problema prevede:
-- analisi dei timestamp di login
-- aggregazione degli accessi per fascia oraria
-- costruzione di baseline temporali per account
-- confronto tra attività corrente e storica
-- rilevamento di outlier temporali
+La risoluzione del problema si basa su **monitoraggio real-time delle connessioni durante fasce orarie specifiche**, senza analisi storica dei log.
 
-Strumenti e concetti chiave:
-- parsing dei log di accesso
-- analisi statistica delle fasce orarie
-- correlazione temporale
-- profiling comportamentale
-- simulazione di policy di sicurezza adattive
+Attività principali:
+- verifica dell'ora corrente del sistema tramite **`date +%H`**
+- identificazione della fascia notturna (22:00–06:00)
+- monitoraggio delle connessioni TCP attive solo durante orario notturno
+- estrazione degli IP sorgente connessi al server bancario
+- risoluzione DNS inversa tramite **`host`** per identificare il tipo di client
+- lookup puntuale nel database per identificare l'account associato
+
+Strumenti e comandi chiave:
+- **`date +%H`** → recupera l'ora corrente (formato 24h)
+- **`ss -tn state established | grep ":8000 "`** → connessioni attive al server
+- **`awk '{print $4}' | cut -d: -f1`** → estrae IP remoto
+- **`host <ip_address>`** → risoluzione DNS inversa (PTR record)
+- **Condizioni bash**: `[[ ora -ge 22 || ora -lt 06 ]]`
+- query puntuale SQLite per mapping IP → customer_id
 
 ### [Elenco dei problemi](#elenco-dei-problemi)
 ---
@@ -441,22 +452,23 @@ I risultati possono portare a:
 
 ### Focus tecnico
 
-La risoluzione del problema si basa prevalentemente su **strumenti di rete**, senza interrogazioni dirette al database.
+La risoluzione del problema si basa esclusivamente su **strumenti di monitoraggio di rete e port scanning**, senza interrogazioni al database.
 
 Attività principali:
-- monitoraggio delle porte in ascolto
-- analisi delle connessioni attive
-- verifica dei servizi esposti
-- confronto con le policy definite
+- monitoraggio delle connessioni TCP attive tramite **`netstat`**
+- identificazione degli IP associati agli ATM (range specifico)
+- estrazione delle porte remote utilizzate dalle connessioni ATM
+- verifica del range di porte autorizzato (efimere: 32768–60999)
+- port scanning con **`nc`** per verificare porte aperte sospette
+- segnalazione automatica di ATM che usano porte fuori policy
 
 Strumenti e comandi chiave:
-- **`ss -tuln`**
-- **`ss -tan`**
-- **`netstat -tulnp`**
-- **`lsof -i -P -n`**
-- **`sudo lsof -i -P -n | grep LISTEN`**
-- **`nmap localhost`**
-- **`sudo nmap -p- localhost`**
+- **`netstat -tn | grep ESTABLISHED`** → connessioni TCP attive
+- **`awk '{print $4, $5}'`** → estrae local:porta e remote:porta
+- **`cut -d: -f2`** → isola il numero di porta
+- **Condizioni bash**: `[[ porta -lt 32768 || porta -gt 60999 ]]`
+- **`nc -zv <ip> <porta>`** → verifica porta aperta (port scanning)
+- **`timeout 2 nc -zv`** → evita blocchi su porte non responsive
 
 ### Risposta operativa:
 Quando vengono rilevate sessioni attive contemporaneamente da indirizzi IP differenti per lo stesso account, il sistema interpreta l’evento come possibile compromissione delle credenziali.
@@ -533,21 +545,23 @@ I risultati possono portare a:
 
 ### Focus tecnico
 
-La risoluzione del problema è fortemente orientata all’**analisi delle connessioni di rete**, senza necessità di interrogare direttamente il database utenti.
+La risoluzione del problema si basa su **cattura real-time del traffico HTTP verso l'endpoint di login**, senza analisi dei log applicativi.
 
 Attività principali:
-- monitoraggio delle connessioni verso le API
-- conteggio delle richieste nel tempo
-- analisi della persistenza dei socket
-- individuazione di pattern ripetitivi
+- cattura pacchetti HTTP POST verso `/login` tramite **`tshark`**
+- estrazione dell'IP sorgente per ogni tentativo di autenticazione
+- conteggio dei tentativi per IP in finestre temporali ridotte
+- confronto con soglia di sicurezza (es. 5+ tentativi in 60 secondi)
+- blocco proattivo dell'IP tramite **`iptables`** (opzionale)
+- segnalazione in blacklist
 
 Strumenti e comandi chiave:
-- **`ss -tan`**
-- **`ss -tan | grep :<porta_api>`**
-- **`netstat -ant`**
-- **`lsof -i -P -n`**
-- **`curl`** (per simulare richieste)
-- **`nc`** (per test di connessione)
+- **`tshark -i lo -f "tcp port 8000"`** → cattura traffico server
+- **`tshark -Y "http.request.method == POST and http.request.uri contains \"/login\""`**
+- **`tshark -T fields -e ip.src`** → estrae solo IP sorgente
+- file temporanei per conteggio tentativi (`/logs/*.tmp`)
+- **`iptables -A INPUT -s <ip> -j DROP`** → blocco immediato IP
+- **array bash associativi** per tracking in-memory
 
 ### Risposta operativa:
 Quando il sistema rileva un numero anomalo di richieste ripetute verso gli endpoint del servizio, provenienti dallo stesso indirizzo IP o da pattern riconducibili a tentativi di accesso automatizzati, viene attivata una protezione automatica.
@@ -631,21 +645,23 @@ I risultati possono portare a:
 
 ### Focus tecnico
 
-La risoluzione del problema richiede analisi temporale e comparativa, non una singola fotografia dello stato del sistema.
+La risoluzione del problema richiede **analisi della topologia di rete e correlazione tra dispositivi**, senza dipendere da log applicativi.
 
 Attività principali:
-- monitoraggio continuo delle connessioni
-- confronto tra periodi di funzionamento normale e degradato
-- conteggio dei socket nel tempo
-- analisi dello stato delle porte critiche
+- ispezione della configurazione di rete locale tramite **`ip`**
+- analisi delle interfacce e degli indirizzi assegnati
+- verifica delle route e dei gateway
+- mappatura della rete locale tramite **`arp -a`**
+- test di raggiungibilità con **`ping`** per misurare RTT
+- correlazione tra metriche di rete e degrado percepito
 
 Strumenti e comandi chiave:
-- **`ss -tan`**
-- **`ss -s`**
-- **`netstat -ant`**
-- conteggio socket nel tempo
-- **`lsof -i -P -n`**
-correlazione con degrado simulato del servizio
+- **`ip addr show`** (o `ip a`) → visualizza interfacce e IP
+- **`ip route show`** (o `ip r`) → tabella di routing
+- **`arp -a`** → cache ARP, mapping IP-MAC
+- **`ping -c 4 <ip>`** → test connettività e Round-Trip Time
+- **`ping -c 10 -i 0.2`** → ping rapido per stress test
+- correlazione manuale tra latenza e degrado servizio
 
 ### [Elenco dei problemi](#elenco-dei-problemi)
 ---
@@ -721,21 +737,23 @@ I risultati possono portare a:
 
 ### Focus tecnico
 
-L’analisi è prevalentemente basata su **osservazione del traffico e delle connessioni**, senza analizzare il payload delle richieste.
+L'analisi è basata su **test attivo delle API e cattura del traffico HTTP**, senza accesso ai log applicativi.
 
 Attività principali:
-- analisi della frequenza delle connessioni
-- osservazione delle sequenze di chiamate
-- confronto tra diversi profili di utilizzo
-- rilevamento di pattern ripetitivi
+- test sistematico degli endpoint API tramite **`curl`**
+- verifica dei codici di stato HTTP (200, 401, 404, 500)
+- misurazione dei tempi di risposta
+- cattura del traffico HTTP con **`tshark`** per analizzare user-agent
+- identificazione di pattern automatizzati (bot, script)
+- confronto tra profili di utilizzo umani vs automatizzati
 
 Strumenti e comandi chiave:
-- **`ss -tan`**
-- **`netstat -ant`**
-- **`lsof -i -P -n`**
-- **`curl`** (simulazione pattern API)
-- **`nc`**
-- analisi temporale delle connessioni
+- **`curl -X GET/POST http://localhost:8000/api/endpoint`**
+- **`curl -w "%{http_code}"`** → codice di stato HTTP
+- **`curl -o /dev/null -s -w "%{time_total}"`** → tempo risposta
+- **`tshark -Y "http" -T fields -e http.user_agent`**
+- **`tshark -Y "http.request.uri contains \"/api\""`**
+- analisi frequenza richieste e pattern temporali
 
 ### [Elenco dei problemi](#elenco-dei-problemi)
 ---
@@ -811,21 +829,23 @@ I risultati possono portare a:
 
 ### Focus tecnico
 
-La risoluzione del problema si basa esclusivamente su **osservazione e correlazione del traffico di rete**, senza analisi del contenuto applicativo.
+La risoluzione del problema si basa su **deep packet inspection** con analisi approfondita del traffico di rete.
 
 Attività principali:
-- analisi della persistenza delle connessioni
-- osservazione dei pattern temporali
-- verifica dell’uso delle porte standard
-- confronto con il comportamento atteso
+- cattura completa dei pacchetti tramite **`tcpdump`**
+- ispezione del payload a livello applicativo
+- analisi delle dimensioni dei pacchetti
+- rilevamento di anomalie nelle dimensioni (troppo piccoli/grandi)
+- identificazione di pattern nascosti nel traffico apparentemente legittimo
+- correlazione tra traffico persistente e assenza di operazioni
 
 Strumenti e comandi chiave:
-- **`ss -tan`**
-- **`ss -s`**
-- **`netstat -ant`**
-- **`lsof -i -P -n`**
-- monitoraggio delle connessioni nel tempo
-- **`nc`** (per simulare canali persistenti)
+- **`tcpdump -i lo -n tcp port 8000`** → cattura traffico server
+- **`tcpdump -X`** → visualizza payload in hex+ASCII
+- **`tcpdump -w capture.pcap`** → salva cattura per analisi offline
+- **`tcpdump -r capture.pcap`** → legge cattura salvata
+- **analisi dimensioni**: confronto tra packet size medio e anomalie
+- **analisi pattern**: identificazione di traffico regolare/artificiale
 
 ### [Elenco dei problemi](#elenco-dei-problemi)
 ---
@@ -898,21 +918,23 @@ I risultati possono portare a:
 
 ### Focus tecnico
 
-La risoluzione del problema richiede **correlazione tra più livelli**, con forte enfasi sulla rete.
+La risoluzione del problema richiede **analisi avanzata del percorso di rete e risoluzione DNS inversa**.
 
 Attività principali:
-- classificazione degli IP per tipologia (ATM, utenti, API)
-- analisi delle porte utilizzate
-- correlazione con il tipo di operazione
-- confronto con il comportamento atteso
+- tracciamento del percorso di rete tramite **`traceroute`**
+- conteggio degli hop (salti) tra client e server
+- rilevamento di percorsi anomali (troppi hop, route incoerenti)
+- risoluzione DNS inversa con **`dig`** per verificare PTR records
+- correlazione tra origine IP, percorso di rete e tipo di operazione
+- identificazione di mismatch tra contesto e azione
 
 Strumenti e comandi chiave:
-- **`ss -tan`**
-- **`netstat -ant`**
-- **`lsof -i -P -n`**
-- **`nmap localhost`**
-- classificazione IP per ruolo
-- correlazione rete–operazione
+- **`traceroute <ip_address>`** → traccia percorso di rete
+- **`traceroute -n`** → evita risoluzione DNS durante trace
+- **conteggio hop**: `traceroute | wc -l`
+- **`dig -x <ip_address>`** → reverse DNS lookup (PTR record)
+- **`dig +short -x <ip>`** → solo risultato PTR
+- classificazione IP per tipologia (ATM, client, API) in base a hop e DNS
 
 ### Risposta operativa:
 Quando un’operazione bancaria non risulta coerente con il contesto tecnico della connessione (origine di rete, dispositivo o profilo operativo), il sistema applica una verifica preventiva.
@@ -951,10 +973,24 @@ I risultati sono i seguenti:
 - difficoltà a distinguere traffico legittimo da abuso
 
 **Focus tecnico**
-- **`ss -tan`**
-- conteggio socket nel tempo
-- porte e servizi
-- correlazione con degrado simulato del servizio
+
+La risoluzione del problema si basa su **monitoraggio delle metriche temporali delle connessioni TCP**, senza analisi dei contenuti applicativi.
+
+Attività principali:
+- monitoraggio delle connessioni TCP attive con **`ss -tno`**
+- analisi dei timer di connessione (durata, keepalive, retransmit)
+- misurazione della persistenza delle socket nel tempo
+- calcolo del rate di richieste (richieste/secondo)
+- identificazione di connessioni a lunga durata sospette
+- rilevamento di pattern "low and slow"
+
+Strumenti e comandi chiave:
+- **`ss -tno state established`** → mostra timer TCP dettagliati
+- **`ss -tno | grep "timer:"`** → filtra connessioni con timer attivi
+- estrazione durata connessioni da output timer
+- **calcolo rate**: numero_richieste / durata_connessione
+- confronto con baseline normale (es. < 0.5 req/s = sospetto)
+- tracciamento temporale per identificare attacchi distribuiti
 
 ### [Elenco dei problemi](#elenco-dei-problemi)
 ---
