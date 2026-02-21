@@ -23,20 +23,28 @@ echo "[*] Simula IP diverse tramite X-Forwarded-For"
 echo ""
 
 echo "[TEST] Apertura $NUM_SESSIONI connessioni simultanee..."
+echo "[*] Mantenendo connessioni aperte per 30 secondi per sovrapporre i tempi..."
+echo ""
 
 # Genera NUM_SESSIONI login simultanei
 # Tutti nello stesso momento da "IP diversi"
 for i in $(seq 1 $NUM_SESSIONI); do
     IP_MITTENTE="192.168.10.$i"  # Range diverso da test 01
     
-    echo "[+] Sessione #$i da $IP_MITTENTE"
+    echo "[+] Sessione #$i da $IP_MITTENTE (si aprirà per 30 secondi)"
     
     # GET /login - parametri nella query string
-    curl -s -G "$SERVER/login" \
+    # --max-time 30: mantiene la connessione aperta per 30 secondi
+    curl -s --max-time 30 \
+        -G "$SERVER/login" \
         --data-urlencode "customer_id=$ACCOUNT_TARGET" \
         --data-urlencode "session_duration=30" \
         -H "X-Forwarded-For: $IP_MITTENTE" 2>/dev/null &
 done
+
+echo ""
+echo "[*] Tutte le 4 sessioni dovrebbero essere attive contemporaneamente"
+echo "[*] Attendi che il monitoraggio le rilevi..."
 
 echo ""
 echo "[✓] Accessi simultanei generati"
