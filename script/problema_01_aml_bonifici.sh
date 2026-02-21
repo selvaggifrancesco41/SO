@@ -64,7 +64,12 @@ get_risk_score() {
     # Se vuota significa che elemento non trovato, ritorna 0
     if [ -z "$score" ]; then
         echo 0
-  FUNZIONE: aggiungi_blacklist - Inserisce/aggiorna elemento in blacklist
+    else
+        echo "$score"
+    fi
+}
+
+# FUNZIONE: aggiungi_blacklist - Inserisce/aggiorna elemento in blacklist
 # ARG1: tipo_elemento (IBAN, IP, PORTA, USER_ID, ATM_ID)
 # ARG2: elemento (valore specifico)
 # ARG3: azione (tipo di azione rilevata, es. "BONIFICO_ANOMALO")
@@ -87,29 +92,12 @@ aggiungi_blacklist() {
     # Controlla se elemento già presente in blacklist
     if controlla_blacklist "$tipo_elemento" "$elemento"; then
         # RECIDIVO: lo stesso elemento è stato già segnalato in passato
-    local timestamp=$(date '+%Y-%m-%d %H:%M:%S')
-    
-    # Controlla se già in blacklist
-    if controlla_blacklist "$tipo_elemento" "$elemento"; then
-        # È recidivo: aumenta il risk score
         local current_risk=$(get_risk_score "$tipo_elemento" "$elemento")
         local new_risk=$((current_risk + risk_score))
         local new_recidivita=$(($(grep -c "^.*,${tipo_elemento},${elemento}," "$BLACKLIST_PATH") + 1))
         
-        echo "${timestamp},${tipo_elemento},${elemento},${azione},${gravita},${new_recidivita},${new_risk},blacklisted,AML,${note} [RECIDIVO - moltiplicato rischio]" >> "$BLACKLIST_PATH"
-        # grep -c: conta numero di occorrenze (-c = count)
-        # Conta quante volte questo elemento appare in blacklist
-        local recidivita=$(grep -c "^.*,${tipo_elemento},${elemento}," "$BLACKLIST_PATH")
-        
-        # $(( )): arithmetic expansion per calcoli interi
-        # Incrementa recidivita perché stiamo aggiungendo una nuova entry
-        recidivita=$((recidivita + 1))
-        
-        # Somma risk_score precedente + nuovo = escalation
-        local new_risk=$((current_risk + risk_score))
-        
         # >>: append to file (non sovrascrive, aggiunge alla fine)
-        echo "${timestamp},${tipo_elemento},${elemento},${azione},${gravita},${recidivita},${new_risk},blacklisted,AML_BONIFICI,${note} [RECIDIVO]" >> "$BLACKLIST_PATH"
+        echo "${timestamp},${tipo_elemento},${elemento},${azione},${gravita},${new_recidivita},${new_risk},blacklisted,AML_BONIFICI,${note} [RECIDIVO]" >> "$BLACKLIST_PATH"
     else
         # NUOVO ELEMENTO: prima segnalazione, recidivita=1
         echo "${timestamp},${tipo_elemento},${elemento},${azione},${gravita},1,${risk_score},blacklisted,AML_BONIFICI,${note}" >> "$BLACKLIST_PATH"

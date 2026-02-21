@@ -33,8 +33,11 @@ if [ $# -ne 1 ]; then
 fi
 
 NUMERO=$1
-PROBLEMA_SCRIPT="../problema_$(printf '%02d' $NUMERO)_*.sh"
-TEST_SCRIPT="./test_generators/test_$(printf '%02d' $NUMERO)_*.sh"
+
+# Determina il percorso dello script corrente (robusto per qualsiasi cartella)
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+PROBLEMA_SCRIPT="$SCRIPT_DIR/problema_$(printf '%02d' $NUMERO)_*.sh"
+TEST_SCRIPT="$SCRIPT_DIR/test_generators/test_$(printf '%02d' $NUMERO)_*.sh"
 
 # Verifica che gli script esistono
 if ! ls $PROBLEMA_SCRIPT > /dev/null 2>&1; then
