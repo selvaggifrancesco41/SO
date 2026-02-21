@@ -87,27 +87,21 @@ aggiungi_blacklist() {
 }
 
 # FUNZIONE: estrai_connessioni_attive
-# OUTPUT: Lista connessioni TCP ESTABLISHED verso server porta 8000
-# FORMAT: ip_remoto:porta_remota
-# TECNICA: ss -tn mostra socket TCP (-t) in formato numerico (-n, no DNS lookup)
-#          state established: solo connessioni stabilite (non LISTEN, SYN_SENT, etc)
-#          sport = :8000: filtra per source port 8000 (connessioni al nostro server)
-#          awk estrae campo IP:porta remoto
+# OUTPUT: Lista degli IP unici nel file di realtime_access.log negli ultimi 2 secondi
+# NOTA: Legge gli accessi registrati dal server Flask con gli header X-Forwarded-For
+# TECNICA: tail del file di log e awk per estrarre IP unici
 estrai_connessioni_attive() {
-    # ss: socket statistics (moderno sostituto di netstat)
-    # -t: TCP sockets
-    # -n: numeric addresses (no DNS resolution per performance)
-    # state established: filtra solo connessioni completamente stabilite
-    # sport = :8000: source port (porta del nostro server)
+    # Legge le 100 linee più recenti dal file di log
+    # Format: timestamp|customer_id|ip|azione
+    # Estrae gli IP unici
     
-    ss -tn state established sport = :$SERVER_PORT 2>/dev/null | \
-        awk 'NR>1 {print $5}' | \
-        cut -d':' -f1 | \
-        sort -u
-    # NR>1: skip header line (NR = number of record)
-    # $5: campo 5 contiene IP:porta remoto
-    # cut -d':' -f1: estrae solo IP (field 1, delimitato da :)
-    # sort -u: ordina e rimuove duplicati
+    if [ -f "/workspaces/SO/logs/realtime_access.log" ]; then
+        tail -100 /workspaces/SO/logs/realtime_access.log | \
+            awk -F'|' '{print $3}' | \
+            sort -u | \
+            grep -v '^$' | \
+            grep -v '^127.0.0.1$'
+    fi
 }
 
 # ANALISI IN TEMPO REALE

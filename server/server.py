@@ -9,6 +9,7 @@ app = Flask(__name__)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 DB_PATH = os.path.join(BASE_DIR, "data", "bank_logs.db")
 LOG_PATH = os.path.join(BASE_DIR, "logs", "server.log")
+REALTIME_LOG_PATH = os.path.join(BASE_DIR, "logs", "realtime_access.log")
 
 # crea le cartelle se non esistono
 os.makedirs(os.path.dirname(DB_PATH), exist_ok=True)
@@ -45,7 +46,14 @@ init_db()
 
 def salva_evento(customer_id, azione, importo=None, iban=None, session_duration=None):
     timestamp = datetime.now().isoformat()
-    ip = request.remote_addr
+    
+    # Leggi X-Forwarded-For se presente (per simulare IP diverse), altrimenti usa remote_addr
+    ip = request.headers.get("X-Forwarded-For")
+    if ip:
+        # Se ci sono più IP, prendi il primo
+        ip = ip.split(",")[0].strip()
+    else:
+        ip = request.remote_addr
 
     conn = sqlite3.connect(DB_PATH)
     cur = conn.cursor()
@@ -56,6 +64,10 @@ def salva_evento(customer_id, azione, importo=None, iban=None, session_duration=
     """, (timestamp, customer_id, ip, azione, importo, iban, session_duration))
     conn.commit()
     conn.close()
+
+    # Log strutturato in tempo reale per il monitoraggio (accessi simultanei, etc)
+    with open(REALTIME_LOG_PATH, "a") as f:
+        f.write(f"{timestamp}|{customer_id}|{ip}|{azione}\n")
 
     logging.info(
         f"{azione} customer_id={customer_id} ip={ip} importo={importo} iban={iban}"

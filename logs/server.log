@@ -418,3 +418,33 @@
 2026-02-21 17:23:30,212 127.0.0.1 - - [21/Feb/2026 17:23:30] "[33mGET /saldo?user=cliente1 HTTP/1.1[0m" 404 -
 2026-02-21 17:23:41,221 127.0.0.1 - - [21/Feb/2026 17:23:41] "[33mGET /saldo?user=cliente3 HTTP/1.1[0m" 404 -
 2026-02-21 17:23:49,229 127.0.0.1 - - [21/Feb/2026 17:23:49] "[31m[1mPOST /login HTTP/1.1[0m" 405 -
+2026-02-21 18:20:47,927 [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:8000
+ * Running on http://10.0.10.148:8000
+2026-02-21 18:20:47,928 [33mPress CTRL+C to quit[0m
+2026-02-21 18:20:54,550 127.0.0.1 - - [21/Feb/2026 18:20:54] "[31m[1mPOST /deposito HTTP/1.1[0m" 405 -
+2026-02-21 18:20:55,069 LOGIN customer_id=1001 ip=192.168.1.100 importo=None iban=None
+2026-02-21 18:20:55,069 127.0.0.1 - - [21/Feb/2026 18:20:55] "GET /login?customer_id=1001&session_duration=600 HTTP/1.1" 200 -
+2026-02-21 18:21:00,559 127.0.0.1 - - [21/Feb/2026 18:21:00] "[31m[1mPOST /login HTTP/1.1[0m" 405 -
+2026-02-21 18:21:13,567 127.0.0.1 - - [21/Feb/2026 18:21:13] "[31m[1mPOST /login HTTP/1.1[0m" 405 -
+2026-02-21 18:21:33,575 127.0.0.1 - - [21/Feb/2026 18:21:33] "[31m[1mPOST /deposito HTTP/1.1[0m" 405 -
+2026-02-21 18:21:45,583 127.0.0.1 - - [21/Feb/2026 18:21:45] "[31m[1mPOST /login HTTP/1.1[0m" 405 -
+2026-02-21 18:21:48,674 LOGIN customer_id=mario.rossi ip=192.168.10.4 importo=None iban=None
+2026-02-21 18:21:48,674 127.0.0.1 - - [21/Feb/2026 18:21:48] "GET /login?customer_id=mario.rossi&session_duration=30 HTTP/1.1" 200 -
+2026-02-21 18:21:48,676 LOGIN customer_id=mario.rossi ip=192.168.10.1 importo=None iban=None
+2026-02-21 18:21:48,676 127.0.0.1 - - [21/Feb/2026 18:21:48] "GET /login?customer_id=mario.rossi&session_duration=30 HTTP/1.1" 200 -
+2026-02-21 18:21:48,681 LOGIN customer_id=mario.rossi ip=192.168.10.3 importo=None iban=None
+2026-02-21 18:21:48,682 127.0.0.1 - - [21/Feb/2026 18:21:48] "GET /login?customer_id=mario.rossi&session_duration=30 HTTP/1.1" 200 -
+2026-02-21 18:21:48,692 LOGIN customer_id=mario.rossi ip=192.168.10.2 importo=None iban=None
+2026-02-21 18:21:48,692 127.0.0.1 - - [21/Feb/2026 18:21:48] "GET /login?customer_id=mario.rossi&session_duration=30 HTTP/1.1" 200 -
+2026-02-21 18:21:59,591 127.0.0.1 - - [21/Feb/2026 18:21:59] "[33mGET /saldo?user=cliente2 HTTP/1.1[0m" 404 -
+2026-02-21 18:22:08,599 127.0.0.1 - - [21/Feb/2026 18:22:08] "[33mGET /saldo?user=cliente3 HTTP/1.1[0m" 404 -
+2026-02-21 18:22:19,608 127.0.0.1 - - [21/Feb/2026 18:22:19] "[31m[1mPOST /bonifico HTTP/1.1[0m" 405 -
+2026-02-21 18:22:38,617 127.0.0.1 - - [21/Feb/2026 18:22:38] "[31m[1mPOST /login HTTP/1.1[0m" 405 -
+2026-02-21 18:22:51,625 127.0.0.1 - - [21/Feb/2026 18:22:51] "[31m[1mPOST /bonifico HTTP/1.1[0m" 405 -
+2026-02-21 18:23:03,633 127.0.0.1 - - [21/Feb/2026 18:23:03] "[31m[1mPOST /bonifico HTTP/1.1[0m" 405 -
+2026-02-21 18:23:13,642 127.0.0.1 - - [21/Feb/2026 18:23:13] "[31m[1mPOST /login HTTP/1.1[0m" 405 -
+2026-02-21 18:23:22,652 127.0.0.1 - - [21/Feb/2026 18:23:22] "[31m[1mPOST /bonifico HTTP/1.1[0m" 405 -
+2026-02-21 18:23:30,663 127.0.0.1 - - [21/Feb/2026 18:23:30] "[33mGET /saldo?user=cliente1 HTTP/1.1[0m" 404 -
+2026-02-21 18:23:41,671 127.0.0.1 - - [21/Feb/2026 18:23:41] "[31m[1mPOST /bonifico HTTP/1.1[0m" 405 -
