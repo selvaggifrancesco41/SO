@@ -30,18 +30,12 @@ for i in $(seq 1 $NUM_BONIFICI); do
     
     echo "[+] Bonifico #$i da $IP_MITTENTE (customer: $CUSTOMER_ID)"
     
-    # POST /bonifico - payload JSON
-    # X-Forwarded-For: simula IP sorgente (se server la usa)
-    curl -s -X POST "$SERVER/bonifico" \
-        -H "Content-Type: application/json" \
-        -H "X-Forwarded-For: $IP_MITTENTE" \
-        -d "{
-            \"customer_id\": \"$CUSTOMER_ID\",
-            \"iban_mittente\": \"IT$(printf '%016d' $i)999999\",
-            \"iban_beneficiario\": \"$IBAN_TARGET\",
-            \"importo\": $IMPORTO,
-            \"causale\": \"Trasferimento sospetto AML #$i\"
-        }" 2>/dev/null &
+    # GET /bonifico - parametri nella query string
+    curl -s -G "$SERVER/bonifico" \
+        --data-urlencode "customer_id=$CUSTOMER_ID" \
+        --data-urlencode "importo=$IMPORTO" \
+        --data-urlencode "iban=$IBAN_TARGET" \
+        -H "X-Forwarded-For: $IP_MITTENTE" 2>/dev/null &
     
     sleep 0.5
 done

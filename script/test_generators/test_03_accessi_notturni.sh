@@ -45,13 +45,11 @@ for i in $(seq 1 $NUM_ACCESSI); do
     
     echo "[+] Login #$i - User: $USERNAME da $IP_MITTENTE"
     
-    curl -s -X POST "$SERVER/login" \
-        -H "Content-Type: application/json" \
-        -H "X-Forwarded-For: $IP_MITTENTE" \
-        -d "{
-            \"username\": \"$USERNAME\",
-            \"password\": \"night_pass_$i\"
-        }" 2>/dev/null &
+    # GET /login - parametri nella query string
+    curl -s -G "$SERVER/login" \
+        --data-urlencode "customer_id=$USERNAME" \
+        --data-urlencode "session_duration=$((RANDOM % 60))" \
+        -H "X-Forwarded-For: $IP_MITTENTE" 2>/dev/null &
     
     sleep 1
 done

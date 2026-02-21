@@ -22,12 +22,14 @@ echo ""
 echo "[TEST] Apertura spike di connessioni..."
 
 for i in $(seq 1 $NUM_CONNESSIONI); do
-    # Apre connessione curl verso /saldo (endpoint leggero)
+    # Apre connessione curl verso /prelievo (endpoint leggero)
     # --keepalive-time: mantiene connessione aperta
     # -m 30: timeout 30 secondi (mantiene socket attivo)
     curl -s --max-time 30 \
-        -H "X-Forwarded-For: 192.168.50.$i" \
-        "http://$SERVER_IP:$SERVER_PORT/saldo" > /dev/null 2>&1 &
+        -G "$SERVER/prelievo" \
+        --data-urlencode "customer_id=client_$i" \
+        --data-urlencode "importo=100" \
+        -H "X-Forwarded-For: 192.168.50.$i" > /dev/null 2>&1 &
     
     echo "[+] Connessione #$i aperta (timerà 30s)"
     sleep 0.2

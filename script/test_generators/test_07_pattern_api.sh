@@ -24,18 +24,24 @@ echo "[TEST] Generazione traffico API ripetitivo..."
 for ciclo in $(seq 1 $CICLI); do
     echo "[+] Ciclo $ciclo: sequenza rigida di API"
     
-    # Sequenza 1: /saldo
-    curl -s "$SERVER/saldo" \
+    # Sequenza 1: /prelievo
+    curl -s -G "$SERVER/prelievo" \
+        --data-urlencode "customer_id=bot_pattern" \
+        --data-urlencode "importo=100" \
         -H "X-Forwarded-For: 192.168.60.100" > /dev/null 2>&1 &
     sleep 0.5
     
-    # Sequenza 2: /bonifico_info (query su API)
-    curl -s "$SERVER/bonifico_info" \
+    # Sequenza 2: /deposito (API correlata)
+    curl -s -G "$SERVER/deposito" \
+        --data-urlencode "customer_id=bot_pattern" \
+        --data-urlencode "importo=50" \
         -H "X-Forwarded-For: 192.168.60.100" > /dev/null 2>&1 &
     sleep 0.5
     
-    # Sequenza 3: /saldo (identica a primo)
-    curl -s "$SERVER/saldo" \
+    # Sequenza 3: /prelievo (identica a primo)
+    curl -s -G "$SERVER/prelievo" \
+        --data-urlencode "customer_id=bot_pattern" \
+        --data-urlencode "importo=100" \
         -H "X-Forwarded-For: 192.168.60.100" > /dev/null 2>&1 &
     sleep 0.5
     

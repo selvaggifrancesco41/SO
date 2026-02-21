@@ -35,8 +35,10 @@ for i in $(seq 1 $NUM_RICHIESTE); do
     # Richiesta lenta con timeout lungo
     # --max-time: tempo massimo per completare
     curl -s --max-time 30 \
-        -H "X-Forwarded-For: 192.168.70.100" \
-        "http://$SERVER/saldo" > /dev/null 2>&1 &
+        -G "$SERVER/prelievo" \
+        --data-urlencode "customer_id=slow_client_$i" \
+        --data-urlencode "importo=10" \
+        -H "X-Forwarded-For: 192.168.70.100" > /dev/null 2>&1 &
     
     # Aspetta prima della prossima (crea pattern LOW & SLOW)
     sleep $INTERVALLO

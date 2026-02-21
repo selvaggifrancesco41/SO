@@ -21,38 +21,29 @@ echo "[TEST] Operazioni da contesti incoerenti..."
 
 # Operazione 1: Bonifico da IP ATM (anomalo)
 echo "[+] Bonifico da 192.168.30.1 (range ATM - INCOERENTE!)"
-curl -s -X POST "$SERVER/bonifico" \
-    -H "Content-Type: application/json" \
-    -H "X-Forwarded-For: 192.168.30.1" \
-    -d '{
-        "iban_mittente": "IT1234...",
-        "iban_beneficiario": "IT5678...",
-        "importo": 50000
-    }' 2>/dev/null &
+curl -s -G "$SERVER/bonifico" \
+    --data-urlencode "customer_id=atm_001" \
+    --data-urlencode "importo=50000" \
+    --data-urlencode "iban=IT5678..." \
+    -H "X-Forwarded-For: 192.168.30.1" 2>/dev/null &
 
 sleep 1
 
 # Operazione 2: Prelievo da IP API (anomalo)
 echo "[+] Prelievo da 192.168.40.50 (range API - INCOERENTE!)"
-curl -s -X POST "$SERVER/prelievo" \
-    -H "Content-Type: application/json" \
-    -H "X-Forwarded-For: 192.168.40.50" \
-    -d '{
-        "importo": 500,
-        "nominativo": "test"
-    }' 2>/dev/null &
+curl -s -G "$SERVER/prelievo" \
+    --data-urlencode "customer_id=api_client" \
+    --data-urlencode "importo=500" \
+    -H "X-Forwarded-For: 192.168.40.50" 2>/dev/null &
 
 sleep 1
 
-# Operazione 3: Login amministratore da IP pubblico (anomalo)
-echo "[+] Admin login da 203.0.113.25 (IP pubblico esterno - INCOERENTE!)"
-curl -s -X POST "$SERVER/login" \
-    -H "Content-Type: application/json" \
-    -H "X-Forwarded-For: 203.0.113.25" \
-    -d '{
-        "username": "admin",
-        "password": "admin_pass"
-    }' 2>/dev/null &
+# Operazione 3: Login da IP pubblico (anomalo)
+echo "[+] Login da 203.0.113.25 (IP pubblico esterno - INCOERENTE!)"
+curl -s -G "$SERVER/login" \
+    --data-urlencode "customer_id=admin" \
+    --data-urlencode "session_duration=60" \
+    -H "X-Forwarded-For: 203.0.113.25" 2>/dev/null &
 
 echo ""
 echo "[✓] Operazioni incoerenti generate"

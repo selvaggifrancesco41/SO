@@ -31,14 +31,11 @@ for i in $(seq 1 $NUM_SESSIONI); do
     
     echo "[+] Sessione #$i da $IP_MITTENTE"
     
-    # POST /login - simula login da IP diverso
-    curl -s -X POST "$SERVER/login" \
-        -H "Content-Type: application/json" \
-        -H "X-Forwarded-For: $IP_MITTENTE" \
-        -d "{
-            \"username\": \"$ACCOUNT_TARGET\",
-            \"password\": \"$PASSWORD\"
-        }" 2>/dev/null &
+    # GET /login - parametri nella query string
+    curl -s -G "$SERVER/login" \
+        --data-urlencode "customer_id=$ACCOUNT_TARGET" \
+        --data-urlencode "session_duration=30" \
+        -H "X-Forwarded-For: $IP_MITTENTE" 2>/dev/null &
 done
 
 echo ""

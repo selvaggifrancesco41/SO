@@ -27,23 +27,16 @@ echo ""
 
 for i in $(seq 1 $NUM_TENTATIVI); do
     # Genera username/password variabili per sembrare attacco sistematico
-    USERNAME="admin"
-    PASSWORD="attempt_$i"  # password sempre diversa
+    USERNAME="admin_$i"
     IP_ATTACCANTE="192.168.40.100"
     
-    echo "[+] Tentativo #$i: user=$USERNAME, pass=$PASSWORD"
+    echo "[+] Tentativo #$i: user=$USERNAME"
     
-    # Richiesta /login
-    # -s: silent
-    # -S: show error even in silent mode
-    # -d: dati POST
-    curl -s -X POST "$SERVER/login" \
-        -H "Content-Type: application/json" \
-        -H "X-Forwarded-For: $IP_ATTACCANTE" \
-        -d "{
-            \"username\": \"$USERNAME\",
-            \"password\": \"$PASSWORD\"
-        }" 2>/dev/null &
+    # GET /login - parametri nella query string
+    curl -s -G "$SERVER/login" \
+        --data-urlencode "customer_id=$USERNAME" \
+        --data-urlencode "session_duration=5" \
+        -H "X-Forwarded-For: $IP_ATTACCANTE" 2>/dev/null &
     
     sleep $SLEEP_TRA_TENTATIVI
 done
