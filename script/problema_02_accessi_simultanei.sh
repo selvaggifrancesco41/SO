@@ -27,6 +27,9 @@ DURATA_MONITORAGGIO=300         # Durata totale monitoraggio (5 minuti)
 mkdir -p $(dirname "$LOG_SIMULTANEI")
 mkdir -p $(dirname "$STATE_FILE")
 
+# Pulisci file di stato ad ogni avvio (per tracciare IP segnalati nel NUOVO ciclo)
+> "$STATE_FILE"
+
 # FUNZIONE: controlla_blacklist
 # ARG1: tipo_elemento (IP, USER_ID, IBAN, etc)
 # ARG2: elemento (valore da cercare)
@@ -163,32 +166,52 @@ while [ $ITERAZIONI -le $MAX_ITERAZIONI ]; do
             # -n: verifica stringa non vuota
             if [ -n "$suspicious_ip" ]; then
                 
-                # Cerca nel database se questo IP ha fatto login recentemente
-                # NOTA: Query SQL PUNTUALE solo per lookup specifico, non analisi massiva
-                # LIMIT 1: restituisce solo il primo match (performance)
-                CUSTOMER_QUERY="SELECT customer_id FROM eventi 
-                                WHERE ip_address='$suspicious_ip' 
-                                AND azione='LOGIN' 
-                                ORDER BY timestamp DESC LIMIT 1"
-                
-                customer_id=$(sqlite3 "$DB_PATH" "$CUSTOMER_QUERY" 2>/dev/null)
-                
-                # -z: verifica se stringa vuota
-                if [ -z "$customer_id" ]; then
-                    customer_id="UNKNOWN"
-                fi
-                
-                echo "  [!] IP: $suspicious_ip → Customer: $customer_id"
-                
-                # Verifica se IP già in blacklist
-                if controlla_blacklist "IP" "$suspicious_ip"; then
+                # Verifica se IP è già stato segnalato in QUESTO ciclo di monitoraggio
+                # Per evitare di aggiungere duplicati ogni 5 secondi
+                if grep -q "^$suspicious_ip\$" "$STATE_FILE" 2>/dev/null; then
+                    # Già segnalato in questo ciclo, solo mostra avviso
+                    CUSTOMER_QUERY="SELECT customer_id FROM eventi 
+                                    WHERE ip_address='$suspicious_ip' 
+                                    AND azione='LOGIN' 
+                                    ORDER BY timestamp DESC LIMIT 1"
+                    customer_id=$(sqlite3 "$DB_PATH" "$CUSTOMER_QUERY" 2>/dev/null)
+                    [ -z "$customer_id" ] && customer_id="UNKNOWN"
+                    echo "  [!] IP: $suspicious_ip → Customer: $customer_id"
                     echo "      → IP già in blacklist (RECIDIVO)"
-                    aggiungi_blacklist "IP" "$suspicious_ip" "ACCESSO_SIMULTANEO" \
-                        "CRITICA" 60 "Connessione simultanea rilevata, customer_id: $customer_id"
                 else
-                    echo "      → Primo rilevamento"
-                    aggiungi_blacklist "IP" "$suspicious_ip" "ACCESSO_SIMULTANEO" \
-                        "ALTA" 40 "Connessione simultanea rilevata, customer_id: $customer_id"
+                    # Primo rilevamento in questo ciclo
+                    
+                    # Cerca nel database se questo IP ha fatto login recentemente
+                    # NOTA: Query SQL PUNTUALE solo per lookup specifico, non analisi massiva
+                    # LIMIT 1: restituisce solo il primo match (performance)
+                    CUSTOMER_QUERY="SELECT customer_id FROM eventi 
+                                    WHERE ip_address='$suspicious_ip' 
+                                    AND azione='LOGIN' 
+                                    ORDER BY timestamp DESC LIMIT 1"
+                    
+                    customer_id=$(sqlite3 "$DB_PATH" "$CUSTOMER_QUERY" 2>/dev/null)
+                    
+                    # -z: verifica se stringa vuota
+                    if [ -z "$customer_id" ]; then
+                        customer_id="UNKNOWN"
+                    fi
+                    
+                    echo "  [!] IP: $suspicious_ip → Customer: $customer_id"
+                    
+                    # Verifica se IP già in blacklist GLOBALE (da cicli precedenti)
+                    if controlla_blacklist "IP" "$suspicious_ip"; then
+                        echo "      → IP già in blacklist (RECIDIVO)"
+                        aggiungi_blacklist "IP" "$suspicious_ip" "ACCESSO_SIMULTANEO" \
+                            "CRITICA" 60 "Connessione simultanea rilevata, customer_id: $customer_id"
+                    else
+                        echo "      → Primo rilevamento"
+                        aggiungi_blacklist "IP" "$suspicious_ip" "ACCESSO_SIMULTANEO" \
+                            "ALTA" 40 "Connessione simultanea rilevata, customer_id: $customer_id"
+                    fi
+                    
+                    # Marca IP come già segnalato in QUESTO ciclo
+                    echo "$suspicious_ip" >> "$STATE_FILE"
+                    
                 fi
                 
                 # Log dettagliato

@@ -66,8 +66,9 @@ def salva_evento(customer_id, azione, importo=None, iban=None, session_duration=
     conn.close()
 
     # Log strutturato in tempo reale per il monitoraggio (accessi simultanei, etc)
+    # Format: timestamp|customer_id|ip|azione|importo|iban|session_duration
     with open(REALTIME_LOG_PATH, "a") as f:
-        f.write(f"{timestamp}|{customer_id}|{ip}|{azione}\n")
+        f.write(f"{timestamp}|{customer_id}|{ip}|{azione}|{importo or ''}|{iban or ''}|{session_duration or ''}\n")
 
     logging.info(
         f"{azione} customer_id={customer_id} ip={ip} importo={importo} iban={iban}"

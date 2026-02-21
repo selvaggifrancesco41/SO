@@ -109,121 +109,114 @@ echo "==========================================================================
 echo "[$(date '+%Y-%m-%d %H:%M:%S')] AVVIO MONITORAGGIO RETE - AML Bonifici"
 echo "================================================================================" | tee -a "$LOG_AML"
 
-# Verifica se tshark è installato (Wireshark command-line)
-# command -v: restituisce path del comando se esiste, altrimenti vuoto
-# /dev/null: discard output, vogliamo solo exit code
-if ! command -v tshark &> /dev/null; then
-    echo "[!] ERRORE: tshark non installato"
-    echo "[*] Installalo con: sudo apt-get install tshark"
-    echo "[*] Alternativa: tcpdump (richiede parsing manuale)"
-    exit 1
-fi
-
 # Inizializza file di stato per tracciare bonifici in memoria
 # > (redirect): crea/sovrascrive file vuoto
-# Format: timestamp|customer_id_mittente|iban_destinatario|importo
-echo "# AML State File - $(date)" > "$STATE_FILE"
+# Format: customer_id_mittente|iban_destinatario|importo|timestamp
+> "$STATE_FILE"
 
-echo "[*] Cattura traffico su porta $SERVER_PORT..."
-echo "[*] Filtro: richieste HTTP POST /bonifico"
+REALTIME_LOG="/workspaces/SO/logs/realtime_access.log"
+
+echo "[*] Monitoraggio del log in tempo reale: $REALTIME_LOG"
+echo "[*] Filtro: azione BONIFICO"
+echo "[*] Finestra temporale: $FINESTRA_SECONDI secondi"
+echo "[*] Soglia mittenti unici per IBAN: $SOGLIA_MITTENTI_UNICI"
 echo "[*] Premi Ctrl+C per terminare"
 echo ""
 
-# CATTURA PACCHETTI CON TSHARK
-# -i any: cattura su tutte le interfacce di rete (-i = interface)
-# -f "tcp port 8000": BPF filter, solo pacchetti TCP su porta 8000
-# -Y "http.request.method == POST": display filter Wireshark, solo POST
-# -T fields: output come campi separati
-# -e frame.time: timestamp del frame
-# -e ip.src: IP sorgente del pacchetto
-# -e http.request.uri: URI della richiesta HTTP (es. /bonifico?customer_id=...)
-# -e http.file_data: payload body della richiesta POST
-# -l: line-buffered output (stampa riga per riga senza buffer)
-
 COUNTER=0
 TIMESTAMP_START=$(date +%s)
+LAST_POSITION=0
 
-# Timeout dopo FINESTRA_SECONDI per analizzare i dati raccolti
-timeout $FINESTRA_SECONDI tshark -i any -f "tcp port $SERVER_PORT" \
-    -Y 'http.request.method == "POST" and http.request.uri contains "bonifico"' \
-    -T fields -e frame.time -e ip.src -e http.request.uri -e http.file_data -l 2>/dev/null | \
-while IFS=$'\t' read -r timestamp ip_src uri payload; do
+# Monitora il file di log per FINESTRA_SECONDI
+while true; do
+    CURRENT_TIME=$(date +%s)
+    ELAPSED=$((CURRENT_TIME - TIMESTAMP_START))
     
-    # Incrementa contatore pacchetti catturati
-    COUNTER=$((COUNTER + 1))
-    
-    echo "[+] Pacchetto #$COUNTER intercettato da $ip_src"
-    
-    # ESTRAZIONE PARAMETRI dalla URI
-    # URI esempio: /bonifico?customer_id=1001&iban_dest=IT60X...&importo=1500
-    
-    # grep -oP: -o stampa solo match, -P usa Perl regex
-    # [?&]: carattere ? oppure &
-    # customer_id=\K: \K scarta tutto prima di questo punto
-    # [^&]*: qualsiasi carattere tranne &, ripetuto (* = 0 o più volte)
-    customer_id=$(echo "$uri" | grep -oP 'customer_id=\K[^&]*')
-    iban_dest=$(echo "$uri" | grep -oP 'iban_dest=\K[^&]*')
-    importo=$(echo "$uri" | grep -oP 'importo=\K[^&]*')
-    
-    # Test -n: controlla se stringa NON vuota (opposto di -z)
-    if [ -n "$customer_id" ] && [ -n "$iban_dest" ] && [ -n "$importo" ]; then
-        echo "  Customer: $customer_id → IBAN: $iban_dest, €$importo"
-        
-        # Salva nel file di stato
-        echo "$(date +%s)|$customer_id|$iban_dest|$importo" >> "$STATE_FILE"
-        
-        # VERIFICA PATTERN ANOMALO: conta quanti mittenti unici verso questo IBAN
-        # awk -F'|': usa pipe come field separator
-        # $3==iban_dest: filtra righe dove campo 3 (IBAN destinatario) corrisponde
-        # {print $2}: stampa campo 2 (customer_id mittente)
-        # sort -u: ordina e elimina duplicati (-u = unique)
-        # wc -l: conta numero di righe risultanti
-        mittenti_unici=$(awk -F'|' -v iban="$iban_dest" '$3==iban {print $2}' "$STATE_FILE" | sort -u | wc -l)
-        
-        echo "  → Mittenti unici verso $iban_dest: $mittenti_unici"
-        
-        # CONTROLLO SOGLIA
-        # -ge: greater than or equal (>=)
-        if [ "$mittenti_unici" -ge "$SOGLIA_MITTENTI_UNICI" ]; then
-            echo ""
-            echo "  [!!!] ALERT AML: IBAN $iban_dest riceve da $mittenti_unici mittenti!"
-            echo ""
-            
-            # Verifica se IBAN già in blacklist
-            if controlla_blacklist "IBAN" "$iban_dest"; then
-                echo "  [!] IBAN già in blacklist - RECIDIVO"
-                aggiungi_blacklist "IBAN" "$iban_dest" "FLUSSO_AML_REAL_TIME" \
-                    "CRITICA" 80 "Rilevato in tempo reale: $mittenti_unici mittenti in $FINESTRA_SECONDI secondi"
-            else
-                echo "  [!] Primo rilevamento - NUOVO"
-                aggiungi_blacklist "IBAN" "$iban_dest" "FLUSSO_AML_REAL_TIME" \
-                    "ALTA" 50 "Rilevato in tempo reale: $mittenti_unici mittenti in $FINESTRA_SECONDI secondi"
-            fi
-            
-            # Log dettagliato dell'alert
-            {
-                echo "═══════════════════════════════════════════"
-                echo "ALERT AML - $(date '+%Y-%m-%d %H:%M:%S')"
-                echo "═══════════════════════════════════════════"
-                echo "IBAN Beneficiario: $iban_dest"
-                echo "Mittenti unici:    $mittenti_unici"
-                echo "Soglia:            $SOGLIA_MITTENTI_UNICI"
-                echo "Ultimo importo:    €$importo"
-                echo "Ultimo mittente:   $customer_id"
-                echo "IP origine:        $ip_src"
-                echo ""
-            } >> "$LOG_AML"
-        fi
+    # Esci se superata la finestra temporale
+    if [ $ELAPSED -ge $FINESTRA_SECONDI ]; then
+        break
     fi
     
-    echo ""
+    # Leggi nuove righe dal log (solo BONIFICO)
+    # Format log: timestamp|customer_id|ip|azione|importo|iban|session_duration
+    if [ -f "$REALTIME_LOG" ]; then
+        tail -n +$((LAST_POSITION + 1)) "$REALTIME_LOG" 2>/dev/null | grep "|BONIFICO|" | while IFS='|' read -r timestamp customer_id ip_src azione importo iban_dest session_duration; do
+            
+            COUNTER=$((COUNTER + 1))
+            LAST_POSITION=$((LAST_POSITION + 1))
+            
+            echo "[+] Bonifico #$COUNTER da customer $customer_id"
+            
+            # Verifica parametri validi
+            if [ -n "$customer_id" ] && [ -n "$iban_dest" ] && [ -n "$importo" ]; then
+                echo "  IP: $ip_src → IBAN: $iban_dest, €$importo"
+                
+                # Salva nel file di stato
+                echo "$customer_id|$iban_dest|$importo|$(date +%s)" >> "$STATE_FILE"
+                
+                # VERIFICA PATTERN ANOMALO: conta quanti mittenti unici verso questo IBAN
+                mittenti_unici=$(awk -F'|' -v iban="$iban_dest" '$2==iban {print $1}' "$STATE_FILE" | sort -u | wc -l)
+                
+                echo "  → Mittenti unici verso $iban_dest: $mittenti_unici"
+                
+                # CONTROLLO SOGLIA
+                if [ "$mittenti_unici" -ge "$SOGLIA_MITTENTI_UNICI" ]; then
+                    
+                    # Verifica se IBAN è già stato segnalato in QUESTO ciclo
+                    if grep -q "^ALERTED:$iban_dest\$" "$STATE_FILE" 2>/dev/null; then
+                        echo "  → IBAN già segnalato in questo ciclo"
+                    else
+                        echo ""
+                        echo "  [!!!] ALERT AML: IBAN $iban_dest riceve da $mittenti_unici mittenti!"
+                        echo ""
+                        
+                        # Verifica se IBAN già in blacklist GLOBALE
+                        if controlla_blacklist "IBAN" "$iban_dest"; then
+                            echo "  [!] IBAN già in blacklist - RECIDIVO"
+                            aggiungi_blacklist "IBAN" "$iban_dest" "FLUSSO_AML_REAL_TIME" \
+                                "CRITICA" 80 "Rilevato in tempo reale: $mittenti_unici mittenti"
+                        else
+                            echo "  [!] Primo rilevamento - NUOVO"
+                            aggiungi_blacklist "IBAN" "$iban_dest" "FLUSSO_AML_REAL_TIME" \
+                                "ALTA" 50 "Rilevato in tempo reale: $mittenti_unici mittenti"
+                        fi
+                        
+                        # Marca IBAN come già allertato in questo ciclo
+                        echo "ALERTED:$iban_dest" >> "$STATE_FILE"
+                        
+                        # Log dettagliato dell'alert
+                        {
+                            echo "═══════════════════════════════════════════"
+                            echo "ALERT AML - $(date '+%Y-%m-%d %H:%M:%S')"
+                            echo "═══════════════════════════════════════════"
+                            echo "IBAN Beneficiario: $iban_dest"
+                            echo "Mittenti unici:    $mittenti_unici"
+                            echo "Soglia:            $SOGLIA_MITTENTI_UNICI"
+                            echo "Ultimo importo:    €$importo"
+                            echo "Ultimo mittente:   $customer_id"
+                            echo "IP origine:        $ip_src"
+                            echo ""
+                        } >> "$LOG_AML"
+                    fi
+                fi
+            fi
+            
+            echo ""
+        done
+        
+        # Aggiorna posizione ultima riga letta
+        LAST_POSITION=$(wc -l < "$REALTIME_LOG" 2>/dev/null || echo 0)
+    fi
+    
+    # Attendi prima del prossimo check
+    sleep 2
 done
 
-# Al termine della cattura (timeout o Ctrl+C)
+# Al termine della cattura
 echo ""
 echo "================================================================================"
 echo "[✓] Monitoraggio completato"
-echo "[*] Pacchetti analizzati: $COUNTER"
+echo "[*] Transazioni analizzate: $COUNTER"
 echo "[*] Log: $LOG_AML"
 echo "[*] State file: $STATE_FILE"
 echo "================================================================================"
