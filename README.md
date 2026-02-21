@@ -224,6 +224,14 @@ L’implementazione del problema prevede:
 - metriche comportamentali
 - simulazione di alert AML
 
+### Risposta operativa:
+Quando un conto riceve numerosi bonifici da IBAN differenti in un intervallo temporale ristretto, il sistema attiva automaticamente una procedura di verifica antifrode.
+
+L’operatività del conto viene temporaneamente limitata e al cliente viene richiesto di riconfermare la propria identità.
+Se l’autenticazione a due fattori non risulta attiva, viene richiesta l’attivazione immediata; in caso contrario viene avviata una procedura di verifica dell’identità tramite conferma sicura.
+
+L’evento viene inoltre registrato come segnalazione di rischio per eventuali controlli successivi.
+
 ### [Elenco dei problemi](#elenco-dei-problemi)
 --- 
 
@@ -292,6 +300,14 @@ Strumenti e concetti chiave:
 - correlazione temporale
 - analisi per account
 - simulazione di alert di sicurezza
+
+### Risposta operativa:
+Quando vengono rilevate sessioni attive contemporaneamente da indirizzi IP differenti per lo stesso account, il sistema interpreta l’evento come possibile compromissione delle credenziali.
+
+Tutte le sessioni attive vengono terminate automaticamente e l’utente deve effettuare nuovamente l’accesso.
+Viene generata una notifica di sicurezza che informa il cliente dell’attività anomala e viene richiesto il rinnovo delle credenziali di accesso.
+
+L’evento viene registrato come possibile incidente di sicurezza.
 
 ### [Elenco dei problemi](#elenco-dei-problemi)
 ---
@@ -442,6 +458,14 @@ Strumenti e comandi chiave:
 - **`nmap localhost`**
 - **`sudo nmap -p- localhost`**
 
+### Risposta operativa:
+Quando vengono rilevate sessioni attive contemporaneamente da indirizzi IP differenti per lo stesso account, il sistema interpreta l’evento come possibile compromissione delle credenziali.
+
+Tutte le sessioni attive vengono terminate automaticamente e l’utente deve effettuare nuovamente l’accesso.
+Viene generata una notifica di sicurezza che informa il cliente dell’attività anomala e viene richiesto il rinnovo delle credenziali di accesso.
+
+L’evento viene registrato come possibile incidente di sicurezza.
+
 ### [Elenco dei problemi](#elenco-dei-problemi)
 ---
 
@@ -524,6 +548,14 @@ Strumenti e comandi chiave:
 - **`lsof -i -P -n`**
 - **`curl`** (per simulare richieste)
 - **`nc`** (per test di connessione)
+
+### Risposta operativa:
+Quando il sistema rileva un numero anomalo di richieste ripetute verso gli endpoint del servizio, provenienti dallo stesso indirizzo IP o da pattern riconducibili a tentativi di accesso automatizzati, viene attivata una protezione automatica.
+
+L’indirizzo IP responsabile viene temporaneamente bloccato e le richieste successive vengono rifiutate.
+Il livello di logging viene incrementato per consentire un’analisi dettagliata dell’attività sospetta.
+
+L’evento viene registrato come tentativo di intrusione.
 
 ### [Elenco dei problemi](#elenco-dei-problemi)
 ---
@@ -881,6 +913,14 @@ Strumenti e comandi chiave:
 - **`nmap localhost`**
 - classificazione IP per ruolo
 - correlazione rete–operazione
+
+### Risposta operativa:
+Quando un’operazione bancaria non risulta coerente con il contesto tecnico della connessione (origine di rete, dispositivo o profilo operativo), il sistema applica una verifica preventiva.
+
+La transazione viene temporaneamente sospesa e classificata come operazione ad alto rischio.
+L’utente deve confermare l’operazione tramite un meccanismo di autorizzazione rafforzata prima che possa essere eseguita.
+
+L’evento viene registrato per analisi antifrode e monitoraggio comportamentale.
 
 ### [Elenco dei problemi](#elenco-dei-problemi)
 ---
