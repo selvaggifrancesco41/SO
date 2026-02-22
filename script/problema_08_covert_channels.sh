@@ -124,7 +124,7 @@ ALERT_COUNT=0
 # tcp port 8000: filtra TCP porta 8000
 # ${var##* }: rimuove tutto fino all'ultimo spazio (bash parameter expansion)
 
-timeout $DURATA_CATTURA tcpdump -i any -n -tttt -v -s 0 "tcp port $SERVER_PORT" 2>/dev/null | \
+timeout $DURATA_CATTURA sudo tcpdump -i lo -n -tttt -v -s 0 "tcp port $SERVER_PORT" 2>/dev/null | \
 while read -r line; do
     
     # tcpdump output format (simplified):

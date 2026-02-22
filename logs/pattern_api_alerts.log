@@ -149,3 +149,34 @@ URI:             /prelievo?customer_id=bot_pattern&importo=100
 Richieste/30s:   15
 Customer:        800018
 
+================================================================================
+═══════════════════════════════════════════
+ALERT PATTERN API - 2026-02-22 19:02:52
+═══════════════════════════════════════════
+IP:              127.0.0.1
+User-Agent:      curl/8.5.0
+Metodo:          GET
+URI:             /prelievo?customer_id=bot_pattern&importo=100
+Richieste/30s:   1
+Customer:        test
+
+═══════════════════════════════════════════
+ALERT PATTERN API - 2026-02-22 19:02:52
+═══════════════════════════════════════════
+IP:              127.0.0.1
+User-Agent:      curl/8.5.0
+Metodo:          GET
+URI:             /deposito?customer_id=bot_pattern&importo=50
+Richieste/30s:   2
+Customer:        test
+
+═══════════════════════════════════════════
+ALERT PATTERN API - 2026-02-22 19:02:53
+═══════════════════════════════════════════
+IP:              127.0.0.1
+User-Agent:      curl/8.5.0
+Metodo:          GET
+URI:             /prelievo?customer_id=bot_pattern&importo=100
+Richieste/30s:   3
+Customer:        test
+

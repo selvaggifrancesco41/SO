@@ -914,3 +914,35 @@
 2026-02-22 18:51:09,988 127.0.0.1 - - [22/Feb/2026 18:51:09] "GET /login?customer_id=test HTTP/1.1" 200 -
 2026-02-22 18:51:09,993 LOGIN customer_id=test ip=127.0.0.1 importo=None iban=None
 2026-02-22 18:51:09,994 127.0.0.1 - - [22/Feb/2026 18:51:09] "GET /login?customer_id=test HTTP/1.1" 200 -
+2026-02-22 19:02:38,127 LOGIN customer_id=test ip=127.0.0.1 importo=None iban=None
+2026-02-22 19:02:38,127 127.0.0.1 - - [22/Feb/2026 19:02:38] "GET /login?customer_id=test&porta=5000 HTTP/1.1" 200 -
+2026-02-22 19:02:41,943 PRELIEVO customer_id=bot_pattern ip=192.168.60.100 importo=100 iban=None
+2026-02-22 19:02:41,944 127.0.0.1 - - [22/Feb/2026 19:02:41] "GET /prelievo?customer_id=bot_pattern&importo=100 HTTP/1.1" 200 -
+2026-02-22 19:02:42,784 DEPOSITO customer_id=bot_pattern ip=192.168.60.100 importo=50 iban=None
+2026-02-22 19:02:42,785 127.0.0.1 - - [22/Feb/2026 19:02:42] "GET /deposito?customer_id=bot_pattern&importo=50 HTTP/1.1" 200 -
+2026-02-22 19:02:42,862 PRELIEVO customer_id=bot_pattern ip=192.168.60.100 importo=100 iban=None
+2026-02-22 19:02:42,862 127.0.0.1 - - [22/Feb/2026 19:02:42] "GET /prelievo?customer_id=bot_pattern&importo=100 HTTP/1.1" 200 -
+2026-02-22 19:02:44,259 PRELIEVO customer_id=bot_pattern ip=192.168.60.100 importo=100 iban=None
+2026-02-22 19:02:44,259 127.0.0.1 - - [22/Feb/2026 19:02:44] "GET /prelievo?customer_id=bot_pattern&importo=100 HTTP/1.1" 200 -
+2026-02-22 19:02:44,908 DEPOSITO customer_id=bot_pattern ip=192.168.60.100 importo=50 iban=None
+2026-02-22 19:02:44,909 127.0.0.1 - - [22/Feb/2026 19:02:44] "GET /deposito?customer_id=bot_pattern&importo=50 HTTP/1.1" 200 -
+2026-02-22 19:02:45,289 PRELIEVO customer_id=bot_pattern ip=192.168.60.100 importo=100 iban=None
+2026-02-22 19:02:45,289 127.0.0.1 - - [22/Feb/2026 19:02:45] "GET /prelievo?customer_id=bot_pattern&importo=100 HTTP/1.1" 200 -
+2026-02-22 19:02:46,707 PRELIEVO customer_id=bot_pattern ip=192.168.60.100 importo=100 iban=None
+2026-02-22 19:02:46,708 127.0.0.1 - - [22/Feb/2026 19:02:46] "GET /prelievo?customer_id=bot_pattern&importo=100 HTTP/1.1" 200 -
+2026-02-22 19:02:47,222 DEPOSITO customer_id=bot_pattern ip=192.168.60.100 importo=50 iban=None
+2026-02-22 19:02:47,223 127.0.0.1 - - [22/Feb/2026 19:02:47] "GET /deposito?customer_id=bot_pattern&importo=50 HTTP/1.1" 200 -
+2026-02-22 19:02:47,831 PRELIEVO customer_id=bot_pattern ip=192.168.60.100 importo=100 iban=None
+2026-02-22 19:02:47,831 127.0.0.1 - - [22/Feb/2026 19:02:47] "GET /prelievo?customer_id=bot_pattern&importo=100 HTTP/1.1" 200 -
+2026-02-22 19:02:49,203 PRELIEVO customer_id=bot_pattern ip=192.168.60.100 importo=100 iban=None
+2026-02-22 19:02:49,204 127.0.0.1 - - [22/Feb/2026 19:02:49] "GET /prelievo?customer_id=bot_pattern&importo=100 HTTP/1.1" 200 -
+2026-02-22 19:02:49,697 DEPOSITO customer_id=bot_pattern ip=192.168.60.100 importo=50 iban=None
+2026-02-22 19:02:49,697 127.0.0.1 - - [22/Feb/2026 19:02:49] "GET /deposito?customer_id=bot_pattern&importo=50 HTTP/1.1" 200 -
+2026-02-22 19:02:50,183 PRELIEVO customer_id=bot_pattern ip=192.168.60.100 importo=100 iban=None
+2026-02-22 19:02:50,184 127.0.0.1 - - [22/Feb/2026 19:02:50] "GET /prelievo?customer_id=bot_pattern&importo=100 HTTP/1.1" 200 -
+2026-02-22 19:02:51,685 PRELIEVO customer_id=bot_pattern ip=192.168.60.100 importo=100 iban=None
+2026-02-22 19:02:51,685 127.0.0.1 - - [22/Feb/2026 19:02:51] "GET /prelievo?customer_id=bot_pattern&importo=100 HTTP/1.1" 200 -
+2026-02-22 19:02:52,186 DEPOSITO customer_id=bot_pattern ip=192.168.60.100 importo=50 iban=None
+2026-02-22 19:02:52,186 127.0.0.1 - - [22/Feb/2026 19:02:52] "GET /deposito?customer_id=bot_pattern&importo=50 HTTP/1.1" 200 -
+2026-02-22 19:02:52,707 PRELIEVO customer_id=bot_pattern ip=192.168.60.100 importo=100 iban=None
+2026-02-22 19:02:52,708 127.0.0.1 - - [22/Feb/2026 19:02:52] "GET /prelievo?customer_id=bot_pattern&importo=100 HTTP/1.1" 200 -
