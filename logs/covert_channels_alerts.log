@@ -939,3 +939,1275 @@ Customer:        test
 Dettagli pacchetto:
 127.0.0.1.51368 > 127.0.0.1.8000: Flags [.], cksum 0xfe28 (incorrect -> 0x222f), ack 1, win 512, options [nop,nop,TS val 1050359021 ecr 1050359021], length 0
 
+═══════════════════════════════════════════
+ALERT COVERT CHANNEL - 2026-02-22 19:11:00
+═══════════════════════════════════════════
+IP:              IP6
+Dimensione:      0 bytes
+Tipo anomalia:   PACKET_TROPPO_PICCOLO
+TCP Flags:       S (NORMAL)
+Customer:        UNKNOWN
+
+Dettagli pacchetto:
+2026-02-22 19:10:00.352202 IP6 (flowlabel 0xa2d5f, hlim 64, next-header TCP (6) payload length: 40) ::1.38500 > ::1.8000: Flags [S], cksum 0x0030 (incorrect -> 0xeb52), seq 2226781182, win 65476, options [mss 65476,sackOK,TS val 1518588405 ecr 0,nop,wscale 7], length 0
+
+═══════════════════════════════════════════
+ALERT COVERT CHANNEL - 2026-02-22 19:11:00
+═══════════════════════════════════════════
+IP:              IP6
+Dimensione:      0 bytes
+Tipo anomalia:   PACKET_TROPPO_PICCOLO
+TCP Flags:       R. (NORMAL)
+Customer:        UNKNOWN
+
+Dettagli pacchetto:
+2026-02-22 19:10:00.352206 IP6 (flowlabel 0x5e08b, hlim 64, next-header TCP (6) payload length: 20) ::1.8000 > ::1.38500: Flags [R.], cksum 0x001c (incorrect -> 0x7971), seq 0, ack 2226781183, win 0, length 0
+
+═══════════════════════════════════════════
+ALERT COVERT CHANNEL - 2026-02-22 19:11:00
+═══════════════════════════════════════════
+IP:              IP
+Dimensione:      60 bytes
+Tipo anomalia:   PACKET_TROPPO_PICCOLO
+TCP Flags:        (UNKNOWN)
+Customer:        UNKNOWN
+
+Dettagli pacchetto:
+2026-02-22 19:10:00.352229 IP (tos 0x0, ttl 64, id 2004, offset 0, flags [DF], proto TCP (6), length 60)
+
+═══════════════════════════════════════════
+ALERT COVERT CHANNEL - 2026-02-22 19:11:00
+═══════════════════════════════════════════
+IP:              127.0.0.1
+Dimensione:      0 bytes
+Tipo anomalia:   PACKET_TROPPO_PICCOLO
+TCP Flags:       S (NORMAL)
+Customer:        test
+
+Dettagli pacchetto:
+127.0.0.1.51382 > 127.0.0.1.8000: Flags [S], cksum 0xfe30 (incorrect -> 0x11ec), seq 1369215226, win 65495, options [mss 65495,sackOK,TS val 1050359021 ecr 0,nop,wscale 7], length 0
+
+═══════════════════════════════════════════
+ALERT COVERT CHANNEL - 2026-02-22 19:11:00
+═══════════════════════════════════════════
+IP:              IP
+Dimensione:      60 bytes
+Tipo anomalia:   PACKET_TROPPO_PICCOLO
+TCP Flags:        (UNKNOWN)
+Customer:        UNKNOWN
+
+Dettagli pacchetto:
+2026-02-22 19:10:00.352236 IP (tos 0x0, ttl 64, id 0, offset 0, flags [DF], proto TCP (6), length 60)
+
+═══════════════════════════════════════════
+ALERT COVERT CHANNEL - 2026-02-22 19:11:00
+═══════════════════════════════════════════
+IP:              127.0.0.1
+Dimensione:      0 bytes
+Tipo anomalia:   PACKET_TROPPO_PICCOLO
+TCP Flags:       S. (NORMAL)
+Customer:        test
+
+Dettagli pacchetto:
+127.0.0.1.8000 > 127.0.0.1.51382: Flags [S.], cksum 0xfe30 (incorrect -> 0xc3f2), seq 1356040600, ack 1369215227, win 65483, options [mss 65495,sackOK,TS val 1050359021 ecr 1050359021,nop,wscale 7], length 0
+
+═══════════════════════════════════════════
+ALERT COVERT CHANNEL - 2026-02-22 19:11:00
+═══════════════════════════════════════════
+IP:              IP
+Dimensione:      52 bytes
+Tipo anomalia:   PACKET_TROPPO_PICCOLO
+TCP Flags:        (UNKNOWN)
+Customer:        UNKNOWN
+
+Dettagli pacchetto:
+2026-02-22 19:10:00.352242 IP (tos 0x0, ttl 64, id 2005, offset 0, flags [DF], proto TCP (6), length 52)
+
+═══════════════════════════════════════════
+ALERT COVERT CHANNEL - 2026-02-22 19:11:00
+═══════════════════════════════════════════
+IP:              127.0.0.1
+Dimensione:      0 bytes
+Tipo anomalia:   PACKET_TROPPO_PICCOLO
+TCP Flags:       . (NORMAL)
+Customer:        test
+
+Dettagli pacchetto:
+127.0.0.1.51382 > 127.0.0.1.8000: Flags [.], cksum 0xfe28 (incorrect -> 0xeaae), ack 1, win 512, options [nop,nop,TS val 1050359021 ecr 1050359021], length 0
+
+═══════════════════════════════════════════
+ALERT COVERT CHANNEL - 2026-02-22 19:11:00
+═══════════════════════════════════════════
+IP:              IP6
+Dimensione:      0 bytes
+Tipo anomalia:   PACKET_TROPPO_PICCOLO
+TCP Flags:       S (NORMAL)
+Customer:        UNKNOWN
+
+Dettagli pacchetto:
+2026-02-22 19:10:00.353520 IP6 (flowlabel 0x8f87b, hlim 64, next-header TCP (6) payload length: 40) ::1.38506 > ::1.8000: Flags [S], cksum 0x0030 (incorrect -> 0xdb98), seq 1103646370, win 65476, options [mss 65476,sackOK,TS val 1518588407 ecr 0,nop,wscale 7], length 0
+
+═══════════════════════════════════════════
+ALERT COVERT CHANNEL - 2026-02-22 19:11:00
+═══════════════════════════════════════════
+IP:              IP6
+Dimensione:      0 bytes
+Tipo anomalia:   PACKET_TROPPO_PICCOLO
+TCP Flags:       R. (NORMAL)
+Customer:        UNKNOWN
+
+Dettagli pacchetto:
+2026-02-22 19:10:00.353523 IP6 (flowlabel 0x8c13a, hlim 64, next-header TCP (6) payload length: 20) ::1.8000 > ::1.38506: Flags [R.], cksum 0x001c (incorrect -> 0x69b9), seq 0, ack 1103646371, win 0, length 0
+
+═══════════════════════════════════════════
+ALERT COVERT CHANNEL - 2026-02-22 19:11:00
+═══════════════════════════════════════════
+IP:              IP
+Dimensione:      60 bytes
+Tipo anomalia:   PACKET_TROPPO_PICCOLO
+TCP Flags:        (UNKNOWN)
+Customer:        UNKNOWN
+
+Dettagli pacchetto:
+2026-02-22 19:10:00.353542 IP (tos 0x0, ttl 64, id 17155, offset 0, flags [DF], proto TCP (6), length 60)
+
+═══════════════════════════════════════════
+ALERT COVERT CHANNEL - 2026-02-22 19:11:00
+═══════════════════════════════════════════
+IP:              127.0.0.1
+Dimensione:      0 bytes
+Tipo anomalia:   PACKET_TROPPO_PICCOLO
+TCP Flags:       S (NORMAL)
+Customer:        test
+
+Dettagli pacchetto:
+127.0.0.1.51394 > 127.0.0.1.8000: Flags [S], cksum 0xfe30 (incorrect -> 0x9f54), seq 1692987447, win 65495, options [mss 65495,sackOK,TS val 1050359023 ecr 0,nop,wscale 7], length 0
+
+═══════════════════════════════════════════
+ALERT COVERT CHANNEL - 2026-02-22 19:11:00
+═══════════════════════════════════════════
+IP:              IP
+Dimensione:      60 bytes
+Tipo anomalia:   PACKET_TROPPO_PICCOLO
+TCP Flags:        (UNKNOWN)
+Customer:        UNKNOWN
+
+Dettagli pacchetto:
+2026-02-22 19:10:00.353548 IP (tos 0x0, ttl 64, id 0, offset 0, flags [DF], proto TCP (6), length 60)
+
+═══════════════════════════════════════════
+ALERT COVERT CHANNEL - 2026-02-22 19:11:00
+═══════════════════════════════════════════
+IP:              127.0.0.1
+Dimensione:      0 bytes
+Tipo anomalia:   PACKET_TROPPO_PICCOLO
+TCP Flags:       S. (NORMAL)
+Customer:        test
+
+Dettagli pacchetto:
+127.0.0.1.8000 > 127.0.0.1.51394: Flags [S.], cksum 0xfe30 (incorrect -> 0x4bcf), seq 1980525033, ack 1692987448, win 65483, options [mss 65495,sackOK,TS val 1050359023 ecr 1050359023,nop,wscale 7], length 0
+
+═══════════════════════════════════════════
+ALERT COVERT CHANNEL - 2026-02-22 19:11:00
+═══════════════════════════════════════════
+IP:              IP
+Dimensione:      52 bytes
+Tipo anomalia:   PACKET_TROPPO_PICCOLO
+TCP Flags:        (UNKNOWN)
+Customer:        UNKNOWN
+
+Dettagli pacchetto:
+2026-02-22 19:10:00.353554 IP (tos 0x0, ttl 64, id 17156, offset 0, flags [DF], proto TCP (6), length 52)
+
+═══════════════════════════════════════════
+ALERT COVERT CHANNEL - 2026-02-22 19:11:00
+═══════════════════════════════════════════
+IP:              127.0.0.1
+Dimensione:      0 bytes
+Tipo anomalia:   PACKET_TROPPO_PICCOLO
+TCP Flags:       . (NORMAL)
+Customer:        test
+
+Dettagli pacchetto:
+127.0.0.1.51394 > 127.0.0.1.8000: Flags [.], cksum 0xfe28 (incorrect -> 0x728b), ack 1, win 512, options [nop,nop,TS val 1050359023 ecr 1050359023], length 0
+
+═══════════════════════════════════════════
+ALERT COVERT CHANNEL - 2026-02-22 19:11:00
+═══════════════════════════════════════════
+IP:              IP
+Dimensione:      52 bytes
+Tipo anomalia:   PACKET_TROPPO_PICCOLO
+TCP Flags:        (UNKNOWN)
+Customer:        UNKNOWN
+
+Dettagli pacchetto:
+2026-02-22 19:11:00.351820 IP (tos 0x0, ttl 64, id 5896, offset 0, flags [DF], proto TCP (6), length 52)
+
+═══════════════════════════════════════════
+ALERT COVERT CHANNEL - 2026-02-22 19:11:00
+═══════════════════════════════════════════
+IP:              127.0.0.1
+Dimensione:      0 bytes
+Tipo anomalia:   PACKET_TROPPO_PICCOLO
+TCP Flags:       F. (FIN_SCAN)
+Customer:        test
+
+Dettagli pacchetto:
+127.0.0.1.51360 > 127.0.0.1.8000: Flags [F.], cksum 0xfe28 (incorrect -> 0xafeb), seq 1, ack 1, win 512, options [nop,nop,TS val 1050419021 ecr 1050359020], length 0
+
+═══════════════════════════════════════════
+ALERT COVERT CHANNEL - 2026-02-22 19:11:00
+═══════════════════════════════════════════
+IP:              IP
+Dimensione:      52 bytes
+Tipo anomalia:   PACKET_TROPPO_PICCOLO
+TCP Flags:        (UNKNOWN)
+Customer:        UNKNOWN
+
+Dettagli pacchetto:
+2026-02-22 19:11:00.351911 IP (tos 0x0, ttl 64, id 15577, offset 0, flags [DF], proto TCP (6), length 52)
+
+═══════════════════════════════════════════
+ALERT COVERT CHANNEL - 2026-02-22 19:11:00
+═══════════════════════════════════════════
+IP:              127.0.0.1
+Dimensione:      0 bytes
+Tipo anomalia:   PACKET_TROPPO_PICCOLO
+TCP Flags:       F. (FIN_SCAN)
+Customer:        test
+
+Dettagli pacchetto:
+127.0.0.1.8000 > 127.0.0.1.51360: Flags [F.], cksum 0xfe28 (incorrect -> 0xc588), seq 1, ack 2, win 512, options [nop,nop,TS val 1050419021 ecr 1050419021], length 0
+
+═══════════════════════════════════════════
+ALERT COVERT CHANNEL - 2026-02-22 19:11:00
+═══════════════════════════════════════════
+IP:              IP
+Dimensione:      52 bytes
+Tipo anomalia:   PACKET_TROPPO_PICCOLO
+TCP Flags:        (UNKNOWN)
+Customer:        UNKNOWN
+
+Dettagli pacchetto:
+2026-02-22 19:11:00.351928 IP (tos 0x0, ttl 64, id 5897, offset 0, flags [DF], proto TCP (6), length 52)
+
+═══════════════════════════════════════════
+ALERT COVERT CHANNEL - 2026-02-22 19:11:00
+═══════════════════════════════════════════
+IP:              127.0.0.1
+Dimensione:      0 bytes
+Tipo anomalia:   PACKET_TROPPO_PICCOLO
+TCP Flags:       . (NORMAL)
+Customer:        test
+
+Dettagli pacchetto:
+127.0.0.1.51360 > 127.0.0.1.8000: Flags [.], cksum 0xfe28 (incorrect -> 0xc588), ack 2, win 512, options [nop,nop,TS val 1050419021 ecr 1050419021], length 0
+
+═══════════════════════════════════════════
+ALERT COVERT CHANNEL - 2026-02-22 19:11:00
+═══════════════════════════════════════════
+IP:              IP
+Dimensione:      52 bytes
+Tipo anomalia:   PACKET_TROPPO_PICCOLO
+TCP Flags:        (UNKNOWN)
+Customer:        UNKNOWN
+
+Dettagli pacchetto:
+2026-02-22 19:11:00.352848 IP (tos 0x0, ttl 64, id 19261, offset 0, flags [DF], proto TCP (6), length 52)
+
+═══════════════════════════════════════════
+ALERT COVERT CHANNEL - 2026-02-22 19:11:01
+═══════════════════════════════════════════
+IP:              127.0.0.1
+Dimensione:      0 bytes
+Tipo anomalia:   PACKET_TROPPO_PICCOLO
+TCP Flags:       F. (FIN_SCAN)
+Customer:        test
+
+Dettagli pacchetto:
+127.0.0.1.51368 > 127.0.0.1.8000: Flags [F.], cksum 0xfe28 (incorrect -> 0x37cc), seq 1, ack 1, win 512, options [nop,nop,TS val 1050419022 ecr 1050359021], length 0
+
+═══════════════════════════════════════════
+ALERT COVERT CHANNEL - 2026-02-22 19:11:01
+═══════════════════════════════════════════
+IP:              IP
+Dimensione:      52 bytes
+Tipo anomalia:   PACKET_TROPPO_PICCOLO
+TCP Flags:        (UNKNOWN)
+Customer:        UNKNOWN
+
+Dettagli pacchetto:
+2026-02-22 19:11:00.352919 IP (tos 0x0, ttl 64, id 49576, offset 0, flags [DF], proto TCP (6), length 52)
+
+═══════════════════════════════════════════
+ALERT COVERT CHANNEL - 2026-02-22 19:11:01
+═══════════════════════════════════════════
+IP:              127.0.0.1
+Dimensione:      0 bytes
+Tipo anomalia:   PACKET_TROPPO_PICCOLO
+TCP Flags:       F. (FIN_SCAN)
+Customer:        test
+
+Dettagli pacchetto:
+127.0.0.1.8000 > 127.0.0.1.51368: Flags [F.], cksum 0xfe28 (incorrect -> 0x4d69), seq 1, ack 2, win 512, options [nop,nop,TS val 1050419022 ecr 1050419022], length 0
+
+═══════════════════════════════════════════
+ALERT COVERT CHANNEL - 2026-02-22 19:11:01
+═══════════════════════════════════════════
+IP:              IP
+Dimensione:      52 bytes
+Tipo anomalia:   PACKET_TROPPO_PICCOLO
+TCP Flags:        (UNKNOWN)
+Customer:        UNKNOWN
+
+Dettagli pacchetto:
+2026-02-22 19:11:00.352932 IP (tos 0x0, ttl 64, id 19262, offset 0, flags [DF], proto TCP (6), length 52)
+
+═══════════════════════════════════════════
+ALERT COVERT CHANNEL - 2026-02-22 19:11:08
+═══════════════════════════════════════════
+IP:              127.0.0.1
+Dimensione:      0 bytes
+Tipo anomalia:   PACKET_TROPPO_PICCOLO
+TCP Flags:       . (NORMAL)
+Customer:        test
+
+Dettagli pacchetto:
+127.0.0.1.51368 > 127.0.0.1.8000: Flags [.], cksum 0xfe28 (incorrect -> 0x4d69), ack 2, win 512, options [nop,nop,TS val 1050419022 ecr 1050419022], length 0
+
+═══════════════════════════════════════════
+ALERT COVERT CHANNEL - 2026-02-22 19:11:08
+═══════════════════════════════════════════
+IP:              IP
+Dimensione:      52 bytes
+Tipo anomalia:   PACKET_TROPPO_PICCOLO
+TCP Flags:        (UNKNOWN)
+Customer:        UNKNOWN
+
+Dettagli pacchetto:
+2026-02-22 19:11:00.353016 IP (tos 0x0, ttl 64, id 2006, offset 0, flags [DF], proto TCP (6), length 52)
+
+═══════════════════════════════════════════
+ALERT COVERT CHANNEL - 2026-02-22 19:11:08
+═══════════════════════════════════════════
+IP:              127.0.0.1
+Dimensione:      0 bytes
+Tipo anomalia:   PACKET_TROPPO_PICCOLO
+TCP Flags:       F. (FIN_SCAN)
+Customer:        test
+
+Dettagli pacchetto:
+127.0.0.1.51382 > 127.0.0.1.8000: Flags [F.], cksum 0xfe28 (incorrect -> 0x004c), seq 1, ack 1, win 512, options [nop,nop,TS val 1050419022 ecr 1050359021], length 0
+
+═══════════════════════════════════════════
+ALERT COVERT CHANNEL - 2026-02-22 19:11:08
+═══════════════════════════════════════════
+IP:              IP
+Dimensione:      52 bytes
+Tipo anomalia:   PACKET_TROPPO_PICCOLO
+TCP Flags:        (UNKNOWN)
+Customer:        UNKNOWN
+
+Dettagli pacchetto:
+2026-02-22 19:11:00.353180 IP (tos 0x0, ttl 64, id 16619, offset 0, flags [DF], proto TCP (6), length 52)
+
+═══════════════════════════════════════════
+ALERT COVERT CHANNEL - 2026-02-22 19:11:08
+═══════════════════════════════════════════
+IP:              127.0.0.1
+Dimensione:      0 bytes
+Tipo anomalia:   PACKET_TROPPO_PICCOLO
+TCP Flags:       F. (FIN_SCAN)
+Customer:        test
+
+Dettagli pacchetto:
+127.0.0.1.8000 > 127.0.0.1.51382: Flags [F.], cksum 0xfe28 (incorrect -> 0x15e9), seq 1, ack 2, win 512, options [nop,nop,TS val 1050419022 ecr 1050419022], length 0
+
+═══════════════════════════════════════════
+ALERT COVERT CHANNEL - 2026-02-22 19:11:08
+═══════════════════════════════════════════
+IP:              IP
+Dimensione:      52 bytes
+Tipo anomalia:   PACKET_TROPPO_PICCOLO
+TCP Flags:        (UNKNOWN)
+Customer:        UNKNOWN
+
+Dettagli pacchetto:
+2026-02-22 19:11:00.353191 IP (tos 0x0, ttl 64, id 2007, offset 0, flags [DF], proto TCP (6), length 52)
+
+═══════════════════════════════════════════
+ALERT COVERT CHANNEL - 2026-02-22 19:11:08
+═══════════════════════════════════════════
+IP:              127.0.0.1
+Dimensione:      0 bytes
+Tipo anomalia:   PACKET_TROPPO_PICCOLO
+TCP Flags:       . (NORMAL)
+Customer:        test
+
+Dettagli pacchetto:
+127.0.0.1.51382 > 127.0.0.1.8000: Flags [.], cksum 0xfe28 (incorrect -> 0x15e9), ack 2, win 512, options [nop,nop,TS val 1050419022 ecr 1050419022], length 0
+
+═══════════════════════════════════════════
+ALERT COVERT CHANNEL - 2026-02-22 19:11:08
+═══════════════════════════════════════════
+IP:              IP
+Dimensione:      52 bytes
+Tipo anomalia:   PACKET_TROPPO_PICCOLO
+TCP Flags:        (UNKNOWN)
+Customer:        UNKNOWN
+
+Dettagli pacchetto:
+2026-02-22 19:11:00.354312 IP (tos 0x0, ttl 64, id 17157, offset 0, flags [DF], proto TCP (6), length 52)
+
+═══════════════════════════════════════════
+ALERT COVERT CHANNEL - 2026-02-22 19:11:08
+═══════════════════════════════════════════
+IP:              127.0.0.1
+Dimensione:      0 bytes
+Tipo anomalia:   PACKET_TROPPO_PICCOLO
+TCP Flags:       F. (FIN_SCAN)
+Customer:        test
+
+Dettagli pacchetto:
+127.0.0.1.51394 > 127.0.0.1.8000: Flags [F.], cksum 0xfe28 (incorrect -> 0x8828), seq 1, ack 1, win 512, options [nop,nop,TS val 1050419024 ecr 1050359023], length 0
+
+═══════════════════════════════════════════
+ALERT COVERT CHANNEL - 2026-02-22 19:11:08
+═══════════════════════════════════════════
+IP:              IP
+Dimensione:      52 bytes
+Tipo anomalia:   PACKET_TROPPO_PICCOLO
+TCP Flags:        (UNKNOWN)
+Customer:        UNKNOWN
+
+Dettagli pacchetto:
+2026-02-22 19:11:00.354366 IP (tos 0x0, ttl 64, id 8105, offset 0, flags [DF], proto TCP (6), length 52)
+
+═══════════════════════════════════════════
+ALERT COVERT CHANNEL - 2026-02-22 19:11:08
+═══════════════════════════════════════════
+IP:              127.0.0.1
+Dimensione:      0 bytes
+Tipo anomalia:   PACKET_TROPPO_PICCOLO
+TCP Flags:       F. (FIN_SCAN)
+Customer:        test
+
+Dettagli pacchetto:
+127.0.0.1.8000 > 127.0.0.1.51394: Flags [F.], cksum 0xfe28 (incorrect -> 0x9dc5), seq 1, ack 2, win 512, options [nop,nop,TS val 1050419024 ecr 1050419024], length 0
+
+═══════════════════════════════════════════
+ALERT COVERT CHANNEL - 2026-02-22 19:11:08
+═══════════════════════════════════════════
+IP:              IP
+Dimensione:      52 bytes
+Tipo anomalia:   PACKET_TROPPO_PICCOLO
+TCP Flags:        (UNKNOWN)
+Customer:        UNKNOWN
+
+Dettagli pacchetto:
+2026-02-22 19:11:00.354376 IP (tos 0x0, ttl 64, id 17158, offset 0, flags [DF], proto TCP (6), length 52)
+
+═══════════════════════════════════════════
+ALERT COVERT CHANNEL - 2026-02-22 19:11:08
+═══════════════════════════════════════════
+IP:              127.0.0.1
+Dimensione:      0 bytes
+Tipo anomalia:   PACKET_TROPPO_PICCOLO
+TCP Flags:       . (NORMAL)
+Customer:        test
+
+Dettagli pacchetto:
+127.0.0.1.51394 > 127.0.0.1.8000: Flags [.], cksum 0xfe28 (incorrect -> 0x9dc5), ack 2, win 512, options [nop,nop,TS val 1050419024 ecr 1050419024], length 0
+
+═══════════════════════════════════════════
+ALERT COVERT CHANNEL - 2026-02-22 19:11:08
+═══════════════════════════════════════════
+IP:              IP6
+Dimensione:      0 bytes
+Tipo anomalia:   PACKET_TROPPO_PICCOLO
+TCP Flags:       S (NORMAL)
+Customer:        UNKNOWN
+
+Dettagli pacchetto:
+2026-02-22 19:11:07.722560 IP6 (flowlabel 0x293a4, hlim 64, next-header TCP (6) payload length: 40) ::1.51002 > ::1.8000: Flags [S], cksum 0x0030 (incorrect -> 0xd7a5), seq 3210190091, win 65476, options [mss 65476,sackOK,TS val 1518655776 ecr 0,nop,wscale 7], length 0
+
+═══════════════════════════════════════════
+ALERT COVERT CHANNEL - 2026-02-22 19:11:08
+═══════════════════════════════════════════
+IP:              IP6
+Dimensione:      0 bytes
+Tipo anomalia:   PACKET_TROPPO_PICCOLO
+TCP Flags:       R. (NORMAL)
+Customer:        UNKNOWN
+
+Dettagli pacchetto:
+2026-02-22 19:11:07.722566 IP6 (flowlabel 0x154d0, hlim 64, next-header TCP (6) payload length: 20) ::1.8000 > ::1.51002: Flags [R.], cksum 0x001c (incorrect -> 0x6cf0), seq 0, ack 3210190092, win 0, length 0
+
+═══════════════════════════════════════════
+ALERT COVERT CHANNEL - 2026-02-22 19:11:08
+═══════════════════════════════════════════
+IP:              IP
+Dimensione:      60 bytes
+Tipo anomalia:   PACKET_TROPPO_PICCOLO
+TCP Flags:        (UNKNOWN)
+Customer:        UNKNOWN
+
+Dettagli pacchetto:
+2026-02-22 19:11:07.722607 IP (tos 0x0, ttl 64, id 41325, offset 0, flags [DF], proto TCP (6), length 60)
+
+═══════════════════════════════════════════
+ALERT COVERT CHANNEL - 2026-02-22 19:11:09
+═══════════════════════════════════════════
+IP:              127.0.0.1
+Dimensione:      0 bytes
+Tipo anomalia:   PACKET_TROPPO_PICCOLO
+TCP Flags:       S (NORMAL)
+Customer:        test
+
+Dettagli pacchetto:
+127.0.0.1.44152 > 127.0.0.1.8000: Flags [S], cksum 0xfe30 (incorrect -> 0xc26f), seq 550250073, win 65495, options [mss 65495,sackOK,TS val 1050426392 ecr 0,nop,wscale 7], length 0
+
+═══════════════════════════════════════════
+ALERT COVERT CHANNEL - 2026-02-22 19:11:09
+═══════════════════════════════════════════
+IP:              IP
+Dimensione:      60 bytes
+Tipo anomalia:   PACKET_TROPPO_PICCOLO
+TCP Flags:        (UNKNOWN)
+Customer:        UNKNOWN
+
+Dettagli pacchetto:
+2026-02-22 19:11:07.722615 IP (tos 0x0, ttl 64, id 0, offset 0, flags [DF], proto TCP (6), length 60)
+
+═══════════════════════════════════════════
+ALERT COVERT CHANNEL - 2026-02-22 19:11:09
+═══════════════════════════════════════════
+IP:              127.0.0.1
+Dimensione:      0 bytes
+Tipo anomalia:   PACKET_TROPPO_PICCOLO
+TCP Flags:       S. (NORMAL)
+Customer:        test
+
+Dettagli pacchetto:
+127.0.0.1.8000 > 127.0.0.1.44152: Flags [S.], cksum 0xfe30 (incorrect -> 0xcac3), seq 3227696271, ack 550250074, win 65483, options [mss 65495,sackOK,TS val 1050426392 ecr 1050426392,nop,wscale 7], length 0
+
+═══════════════════════════════════════════
+ALERT COVERT CHANNEL - 2026-02-22 19:11:09
+═══════════════════════════════════════════
+IP:              IP
+Dimensione:      52 bytes
+Tipo anomalia:   PACKET_TROPPO_PICCOLO
+TCP Flags:        (UNKNOWN)
+Customer:        UNKNOWN
+
+Dettagli pacchetto:
+2026-02-22 19:11:07.722622 IP (tos 0x0, ttl 64, id 41326, offset 0, flags [DF], proto TCP (6), length 52)
+
+═══════════════════════════════════════════
+ALERT COVERT CHANNEL - 2026-02-22 19:11:09
+═══════════════════════════════════════════
+IP:              127.0.0.1
+Dimensione:      0 bytes
+Tipo anomalia:   PACKET_TROPPO_PICCOLO
+TCP Flags:       . (NORMAL)
+Customer:        test
+
+Dettagli pacchetto:
+127.0.0.1.44152 > 127.0.0.1.8000: Flags [.], cksum 0xfe28 (incorrect -> 0xf17f), ack 1, win 512, options [nop,nop,TS val 1050426392 ecr 1050426392], length 0
+
+═══════════════════════════════════════════
+ALERT COVERT CHANNEL - 2026-02-22 19:11:09
+═══════════════════════════════════════════
+IP:              IP
+Dimensione:      52 bytes
+Tipo anomalia:   PACKET_TROPPO_PICCOLO
+TCP Flags:        (UNKNOWN)
+Customer:        UNKNOWN
+
+Dettagli pacchetto:
+2026-02-22 19:11:07.722669 IP (tos 0x0, ttl 64, id 45032, offset 0, flags [DF], proto TCP (6), length 52)
+
+═══════════════════════════════════════════
+ALERT COVERT CHANNEL - 2026-02-22 19:11:09
+═══════════════════════════════════════════
+IP:              127.0.0.1
+Dimensione:      0 bytes
+Tipo anomalia:   PACKET_TROPPO_PICCOLO
+TCP Flags:       . (NORMAL)
+Customer:        test
+
+Dettagli pacchetto:
+127.0.0.1.8000 > 127.0.0.1.44152: Flags [.], cksum 0xfe28 (incorrect -> 0xf0db), ack 166, win 511, options [nop,nop,TS val 1050426392 ecr 1050426392], length 0
+
+═══════════════════════════════════════════
+ALERT COVERT CHANNEL - 2026-02-22 19:11:09
+═══════════════════════════════════════════
+IP:              IP
+Dimensione:      52 bytes
+Tipo anomalia:   PACKET_TROPPO_PICCOLO
+TCP Flags:        (UNKNOWN)
+Customer:        UNKNOWN
+
+Dettagli pacchetto:
+2026-02-22 19:11:07.726723 IP (tos 0x0, ttl 64, id 41328, offset 0, flags [DF], proto TCP (6), length 52)
+
+═══════════════════════════════════════════
+ALERT COVERT CHANNEL - 2026-02-22 19:11:09
+═══════════════════════════════════════════
+IP:              127.0.0.1
+Dimensione:      0 bytes
+Tipo anomalia:   PACKET_TROPPO_PICCOLO
+TCP Flags:       . (NORMAL)
+Customer:        test
+
+Dettagli pacchetto:
+127.0.0.1.44152 > 127.0.0.1.8000: Flags [.], cksum 0xfe28 (incorrect -> 0xf02e), ack 166, win 511, options [nop,nop,TS val 1050426396 ecr 1050426396], length 0
+
+═══════════════════════════════════════════
+ALERT COVERT CHANNEL - 2026-02-22 19:11:09
+═══════════════════════════════════════════
+IP:              IP
+Dimensione:      88 bytes
+Tipo anomalia:   PACKET_TROPPO_PICCOLO
+TCP Flags:        (UNKNOWN)
+Customer:        UNKNOWN
+
+Dettagli pacchetto:
+2026-02-22 19:11:07.726739 IP (tos 0x0, ttl 64, id 45034, offset 0, flags [DF], proto TCP (6), length 88)
+
+═══════════════════════════════════════════
+ALERT COVERT CHANNEL - 2026-02-22 19:11:09
+═══════════════════════════════════════════
+IP:              127.0.0.1
+Dimensione:      36 bytes
+Tipo anomalia:   PACKET_TROPPO_PICCOLO
+TCP Flags:       P. (NORMAL)
+Customer:        test
+
+Dettagli pacchetto:
+127.0.0.1.8000 > 127.0.0.1.44152: Flags [P.], cksum 0xfe4c (incorrect -> 0xa244), seq 166:202, ack 166, win 512, options [nop,nop,TS val 1050426396 ecr 1050426396], length 36
+
+═══════════════════════════════════════════
+ALERT COVERT CHANNEL - 2026-02-22 19:11:09
+═══════════════════════════════════════════
+IP:              IP
+Dimensione:      52 bytes
+Tipo anomalia:   PACKET_TROPPO_PICCOLO
+TCP Flags:        (UNKNOWN)
+Customer:        UNKNOWN
+
+Dettagli pacchetto:
+2026-02-22 19:11:07.726743 IP (tos 0x0, ttl 64, id 41329, offset 0, flags [DF], proto TCP (6), length 52)
+
+═══════════════════════════════════════════
+ALERT COVERT CHANNEL - 2026-02-22 19:11:09
+═══════════════════════════════════════════
+IP:              127.0.0.1
+Dimensione:      0 bytes
+Tipo anomalia:   PACKET_TROPPO_PICCOLO
+TCP Flags:       . (NORMAL)
+Customer:        test
+
+Dettagli pacchetto:
+127.0.0.1.44152 > 127.0.0.1.8000: Flags [.], cksum 0xfe28 (incorrect -> 0xf00a), ack 202, win 511, options [nop,nop,TS val 1050426396 ecr 1050426396], length 0
+
+═══════════════════════════════════════════
+ALERT COVERT CHANNEL - 2026-02-22 19:11:09
+═══════════════════════════════════════════
+IP:              IP
+Dimensione:      52 bytes
+Tipo anomalia:   PACKET_TROPPO_PICCOLO
+TCP Flags:        (UNKNOWN)
+Customer:        UNKNOWN
+
+Dettagli pacchetto:
+2026-02-22 19:11:07.726782 IP (tos 0x0, ttl 64, id 41330, offset 0, flags [DF], proto TCP (6), length 52)
+
+═══════════════════════════════════════════
+ALERT COVERT CHANNEL - 2026-02-22 19:11:09
+═══════════════════════════════════════════
+IP:              127.0.0.1
+Dimensione:      0 bytes
+Tipo anomalia:   PACKET_TROPPO_PICCOLO
+TCP Flags:       F. (FIN_SCAN)
+Customer:        test
+
+Dettagli pacchetto:
+127.0.0.1.44152 > 127.0.0.1.8000: Flags [F.], cksum 0xfe28 (incorrect -> 0xf008), seq 166, ack 202, win 512, options [nop,nop,TS val 1050426396 ecr 1050426396], length 0
+
+═══════════════════════════════════════════
+ALERT COVERT CHANNEL - 2026-02-22 19:11:09
+═══════════════════════════════════════════
+IP:              IP
+Dimensione:      52 bytes
+Tipo anomalia:   PACKET_TROPPO_PICCOLO
+TCP Flags:        (UNKNOWN)
+Customer:        UNKNOWN
+
+Dettagli pacchetto:
+2026-02-22 19:11:07.726842 IP (tos 0x0, ttl 64, id 45035, offset 0, flags [DF], proto TCP (6), length 52)
+
+═══════════════════════════════════════════
+ALERT COVERT CHANNEL - 2026-02-22 19:11:09
+═══════════════════════════════════════════
+IP:              127.0.0.1
+Dimensione:      0 bytes
+Tipo anomalia:   PACKET_TROPPO_PICCOLO
+TCP Flags:       F. (FIN_SCAN)
+Customer:        test
+
+Dettagli pacchetto:
+127.0.0.1.8000 > 127.0.0.1.44152: Flags [F.], cksum 0xfe28 (incorrect -> 0xf007), seq 202, ack 167, win 512, options [nop,nop,TS val 1050426396 ecr 1050426396], length 0
+
+═══════════════════════════════════════════
+ALERT COVERT CHANNEL - 2026-02-22 19:11:09
+═══════════════════════════════════════════
+IP:              IP
+Dimensione:      52 bytes
+Tipo anomalia:   PACKET_TROPPO_PICCOLO
+TCP Flags:        (UNKNOWN)
+Customer:        UNKNOWN
+
+Dettagli pacchetto:
+2026-02-22 19:11:07.726853 IP (tos 0x0, ttl 64, id 41331, offset 0, flags [DF], proto TCP (6), length 52)
+
+═══════════════════════════════════════════
+ALERT COVERT CHANNEL - 2026-02-22 19:11:09
+═══════════════════════════════════════════
+IP:              127.0.0.1
+Dimensione:      0 bytes
+Tipo anomalia:   PACKET_TROPPO_PICCOLO
+TCP Flags:       . (NORMAL)
+Customer:        test
+
+Dettagli pacchetto:
+127.0.0.1.44152 > 127.0.0.1.8000: Flags [.], cksum 0xfe28 (incorrect -> 0xf007), ack 203, win 512, options [nop,nop,TS val 1050426396 ecr 1050426396], length 0
+
+═══════════════════════════════════════════
+ALERT COVERT CHANNEL - 2026-02-22 19:11:10
+═══════════════════════════════════════════
+IP:              IP6
+Dimensione:      0 bytes
+Tipo anomalia:   PACKET_TROPPO_PICCOLO
+TCP Flags:       S (NORMAL)
+Customer:        UNKNOWN
+
+Dettagli pacchetto:
+2026-02-22 19:11:08.727016 IP6 (flowlabel 0x37cfb, hlim 64, next-header TCP (6) payload length: 40) ::1.51008 > ::1.8000: Flags [S], cksum 0x0030 (incorrect -> 0xe72f), seq 2666506743, win 65476, options [mss 65476,sackOK,TS val 1518656780 ecr 0,nop,wscale 7], length 0
+
+═══════════════════════════════════════════
+ALERT COVERT CHANNEL - 2026-02-22 19:11:10
+═══════════════════════════════════════════
+IP:              IP6
+Dimensione:      0 bytes
+Tipo anomalia:   PACKET_TROPPO_PICCOLO
+TCP Flags:       R. (NORMAL)
+Customer:        UNKNOWN
+
+Dettagli pacchetto:
+2026-02-22 19:11:08.727024 IP6 (flowlabel 0xa41f9, hlim 64, next-header TCP (6) payload length: 20) ::1.8000 > ::1.51008: Flags [R.], cksum 0x001c (incorrect -> 0x8066), seq 0, ack 2666506744, win 0, length 0
+
+═══════════════════════════════════════════
+ALERT COVERT CHANNEL - 2026-02-22 19:11:10
+═══════════════════════════════════════════
+IP:              IP
+Dimensione:      60 bytes
+Tipo anomalia:   PACKET_TROPPO_PICCOLO
+TCP Flags:        (UNKNOWN)
+Customer:        UNKNOWN
+
+Dettagli pacchetto:
+2026-02-22 19:11:08.727079 IP (tos 0x0, ttl 64, id 26804, offset 0, flags [DF], proto TCP (6), length 60)
+
+═══════════════════════════════════════════
+ALERT COVERT CHANNEL - 2026-02-22 19:11:10
+═══════════════════════════════════════════
+IP:              127.0.0.1
+Dimensione:      0 bytes
+Tipo anomalia:   PACKET_TROPPO_PICCOLO
+TCP Flags:       S (NORMAL)
+Customer:        test
+
+Dettagli pacchetto:
+127.0.0.1.44158 > 127.0.0.1.8000: Flags [S], cksum 0xfe30 (incorrect -> 0xb6d9), seq 175260759, win 65495, options [mss 65495,sackOK,TS val 1050427396 ecr 0,nop,wscale 7], length 0
+
+═══════════════════════════════════════════
+ALERT COVERT CHANNEL - 2026-02-22 19:11:10
+═══════════════════════════════════════════
+IP:              IP
+Dimensione:      60 bytes
+Tipo anomalia:   PACKET_TROPPO_PICCOLO
+TCP Flags:        (UNKNOWN)
+Customer:        UNKNOWN
+
+Dettagli pacchetto:
+2026-02-22 19:11:08.727089 IP (tos 0x0, ttl 64, id 0, offset 0, flags [DF], proto TCP (6), length 60)
+
+═══════════════════════════════════════════
+ALERT COVERT CHANNEL - 2026-02-22 19:11:10
+═══════════════════════════════════════════
+IP:              127.0.0.1
+Dimensione:      0 bytes
+Tipo anomalia:   PACKET_TROPPO_PICCOLO
+TCP Flags:       S. (NORMAL)
+Customer:        test
+
+Dettagli pacchetto:
+127.0.0.1.8000 > 127.0.0.1.44158: Flags [S.], cksum 0xfe30 (incorrect -> 0xa4ae), seq 1034311135, ack 175260760, win 65483, options [mss 65495,sackOK,TS val 1050427396 ecr 1050427396,nop,wscale 7], length 0
+
+═══════════════════════════════════════════
+ALERT COVERT CHANNEL - 2026-02-22 19:11:10
+═══════════════════════════════════════════
+IP:              IP
+Dimensione:      52 bytes
+Tipo anomalia:   PACKET_TROPPO_PICCOLO
+TCP Flags:        (UNKNOWN)
+Customer:        UNKNOWN
+
+Dettagli pacchetto:
+2026-02-22 19:11:08.727098 IP (tos 0x0, ttl 64, id 26805, offset 0, flags [DF], proto TCP (6), length 52)
+
+═══════════════════════════════════════════
+ALERT COVERT CHANNEL - 2026-02-22 19:11:10
+═══════════════════════════════════════════
+IP:              127.0.0.1
+Dimensione:      0 bytes
+Tipo anomalia:   PACKET_TROPPO_PICCOLO
+TCP Flags:       . (NORMAL)
+Customer:        test
+
+Dettagli pacchetto:
+127.0.0.1.44158 > 127.0.0.1.8000: Flags [.], cksum 0xfe28 (incorrect -> 0xcb6a), ack 1, win 512, options [nop,nop,TS val 1050427396 ecr 1050427396], length 0
+
+═══════════════════════════════════════════
+ALERT COVERT CHANNEL - 2026-02-22 19:11:10
+═══════════════════════════════════════════
+IP:              IP
+Dimensione:      52 bytes
+Tipo anomalia:   PACKET_TROPPO_PICCOLO
+TCP Flags:        (UNKNOWN)
+Customer:        UNKNOWN
+
+Dettagli pacchetto:
+2026-02-22 19:11:08.727154 IP (tos 0x0, ttl 64, id 49959, offset 0, flags [DF], proto TCP (6), length 52)
+
+═══════════════════════════════════════════
+ALERT COVERT CHANNEL - 2026-02-22 19:11:10
+═══════════════════════════════════════════
+IP:              127.0.0.1
+Dimensione:      0 bytes
+Tipo anomalia:   PACKET_TROPPO_PICCOLO
+TCP Flags:       . (NORMAL)
+Customer:        test
+
+Dettagli pacchetto:
+127.0.0.1.8000 > 127.0.0.1.44158: Flags [.], cksum 0xfe28 (incorrect -> 0xcad3), ack 153, win 511, options [nop,nop,TS val 1050427396 ecr 1050427396], length 0
+
+═══════════════════════════════════════════
+ALERT COVERT CHANNEL - 2026-02-22 19:11:10
+═══════════════════════════════════════════
+IP:              IP
+Dimensione:      52 bytes
+Tipo anomalia:   PACKET_TROPPO_PICCOLO
+TCP Flags:        (UNKNOWN)
+Customer:        UNKNOWN
+
+Dettagli pacchetto:
+2026-02-22 19:11:08.735217 IP (tos 0x0, ttl 64, id 26807, offset 0, flags [DF], proto TCP (6), length 52)
+
+═══════════════════════════════════════════
+ALERT COVERT CHANNEL - 2026-02-22 19:11:10
+═══════════════════════════════════════════
+IP:              127.0.0.1
+Dimensione:      0 bytes
+Tipo anomalia:   PACKET_TROPPO_PICCOLO
+TCP Flags:       . (NORMAL)
+Customer:        test
+
+Dettagli pacchetto:
+127.0.0.1.44158 > 127.0.0.1.8000: Flags [.], cksum 0xfe28 (incorrect -> 0xca1e), ack 166, win 511, options [nop,nop,TS val 1050427404 ecr 1050427404], length 0
+
+═══════════════════════════════════════════
+ALERT COVERT CHANNEL - 2026-02-22 19:11:10
+═══════════════════════════════════════════
+IP:              IP
+Dimensione:      88 bytes
+Tipo anomalia:   PACKET_TROPPO_PICCOLO
+TCP Flags:        (UNKNOWN)
+Customer:        UNKNOWN
+
+Dettagli pacchetto:
+2026-02-22 19:11:08.735234 IP (tos 0x0, ttl 64, id 49961, offset 0, flags [DF], proto TCP (6), length 88)
+
+═══════════════════════════════════════════
+ALERT COVERT CHANNEL - 2026-02-22 19:11:10
+═══════════════════════════════════════════
+IP:              127.0.0.1
+Dimensione:      36 bytes
+Tipo anomalia:   PACKET_TROPPO_PICCOLO
+TCP Flags:       P. (NORMAL)
+Customer:        test
+
+Dettagli pacchetto:
+127.0.0.1.8000 > 127.0.0.1.44158: Flags [P.], cksum 0xfe4c (incorrect -> 0x7a19), seq 166:202, ack 153, win 512, options [nop,nop,TS val 1050427404 ecr 1050427404], length 36
+
+═══════════════════════════════════════════
+ALERT COVERT CHANNEL - 2026-02-22 19:11:10
+═══════════════════════════════════════════
+IP:              IP
+Dimensione:      52 bytes
+Tipo anomalia:   PACKET_TROPPO_PICCOLO
+TCP Flags:        (UNKNOWN)
+Customer:        UNKNOWN
+
+Dettagli pacchetto:
+2026-02-22 19:11:08.735238 IP (tos 0x0, ttl 64, id 26808, offset 0, flags [DF], proto TCP (6), length 52)
+
+═══════════════════════════════════════════
+ALERT COVERT CHANNEL - 2026-02-22 19:11:10
+═══════════════════════════════════════════
+IP:              127.0.0.1
+Dimensione:      0 bytes
+Tipo anomalia:   PACKET_TROPPO_PICCOLO
+TCP Flags:       . (NORMAL)
+Customer:        test
+
+Dettagli pacchetto:
+127.0.0.1.44158 > 127.0.0.1.8000: Flags [.], cksum 0xfe28 (incorrect -> 0xc9fa), ack 202, win 511, options [nop,nop,TS val 1050427404 ecr 1050427404], length 0
+
+═══════════════════════════════════════════
+ALERT COVERT CHANNEL - 2026-02-22 19:11:10
+═══════════════════════════════════════════
+IP:              IP
+Dimensione:      52 bytes
+Tipo anomalia:   PACKET_TROPPO_PICCOLO
+TCP Flags:        (UNKNOWN)
+Customer:        UNKNOWN
+
+Dettagli pacchetto:
+2026-02-22 19:11:08.736824 IP (tos 0x0, ttl 64, id 26809, offset 0, flags [DF], proto TCP (6), length 52)
+
+═══════════════════════════════════════════
+ALERT COVERT CHANNEL - 2026-02-22 19:11:10
+═══════════════════════════════════════════
+IP:              127.0.0.1
+Dimensione:      0 bytes
+Tipo anomalia:   PACKET_TROPPO_PICCOLO
+TCP Flags:       F. (FIN_SCAN)
+Customer:        test
+
+Dettagli pacchetto:
+127.0.0.1.44158 > 127.0.0.1.8000: Flags [F.], cksum 0xfe28 (incorrect -> 0xc9f6), seq 153, ack 202, win 512, options [nop,nop,TS val 1050427406 ecr 1050427404], length 0
+
+═══════════════════════════════════════════
+ALERT COVERT CHANNEL - 2026-02-22 19:11:10
+═══════════════════════════════════════════
+IP:              IP
+Dimensione:      52 bytes
+Tipo anomalia:   PACKET_TROPPO_PICCOLO
+TCP Flags:        (UNKNOWN)
+Customer:        UNKNOWN
+
+Dettagli pacchetto:
+2026-02-22 19:11:08.737841 IP (tos 0x0, ttl 64, id 49962, offset 0, flags [DF], proto TCP (6), length 52)
+
+═══════════════════════════════════════════
+ALERT COVERT CHANNEL - 2026-02-22 19:11:10
+═══════════════════════════════════════════
+IP:              127.0.0.1
+Dimensione:      0 bytes
+Tipo anomalia:   PACKET_TROPPO_PICCOLO
+TCP Flags:       F. (FIN_SCAN)
+Customer:        test
+
+Dettagli pacchetto:
+127.0.0.1.8000 > 127.0.0.1.44158: Flags [F.], cksum 0xfe28 (incorrect -> 0xc9f2), seq 202, ack 154, win 512, options [nop,nop,TS val 1050427407 ecr 1050427406], length 0
+
+═══════════════════════════════════════════
+ALERT COVERT CHANNEL - 2026-02-22 19:11:10
+═══════════════════════════════════════════
+IP:              IP
+Dimensione:      52 bytes
+Tipo anomalia:   PACKET_TROPPO_PICCOLO
+TCP Flags:        (UNKNOWN)
+Customer:        UNKNOWN
+
+Dettagli pacchetto:
+2026-02-22 19:11:08.737859 IP (tos 0x0, ttl 64, id 26810, offset 0, flags [DF], proto TCP (6), length 52)
+
+═══════════════════════════════════════════
+ALERT COVERT CHANNEL - 2026-02-22 19:11:10
+═══════════════════════════════════════════
+IP:              127.0.0.1
+Dimensione:      0 bytes
+Tipo anomalia:   PACKET_TROPPO_PICCOLO
+TCP Flags:       . (NORMAL)
+Customer:        test
+
+Dettagli pacchetto:
+127.0.0.1.44158 > 127.0.0.1.8000: Flags [.], cksum 0xfe28 (incorrect -> 0xc9f1), ack 203, win 512, options [nop,nop,TS val 1050427407 ecr 1050427407], length 0
+
+═══════════════════════════════════════════
+ALERT COVERT CHANNEL - 2026-02-22 19:11:10
+═══════════════════════════════════════════
+IP:              IP6
+Dimensione:      0 bytes
+Tipo anomalia:   PACKET_TROPPO_PICCOLO
+TCP Flags:       S (NORMAL)
+Customer:        UNKNOWN
+
+Dettagli pacchetto:
+2026-02-22 19:11:09.732880 IP6 (flowlabel 0xb2efd, hlim 64, next-header TCP (6) payload length: 40) ::1.48654 > ::1.8000: Flags [S], cksum 0x0030 (incorrect -> 0x7020), seq 1356362850, win 65476, options [mss 65476,sackOK,TS val 1518657786 ecr 0,nop,wscale 7], length 0
+
+═══════════════════════════════════════════
+ALERT COVERT CHANNEL - 2026-02-22 19:11:10
+═══════════════════════════════════════════
+IP:              IP6
+Dimensione:      0 bytes
+Tipo anomalia:   PACKET_TROPPO_PICCOLO
+TCP Flags:       R. (NORMAL)
+Customer:        UNKNOWN
+
+Dettagli pacchetto:
+2026-02-22 19:11:09.732889 IP6 (flowlabel 0x1a626, hlim 64, next-header TCP (6) payload length: 20) ::1.8000 > ::1.48654: Flags [R.], cksum 0x001c (incorrect -> 0x0d45), seq 0, ack 1356362851, win 0, length 0
+
+═══════════════════════════════════════════
+ALERT COVERT CHANNEL - 2026-02-22 19:11:10
+═══════════════════════════════════════════
+IP:              IP
+Dimensione:      60 bytes
+Tipo anomalia:   PACKET_TROPPO_PICCOLO
+TCP Flags:        (UNKNOWN)
+Customer:        UNKNOWN
+
+Dettagli pacchetto:
+2026-02-22 19:11:09.732942 IP (tos 0x0, ttl 64, id 52624, offset 0, flags [DF], proto TCP (6), length 60)
+
+═══════════════════════════════════════════
+ALERT COVERT CHANNEL - 2026-02-22 19:11:10
+═══════════════════════════════════════════
+IP:              127.0.0.1
+Dimensione:      0 bytes
+Tipo anomalia:   PACKET_TROPPO_PICCOLO
+TCP Flags:       S (NORMAL)
+Customer:        test
+
+Dettagli pacchetto:
+127.0.0.1.53960 > 127.0.0.1.8000: Flags [S], cksum 0xfe30 (incorrect -> 0x71c7), seq 1993994953, win 65495, options [mss 65495,sackOK,TS val 1050428402 ecr 0,nop,wscale 7], length 0
+
+═══════════════════════════════════════════
+ALERT COVERT CHANNEL - 2026-02-22 19:11:10
+═══════════════════════════════════════════
+IP:              IP
+Dimensione:      60 bytes
+Tipo anomalia:   PACKET_TROPPO_PICCOLO
+TCP Flags:        (UNKNOWN)
+Customer:        UNKNOWN
+
+Dettagli pacchetto:
+2026-02-22 19:11:09.732953 IP (tos 0x0, ttl 64, id 0, offset 0, flags [DF], proto TCP (6), length 60)
+
+═══════════════════════════════════════════
+ALERT COVERT CHANNEL - 2026-02-22 19:11:10
+═══════════════════════════════════════════
+IP:              127.0.0.1
+Dimensione:      0 bytes
+Tipo anomalia:   PACKET_TROPPO_PICCOLO
+TCP Flags:       S. (NORMAL)
+Customer:        test
+
+Dettagli pacchetto:
+127.0.0.1.8000 > 127.0.0.1.53960: Flags [S.], cksum 0xfe30 (incorrect -> 0xa3b5), seq 1788469476, ack 1993994954, win 65483, options [mss 65495,sackOK,TS val 1050428402 ecr 1050428402,nop,wscale 7], length 0
+
+═══════════════════════════════════════════
+ALERT COVERT CHANNEL - 2026-02-22 19:11:11
+═══════════════════════════════════════════
+IP:              IP
+Dimensione:      52 bytes
+Tipo anomalia:   PACKET_TROPPO_PICCOLO
+TCP Flags:        (UNKNOWN)
+Customer:        UNKNOWN
+
+Dettagli pacchetto:
+2026-02-22 19:11:09.732962 IP (tos 0x0, ttl 64, id 52625, offset 0, flags [DF], proto TCP (6), length 52)
+
+═══════════════════════════════════════════
+ALERT COVERT CHANNEL - 2026-02-22 19:11:11
+═══════════════════════════════════════════
+IP:              127.0.0.1
+Dimensione:      0 bytes
+Tipo anomalia:   PACKET_TROPPO_PICCOLO
+TCP Flags:       . (NORMAL)
+Customer:        test
+
+Dettagli pacchetto:
+127.0.0.1.53960 > 127.0.0.1.8000: Flags [.], cksum 0xfe28 (incorrect -> 0xca71), ack 1, win 512, options [nop,nop,TS val 1050428402 ecr 1050428402], length 0
+
+═══════════════════════════════════════════
+ALERT COVERT CHANNEL - 2026-02-22 19:11:11
+═══════════════════════════════════════════
+IP:              IP
+Dimensione:      52 bytes
+Tipo anomalia:   PACKET_TROPPO_PICCOLO
+TCP Flags:        (UNKNOWN)
+Customer:        UNKNOWN
+
+Dettagli pacchetto:
+2026-02-22 19:11:09.733017 IP (tos 0x0, ttl 64, id 7871, offset 0, flags [DF], proto TCP (6), length 52)
+
+═══════════════════════════════════════════
+ALERT COVERT CHANNEL - 2026-02-22 19:11:11
+═══════════════════════════════════════════
+IP:              127.0.0.1
+Dimensione:      0 bytes
+Tipo anomalia:   PACKET_TROPPO_PICCOLO
+TCP Flags:       . (NORMAL)
+Customer:        test
+
+Dettagli pacchetto:
+127.0.0.1.8000 > 127.0.0.1.53960: Flags [.], cksum 0xfe28 (incorrect -> 0xc9db), ack 152, win 511, options [nop,nop,TS val 1050428402 ecr 1050428402], length 0
+
+═══════════════════════════════════════════
+ALERT COVERT CHANNEL - 2026-02-22 19:11:11
+═══════════════════════════════════════════
+IP:              IP
+Dimensione:      52 bytes
+Tipo anomalia:   PACKET_TROPPO_PICCOLO
+TCP Flags:        (UNKNOWN)
+Customer:        UNKNOWN
+
+Dettagli pacchetto:
+2026-02-22 19:11:09.739699 IP (tos 0x0, ttl 64, id 52627, offset 0, flags [DF], proto TCP (6), length 52)
+
+═══════════════════════════════════════════
+ALERT COVERT CHANNEL - 2026-02-22 19:11:11
+═══════════════════════════════════════════
+IP:              127.0.0.1
+Dimensione:      0 bytes
+Tipo anomalia:   PACKET_TROPPO_PICCOLO
+TCP Flags:       . (NORMAL)
+Customer:        test
+
+Dettagli pacchetto:
+127.0.0.1.53960 > 127.0.0.1.8000: Flags [.], cksum 0xfe28 (incorrect -> 0xc928), ack 166, win 511, options [nop,nop,TS val 1050428409 ecr 1050428409], length 0
+
+═══════════════════════════════════════════
+ALERT COVERT CHANNEL - 2026-02-22 19:11:11
+═══════════════════════════════════════════
+IP:              IP
+Dimensione:      85 bytes
+Tipo anomalia:   PACKET_TROPPO_PICCOLO
+TCP Flags:        (UNKNOWN)
+Customer:        UNKNOWN
+
+Dettagli pacchetto:
+2026-02-22 19:11:09.739716 IP (tos 0x0, ttl 64, id 7873, offset 0, flags [DF], proto TCP (6), length 85)
+
+═══════════════════════════════════════════
+ALERT COVERT CHANNEL - 2026-02-22 19:11:11
+═══════════════════════════════════════════
+IP:              127.0.0.1
+Dimensione:      33 bytes
+Tipo anomalia:   PACKET_TROPPO_PICCOLO
+TCP Flags:       P. (NORMAL)
+Customer:        test
+
+Dettagli pacchetto:
+127.0.0.1.8000 > 127.0.0.1.53960: Flags [P.], cksum 0xfe49 (incorrect -> 0x806d), seq 166:199, ack 152, win 512, options [nop,nop,TS val 1050428409 ecr 1050428409], length 33
+
+═══════════════════════════════════════════
+ALERT COVERT CHANNEL - 2026-02-22 19:11:11
+═══════════════════════════════════════════
+IP:              IP
+Dimensione:      52 bytes
+Tipo anomalia:   PACKET_TROPPO_PICCOLO
+TCP Flags:        (UNKNOWN)
+Customer:        UNKNOWN
+
+Dettagli pacchetto:
+2026-02-22 19:11:09.739719 IP (tos 0x0, ttl 64, id 52628, offset 0, flags [DF], proto TCP (6), length 52)
+
+═══════════════════════════════════════════
+ALERT COVERT CHANNEL - 2026-02-22 19:11:17
+═══════════════════════════════════════════
+IP:              127.0.0.1
+Dimensione:      0 bytes
+Tipo anomalia:   PACKET_TROPPO_PICCOLO
+TCP Flags:       . (NORMAL)
+Customer:        test
+
+Dettagli pacchetto:
+127.0.0.1.53960 > 127.0.0.1.8000: Flags [.], cksum 0xfe28 (incorrect -> 0xc907), ack 199, win 511, options [nop,nop,TS val 1050428409 ecr 1050428409], length 0
+
+═══════════════════════════════════════════
+ALERT COVERT CHANNEL - 2026-02-22 19:11:17
+═══════════════════════════════════════════
+IP:              IP
+Dimensione:      52 bytes
+Tipo anomalia:   PACKET_TROPPO_PICCOLO
+TCP Flags:        (UNKNOWN)
+Customer:        UNKNOWN
+
+Dettagli pacchetto:
+2026-02-22 19:11:09.739786 IP (tos 0x0, ttl 64, id 52629, offset 0, flags [DF], proto TCP (6), length 52)
+
+═══════════════════════════════════════════
+ALERT COVERT CHANNEL - 2026-02-22 19:11:17
+═══════════════════════════════════════════
+IP:              127.0.0.1
+Dimensione:      0 bytes
+Tipo anomalia:   PACKET_TROPPO_PICCOLO
+TCP Flags:       F. (FIN_SCAN)
+Customer:        test
+
+Dettagli pacchetto:
+127.0.0.1.53960 > 127.0.0.1.8000: Flags [F.], cksum 0xfe28 (incorrect -> 0xc905), seq 152, ack 199, win 512, options [nop,nop,TS val 1050428409 ecr 1050428409], length 0
+
+═══════════════════════════════════════════
+ALERT COVERT CHANNEL - 2026-02-22 19:11:17
+═══════════════════════════════════════════
+IP:              IP
+Dimensione:      52 bytes
+Tipo anomalia:   PACKET_TROPPO_PICCOLO
+TCP Flags:        (UNKNOWN)
+Customer:        UNKNOWN
+
+Dettagli pacchetto:
+2026-02-22 19:11:09.739914 IP (tos 0x0, ttl 64, id 7874, offset 0, flags [DF], proto TCP (6), length 52)
+
+═══════════════════════════════════════════
+ALERT COVERT CHANNEL - 2026-02-22 19:11:17
+═══════════════════════════════════════════
+IP:              127.0.0.1
+Dimensione:      0 bytes
+Tipo anomalia:   PACKET_TROPPO_PICCOLO
+TCP Flags:       F. (FIN_SCAN)
+Customer:        test
+
+Dettagli pacchetto:
+127.0.0.1.8000 > 127.0.0.1.53960: Flags [F.], cksum 0xfe28 (incorrect -> 0xc904), seq 199, ack 153, win 512, options [nop,nop,TS val 1050428409 ecr 1050428409], length 0
+
+═══════════════════════════════════════════
+ALERT COVERT CHANNEL - 2026-02-22 19:11:17
+═══════════════════════════════════════════
+IP:              IP
+Dimensione:      52 bytes
+Tipo anomalia:   PACKET_TROPPO_PICCOLO
+TCP Flags:        (UNKNOWN)
+Customer:        UNKNOWN
+
+Dettagli pacchetto:
+2026-02-22 19:11:09.739927 IP (tos 0x0, ttl 64, id 52630, offset 0, flags [DF], proto TCP (6), length 52)
+
+═══════════════════════════════════════════
+ALERT COVERT CHANNEL - 2026-02-22 19:11:17
+═══════════════════════════════════════════
+IP:              127.0.0.1
+Dimensione:      0 bytes
+Tipo anomalia:   PACKET_TROPPO_PICCOLO
+TCP Flags:       . (NORMAL)
+Customer:        test
+
+Dettagli pacchetto:
+127.0.0.1.53960 > 127.0.0.1.8000: Flags [.], cksum 0xfe28 (incorrect -> 0xc904), ack 200, win 512, options [nop,nop,TS val 1050428409 ecr 1050428409], length 0
+

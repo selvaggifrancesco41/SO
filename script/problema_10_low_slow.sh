@@ -128,7 +128,7 @@ while [ $ITERAZIONI -le $MAX_ITERAZIONI ]; do
     
     echo "  → Connessioni attive: $NUM_CONN"
     
-    if [ $NUM_CONN -gt 0 ]; then
+    if [ "$NUM_CONN" -gt 0 ]; then
         
         # Analizza ogni connessione
         echo "$CONNESSIONI" | grep "^tcp" | while read -r conn_line; do
