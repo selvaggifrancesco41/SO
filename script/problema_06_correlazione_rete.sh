@@ -179,8 +179,8 @@ while [ $ITERAZIONI -le $MAX_ITERAZIONI ]; do
     echo "[Check #$ITERAZIONI] $(date '+%H:%M:%S')"
     
     # Estrai IP connessi al server
-    IPS_CONNESSI=$(ss -tn state established sport = :$SERVER_PORT 2>/dev/null | \
-        awk 'NR>1 {print $5}' | cut -d':' -f1 | sort -u)
+    IPS_CONNESSI=$(ss -tn | grep -E ":(8000|8000 )" | grep ESTAB | \
+        awk '{print $5}' | cut -d':' -f1 | sort -u)
     
     NUM_IPS=$(echo "$IPS_CONNESSI" | grep -c '^' 2>/dev/null || echo 0)
     
