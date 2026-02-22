@@ -1,3 +1,3677 @@
 ================================================================================
 ================================================================================
 ================================================================================
+================================================================================
+================================================================================
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:34:35
+═══════════════════════════════════════════
+IP:              203.0.113.25
+Azione:          LOGIN
+Customer:        admin
+Timestamp:       2026-02-22T19:34:23.761272
+Motivo:          BONIFICO/LOGIN da IP pubblico non autorizzato
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:34:35
+═══════════════════════════════════════════
+IP:              192.168.40.50
+Azione:          PRELIEVO
+Customer:        api_client
+Timestamp:       2026-02-22T19:34:22.759709
+Motivo:          PRELIEVO/DEPOSITO da subnet API (dovrebbe essere da ATM)
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:34:35
+═══════════════════════════════════════════
+IP:              192.168.30.1
+Azione:          BONIFICO
+Customer:        atm_001
+Timestamp:       2026-02-22T19:34:21.757534
+Motivo:          BONIFICO/LOGIN da subnet ATM (dovrebbe essere da clienti)
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:34:35
+═══════════════════════════════════════════
+IP:              203.0.113.25
+Azione:          LOGIN
+Customer:        admin
+Timestamp:       2026-02-22T19:27:42.539613
+Motivo:          BONIFICO/LOGIN da IP pubblico non autorizzato
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:34:35
+═══════════════════════════════════════════
+IP:              192.168.40.50
+Azione:          PRELIEVO
+Customer:        api_client
+Timestamp:       2026-02-22T19:27:41.540318
+Motivo:          PRELIEVO/DEPOSITO da subnet API (dovrebbe essere da ATM)
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:34:35
+═══════════════════════════════════════════
+IP:              192.168.30.1
+Azione:          BONIFICO
+Customer:        atm_001
+Timestamp:       2026-02-22T19:27:40.534797
+Motivo:          BONIFICO/LOGIN da subnet ATM (dovrebbe essere da clienti)
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:34:35
+═══════════════════════════════════════════
+IP:              203.0.113.25
+Azione:          LOGIN
+Customer:        admin
+Timestamp:       2026-02-22T19:12:10.904442
+Motivo:          BONIFICO/LOGIN da IP pubblico non autorizzato
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:34:35
+═══════════════════════════════════════════
+IP:              192.168.40.50
+Azione:          PRELIEVO
+Customer:        api_client
+Timestamp:       2026-02-22T19:12:09.902881
+Motivo:          PRELIEVO/DEPOSITO da subnet API (dovrebbe essere da ATM)
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:34:35
+═══════════════════════════════════════════
+IP:              192.168.30.1
+Azione:          BONIFICO
+Customer:        atm_001
+Timestamp:       2026-02-22T19:12:08.901047
+Motivo:          BONIFICO/LOGIN da subnet ATM (dovrebbe essere da clienti)
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:34:35
+═══════════════════════════════════════════
+IP:              203.0.113.25
+Azione:          LOGIN
+Customer:        admin
+Timestamp:       2026-02-22T19:11:20.376641
+Motivo:          BONIFICO/LOGIN da IP pubblico non autorizzato
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:34:35
+═══════════════════════════════════════════
+IP:              192.168.40.50
+Azione:          PRELIEVO
+Customer:        api_client
+Timestamp:       2026-02-22T19:11:19.374412
+Motivo:          PRELIEVO/DEPOSITO da subnet API (dovrebbe essere da ATM)
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:34:35
+═══════════════════════════════════════════
+IP:              192.168.30.1
+Azione:          BONIFICO
+Customer:        atm_001
+Timestamp:       2026-02-22T19:11:18.370955
+Motivo:          BONIFICO/LOGIN da subnet ATM (dovrebbe essere da clienti)
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:34:35
+═══════════════════════════════════════════
+IP:              203.0.113.25
+Azione:          LOGIN
+Customer:        admin
+Timestamp:       2026-02-22T19:11:09.734444
+Motivo:          BONIFICO/LOGIN da IP pubblico non autorizzato
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:34:35
+═══════════════════════════════════════════
+IP:              192.168.40.50
+Azione:          PRELIEVO
+Customer:        api_client
+Timestamp:       2026-02-22T19:11:08.727865
+Motivo:          PRELIEVO/DEPOSITO da subnet API (dovrebbe essere da ATM)
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:34:35
+═══════════════════════════════════════════
+IP:              192.168.30.1
+Azione:          BONIFICO
+Customer:        atm_001
+Timestamp:       2026-02-22T19:11:07.723228
+Motivo:          BONIFICO/LOGIN da subnet ATM (dovrebbe essere da clienti)
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:34:35
+═══════════════════════════════════════════
+IP:              192.168.60.100
+Azione:          PRELIEVO
+Customer:        bot_pattern
+Timestamp:       2026-02-22T19:02:52.700827
+Motivo:          PRELIEVO/DEPOSITO da subnet non-ATM
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:34:35
+═══════════════════════════════════════════
+IP:              192.168.60.100
+Azione:          DEPOSITO
+Customer:        bot_pattern
+Timestamp:       2026-02-22T19:02:52.184635
+Motivo:          PRELIEVO/DEPOSITO da subnet non-ATM
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:34:35
+═══════════════════════════════════════════
+IP:              192.168.60.100
+Azione:          PRELIEVO
+Customer:        bot_pattern
+Timestamp:       2026-02-22T19:02:51.682659
+Motivo:          PRELIEVO/DEPOSITO da subnet non-ATM
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:34:35
+═══════════════════════════════════════════
+IP:              192.168.60.100
+Azione:          PRELIEVO
+Customer:        bot_pattern
+Timestamp:       2026-02-22T19:02:50.179758
+Motivo:          PRELIEVO/DEPOSITO da subnet non-ATM
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:34:35
+═══════════════════════════════════════════
+IP:              192.168.60.100
+Azione:          DEPOSITO
+Customer:        bot_pattern
+Timestamp:       2026-02-22T19:02:49.678595
+Motivo:          PRELIEVO/DEPOSITO da subnet non-ATM
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:34:35
+═══════════════════════════════════════════
+IP:              192.168.60.100
+Azione:          PRELIEVO
+Customer:        bot_pattern
+Timestamp:       2026-02-22T19:02:49.175837
+Motivo:          PRELIEVO/DEPOSITO da subnet non-ATM
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:34:35
+═══════════════════════════════════════════
+IP:              192.168.60.100
+Azione:          PRELIEVO
+Customer:        bot_pattern
+Timestamp:       2026-02-22T19:02:47.680731
+Motivo:          PRELIEVO/DEPOSITO da subnet non-ATM
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:34:35
+═══════════════════════════════════════════
+IP:              192.168.60.100
+Azione:          DEPOSITO
+Customer:        bot_pattern
+Timestamp:       2026-02-22T19:02:47.169483
+Motivo:          PRELIEVO/DEPOSITO da subnet non-ATM
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:34:35
+═══════════════════════════════════════════
+IP:              192.168.60.100
+Azione:          PRELIEVO
+Customer:        bot_pattern
+Timestamp:       2026-02-22T19:02:46.667367
+Motivo:          PRELIEVO/DEPOSITO da subnet non-ATM
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:34:35
+═══════════════════════════════════════════
+IP:              192.168.60.100
+Azione:          PRELIEVO
+Customer:        bot_pattern
+Timestamp:       2026-02-22T19:02:45.163190
+Motivo:          PRELIEVO/DEPOSITO da subnet non-ATM
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:34:35
+═══════════════════════════════════════════
+IP:              192.168.60.100
+Azione:          DEPOSITO
+Customer:        bot_pattern
+Timestamp:       2026-02-22T19:02:44.663830
+Motivo:          PRELIEVO/DEPOSITO da subnet non-ATM
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:34:35
+═══════════════════════════════════════════
+IP:              192.168.60.100
+Azione:          PRELIEVO
+Customer:        bot_pattern
+Timestamp:       2026-02-22T19:02:44.159807
+Motivo:          PRELIEVO/DEPOSITO da subnet non-ATM
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:34:35
+═══════════════════════════════════════════
+IP:              192.168.60.100
+Azione:          PRELIEVO
+Customer:        bot_pattern
+Timestamp:       2026-02-22T19:02:42.659975
+Motivo:          PRELIEVO/DEPOSITO da subnet non-ATM
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:34:35
+═══════════════════════════════════════════
+IP:              192.168.60.100
+Azione:          DEPOSITO
+Customer:        bot_pattern
+Timestamp:       2026-02-22T19:02:42.152382
+Motivo:          PRELIEVO/DEPOSITO da subnet non-ATM
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:34:35
+═══════════════════════════════════════════
+IP:              192.168.60.100
+Azione:          PRELIEVO
+Customer:        bot_pattern
+Timestamp:       2026-02-22T19:02:41.649607
+Motivo:          PRELIEVO/DEPOSITO da subnet non-ATM
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:34:35
+═══════════════════════════════════════════
+IP:              192.168.70.100
+Azione:          PRELIEVO
+Customer:        slow_client_5
+Timestamp:       2026-02-22T18:17:09.994359
+Motivo:          PRELIEVO/DEPOSITO da subnet non-ATM
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:34:35
+═══════════════════════════════════════════
+IP:              192.168.70.100
+Azione:          PRELIEVO
+Customer:        slow_client_4
+Timestamp:       2026-02-22T18:16:45.992753
+Motivo:          PRELIEVO/DEPOSITO da subnet non-ATM
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:34:35
+═══════════════════════════════════════════
+IP:              192.168.70.100
+Azione:          PRELIEVO
+Customer:        slow_client_3
+Timestamp:       2026-02-22T18:16:21.990587
+Motivo:          PRELIEVO/DEPOSITO da subnet non-ATM
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:34:35
+═══════════════════════════════════════════
+IP:              192.168.70.100
+Azione:          PRELIEVO
+Customer:        slow_client_2
+Timestamp:       2026-02-22T18:15:57.989161
+Motivo:          PRELIEVO/DEPOSITO da subnet non-ATM
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:34:35
+═══════════════════════════════════════════
+IP:              192.168.70.100
+Azione:          PRELIEVO
+Customer:        slow_client_1
+Timestamp:       2026-02-22T18:15:33.987271
+Motivo:          PRELIEVO/DEPOSITO da subnet non-ATM
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:34:35
+═══════════════════════════════════════════
+IP:              192.168.60.100
+Azione:          PRELIEVO
+Customer:        bot_pattern
+Timestamp:       2026-02-22T18:06:35.470795
+Motivo:          PRELIEVO/DEPOSITO da subnet non-ATM
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:34:36
+═══════════════════════════════════════════
+IP:              192.168.60.100
+Azione:          DEPOSITO
+Customer:        bot_pattern
+Timestamp:       2026-02-22T18:06:34.965263
+Motivo:          PRELIEVO/DEPOSITO da subnet non-ATM
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:34:36
+═══════════════════════════════════════════
+IP:              192.168.60.100
+Azione:          PRELIEVO
+Customer:        bot_pattern
+Timestamp:       2026-02-22T18:06:34.463326
+Motivo:          PRELIEVO/DEPOSITO da subnet non-ATM
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:34:36
+═══════════════════════════════════════════
+IP:              192.168.60.100
+Azione:          PRELIEVO
+Customer:        bot_pattern
+Timestamp:       2026-02-22T18:06:32.966940
+Motivo:          PRELIEVO/DEPOSITO da subnet non-ATM
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:34:36
+═══════════════════════════════════════════
+IP:              192.168.60.100
+Azione:          DEPOSITO
+Customer:        bot_pattern
+Timestamp:       2026-02-22T18:06:32.456673
+Motivo:          PRELIEVO/DEPOSITO da subnet non-ATM
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:34:36
+═══════════════════════════════════════════
+IP:              192.168.60.100
+Azione:          PRELIEVO
+Customer:        bot_pattern
+Timestamp:       2026-02-22T18:06:31.953893
+Motivo:          PRELIEVO/DEPOSITO da subnet non-ATM
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:34:36
+═══════════════════════════════════════════
+IP:              192.168.60.100
+Azione:          PRELIEVO
+Customer:        bot_pattern
+Timestamp:       2026-02-22T18:06:30.452309
+Motivo:          PRELIEVO/DEPOSITO da subnet non-ATM
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:34:36
+═══════════════════════════════════════════
+IP:              192.168.60.100
+Azione:          DEPOSITO
+Customer:        bot_pattern
+Timestamp:       2026-02-22T18:06:29.948368
+Motivo:          PRELIEVO/DEPOSITO da subnet non-ATM
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:34:36
+═══════════════════════════════════════════
+IP:              192.168.60.100
+Azione:          PRELIEVO
+Customer:        bot_pattern
+Timestamp:       2026-02-22T18:06:29.448435
+Motivo:          PRELIEVO/DEPOSITO da subnet non-ATM
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:34:36
+═══════════════════════════════════════════
+IP:              192.168.60.100
+Azione:          PRELIEVO
+Customer:        bot_pattern
+Timestamp:       2026-02-22T18:06:27.947194
+Motivo:          PRELIEVO/DEPOSITO da subnet non-ATM
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:34:36
+═══════════════════════════════════════════
+IP:              192.168.60.100
+Azione:          DEPOSITO
+Customer:        bot_pattern
+Timestamp:       2026-02-22T18:06:27.441965
+Motivo:          PRELIEVO/DEPOSITO da subnet non-ATM
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:34:36
+═══════════════════════════════════════════
+IP:              192.168.60.100
+Azione:          PRELIEVO
+Customer:        bot_pattern
+Timestamp:       2026-02-22T18:06:26.938990
+Motivo:          PRELIEVO/DEPOSITO da subnet non-ATM
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:34:36
+═══════════════════════════════════════════
+IP:              192.168.60.100
+Azione:          PRELIEVO
+Customer:        bot_pattern
+Timestamp:       2026-02-22T18:06:25.438143
+Motivo:          PRELIEVO/DEPOSITO da subnet non-ATM
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:34:36
+═══════════════════════════════════════════
+IP:              192.168.60.100
+Azione:          DEPOSITO
+Customer:        bot_pattern
+Timestamp:       2026-02-22T18:06:24.932962
+Motivo:          PRELIEVO/DEPOSITO da subnet non-ATM
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:34:36
+═══════════════════════════════════════════
+IP:              192.168.60.100
+Azione:          PRELIEVO
+Customer:        bot_pattern
+Timestamp:       2026-02-22T18:06:24.431553
+Motivo:          PRELIEVO/DEPOSITO da subnet non-ATM
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:34:36
+═══════════════════════════════════════════
+IP:              192.168.50.20
+Azione:          PRELIEVO
+Customer:        client_20
+Timestamp:       2026-02-22T17:58:42.029865
+Motivo:          PRELIEVO/DEPOSITO da subnet non-ATM
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:34:36
+═══════════════════════════════════════════
+IP:              192.168.50.19
+Azione:          PRELIEVO
+Customer:        client_19
+Timestamp:       2026-02-22T17:58:41.826900
+Motivo:          PRELIEVO/DEPOSITO da subnet non-ATM
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:34:36
+═══════════════════════════════════════════
+IP:              192.168.50.18
+Azione:          PRELIEVO
+Customer:        client_18
+Timestamp:       2026-02-22T17:58:41.625066
+Motivo:          PRELIEVO/DEPOSITO da subnet non-ATM
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:34:36
+═══════════════════════════════════════════
+IP:              192.168.50.17
+Azione:          PRELIEVO
+Customer:        client_17
+Timestamp:       2026-02-22T17:58:41.423210
+Motivo:          PRELIEVO/DEPOSITO da subnet non-ATM
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:34:36
+═══════════════════════════════════════════
+IP:              192.168.50.16
+Azione:          PRELIEVO
+Customer:        client_16
+Timestamp:       2026-02-22T17:58:41.221273
+Motivo:          PRELIEVO/DEPOSITO da subnet non-ATM
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:34:36
+═══════════════════════════════════════════
+IP:              192.168.50.15
+Azione:          PRELIEVO
+Customer:        client_15
+Timestamp:       2026-02-22T17:58:41.019682
+Motivo:          PRELIEVO/DEPOSITO da subnet non-ATM
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:34:36
+═══════════════════════════════════════════
+IP:              192.168.50.14
+Azione:          PRELIEVO
+Customer:        client_14
+Timestamp:       2026-02-22T17:58:40.817932
+Motivo:          PRELIEVO/DEPOSITO da subnet non-ATM
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:34:36
+═══════════════════════════════════════════
+IP:              192.168.50.13
+Azione:          PRELIEVO
+Customer:        client_13
+Timestamp:       2026-02-22T17:58:40.616083
+Motivo:          PRELIEVO/DEPOSITO da subnet non-ATM
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:34:36
+═══════════════════════════════════════════
+IP:              192.168.50.12
+Azione:          PRELIEVO
+Customer:        client_12
+Timestamp:       2026-02-22T17:58:40.414621
+Motivo:          PRELIEVO/DEPOSITO da subnet non-ATM
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:34:36
+═══════════════════════════════════════════
+IP:              192.168.50.11
+Azione:          PRELIEVO
+Customer:        client_11
+Timestamp:       2026-02-22T17:58:40.214922
+Motivo:          PRELIEVO/DEPOSITO da subnet non-ATM
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:34:36
+═══════════════════════════════════════════
+IP:              192.168.50.10
+Azione:          PRELIEVO
+Customer:        client_10
+Timestamp:       2026-02-22T17:58:40.009760
+Motivo:          PRELIEVO/DEPOSITO da subnet non-ATM
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:34:36
+═══════════════════════════════════════════
+IP:              192.168.50.9
+Azione:          PRELIEVO
+Customer:        client_9
+Timestamp:       2026-02-22T17:58:39.808165
+Motivo:          PRELIEVO/DEPOSITO da subnet non-ATM
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:34:36
+═══════════════════════════════════════════
+IP:              192.168.50.8
+Azione:          PRELIEVO
+Customer:        client_8
+Timestamp:       2026-02-22T17:58:39.606145
+Motivo:          PRELIEVO/DEPOSITO da subnet non-ATM
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:34:36
+═══════════════════════════════════════════
+IP:              192.168.50.7
+Azione:          PRELIEVO
+Customer:        client_7
+Timestamp:       2026-02-22T17:58:39.404334
+Motivo:          PRELIEVO/DEPOSITO da subnet non-ATM
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:34:36
+═══════════════════════════════════════════
+IP:              192.168.50.6
+Azione:          PRELIEVO
+Customer:        client_6
+Timestamp:       2026-02-22T17:58:39.203818
+Motivo:          PRELIEVO/DEPOSITO da subnet non-ATM
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:34:36
+═══════════════════════════════════════════
+IP:              192.168.50.5
+Azione:          PRELIEVO
+Customer:        client_5
+Timestamp:       2026-02-22T17:58:39.000989
+Motivo:          PRELIEVO/DEPOSITO da subnet non-ATM
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:34:36
+═══════════════════════════════════════════
+IP:              192.168.50.4
+Azione:          PRELIEVO
+Customer:        client_4
+Timestamp:       2026-02-22T17:58:38.798664
+Motivo:          PRELIEVO/DEPOSITO da subnet non-ATM
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:34:36
+═══════════════════════════════════════════
+IP:              192.168.50.3
+Azione:          PRELIEVO
+Customer:        client_3
+Timestamp:       2026-02-22T17:58:38.596904
+Motivo:          PRELIEVO/DEPOSITO da subnet non-ATM
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:34:36
+═══════════════════════════════════════════
+IP:              192.168.50.2
+Azione:          PRELIEVO
+Customer:        client_2
+Timestamp:       2026-02-22T17:58:38.395088
+Motivo:          PRELIEVO/DEPOSITO da subnet non-ATM
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:34:36
+═══════════════════════════════════════════
+IP:              192.168.50.1
+Azione:          PRELIEVO
+Customer:        client_1
+Timestamp:       2026-02-22T17:58:38.193659
+Motivo:          PRELIEVO/DEPOSITO da subnet non-ATM
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:34:36
+═══════════════════════════════════════════
+IP:              192.168.40.100
+Azione:          LOGIN
+Customer:        admin_15
+Timestamp:       2026-02-22T17:52:36.509736
+Motivo:          BONIFICO/LOGIN da subnet API (dovrebbe essere da clienti)
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:34:36
+═══════════════════════════════════════════
+IP:              192.168.40.100
+Azione:          LOGIN
+Customer:        admin_14
+Timestamp:       2026-02-22T17:52:36.202791
+Motivo:          BONIFICO/LOGIN da subnet API (dovrebbe essere da clienti)
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:34:36
+═══════════════════════════════════════════
+IP:              192.168.40.100
+Azione:          LOGIN
+Customer:        admin_13
+Timestamp:       2026-02-22T17:52:35.901534
+Motivo:          BONIFICO/LOGIN da subnet API (dovrebbe essere da clienti)
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:34:36
+═══════════════════════════════════════════
+IP:              192.168.40.100
+Azione:          LOGIN
+Customer:        admin_12
+Timestamp:       2026-02-22T17:52:35.599456
+Motivo:          BONIFICO/LOGIN da subnet API (dovrebbe essere da clienti)
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:34:36
+═══════════════════════════════════════════
+IP:              192.168.40.100
+Azione:          LOGIN
+Customer:        admin_11
+Timestamp:       2026-02-22T17:52:35.297784
+Motivo:          BONIFICO/LOGIN da subnet API (dovrebbe essere da clienti)
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:34:36
+═══════════════════════════════════════════
+IP:              192.168.40.100
+Azione:          LOGIN
+Customer:        admin_10
+Timestamp:       2026-02-22T17:52:34.996140
+Motivo:          BONIFICO/LOGIN da subnet API (dovrebbe essere da clienti)
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:34:36
+═══════════════════════════════════════════
+IP:              192.168.40.100
+Azione:          LOGIN
+Customer:        admin_9
+Timestamp:       2026-02-22T17:52:34.694705
+Motivo:          BONIFICO/LOGIN da subnet API (dovrebbe essere da clienti)
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:34:36
+═══════════════════════════════════════════
+IP:              192.168.40.100
+Azione:          LOGIN
+Customer:        admin_8
+Timestamp:       2026-02-22T17:52:34.392672
+Motivo:          BONIFICO/LOGIN da subnet API (dovrebbe essere da clienti)
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:34:36
+═══════════════════════════════════════════
+IP:              192.168.40.100
+Azione:          LOGIN
+Customer:        admin_7
+Timestamp:       2026-02-22T17:52:34.091202
+Motivo:          BONIFICO/LOGIN da subnet API (dovrebbe essere da clienti)
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:34:36
+═══════════════════════════════════════════
+IP:              192.168.40.100
+Azione:          LOGIN
+Customer:        admin_6
+Timestamp:       2026-02-22T17:52:33.790870
+Motivo:          BONIFICO/LOGIN da subnet API (dovrebbe essere da clienti)
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:34:36
+═══════════════════════════════════════════
+IP:              192.168.40.100
+Azione:          LOGIN
+Customer:        admin_5
+Timestamp:       2026-02-22T17:52:33.485605
+Motivo:          BONIFICO/LOGIN da subnet API (dovrebbe essere da clienti)
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:34:36
+═══════════════════════════════════════════
+IP:              192.168.40.100
+Azione:          LOGIN
+Customer:        admin_4
+Timestamp:       2026-02-22T17:52:33.184000
+Motivo:          BONIFICO/LOGIN da subnet API (dovrebbe essere da clienti)
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:34:36
+═══════════════════════════════════════════
+IP:              192.168.40.100
+Azione:          LOGIN
+Customer:        admin_3
+Timestamp:       2026-02-22T17:52:32.882534
+Motivo:          BONIFICO/LOGIN da subnet API (dovrebbe essere da clienti)
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:34:36
+═══════════════════════════════════════════
+IP:              192.168.40.100
+Azione:          LOGIN
+Customer:        admin_2
+Timestamp:       2026-02-22T17:52:32.583894
+Motivo:          BONIFICO/LOGIN da subnet API (dovrebbe essere da clienti)
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:34:36
+═══════════════════════════════════════════
+IP:              192.168.40.100
+Azione:          LOGIN
+Customer:        admin_1
+Timestamp:       2026-02-22T17:52:32.279344
+Motivo:          BONIFICO/LOGIN da subnet API (dovrebbe essere da clienti)
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:34:36
+═══════════════════════════════════════════
+IP:              192.168.30.3
+Azione:          LOGIN
+Customer:        ATM_3
+Timestamp:       2026-02-22T17:51:56.206109
+Motivo:          BONIFICO/LOGIN da subnet ATM (dovrebbe essere da clienti)
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:34:36
+═══════════════════════════════════════════
+IP:              192.168.30.2
+Azione:          LOGIN
+Customer:        ATM_2
+Timestamp:       2026-02-22T17:51:55.704284
+Motivo:          BONIFICO/LOGIN da subnet ATM (dovrebbe essere da clienti)
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:34:36
+═══════════════════════════════════════════
+IP:              192.168.30.1
+Azione:          LOGIN
+Customer:        ATM_1
+Timestamp:       2026-02-22T17:51:55.203208
+Motivo:          BONIFICO/LOGIN da subnet ATM (dovrebbe essere da clienti)
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:34:36
+═══════════════════════════════════════════
+IP:              192.168.40.100
+Azione:          LOGIN
+Customer:        admin_15
+Timestamp:       2026-02-22T17:50:21.555659
+Motivo:          BONIFICO/LOGIN da subnet API (dovrebbe essere da clienti)
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:34:37
+═══════════════════════════════════════════
+IP:              192.168.40.100
+Azione:          LOGIN
+Customer:        admin_14
+Timestamp:       2026-02-22T17:50:21.255658
+Motivo:          BONIFICO/LOGIN da subnet API (dovrebbe essere da clienti)
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:34:37
+═══════════════════════════════════════════
+IP:              192.168.40.100
+Azione:          LOGIN
+Customer:        admin_13
+Timestamp:       2026-02-22T17:50:20.952950
+Motivo:          BONIFICO/LOGIN da subnet API (dovrebbe essere da clienti)
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:34:37
+═══════════════════════════════════════════
+IP:              192.168.40.100
+Azione:          LOGIN
+Customer:        admin_12
+Timestamp:       2026-02-22T17:50:20.648226
+Motivo:          BONIFICO/LOGIN da subnet API (dovrebbe essere da clienti)
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:34:37
+═══════════════════════════════════════════
+IP:              192.168.40.100
+Azione:          LOGIN
+Customer:        admin_11
+Timestamp:       2026-02-22T17:50:20.347130
+Motivo:          BONIFICO/LOGIN da subnet API (dovrebbe essere da clienti)
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:34:37
+═══════════════════════════════════════════
+IP:              192.168.40.100
+Azione:          LOGIN
+Customer:        admin_10
+Timestamp:       2026-02-22T17:50:20.044196
+Motivo:          BONIFICO/LOGIN da subnet API (dovrebbe essere da clienti)
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:34:37
+═══════════════════════════════════════════
+IP:              192.168.40.100
+Azione:          LOGIN
+Customer:        admin_9
+Timestamp:       2026-02-22T17:50:19.742283
+Motivo:          BONIFICO/LOGIN da subnet API (dovrebbe essere da clienti)
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:34:37
+═══════════════════════════════════════════
+IP:              192.168.40.100
+Azione:          LOGIN
+Customer:        admin_8
+Timestamp:       2026-02-22T17:50:19.440402
+Motivo:          BONIFICO/LOGIN da subnet API (dovrebbe essere da clienti)
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:34:37
+═══════════════════════════════════════════
+IP:              192.168.40.100
+Azione:          LOGIN
+Customer:        admin_7
+Timestamp:       2026-02-22T17:50:19.139130
+Motivo:          BONIFICO/LOGIN da subnet API (dovrebbe essere da clienti)
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:34:37
+═══════════════════════════════════════════
+IP:              192.168.40.100
+Azione:          LOGIN
+Customer:        admin_6
+Timestamp:       2026-02-22T17:50:18.837195
+Motivo:          BONIFICO/LOGIN da subnet API (dovrebbe essere da clienti)
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:34:37
+═══════════════════════════════════════════
+IP:              192.168.40.100
+Azione:          LOGIN
+Customer:        admin_5
+Timestamp:       2026-02-22T17:50:18.535261
+Motivo:          BONIFICO/LOGIN da subnet API (dovrebbe essere da clienti)
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:34:37
+═══════════════════════════════════════════
+IP:              192.168.40.100
+Azione:          LOGIN
+Customer:        admin_4
+Timestamp:       2026-02-22T17:50:18.233286
+Motivo:          BONIFICO/LOGIN da subnet API (dovrebbe essere da clienti)
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:34:37
+═══════════════════════════════════════════
+IP:              192.168.40.100
+Azione:          LOGIN
+Customer:        admin_3
+Timestamp:       2026-02-22T17:50:17.931466
+Motivo:          BONIFICO/LOGIN da subnet API (dovrebbe essere da clienti)
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:34:37
+═══════════════════════════════════════════
+IP:              192.168.40.100
+Azione:          LOGIN
+Customer:        admin_2
+Timestamp:       2026-02-22T17:50:17.630003
+Motivo:          BONIFICO/LOGIN da subnet API (dovrebbe essere da clienti)
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:34:37
+═══════════════════════════════════════════
+IP:              192.168.40.100
+Azione:          LOGIN
+Customer:        admin_1
+Timestamp:       2026-02-22T17:50:17.328896
+Motivo:          BONIFICO/LOGIN da subnet API (dovrebbe essere da clienti)
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:34:37
+═══════════════════════════════════════════
+IP:              192.168.40.100
+Azione:          LOGIN
+Customer:        admin_15
+Timestamp:       2026-02-22T17:49:36.674469
+Motivo:          BONIFICO/LOGIN da subnet API (dovrebbe essere da clienti)
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:34:37
+═══════════════════════════════════════════
+IP:              192.168.40.100
+Azione:          LOGIN
+Customer:        admin_14
+Timestamp:       2026-02-22T17:49:36.372443
+Motivo:          BONIFICO/LOGIN da subnet API (dovrebbe essere da clienti)
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:34:37
+═══════════════════════════════════════════
+IP:              192.168.40.100
+Azione:          LOGIN
+Customer:        admin_13
+Timestamp:       2026-02-22T17:49:36.069287
+Motivo:          BONIFICO/LOGIN da subnet API (dovrebbe essere da clienti)
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:34:37
+═══════════════════════════════════════════
+IP:              192.168.40.100
+Azione:          LOGIN
+Customer:        admin_12
+Timestamp:       2026-02-22T17:49:35.767437
+Motivo:          BONIFICO/LOGIN da subnet API (dovrebbe essere da clienti)
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:34:37
+═══════════════════════════════════════════
+IP:              192.168.40.100
+Azione:          LOGIN
+Customer:        admin_11
+Timestamp:       2026-02-22T17:49:35.466595
+Motivo:          BONIFICO/LOGIN da subnet API (dovrebbe essere da clienti)
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:34:37
+═══════════════════════════════════════════
+IP:              192.168.40.100
+Azione:          LOGIN
+Customer:        admin_10
+Timestamp:       2026-02-22T17:49:35.166286
+Motivo:          BONIFICO/LOGIN da subnet API (dovrebbe essere da clienti)
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:34:37
+═══════════════════════════════════════════
+IP:              192.168.40.100
+Azione:          LOGIN
+Customer:        admin_9
+Timestamp:       2026-02-22T17:49:34.861740
+Motivo:          BONIFICO/LOGIN da subnet API (dovrebbe essere da clienti)
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:34:37
+═══════════════════════════════════════════
+IP:              192.168.40.100
+Azione:          LOGIN
+Customer:        admin_8
+Timestamp:       2026-02-22T17:49:34.560228
+Motivo:          BONIFICO/LOGIN da subnet API (dovrebbe essere da clienti)
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:34:37
+═══════════════════════════════════════════
+IP:              192.168.40.100
+Azione:          LOGIN
+Customer:        admin_7
+Timestamp:       2026-02-22T17:49:34.256448
+Motivo:          BONIFICO/LOGIN da subnet API (dovrebbe essere da clienti)
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:34:37
+═══════════════════════════════════════════
+IP:              192.168.40.100
+Azione:          LOGIN
+Customer:        admin_6
+Timestamp:       2026-02-22T17:49:33.954182
+Motivo:          BONIFICO/LOGIN da subnet API (dovrebbe essere da clienti)
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:34:37
+═══════════════════════════════════════════
+IP:              192.168.40.100
+Azione:          LOGIN
+Customer:        admin_5
+Timestamp:       2026-02-22T17:49:33.677337
+Motivo:          BONIFICO/LOGIN da subnet API (dovrebbe essere da clienti)
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:34:37
+═══════════════════════════════════════════
+IP:              192.168.40.100
+Azione:          LOGIN
+Customer:        admin_4
+Timestamp:       2026-02-22T17:49:33.344801
+Motivo:          BONIFICO/LOGIN da subnet API (dovrebbe essere da clienti)
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:34:37
+═══════════════════════════════════════════
+IP:              192.168.40.100
+Azione:          LOGIN
+Customer:        admin_3
+Timestamp:       2026-02-22T17:49:33.042861
+Motivo:          BONIFICO/LOGIN da subnet API (dovrebbe essere da clienti)
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:34:37
+═══════════════════════════════════════════
+IP:              192.168.40.100
+Azione:          LOGIN
+Customer:        admin_2
+Timestamp:       2026-02-22T17:49:32.741903
+Motivo:          BONIFICO/LOGIN da subnet API (dovrebbe essere da clienti)
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:34:37
+═══════════════════════════════════════════
+IP:              192.168.40.100
+Azione:          LOGIN
+Customer:        admin_1
+Timestamp:       2026-02-22T17:49:32.439650
+Motivo:          BONIFICO/LOGIN da subnet API (dovrebbe essere da clienti)
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:34:37
+═══════════════════════════════════════════
+IP:              192.168.30.3
+Azione:          LOGIN
+Customer:        ATM_3
+Timestamp:       2026-02-22T17:46:33.044914
+Motivo:          BONIFICO/LOGIN da subnet ATM (dovrebbe essere da clienti)
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:34:37
+═══════════════════════════════════════════
+IP:              192.168.30.2
+Azione:          LOGIN
+Customer:        ATM_2
+Timestamp:       2026-02-22T17:46:32.548162
+Motivo:          BONIFICO/LOGIN da subnet ATM (dovrebbe essere da clienti)
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:34:37
+═══════════════════════════════════════════
+IP:              192.168.30.1
+Azione:          LOGIN
+Customer:        ATM_1
+Timestamp:       2026-02-22T17:46:32.041325
+Motivo:          BONIFICO/LOGIN da subnet ATM (dovrebbe essere da clienti)
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:34:37
+═══════════════════════════════════════════
+IP:              192.168.30.3
+Azione:          LOGIN
+Customer:        ATM_3
+Timestamp:       2026-02-22T17:43:37.037646
+Motivo:          BONIFICO/LOGIN da subnet ATM (dovrebbe essere da clienti)
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:34:37
+═══════════════════════════════════════════
+IP:              192.168.30.2
+Azione:          LOGIN
+Customer:        ATM_2
+Timestamp:       2026-02-22T17:43:36.535736
+Motivo:          BONIFICO/LOGIN da subnet ATM (dovrebbe essere da clienti)
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:34:37
+═══════════════════════════════════════════
+IP:              192.168.30.1
+Azione:          LOGIN
+Customer:        ATM_1
+Timestamp:       2026-02-22T17:43:36.034340
+Motivo:          BONIFICO/LOGIN da subnet ATM (dovrebbe essere da clienti)
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:34:37
+═══════════════════════════════════════════
+IP:              192.168.30.3
+Azione:          LOGIN
+Customer:        ATM_3
+Timestamp:       2026-02-22T17:39:43.824802
+Motivo:          BONIFICO/LOGIN da subnet ATM (dovrebbe essere da clienti)
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:34:37
+═══════════════════════════════════════════
+IP:              192.168.30.2
+Azione:          LOGIN
+Customer:        ATM_2
+Timestamp:       2026-02-22T17:39:43.323023
+Motivo:          BONIFICO/LOGIN da subnet ATM (dovrebbe essere da clienti)
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:34:37
+═══════════════════════════════════════════
+IP:              192.168.30.1
+Azione:          LOGIN
+Customer:        ATM_1
+Timestamp:       2026-02-22T17:39:42.821437
+Motivo:          BONIFICO/LOGIN da subnet ATM (dovrebbe essere da clienti)
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:34:37
+═══════════════════════════════════════════
+IP:              192.168.30.3
+Azione:          LOGIN
+Customer:        ATM_3
+Timestamp:       2026-02-22T17:37:46.513651
+Motivo:          BONIFICO/LOGIN da subnet ATM (dovrebbe essere da clienti)
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:34:37
+═══════════════════════════════════════════
+IP:              192.168.30.2
+Azione:          LOGIN
+Customer:        ATM_2
+Timestamp:       2026-02-22T17:37:46.007559
+Motivo:          BONIFICO/LOGIN da subnet ATM (dovrebbe essere da clienti)
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:34:37
+═══════════════════════════════════════════
+IP:              192.168.30.1
+Azione:          LOGIN
+Customer:        ATM_1
+Timestamp:       2026-02-22T17:37:45.505730
+Motivo:          BONIFICO/LOGIN da subnet ATM (dovrebbe essere da clienti)
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:34:37
+═══════════════════════════════════════════
+IP:              192.168.30.3
+Azione:          LOGIN
+Customer:        ATM_3
+Timestamp:       2026-02-22T17:37:27.726960
+Motivo:          BONIFICO/LOGIN da subnet ATM (dovrebbe essere da clienti)
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:34:37
+═══════════════════════════════════════════
+IP:              192.168.30.2
+Azione:          LOGIN
+Customer:        ATM_2
+Timestamp:       2026-02-22T17:37:27.225305
+Motivo:          BONIFICO/LOGIN da subnet ATM (dovrebbe essere da clienti)
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:34:37
+═══════════════════════════════════════════
+IP:              192.168.30.1
+Azione:          LOGIN
+Customer:        ATM_1
+Timestamp:       2026-02-22T17:37:26.724123
+Motivo:          BONIFICO/LOGIN da subnet ATM (dovrebbe essere da clienti)
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:34:38
+═══════════════════════════════════════════
+IP:              192.168.99.99
+Azione:          LOGIN
+Customer:        test_user
+Timestamp:       2026-02-22T17:20:00.360580
+Motivo:          BONIFICO/LOGIN da subnet sconosciuta
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:34:48
+═══════════════════════════════════════════
+IP:              203.0.113.25
+Azione:          LOGIN
+Customer:        admin
+Timestamp:       2026-02-22T19:34:39.258352
+Motivo:          BONIFICO/LOGIN da IP pubblico non autorizzato
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:34:48
+═══════════════════════════════════════════
+IP:              192.168.40.50
+Azione:          PRELIEVO
+Customer:        api_client
+Timestamp:       2026-02-22T19:34:38.256715
+Motivo:          PRELIEVO/DEPOSITO da subnet API (dovrebbe essere da ATM)
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:34:48
+═══════════════════════════════════════════
+IP:              192.168.30.1
+Azione:          BONIFICO
+Customer:        atm_001
+Timestamp:       2026-02-22T19:34:37.254423
+Motivo:          BONIFICO/LOGIN da subnet ATM (dovrebbe essere da clienti)
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:34:48
+═══════════════════════════════════════════
+IP:              203.0.113.25
+Azione:          LOGIN
+Customer:        admin
+Timestamp:       2026-02-22T19:34:23.761272
+Motivo:          BONIFICO/LOGIN da IP pubblico non autorizzato
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:34:48
+═══════════════════════════════════════════
+IP:              192.168.40.50
+Azione:          PRELIEVO
+Customer:        api_client
+Timestamp:       2026-02-22T19:34:22.759709
+Motivo:          PRELIEVO/DEPOSITO da subnet API (dovrebbe essere da ATM)
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:34:48
+═══════════════════════════════════════════
+IP:              192.168.30.1
+Azione:          BONIFICO
+Customer:        atm_001
+Timestamp:       2026-02-22T19:34:21.757534
+Motivo:          BONIFICO/LOGIN da subnet ATM (dovrebbe essere da clienti)
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:34:48
+═══════════════════════════════════════════
+IP:              203.0.113.25
+Azione:          LOGIN
+Customer:        admin
+Timestamp:       2026-02-22T19:27:42.539613
+Motivo:          BONIFICO/LOGIN da IP pubblico non autorizzato
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:34:48
+═══════════════════════════════════════════
+IP:              192.168.40.50
+Azione:          PRELIEVO
+Customer:        api_client
+Timestamp:       2026-02-22T19:27:41.540318
+Motivo:          PRELIEVO/DEPOSITO da subnet API (dovrebbe essere da ATM)
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:34:48
+═══════════════════════════════════════════
+IP:              192.168.30.1
+Azione:          BONIFICO
+Customer:        atm_001
+Timestamp:       2026-02-22T19:27:40.534797
+Motivo:          BONIFICO/LOGIN da subnet ATM (dovrebbe essere da clienti)
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:34:48
+═══════════════════════════════════════════
+IP:              203.0.113.25
+Azione:          LOGIN
+Customer:        admin
+Timestamp:       2026-02-22T19:12:10.904442
+Motivo:          BONIFICO/LOGIN da IP pubblico non autorizzato
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:34:48
+═══════════════════════════════════════════
+IP:              192.168.40.50
+Azione:          PRELIEVO
+Customer:        api_client
+Timestamp:       2026-02-22T19:12:09.902881
+Motivo:          PRELIEVO/DEPOSITO da subnet API (dovrebbe essere da ATM)
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:34:48
+═══════════════════════════════════════════
+IP:              192.168.30.1
+Azione:          BONIFICO
+Customer:        atm_001
+Timestamp:       2026-02-22T19:12:08.901047
+Motivo:          BONIFICO/LOGIN da subnet ATM (dovrebbe essere da clienti)
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:34:48
+═══════════════════════════════════════════
+IP:              203.0.113.25
+Azione:          LOGIN
+Customer:        admin
+Timestamp:       2026-02-22T19:11:20.376641
+Motivo:          BONIFICO/LOGIN da IP pubblico non autorizzato
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:34:48
+═══════════════════════════════════════════
+IP:              192.168.40.50
+Azione:          PRELIEVO
+Customer:        api_client
+Timestamp:       2026-02-22T19:11:19.374412
+Motivo:          PRELIEVO/DEPOSITO da subnet API (dovrebbe essere da ATM)
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:34:48
+═══════════════════════════════════════════
+IP:              192.168.30.1
+Azione:          BONIFICO
+Customer:        atm_001
+Timestamp:       2026-02-22T19:11:18.370955
+Motivo:          BONIFICO/LOGIN da subnet ATM (dovrebbe essere da clienti)
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:34:48
+═══════════════════════════════════════════
+IP:              203.0.113.25
+Azione:          LOGIN
+Customer:        admin
+Timestamp:       2026-02-22T19:11:09.734444
+Motivo:          BONIFICO/LOGIN da IP pubblico non autorizzato
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:34:48
+═══════════════════════════════════════════
+IP:              192.168.40.50
+Azione:          PRELIEVO
+Customer:        api_client
+Timestamp:       2026-02-22T19:11:08.727865
+Motivo:          PRELIEVO/DEPOSITO da subnet API (dovrebbe essere da ATM)
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:34:48
+═══════════════════════════════════════════
+IP:              192.168.30.1
+Azione:          BONIFICO
+Customer:        atm_001
+Timestamp:       2026-02-22T19:11:07.723228
+Motivo:          BONIFICO/LOGIN da subnet ATM (dovrebbe essere da clienti)
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:34:48
+═══════════════════════════════════════════
+IP:              192.168.60.100
+Azione:          PRELIEVO
+Customer:        bot_pattern
+Timestamp:       2026-02-22T19:02:52.700827
+Motivo:          PRELIEVO/DEPOSITO da subnet non-ATM
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:34:48
+═══════════════════════════════════════════
+IP:              192.168.60.100
+Azione:          DEPOSITO
+Customer:        bot_pattern
+Timestamp:       2026-02-22T19:02:52.184635
+Motivo:          PRELIEVO/DEPOSITO da subnet non-ATM
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:34:48
+═══════════════════════════════════════════
+IP:              192.168.60.100
+Azione:          PRELIEVO
+Customer:        bot_pattern
+Timestamp:       2026-02-22T19:02:51.682659
+Motivo:          PRELIEVO/DEPOSITO da subnet non-ATM
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:34:48
+═══════════════════════════════════════════
+IP:              192.168.60.100
+Azione:          PRELIEVO
+Customer:        bot_pattern
+Timestamp:       2026-02-22T19:02:50.179758
+Motivo:          PRELIEVO/DEPOSITO da subnet non-ATM
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:34:48
+═══════════════════════════════════════════
+IP:              192.168.60.100
+Azione:          DEPOSITO
+Customer:        bot_pattern
+Timestamp:       2026-02-22T19:02:49.678595
+Motivo:          PRELIEVO/DEPOSITO da subnet non-ATM
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:34:48
+═══════════════════════════════════════════
+IP:              192.168.60.100
+Azione:          PRELIEVO
+Customer:        bot_pattern
+Timestamp:       2026-02-22T19:02:49.175837
+Motivo:          PRELIEVO/DEPOSITO da subnet non-ATM
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:34:48
+═══════════════════════════════════════════
+IP:              192.168.60.100
+Azione:          PRELIEVO
+Customer:        bot_pattern
+Timestamp:       2026-02-22T19:02:47.680731
+Motivo:          PRELIEVO/DEPOSITO da subnet non-ATM
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:34:48
+═══════════════════════════════════════════
+IP:              192.168.60.100
+Azione:          DEPOSITO
+Customer:        bot_pattern
+Timestamp:       2026-02-22T19:02:47.169483
+Motivo:          PRELIEVO/DEPOSITO da subnet non-ATM
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:34:48
+═══════════════════════════════════════════
+IP:              192.168.60.100
+Azione:          PRELIEVO
+Customer:        bot_pattern
+Timestamp:       2026-02-22T19:02:46.667367
+Motivo:          PRELIEVO/DEPOSITO da subnet non-ATM
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:34:48
+═══════════════════════════════════════════
+IP:              192.168.60.100
+Azione:          PRELIEVO
+Customer:        bot_pattern
+Timestamp:       2026-02-22T19:02:45.163190
+Motivo:          PRELIEVO/DEPOSITO da subnet non-ATM
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:34:48
+═══════════════════════════════════════════
+IP:              192.168.60.100
+Azione:          DEPOSITO
+Customer:        bot_pattern
+Timestamp:       2026-02-22T19:02:44.663830
+Motivo:          PRELIEVO/DEPOSITO da subnet non-ATM
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:34:48
+═══════════════════════════════════════════
+IP:              192.168.60.100
+Azione:          PRELIEVO
+Customer:        bot_pattern
+Timestamp:       2026-02-22T19:02:44.159807
+Motivo:          PRELIEVO/DEPOSITO da subnet non-ATM
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:34:48
+═══════════════════════════════════════════
+IP:              192.168.60.100
+Azione:          PRELIEVO
+Customer:        bot_pattern
+Timestamp:       2026-02-22T19:02:42.659975
+Motivo:          PRELIEVO/DEPOSITO da subnet non-ATM
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:34:48
+═══════════════════════════════════════════
+IP:              192.168.60.100
+Azione:          DEPOSITO
+Customer:        bot_pattern
+Timestamp:       2026-02-22T19:02:42.152382
+Motivo:          PRELIEVO/DEPOSITO da subnet non-ATM
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:34:48
+═══════════════════════════════════════════
+IP:              192.168.60.100
+Azione:          PRELIEVO
+Customer:        bot_pattern
+Timestamp:       2026-02-22T19:02:41.649607
+Motivo:          PRELIEVO/DEPOSITO da subnet non-ATM
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:34:48
+═══════════════════════════════════════════
+IP:              192.168.70.100
+Azione:          PRELIEVO
+Customer:        slow_client_5
+Timestamp:       2026-02-22T18:17:09.994359
+Motivo:          PRELIEVO/DEPOSITO da subnet non-ATM
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:34:48
+═══════════════════════════════════════════
+IP:              192.168.70.100
+Azione:          PRELIEVO
+Customer:        slow_client_4
+Timestamp:       2026-02-22T18:16:45.992753
+Motivo:          PRELIEVO/DEPOSITO da subnet non-ATM
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:34:48
+═══════════════════════════════════════════
+IP:              192.168.70.100
+Azione:          PRELIEVO
+Customer:        slow_client_3
+Timestamp:       2026-02-22T18:16:21.990587
+Motivo:          PRELIEVO/DEPOSITO da subnet non-ATM
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:34:48
+═══════════════════════════════════════════
+IP:              192.168.70.100
+Azione:          PRELIEVO
+Customer:        slow_client_2
+Timestamp:       2026-02-22T18:15:57.989161
+Motivo:          PRELIEVO/DEPOSITO da subnet non-ATM
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:34:48
+═══════════════════════════════════════════
+IP:              192.168.70.100
+Azione:          PRELIEVO
+Customer:        slow_client_1
+Timestamp:       2026-02-22T18:15:33.987271
+Motivo:          PRELIEVO/DEPOSITO da subnet non-ATM
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:34:48
+═══════════════════════════════════════════
+IP:              192.168.60.100
+Azione:          PRELIEVO
+Customer:        bot_pattern
+Timestamp:       2026-02-22T18:06:35.470795
+Motivo:          PRELIEVO/DEPOSITO da subnet non-ATM
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:34:48
+═══════════════════════════════════════════
+IP:              192.168.60.100
+Azione:          DEPOSITO
+Customer:        bot_pattern
+Timestamp:       2026-02-22T18:06:34.965263
+Motivo:          PRELIEVO/DEPOSITO da subnet non-ATM
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:34:48
+═══════════════════════════════════════════
+IP:              192.168.60.100
+Azione:          PRELIEVO
+Customer:        bot_pattern
+Timestamp:       2026-02-22T18:06:34.463326
+Motivo:          PRELIEVO/DEPOSITO da subnet non-ATM
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:34:48
+═══════════════════════════════════════════
+IP:              192.168.60.100
+Azione:          PRELIEVO
+Customer:        bot_pattern
+Timestamp:       2026-02-22T18:06:32.966940
+Motivo:          PRELIEVO/DEPOSITO da subnet non-ATM
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:34:49
+═══════════════════════════════════════════
+IP:              192.168.60.100
+Azione:          DEPOSITO
+Customer:        bot_pattern
+Timestamp:       2026-02-22T18:06:32.456673
+Motivo:          PRELIEVO/DEPOSITO da subnet non-ATM
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:34:49
+═══════════════════════════════════════════
+IP:              192.168.60.100
+Azione:          PRELIEVO
+Customer:        bot_pattern
+Timestamp:       2026-02-22T18:06:31.953893
+Motivo:          PRELIEVO/DEPOSITO da subnet non-ATM
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:34:49
+═══════════════════════════════════════════
+IP:              192.168.60.100
+Azione:          PRELIEVO
+Customer:        bot_pattern
+Timestamp:       2026-02-22T18:06:30.452309
+Motivo:          PRELIEVO/DEPOSITO da subnet non-ATM
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:34:49
+═══════════════════════════════════════════
+IP:              192.168.60.100
+Azione:          DEPOSITO
+Customer:        bot_pattern
+Timestamp:       2026-02-22T18:06:29.948368
+Motivo:          PRELIEVO/DEPOSITO da subnet non-ATM
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:34:49
+═══════════════════════════════════════════
+IP:              192.168.60.100
+Azione:          PRELIEVO
+Customer:        bot_pattern
+Timestamp:       2026-02-22T18:06:29.448435
+Motivo:          PRELIEVO/DEPOSITO da subnet non-ATM
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:34:49
+═══════════════════════════════════════════
+IP:              192.168.60.100
+Azione:          PRELIEVO
+Customer:        bot_pattern
+Timestamp:       2026-02-22T18:06:27.947194
+Motivo:          PRELIEVO/DEPOSITO da subnet non-ATM
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:34:49
+═══════════════════════════════════════════
+IP:              192.168.60.100
+Azione:          DEPOSITO
+Customer:        bot_pattern
+Timestamp:       2026-02-22T18:06:27.441965
+Motivo:          PRELIEVO/DEPOSITO da subnet non-ATM
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:34:49
+═══════════════════════════════════════════
+IP:              192.168.60.100
+Azione:          PRELIEVO
+Customer:        bot_pattern
+Timestamp:       2026-02-22T18:06:26.938990
+Motivo:          PRELIEVO/DEPOSITO da subnet non-ATM
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:34:49
+═══════════════════════════════════════════
+IP:              192.168.60.100
+Azione:          PRELIEVO
+Customer:        bot_pattern
+Timestamp:       2026-02-22T18:06:25.438143
+Motivo:          PRELIEVO/DEPOSITO da subnet non-ATM
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:34:49
+═══════════════════════════════════════════
+IP:              192.168.60.100
+Azione:          DEPOSITO
+Customer:        bot_pattern
+Timestamp:       2026-02-22T18:06:24.932962
+Motivo:          PRELIEVO/DEPOSITO da subnet non-ATM
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:34:49
+═══════════════════════════════════════════
+IP:              192.168.60.100
+Azione:          PRELIEVO
+Customer:        bot_pattern
+Timestamp:       2026-02-22T18:06:24.431553
+Motivo:          PRELIEVO/DEPOSITO da subnet non-ATM
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:34:49
+═══════════════════════════════════════════
+IP:              192.168.50.20
+Azione:          PRELIEVO
+Customer:        client_20
+Timestamp:       2026-02-22T17:58:42.029865
+Motivo:          PRELIEVO/DEPOSITO da subnet non-ATM
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:34:49
+═══════════════════════════════════════════
+IP:              192.168.50.19
+Azione:          PRELIEVO
+Customer:        client_19
+Timestamp:       2026-02-22T17:58:41.826900
+Motivo:          PRELIEVO/DEPOSITO da subnet non-ATM
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:34:49
+═══════════════════════════════════════════
+IP:              192.168.50.18
+Azione:          PRELIEVO
+Customer:        client_18
+Timestamp:       2026-02-22T17:58:41.625066
+Motivo:          PRELIEVO/DEPOSITO da subnet non-ATM
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:34:49
+═══════════════════════════════════════════
+IP:              192.168.50.17
+Azione:          PRELIEVO
+Customer:        client_17
+Timestamp:       2026-02-22T17:58:41.423210
+Motivo:          PRELIEVO/DEPOSITO da subnet non-ATM
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:34:49
+═══════════════════════════════════════════
+IP:              192.168.50.16
+Azione:          PRELIEVO
+Customer:        client_16
+Timestamp:       2026-02-22T17:58:41.221273
+Motivo:          PRELIEVO/DEPOSITO da subnet non-ATM
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:34:49
+═══════════════════════════════════════════
+IP:              192.168.50.15
+Azione:          PRELIEVO
+Customer:        client_15
+Timestamp:       2026-02-22T17:58:41.019682
+Motivo:          PRELIEVO/DEPOSITO da subnet non-ATM
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:34:49
+═══════════════════════════════════════════
+IP:              192.168.50.14
+Azione:          PRELIEVO
+Customer:        client_14
+Timestamp:       2026-02-22T17:58:40.817932
+Motivo:          PRELIEVO/DEPOSITO da subnet non-ATM
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:34:49
+═══════════════════════════════════════════
+IP:              192.168.50.13
+Azione:          PRELIEVO
+Customer:        client_13
+Timestamp:       2026-02-22T17:58:40.616083
+Motivo:          PRELIEVO/DEPOSITO da subnet non-ATM
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:34:49
+═══════════════════════════════════════════
+IP:              192.168.50.12
+Azione:          PRELIEVO
+Customer:        client_12
+Timestamp:       2026-02-22T17:58:40.414621
+Motivo:          PRELIEVO/DEPOSITO da subnet non-ATM
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:34:49
+═══════════════════════════════════════════
+IP:              192.168.50.11
+Azione:          PRELIEVO
+Customer:        client_11
+Timestamp:       2026-02-22T17:58:40.214922
+Motivo:          PRELIEVO/DEPOSITO da subnet non-ATM
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:34:49
+═══════════════════════════════════════════
+IP:              192.168.50.10
+Azione:          PRELIEVO
+Customer:        client_10
+Timestamp:       2026-02-22T17:58:40.009760
+Motivo:          PRELIEVO/DEPOSITO da subnet non-ATM
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:34:49
+═══════════════════════════════════════════
+IP:              192.168.50.9
+Azione:          PRELIEVO
+Customer:        client_9
+Timestamp:       2026-02-22T17:58:39.808165
+Motivo:          PRELIEVO/DEPOSITO da subnet non-ATM
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:34:49
+═══════════════════════════════════════════
+IP:              192.168.50.8
+Azione:          PRELIEVO
+Customer:        client_8
+Timestamp:       2026-02-22T17:58:39.606145
+Motivo:          PRELIEVO/DEPOSITO da subnet non-ATM
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:34:49
+═══════════════════════════════════════════
+IP:              192.168.50.7
+Azione:          PRELIEVO
+Customer:        client_7
+Timestamp:       2026-02-22T17:58:39.404334
+Motivo:          PRELIEVO/DEPOSITO da subnet non-ATM
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:34:49
+═══════════════════════════════════════════
+IP:              192.168.50.6
+Azione:          PRELIEVO
+Customer:        client_6
+Timestamp:       2026-02-22T17:58:39.203818
+Motivo:          PRELIEVO/DEPOSITO da subnet non-ATM
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:34:49
+═══════════════════════════════════════════
+IP:              192.168.50.5
+Azione:          PRELIEVO
+Customer:        client_5
+Timestamp:       2026-02-22T17:58:39.000989
+Motivo:          PRELIEVO/DEPOSITO da subnet non-ATM
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:34:49
+═══════════════════════════════════════════
+IP:              192.168.50.4
+Azione:          PRELIEVO
+Customer:        client_4
+Timestamp:       2026-02-22T17:58:38.798664
+Motivo:          PRELIEVO/DEPOSITO da subnet non-ATM
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:34:49
+═══════════════════════════════════════════
+IP:              192.168.50.3
+Azione:          PRELIEVO
+Customer:        client_3
+Timestamp:       2026-02-22T17:58:38.596904
+Motivo:          PRELIEVO/DEPOSITO da subnet non-ATM
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:34:49
+═══════════════════════════════════════════
+IP:              192.168.50.2
+Azione:          PRELIEVO
+Customer:        client_2
+Timestamp:       2026-02-22T17:58:38.395088
+Motivo:          PRELIEVO/DEPOSITO da subnet non-ATM
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:34:49
+═══════════════════════════════════════════
+IP:              192.168.50.1
+Azione:          PRELIEVO
+Customer:        client_1
+Timestamp:       2026-02-22T17:58:38.193659
+Motivo:          PRELIEVO/DEPOSITO da subnet non-ATM
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:34:49
+═══════════════════════════════════════════
+IP:              192.168.40.100
+Azione:          LOGIN
+Customer:        admin_15
+Timestamp:       2026-02-22T17:52:36.509736
+Motivo:          BONIFICO/LOGIN da subnet API (dovrebbe essere da clienti)
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:34:49
+═══════════════════════════════════════════
+IP:              192.168.40.100
+Azione:          LOGIN
+Customer:        admin_14
+Timestamp:       2026-02-22T17:52:36.202791
+Motivo:          BONIFICO/LOGIN da subnet API (dovrebbe essere da clienti)
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:34:49
+═══════════════════════════════════════════
+IP:              192.168.40.100
+Azione:          LOGIN
+Customer:        admin_13
+Timestamp:       2026-02-22T17:52:35.901534
+Motivo:          BONIFICO/LOGIN da subnet API (dovrebbe essere da clienti)
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:34:49
+═══════════════════════════════════════════
+IP:              192.168.40.100
+Azione:          LOGIN
+Customer:        admin_12
+Timestamp:       2026-02-22T17:52:35.599456
+Motivo:          BONIFICO/LOGIN da subnet API (dovrebbe essere da clienti)
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:34:49
+═══════════════════════════════════════════
+IP:              192.168.40.100
+Azione:          LOGIN
+Customer:        admin_11
+Timestamp:       2026-02-22T17:52:35.297784
+Motivo:          BONIFICO/LOGIN da subnet API (dovrebbe essere da clienti)
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:34:49
+═══════════════════════════════════════════
+IP:              192.168.40.100
+Azione:          LOGIN
+Customer:        admin_10
+Timestamp:       2026-02-22T17:52:34.996140
+Motivo:          BONIFICO/LOGIN da subnet API (dovrebbe essere da clienti)
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:34:49
+═══════════════════════════════════════════
+IP:              192.168.40.100
+Azione:          LOGIN
+Customer:        admin_9
+Timestamp:       2026-02-22T17:52:34.694705
+Motivo:          BONIFICO/LOGIN da subnet API (dovrebbe essere da clienti)
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:34:49
+═══════════════════════════════════════════
+IP:              192.168.40.100
+Azione:          LOGIN
+Customer:        admin_8
+Timestamp:       2026-02-22T17:52:34.392672
+Motivo:          BONIFICO/LOGIN da subnet API (dovrebbe essere da clienti)
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:34:49
+═══════════════════════════════════════════
+IP:              192.168.40.100
+Azione:          LOGIN
+Customer:        admin_7
+Timestamp:       2026-02-22T17:52:34.091202
+Motivo:          BONIFICO/LOGIN da subnet API (dovrebbe essere da clienti)
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:34:49
+═══════════════════════════════════════════
+IP:              192.168.40.100
+Azione:          LOGIN
+Customer:        admin_6
+Timestamp:       2026-02-22T17:52:33.790870
+Motivo:          BONIFICO/LOGIN da subnet API (dovrebbe essere da clienti)
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:34:49
+═══════════════════════════════════════════
+IP:              192.168.40.100
+Azione:          LOGIN
+Customer:        admin_5
+Timestamp:       2026-02-22T17:52:33.485605
+Motivo:          BONIFICO/LOGIN da subnet API (dovrebbe essere da clienti)
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:34:49
+═══════════════════════════════════════════
+IP:              192.168.40.100
+Azione:          LOGIN
+Customer:        admin_4
+Timestamp:       2026-02-22T17:52:33.184000
+Motivo:          BONIFICO/LOGIN da subnet API (dovrebbe essere da clienti)
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:34:49
+═══════════════════════════════════════════
+IP:              192.168.40.100
+Azione:          LOGIN
+Customer:        admin_3
+Timestamp:       2026-02-22T17:52:32.882534
+Motivo:          BONIFICO/LOGIN da subnet API (dovrebbe essere da clienti)
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:34:49
+═══════════════════════════════════════════
+IP:              192.168.40.100
+Azione:          LOGIN
+Customer:        admin_2
+Timestamp:       2026-02-22T17:52:32.583894
+Motivo:          BONIFICO/LOGIN da subnet API (dovrebbe essere da clienti)
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:34:49
+═══════════════════════════════════════════
+IP:              192.168.40.100
+Azione:          LOGIN
+Customer:        admin_1
+Timestamp:       2026-02-22T17:52:32.279344
+Motivo:          BONIFICO/LOGIN da subnet API (dovrebbe essere da clienti)
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:34:49
+═══════════════════════════════════════════
+IP:              192.168.30.3
+Azione:          LOGIN
+Customer:        ATM_3
+Timestamp:       2026-02-22T17:51:56.206109
+Motivo:          BONIFICO/LOGIN da subnet ATM (dovrebbe essere da clienti)
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:34:49
+═══════════════════════════════════════════
+IP:              192.168.30.2
+Azione:          LOGIN
+Customer:        ATM_2
+Timestamp:       2026-02-22T17:51:55.704284
+Motivo:          BONIFICO/LOGIN da subnet ATM (dovrebbe essere da clienti)
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:34:50
+═══════════════════════════════════════════
+IP:              192.168.30.1
+Azione:          LOGIN
+Customer:        ATM_1
+Timestamp:       2026-02-22T17:51:55.203208
+Motivo:          BONIFICO/LOGIN da subnet ATM (dovrebbe essere da clienti)
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:34:50
+═══════════════════════════════════════════
+IP:              192.168.40.100
+Azione:          LOGIN
+Customer:        admin_15
+Timestamp:       2026-02-22T17:50:21.555659
+Motivo:          BONIFICO/LOGIN da subnet API (dovrebbe essere da clienti)
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:34:50
+═══════════════════════════════════════════
+IP:              192.168.40.100
+Azione:          LOGIN
+Customer:        admin_14
+Timestamp:       2026-02-22T17:50:21.255658
+Motivo:          BONIFICO/LOGIN da subnet API (dovrebbe essere da clienti)
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:34:50
+═══════════════════════════════════════════
+IP:              192.168.40.100
+Azione:          LOGIN
+Customer:        admin_13
+Timestamp:       2026-02-22T17:50:20.952950
+Motivo:          BONIFICO/LOGIN da subnet API (dovrebbe essere da clienti)
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:34:50
+═══════════════════════════════════════════
+IP:              192.168.40.100
+Azione:          LOGIN
+Customer:        admin_12
+Timestamp:       2026-02-22T17:50:20.648226
+Motivo:          BONIFICO/LOGIN da subnet API (dovrebbe essere da clienti)
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:34:50
+═══════════════════════════════════════════
+IP:              192.168.40.100
+Azione:          LOGIN
+Customer:        admin_11
+Timestamp:       2026-02-22T17:50:20.347130
+Motivo:          BONIFICO/LOGIN da subnet API (dovrebbe essere da clienti)
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:34:50
+═══════════════════════════════════════════
+IP:              192.168.40.100
+Azione:          LOGIN
+Customer:        admin_10
+Timestamp:       2026-02-22T17:50:20.044196
+Motivo:          BONIFICO/LOGIN da subnet API (dovrebbe essere da clienti)
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:34:50
+═══════════════════════════════════════════
+IP:              192.168.40.100
+Azione:          LOGIN
+Customer:        admin_9
+Timestamp:       2026-02-22T17:50:19.742283
+Motivo:          BONIFICO/LOGIN da subnet API (dovrebbe essere da clienti)
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:34:50
+═══════════════════════════════════════════
+IP:              192.168.40.100
+Azione:          LOGIN
+Customer:        admin_8
+Timestamp:       2026-02-22T17:50:19.440402
+Motivo:          BONIFICO/LOGIN da subnet API (dovrebbe essere da clienti)
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:34:50
+═══════════════════════════════════════════
+IP:              192.168.40.100
+Azione:          LOGIN
+Customer:        admin_7
+Timestamp:       2026-02-22T17:50:19.139130
+Motivo:          BONIFICO/LOGIN da subnet API (dovrebbe essere da clienti)
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:34:50
+═══════════════════════════════════════════
+IP:              192.168.40.100
+Azione:          LOGIN
+Customer:        admin_6
+Timestamp:       2026-02-22T17:50:18.837195
+Motivo:          BONIFICO/LOGIN da subnet API (dovrebbe essere da clienti)
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:34:50
+═══════════════════════════════════════════
+IP:              192.168.40.100
+Azione:          LOGIN
+Customer:        admin_5
+Timestamp:       2026-02-22T17:50:18.535261
+Motivo:          BONIFICO/LOGIN da subnet API (dovrebbe essere da clienti)
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:34:50
+═══════════════════════════════════════════
+IP:              192.168.40.100
+Azione:          LOGIN
+Customer:        admin_4
+Timestamp:       2026-02-22T17:50:18.233286
+Motivo:          BONIFICO/LOGIN da subnet API (dovrebbe essere da clienti)
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:34:50
+═══════════════════════════════════════════
+IP:              192.168.40.100
+Azione:          LOGIN
+Customer:        admin_3
+Timestamp:       2026-02-22T17:50:17.931466
+Motivo:          BONIFICO/LOGIN da subnet API (dovrebbe essere da clienti)
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:34:50
+═══════════════════════════════════════════
+IP:              192.168.40.100
+Azione:          LOGIN
+Customer:        admin_2
+Timestamp:       2026-02-22T17:50:17.630003
+Motivo:          BONIFICO/LOGIN da subnet API (dovrebbe essere da clienti)
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:34:50
+═══════════════════════════════════════════
+IP:              192.168.40.100
+Azione:          LOGIN
+Customer:        admin_1
+Timestamp:       2026-02-22T17:50:17.328896
+Motivo:          BONIFICO/LOGIN da subnet API (dovrebbe essere da clienti)
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:34:50
+═══════════════════════════════════════════
+IP:              192.168.40.100
+Azione:          LOGIN
+Customer:        admin_15
+Timestamp:       2026-02-22T17:49:36.674469
+Motivo:          BONIFICO/LOGIN da subnet API (dovrebbe essere da clienti)
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:34:50
+═══════════════════════════════════════════
+IP:              192.168.40.100
+Azione:          LOGIN
+Customer:        admin_14
+Timestamp:       2026-02-22T17:49:36.372443
+Motivo:          BONIFICO/LOGIN da subnet API (dovrebbe essere da clienti)
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:34:50
+═══════════════════════════════════════════
+IP:              192.168.40.100
+Azione:          LOGIN
+Customer:        admin_13
+Timestamp:       2026-02-22T17:49:36.069287
+Motivo:          BONIFICO/LOGIN da subnet API (dovrebbe essere da clienti)
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:34:50
+═══════════════════════════════════════════
+IP:              192.168.40.100
+Azione:          LOGIN
+Customer:        admin_12
+Timestamp:       2026-02-22T17:49:35.767437
+Motivo:          BONIFICO/LOGIN da subnet API (dovrebbe essere da clienti)
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:34:50
+═══════════════════════════════════════════
+IP:              192.168.40.100
+Azione:          LOGIN
+Customer:        admin_11
+Timestamp:       2026-02-22T17:49:35.466595
+Motivo:          BONIFICO/LOGIN da subnet API (dovrebbe essere da clienti)
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:34:50
+═══════════════════════════════════════════
+IP:              192.168.40.100
+Azione:          LOGIN
+Customer:        admin_10
+Timestamp:       2026-02-22T17:49:35.166286
+Motivo:          BONIFICO/LOGIN da subnet API (dovrebbe essere da clienti)
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:34:50
+═══════════════════════════════════════════
+IP:              192.168.40.100
+Azione:          LOGIN
+Customer:        admin_9
+Timestamp:       2026-02-22T17:49:34.861740
+Motivo:          BONIFICO/LOGIN da subnet API (dovrebbe essere da clienti)
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:34:50
+═══════════════════════════════════════════
+IP:              192.168.40.100
+Azione:          LOGIN
+Customer:        admin_8
+Timestamp:       2026-02-22T17:49:34.560228
+Motivo:          BONIFICO/LOGIN da subnet API (dovrebbe essere da clienti)
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:34:50
+═══════════════════════════════════════════
+IP:              192.168.40.100
+Azione:          LOGIN
+Customer:        admin_7
+Timestamp:       2026-02-22T17:49:34.256448
+Motivo:          BONIFICO/LOGIN da subnet API (dovrebbe essere da clienti)
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:34:50
+═══════════════════════════════════════════
+IP:              192.168.40.100
+Azione:          LOGIN
+Customer:        admin_6
+Timestamp:       2026-02-22T17:49:33.954182
+Motivo:          BONIFICO/LOGIN da subnet API (dovrebbe essere da clienti)
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:34:50
+═══════════════════════════════════════════
+IP:              192.168.40.100
+Azione:          LOGIN
+Customer:        admin_5
+Timestamp:       2026-02-22T17:49:33.677337
+Motivo:          BONIFICO/LOGIN da subnet API (dovrebbe essere da clienti)
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:34:50
+═══════════════════════════════════════════
+IP:              192.168.40.100
+Azione:          LOGIN
+Customer:        admin_4
+Timestamp:       2026-02-22T17:49:33.344801
+Motivo:          BONIFICO/LOGIN da subnet API (dovrebbe essere da clienti)
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:34:50
+═══════════════════════════════════════════
+IP:              192.168.40.100
+Azione:          LOGIN
+Customer:        admin_3
+Timestamp:       2026-02-22T17:49:33.042861
+Motivo:          BONIFICO/LOGIN da subnet API (dovrebbe essere da clienti)
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:34:50
+═══════════════════════════════════════════
+IP:              192.168.40.100
+Azione:          LOGIN
+Customer:        admin_2
+Timestamp:       2026-02-22T17:49:32.741903
+Motivo:          BONIFICO/LOGIN da subnet API (dovrebbe essere da clienti)
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:34:50
+═══════════════════════════════════════════
+IP:              192.168.40.100
+Azione:          LOGIN
+Customer:        admin_1
+Timestamp:       2026-02-22T17:49:32.439650
+Motivo:          BONIFICO/LOGIN da subnet API (dovrebbe essere da clienti)
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:34:50
+═══════════════════════════════════════════
+IP:              192.168.30.3
+Azione:          LOGIN
+Customer:        ATM_3
+Timestamp:       2026-02-22T17:46:33.044914
+Motivo:          BONIFICO/LOGIN da subnet ATM (dovrebbe essere da clienti)
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:34:50
+═══════════════════════════════════════════
+IP:              192.168.30.2
+Azione:          LOGIN
+Customer:        ATM_2
+Timestamp:       2026-02-22T17:46:32.548162
+Motivo:          BONIFICO/LOGIN da subnet ATM (dovrebbe essere da clienti)
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:34:50
+═══════════════════════════════════════════
+IP:              192.168.30.1
+Azione:          LOGIN
+Customer:        ATM_1
+Timestamp:       2026-02-22T17:46:32.041325
+Motivo:          BONIFICO/LOGIN da subnet ATM (dovrebbe essere da clienti)
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:34:50
+═══════════════════════════════════════════
+IP:              192.168.30.3
+Azione:          LOGIN
+Customer:        ATM_3
+Timestamp:       2026-02-22T17:43:37.037646
+Motivo:          BONIFICO/LOGIN da subnet ATM (dovrebbe essere da clienti)
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:34:50
+═══════════════════════════════════════════
+IP:              192.168.30.2
+Azione:          LOGIN
+Customer:        ATM_2
+Timestamp:       2026-02-22T17:43:36.535736
+Motivo:          BONIFICO/LOGIN da subnet ATM (dovrebbe essere da clienti)
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:34:50
+═══════════════════════════════════════════
+IP:              192.168.30.1
+Azione:          LOGIN
+Customer:        ATM_1
+Timestamp:       2026-02-22T17:43:36.034340
+Motivo:          BONIFICO/LOGIN da subnet ATM (dovrebbe essere da clienti)
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:34:50
+═══════════════════════════════════════════
+IP:              192.168.30.3
+Azione:          LOGIN
+Customer:        ATM_3
+Timestamp:       2026-02-22T17:39:43.824802
+Motivo:          BONIFICO/LOGIN da subnet ATM (dovrebbe essere da clienti)
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:34:50
+═══════════════════════════════════════════
+IP:              192.168.30.2
+Azione:          LOGIN
+Customer:        ATM_2
+Timestamp:       2026-02-22T17:39:43.323023
+Motivo:          BONIFICO/LOGIN da subnet ATM (dovrebbe essere da clienti)
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:34:50
+═══════════════════════════════════════════
+IP:              192.168.30.1
+Azione:          LOGIN
+Customer:        ATM_1
+Timestamp:       2026-02-22T17:39:42.821437
+Motivo:          BONIFICO/LOGIN da subnet ATM (dovrebbe essere da clienti)
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:34:50
+═══════════════════════════════════════════
+IP:              192.168.30.3
+Azione:          LOGIN
+Customer:        ATM_3
+Timestamp:       2026-02-22T17:37:46.513651
+Motivo:          BONIFICO/LOGIN da subnet ATM (dovrebbe essere da clienti)
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:34:50
+═══════════════════════════════════════════
+IP:              192.168.30.2
+Azione:          LOGIN
+Customer:        ATM_2
+Timestamp:       2026-02-22T17:37:46.007559
+Motivo:          BONIFICO/LOGIN da subnet ATM (dovrebbe essere da clienti)
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:34:50
+═══════════════════════════════════════════
+IP:              192.168.30.1
+Azione:          LOGIN
+Customer:        ATM_1
+Timestamp:       2026-02-22T17:37:45.505730
+Motivo:          BONIFICO/LOGIN da subnet ATM (dovrebbe essere da clienti)
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:34:51
+═══════════════════════════════════════════
+IP:              192.168.30.3
+Azione:          LOGIN
+Customer:        ATM_3
+Timestamp:       2026-02-22T17:37:27.726960
+Motivo:          BONIFICO/LOGIN da subnet ATM (dovrebbe essere da clienti)
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:34:51
+═══════════════════════════════════════════
+IP:              192.168.30.2
+Azione:          LOGIN
+Customer:        ATM_2
+Timestamp:       2026-02-22T17:37:27.225305
+Motivo:          BONIFICO/LOGIN da subnet ATM (dovrebbe essere da clienti)
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:34:51
+═══════════════════════════════════════════
+IP:              192.168.30.1
+Azione:          LOGIN
+Customer:        ATM_1
+Timestamp:       2026-02-22T17:37:26.724123
+Motivo:          BONIFICO/LOGIN da subnet ATM (dovrebbe essere da clienti)
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:34:51
+═══════════════════════════════════════════
+IP:              192.168.99.99
+Azione:          LOGIN
+Customer:        test_user
+Timestamp:       2026-02-22T17:20:00.360580
+Motivo:          BONIFICO/LOGIN da subnet sconosciuta
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:35:01
+═══════════════════════════════════════════
+IP:              203.0.113.25
+Azione:          LOGIN
+Customer:        admin
+Timestamp:       2026-02-22T19:34:39.258352
+Motivo:          BONIFICO/LOGIN da IP pubblico non autorizzato
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:35:01
+═══════════════════════════════════════════
+IP:              192.168.40.50
+Azione:          PRELIEVO
+Customer:        api_client
+Timestamp:       2026-02-22T19:34:38.256715
+Motivo:          PRELIEVO/DEPOSITO da subnet API (dovrebbe essere da ATM)
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:35:01
+═══════════════════════════════════════════
+IP:              192.168.30.1
+Azione:          BONIFICO
+Customer:        atm_001
+Timestamp:       2026-02-22T19:34:37.254423
+Motivo:          BONIFICO/LOGIN da subnet ATM (dovrebbe essere da clienti)
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:35:01
+═══════════════════════════════════════════
+IP:              203.0.113.25
+Azione:          LOGIN
+Customer:        admin
+Timestamp:       2026-02-22T19:34:23.761272
+Motivo:          BONIFICO/LOGIN da IP pubblico non autorizzato
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:35:01
+═══════════════════════════════════════════
+IP:              192.168.40.50
+Azione:          PRELIEVO
+Customer:        api_client
+Timestamp:       2026-02-22T19:34:22.759709
+Motivo:          PRELIEVO/DEPOSITO da subnet API (dovrebbe essere da ATM)
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:35:01
+═══════════════════════════════════════════
+IP:              192.168.30.1
+Azione:          BONIFICO
+Customer:        atm_001
+Timestamp:       2026-02-22T19:34:21.757534
+Motivo:          BONIFICO/LOGIN da subnet ATM (dovrebbe essere da clienti)
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:35:01
+═══════════════════════════════════════════
+IP:              203.0.113.25
+Azione:          LOGIN
+Customer:        admin
+Timestamp:       2026-02-22T19:27:42.539613
+Motivo:          BONIFICO/LOGIN da IP pubblico non autorizzato
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:35:01
+═══════════════════════════════════════════
+IP:              192.168.40.50
+Azione:          PRELIEVO
+Customer:        api_client
+Timestamp:       2026-02-22T19:27:41.540318
+Motivo:          PRELIEVO/DEPOSITO da subnet API (dovrebbe essere da ATM)
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:35:01
+═══════════════════════════════════════════
+IP:              192.168.30.1
+Azione:          BONIFICO
+Customer:        atm_001
+Timestamp:       2026-02-22T19:27:40.534797
+Motivo:          BONIFICO/LOGIN da subnet ATM (dovrebbe essere da clienti)
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:35:01
+═══════════════════════════════════════════
+IP:              203.0.113.25
+Azione:          LOGIN
+Customer:        admin
+Timestamp:       2026-02-22T19:12:10.904442
+Motivo:          BONIFICO/LOGIN da IP pubblico non autorizzato
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:35:01
+═══════════════════════════════════════════
+IP:              192.168.40.50
+Azione:          PRELIEVO
+Customer:        api_client
+Timestamp:       2026-02-22T19:12:09.902881
+Motivo:          PRELIEVO/DEPOSITO da subnet API (dovrebbe essere da ATM)
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:35:01
+═══════════════════════════════════════════
+IP:              192.168.30.1
+Azione:          BONIFICO
+Customer:        atm_001
+Timestamp:       2026-02-22T19:12:08.901047
+Motivo:          BONIFICO/LOGIN da subnet ATM (dovrebbe essere da clienti)
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:35:01
+═══════════════════════════════════════════
+IP:              203.0.113.25
+Azione:          LOGIN
+Customer:        admin
+Timestamp:       2026-02-22T19:11:20.376641
+Motivo:          BONIFICO/LOGIN da IP pubblico non autorizzato
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:35:01
+═══════════════════════════════════════════
+IP:              192.168.40.50
+Azione:          PRELIEVO
+Customer:        api_client
+Timestamp:       2026-02-22T19:11:19.374412
+Motivo:          PRELIEVO/DEPOSITO da subnet API (dovrebbe essere da ATM)
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:35:01
+═══════════════════════════════════════════
+IP:              192.168.30.1
+Azione:          BONIFICO
+Customer:        atm_001
+Timestamp:       2026-02-22T19:11:18.370955
+Motivo:          BONIFICO/LOGIN da subnet ATM (dovrebbe essere da clienti)
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:35:01
+═══════════════════════════════════════════
+IP:              203.0.113.25
+Azione:          LOGIN
+Customer:        admin
+Timestamp:       2026-02-22T19:11:09.734444
+Motivo:          BONIFICO/LOGIN da IP pubblico non autorizzato
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:35:01
+═══════════════════════════════════════════
+IP:              192.168.40.50
+Azione:          PRELIEVO
+Customer:        api_client
+Timestamp:       2026-02-22T19:11:08.727865
+Motivo:          PRELIEVO/DEPOSITO da subnet API (dovrebbe essere da ATM)
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:35:01
+═══════════════════════════════════════════
+IP:              192.168.30.1
+Azione:          BONIFICO
+Customer:        atm_001
+Timestamp:       2026-02-22T19:11:07.723228
+Motivo:          BONIFICO/LOGIN da subnet ATM (dovrebbe essere da clienti)
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:35:01
+═══════════════════════════════════════════
+IP:              192.168.60.100
+Azione:          PRELIEVO
+Customer:        bot_pattern
+Timestamp:       2026-02-22T19:02:52.700827
+Motivo:          PRELIEVO/DEPOSITO da subnet non-ATM
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:35:01
+═══════════════════════════════════════════
+IP:              192.168.60.100
+Azione:          DEPOSITO
+Customer:        bot_pattern
+Timestamp:       2026-02-22T19:02:52.184635
+Motivo:          PRELIEVO/DEPOSITO da subnet non-ATM
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:35:01
+═══════════════════════════════════════════
+IP:              192.168.60.100
+Azione:          PRELIEVO
+Customer:        bot_pattern
+Timestamp:       2026-02-22T19:02:51.682659
+Motivo:          PRELIEVO/DEPOSITO da subnet non-ATM
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:35:01
+═══════════════════════════════════════════
+IP:              192.168.60.100
+Azione:          PRELIEVO
+Customer:        bot_pattern
+Timestamp:       2026-02-22T19:02:50.179758
+Motivo:          PRELIEVO/DEPOSITO da subnet non-ATM
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:35:01
+═══════════════════════════════════════════
+IP:              192.168.60.100
+Azione:          DEPOSITO
+Customer:        bot_pattern
+Timestamp:       2026-02-22T19:02:49.678595
+Motivo:          PRELIEVO/DEPOSITO da subnet non-ATM
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:35:01
+═══════════════════════════════════════════
+IP:              192.168.60.100
+Azione:          PRELIEVO
+Customer:        bot_pattern
+Timestamp:       2026-02-22T19:02:49.175837
+Motivo:          PRELIEVO/DEPOSITO da subnet non-ATM
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:35:01
+═══════════════════════════════════════════
+IP:              192.168.60.100
+Azione:          PRELIEVO
+Customer:        bot_pattern
+Timestamp:       2026-02-22T19:02:47.680731
+Motivo:          PRELIEVO/DEPOSITO da subnet non-ATM
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:35:01
+═══════════════════════════════════════════
+IP:              192.168.60.100
+Azione:          DEPOSITO
+Customer:        bot_pattern
+Timestamp:       2026-02-22T19:02:47.169483
+Motivo:          PRELIEVO/DEPOSITO da subnet non-ATM
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:35:01
+═══════════════════════════════════════════
+IP:              192.168.60.100
+Azione:          PRELIEVO
+Customer:        bot_pattern
+Timestamp:       2026-02-22T19:02:46.667367
+Motivo:          PRELIEVO/DEPOSITO da subnet non-ATM
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:35:01
+═══════════════════════════════════════════
+IP:              192.168.60.100
+Azione:          PRELIEVO
+Customer:        bot_pattern
+Timestamp:       2026-02-22T19:02:45.163190
+Motivo:          PRELIEVO/DEPOSITO da subnet non-ATM
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:35:01
+═══════════════════════════════════════════
+IP:              192.168.60.100
+Azione:          DEPOSITO
+Customer:        bot_pattern
+Timestamp:       2026-02-22T19:02:44.663830
+Motivo:          PRELIEVO/DEPOSITO da subnet non-ATM
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:35:01
+═══════════════════════════════════════════
+IP:              192.168.60.100
+Azione:          PRELIEVO
+Customer:        bot_pattern
+Timestamp:       2026-02-22T19:02:44.159807
+Motivo:          PRELIEVO/DEPOSITO da subnet non-ATM
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:35:01
+═══════════════════════════════════════════
+IP:              192.168.60.100
+Azione:          PRELIEVO
+Customer:        bot_pattern
+Timestamp:       2026-02-22T19:02:42.659975
+Motivo:          PRELIEVO/DEPOSITO da subnet non-ATM
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:35:01
+═══════════════════════════════════════════
+IP:              192.168.60.100
+Azione:          DEPOSITO
+Customer:        bot_pattern
+Timestamp:       2026-02-22T19:02:42.152382
+Motivo:          PRELIEVO/DEPOSITO da subnet non-ATM
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:35:01
+═══════════════════════════════════════════
+IP:              192.168.60.100
+Azione:          PRELIEVO
+Customer:        bot_pattern
+Timestamp:       2026-02-22T19:02:41.649607
+Motivo:          PRELIEVO/DEPOSITO da subnet non-ATM
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:35:01
+═══════════════════════════════════════════
+IP:              192.168.70.100
+Azione:          PRELIEVO
+Customer:        slow_client_5
+Timestamp:       2026-02-22T18:17:09.994359
+Motivo:          PRELIEVO/DEPOSITO da subnet non-ATM
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:35:01
+═══════════════════════════════════════════
+IP:              192.168.70.100
+Azione:          PRELIEVO
+Customer:        slow_client_4
+Timestamp:       2026-02-22T18:16:45.992753
+Motivo:          PRELIEVO/DEPOSITO da subnet non-ATM
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:35:01
+═══════════════════════════════════════════
+IP:              192.168.70.100
+Azione:          PRELIEVO
+Customer:        slow_client_3
+Timestamp:       2026-02-22T18:16:21.990587
+Motivo:          PRELIEVO/DEPOSITO da subnet non-ATM
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:35:01
+═══════════════════════════════════════════
+IP:              192.168.70.100
+Azione:          PRELIEVO
+Customer:        slow_client_2
+Timestamp:       2026-02-22T18:15:57.989161
+Motivo:          PRELIEVO/DEPOSITO da subnet non-ATM
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:35:01
+═══════════════════════════════════════════
+IP:              192.168.70.100
+Azione:          PRELIEVO
+Customer:        slow_client_1
+Timestamp:       2026-02-22T18:15:33.987271
+Motivo:          PRELIEVO/DEPOSITO da subnet non-ATM
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:35:01
+═══════════════════════════════════════════
+IP:              192.168.60.100
+Azione:          PRELIEVO
+Customer:        bot_pattern
+Timestamp:       2026-02-22T18:06:35.470795
+Motivo:          PRELIEVO/DEPOSITO da subnet non-ATM
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:35:01
+═══════════════════════════════════════════
+IP:              192.168.60.100
+Azione:          DEPOSITO
+Customer:        bot_pattern
+Timestamp:       2026-02-22T18:06:34.965263
+Motivo:          PRELIEVO/DEPOSITO da subnet non-ATM
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:35:01
+═══════════════════════════════════════════
+IP:              192.168.60.100
+Azione:          PRELIEVO
+Customer:        bot_pattern
+Timestamp:       2026-02-22T18:06:34.463326
+Motivo:          PRELIEVO/DEPOSITO da subnet non-ATM
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:35:02
+═══════════════════════════════════════════
+IP:              192.168.60.100
+Azione:          PRELIEVO
+Customer:        bot_pattern
+Timestamp:       2026-02-22T18:06:32.966940
+Motivo:          PRELIEVO/DEPOSITO da subnet non-ATM
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:35:02
+═══════════════════════════════════════════
+IP:              192.168.60.100
+Azione:          DEPOSITO
+Customer:        bot_pattern
+Timestamp:       2026-02-22T18:06:32.456673
+Motivo:          PRELIEVO/DEPOSITO da subnet non-ATM
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:35:02
+═══════════════════════════════════════════
+IP:              192.168.60.100
+Azione:          PRELIEVO
+Customer:        bot_pattern
+Timestamp:       2026-02-22T18:06:31.953893
+Motivo:          PRELIEVO/DEPOSITO da subnet non-ATM
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:35:02
+═══════════════════════════════════════════
+IP:              192.168.60.100
+Azione:          PRELIEVO
+Customer:        bot_pattern
+Timestamp:       2026-02-22T18:06:30.452309
+Motivo:          PRELIEVO/DEPOSITO da subnet non-ATM
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:35:02
+═══════════════════════════════════════════
+IP:              192.168.60.100
+Azione:          DEPOSITO
+Customer:        bot_pattern
+Timestamp:       2026-02-22T18:06:29.948368
+Motivo:          PRELIEVO/DEPOSITO da subnet non-ATM
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:35:02
+═══════════════════════════════════════════
+IP:              192.168.60.100
+Azione:          PRELIEVO
+Customer:        bot_pattern
+Timestamp:       2026-02-22T18:06:29.448435
+Motivo:          PRELIEVO/DEPOSITO da subnet non-ATM
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:35:02
+═══════════════════════════════════════════
+IP:              192.168.60.100
+Azione:          PRELIEVO
+Customer:        bot_pattern
+Timestamp:       2026-02-22T18:06:27.947194
+Motivo:          PRELIEVO/DEPOSITO da subnet non-ATM
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:35:02
+═══════════════════════════════════════════
+IP:              192.168.60.100
+Azione:          DEPOSITO
+Customer:        bot_pattern
+Timestamp:       2026-02-22T18:06:27.441965
+Motivo:          PRELIEVO/DEPOSITO da subnet non-ATM
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:35:02
+═══════════════════════════════════════════
+IP:              192.168.60.100
+Azione:          PRELIEVO
+Customer:        bot_pattern
+Timestamp:       2026-02-22T18:06:26.938990
+Motivo:          PRELIEVO/DEPOSITO da subnet non-ATM
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:35:02
+═══════════════════════════════════════════
+IP:              192.168.60.100
+Azione:          PRELIEVO
+Customer:        bot_pattern
+Timestamp:       2026-02-22T18:06:25.438143
+Motivo:          PRELIEVO/DEPOSITO da subnet non-ATM
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:35:02
+═══════════════════════════════════════════
+IP:              192.168.60.100
+Azione:          DEPOSITO
+Customer:        bot_pattern
+Timestamp:       2026-02-22T18:06:24.932962
+Motivo:          PRELIEVO/DEPOSITO da subnet non-ATM
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:35:02
+═══════════════════════════════════════════
+IP:              192.168.60.100
+Azione:          PRELIEVO
+Customer:        bot_pattern
+Timestamp:       2026-02-22T18:06:24.431553
+Motivo:          PRELIEVO/DEPOSITO da subnet non-ATM
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:35:02
+═══════════════════════════════════════════
+IP:              192.168.50.20
+Azione:          PRELIEVO
+Customer:        client_20
+Timestamp:       2026-02-22T17:58:42.029865
+Motivo:          PRELIEVO/DEPOSITO da subnet non-ATM
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:35:02
+═══════════════════════════════════════════
+IP:              192.168.50.19
+Azione:          PRELIEVO
+Customer:        client_19
+Timestamp:       2026-02-22T17:58:41.826900
+Motivo:          PRELIEVO/DEPOSITO da subnet non-ATM
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:35:02
+═══════════════════════════════════════════
+IP:              192.168.50.18
+Azione:          PRELIEVO
+Customer:        client_18
+Timestamp:       2026-02-22T17:58:41.625066
+Motivo:          PRELIEVO/DEPOSITO da subnet non-ATM
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:35:02
+═══════════════════════════════════════════
+IP:              192.168.50.17
+Azione:          PRELIEVO
+Customer:        client_17
+Timestamp:       2026-02-22T17:58:41.423210
+Motivo:          PRELIEVO/DEPOSITO da subnet non-ATM
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:35:02
+═══════════════════════════════════════════
+IP:              192.168.50.16
+Azione:          PRELIEVO
+Customer:        client_16
+Timestamp:       2026-02-22T17:58:41.221273
+Motivo:          PRELIEVO/DEPOSITO da subnet non-ATM
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:35:02
+═══════════════════════════════════════════
+IP:              192.168.50.15
+Azione:          PRELIEVO
+Customer:        client_15
+Timestamp:       2026-02-22T17:58:41.019682
+Motivo:          PRELIEVO/DEPOSITO da subnet non-ATM
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:35:02
+═══════════════════════════════════════════
+IP:              192.168.50.14
+Azione:          PRELIEVO
+Customer:        client_14
+Timestamp:       2026-02-22T17:58:40.817932
+Motivo:          PRELIEVO/DEPOSITO da subnet non-ATM
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:35:02
+═══════════════════════════════════════════
+IP:              192.168.50.13
+Azione:          PRELIEVO
+Customer:        client_13
+Timestamp:       2026-02-22T17:58:40.616083
+Motivo:          PRELIEVO/DEPOSITO da subnet non-ATM
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:35:02
+═══════════════════════════════════════════
+IP:              192.168.50.12
+Azione:          PRELIEVO
+Customer:        client_12
+Timestamp:       2026-02-22T17:58:40.414621
+Motivo:          PRELIEVO/DEPOSITO da subnet non-ATM
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:35:02
+═══════════════════════════════════════════
+IP:              192.168.50.11
+Azione:          PRELIEVO
+Customer:        client_11
+Timestamp:       2026-02-22T17:58:40.214922
+Motivo:          PRELIEVO/DEPOSITO da subnet non-ATM
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:35:02
+═══════════════════════════════════════════
+IP:              192.168.50.10
+Azione:          PRELIEVO
+Customer:        client_10
+Timestamp:       2026-02-22T17:58:40.009760
+Motivo:          PRELIEVO/DEPOSITO da subnet non-ATM
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:35:02
+═══════════════════════════════════════════
+IP:              192.168.50.9
+Azione:          PRELIEVO
+Customer:        client_9
+Timestamp:       2026-02-22T17:58:39.808165
+Motivo:          PRELIEVO/DEPOSITO da subnet non-ATM
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:35:02
+═══════════════════════════════════════════
+IP:              192.168.50.8
+Azione:          PRELIEVO
+Customer:        client_8
+Timestamp:       2026-02-22T17:58:39.606145
+Motivo:          PRELIEVO/DEPOSITO da subnet non-ATM
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:35:02
+═══════════════════════════════════════════
+IP:              192.168.50.7
+Azione:          PRELIEVO
+Customer:        client_7
+Timestamp:       2026-02-22T17:58:39.404334
+Motivo:          PRELIEVO/DEPOSITO da subnet non-ATM
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:35:02
+═══════════════════════════════════════════
+IP:              192.168.50.6
+Azione:          PRELIEVO
+Customer:        client_6
+Timestamp:       2026-02-22T17:58:39.203818
+Motivo:          PRELIEVO/DEPOSITO da subnet non-ATM
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:35:02
+═══════════════════════════════════════════
+IP:              192.168.50.5
+Azione:          PRELIEVO
+Customer:        client_5
+Timestamp:       2026-02-22T17:58:39.000989
+Motivo:          PRELIEVO/DEPOSITO da subnet non-ATM
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:35:02
+═══════════════════════════════════════════
+IP:              192.168.50.4
+Azione:          PRELIEVO
+Customer:        client_4
+Timestamp:       2026-02-22T17:58:38.798664
+Motivo:          PRELIEVO/DEPOSITO da subnet non-ATM
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:35:02
+═══════════════════════════════════════════
+IP:              192.168.50.3
+Azione:          PRELIEVO
+Customer:        client_3
+Timestamp:       2026-02-22T17:58:38.596904
+Motivo:          PRELIEVO/DEPOSITO da subnet non-ATM
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:35:02
+═══════════════════════════════════════════
+IP:              192.168.50.2
+Azione:          PRELIEVO
+Customer:        client_2
+Timestamp:       2026-02-22T17:58:38.395088
+Motivo:          PRELIEVO/DEPOSITO da subnet non-ATM
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:35:02
+═══════════════════════════════════════════
+IP:              192.168.50.1
+Azione:          PRELIEVO
+Customer:        client_1
+Timestamp:       2026-02-22T17:58:38.193659
+Motivo:          PRELIEVO/DEPOSITO da subnet non-ATM
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:35:02
+═══════════════════════════════════════════
+IP:              192.168.40.100
+Azione:          LOGIN
+Customer:        admin_15
+Timestamp:       2026-02-22T17:52:36.509736
+Motivo:          BONIFICO/LOGIN da subnet API (dovrebbe essere da clienti)
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:35:02
+═══════════════════════════════════════════
+IP:              192.168.40.100
+Azione:          LOGIN
+Customer:        admin_14
+Timestamp:       2026-02-22T17:52:36.202791
+Motivo:          BONIFICO/LOGIN da subnet API (dovrebbe essere da clienti)
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:35:02
+═══════════════════════════════════════════
+IP:              192.168.40.100
+Azione:          LOGIN
+Customer:        admin_13
+Timestamp:       2026-02-22T17:52:35.901534
+Motivo:          BONIFICO/LOGIN da subnet API (dovrebbe essere da clienti)
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:35:02
+═══════════════════════════════════════════
+IP:              192.168.40.100
+Azione:          LOGIN
+Customer:        admin_12
+Timestamp:       2026-02-22T17:52:35.599456
+Motivo:          BONIFICO/LOGIN da subnet API (dovrebbe essere da clienti)
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:35:02
+═══════════════════════════════════════════
+IP:              192.168.40.100
+Azione:          LOGIN
+Customer:        admin_11
+Timestamp:       2026-02-22T17:52:35.297784
+Motivo:          BONIFICO/LOGIN da subnet API (dovrebbe essere da clienti)
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:35:02
+═══════════════════════════════════════════
+IP:              192.168.40.100
+Azione:          LOGIN
+Customer:        admin_10
+Timestamp:       2026-02-22T17:52:34.996140
+Motivo:          BONIFICO/LOGIN da subnet API (dovrebbe essere da clienti)
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:35:02
+═══════════════════════════════════════════
+IP:              192.168.40.100
+Azione:          LOGIN
+Customer:        admin_9
+Timestamp:       2026-02-22T17:52:34.694705
+Motivo:          BONIFICO/LOGIN da subnet API (dovrebbe essere da clienti)
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:35:02
+═══════════════════════════════════════════
+IP:              192.168.40.100
+Azione:          LOGIN
+Customer:        admin_8
+Timestamp:       2026-02-22T17:52:34.392672
+Motivo:          BONIFICO/LOGIN da subnet API (dovrebbe essere da clienti)
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:35:02
+═══════════════════════════════════════════
+IP:              192.168.40.100
+Azione:          LOGIN
+Customer:        admin_7
+Timestamp:       2026-02-22T17:52:34.091202
+Motivo:          BONIFICO/LOGIN da subnet API (dovrebbe essere da clienti)
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:35:02
+═══════════════════════════════════════════
+IP:              192.168.40.100
+Azione:          LOGIN
+Customer:        admin_6
+Timestamp:       2026-02-22T17:52:33.790870
+Motivo:          BONIFICO/LOGIN da subnet API (dovrebbe essere da clienti)
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:35:02
+═══════════════════════════════════════════
+IP:              192.168.40.100
+Azione:          LOGIN
+Customer:        admin_5
+Timestamp:       2026-02-22T17:52:33.485605
+Motivo:          BONIFICO/LOGIN da subnet API (dovrebbe essere da clienti)
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:35:02
+═══════════════════════════════════════════
+IP:              192.168.40.100
+Azione:          LOGIN
+Customer:        admin_4
+Timestamp:       2026-02-22T17:52:33.184000
+Motivo:          BONIFICO/LOGIN da subnet API (dovrebbe essere da clienti)
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:35:02
+═══════════════════════════════════════════
+IP:              192.168.40.100
+Azione:          LOGIN
+Customer:        admin_3
+Timestamp:       2026-02-22T17:52:32.882534
+Motivo:          BONIFICO/LOGIN da subnet API (dovrebbe essere da clienti)
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:35:02
+═══════════════════════════════════════════
+IP:              192.168.40.100
+Azione:          LOGIN
+Customer:        admin_2
+Timestamp:       2026-02-22T17:52:32.583894
+Motivo:          BONIFICO/LOGIN da subnet API (dovrebbe essere da clienti)
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:35:02
+═══════════════════════════════════════════
+IP:              192.168.40.100
+Azione:          LOGIN
+Customer:        admin_1
+Timestamp:       2026-02-22T17:52:32.279344
+Motivo:          BONIFICO/LOGIN da subnet API (dovrebbe essere da clienti)
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:35:02
+═══════════════════════════════════════════
+IP:              192.168.30.3
+Azione:          LOGIN
+Customer:        ATM_3
+Timestamp:       2026-02-22T17:51:56.206109
+Motivo:          BONIFICO/LOGIN da subnet ATM (dovrebbe essere da clienti)
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:35:03
+═══════════════════════════════════════════
+IP:              192.168.30.2
+Azione:          LOGIN
+Customer:        ATM_2
+Timestamp:       2026-02-22T17:51:55.704284
+Motivo:          BONIFICO/LOGIN da subnet ATM (dovrebbe essere da clienti)
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:35:03
+═══════════════════════════════════════════
+IP:              192.168.30.1
+Azione:          LOGIN
+Customer:        ATM_1
+Timestamp:       2026-02-22T17:51:55.203208
+Motivo:          BONIFICO/LOGIN da subnet ATM (dovrebbe essere da clienti)
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:35:03
+═══════════════════════════════════════════
+IP:              192.168.40.100
+Azione:          LOGIN
+Customer:        admin_15
+Timestamp:       2026-02-22T17:50:21.555659
+Motivo:          BONIFICO/LOGIN da subnet API (dovrebbe essere da clienti)
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:35:03
+═══════════════════════════════════════════
+IP:              192.168.40.100
+Azione:          LOGIN
+Customer:        admin_14
+Timestamp:       2026-02-22T17:50:21.255658
+Motivo:          BONIFICO/LOGIN da subnet API (dovrebbe essere da clienti)
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:35:03
+═══════════════════════════════════════════
+IP:              192.168.40.100
+Azione:          LOGIN
+Customer:        admin_13
+Timestamp:       2026-02-22T17:50:20.952950
+Motivo:          BONIFICO/LOGIN da subnet API (dovrebbe essere da clienti)
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:35:03
+═══════════════════════════════════════════
+IP:              192.168.40.100
+Azione:          LOGIN
+Customer:        admin_12
+Timestamp:       2026-02-22T17:50:20.648226
+Motivo:          BONIFICO/LOGIN da subnet API (dovrebbe essere da clienti)
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:35:03
+═══════════════════════════════════════════
+IP:              192.168.40.100
+Azione:          LOGIN
+Customer:        admin_11
+Timestamp:       2026-02-22T17:50:20.347130
+Motivo:          BONIFICO/LOGIN da subnet API (dovrebbe essere da clienti)
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:35:03
+═══════════════════════════════════════════
+IP:              192.168.40.100
+Azione:          LOGIN
+Customer:        admin_10
+Timestamp:       2026-02-22T17:50:20.044196
+Motivo:          BONIFICO/LOGIN da subnet API (dovrebbe essere da clienti)
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:35:03
+═══════════════════════════════════════════
+IP:              192.168.40.100
+Azione:          LOGIN
+Customer:        admin_9
+Timestamp:       2026-02-22T17:50:19.742283
+Motivo:          BONIFICO/LOGIN da subnet API (dovrebbe essere da clienti)
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:35:03
+═══════════════════════════════════════════
+IP:              192.168.40.100
+Azione:          LOGIN
+Customer:        admin_8
+Timestamp:       2026-02-22T17:50:19.440402
+Motivo:          BONIFICO/LOGIN da subnet API (dovrebbe essere da clienti)
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:35:03
+═══════════════════════════════════════════
+IP:              192.168.40.100
+Azione:          LOGIN
+Customer:        admin_7
+Timestamp:       2026-02-22T17:50:19.139130
+Motivo:          BONIFICO/LOGIN da subnet API (dovrebbe essere da clienti)
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:35:03
+═══════════════════════════════════════════
+IP:              192.168.40.100
+Azione:          LOGIN
+Customer:        admin_6
+Timestamp:       2026-02-22T17:50:18.837195
+Motivo:          BONIFICO/LOGIN da subnet API (dovrebbe essere da clienti)
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:35:03
+═══════════════════════════════════════════
+IP:              192.168.40.100
+Azione:          LOGIN
+Customer:        admin_5
+Timestamp:       2026-02-22T17:50:18.535261
+Motivo:          BONIFICO/LOGIN da subnet API (dovrebbe essere da clienti)
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:35:03
+═══════════════════════════════════════════
+IP:              192.168.40.100
+Azione:          LOGIN
+Customer:        admin_4
+Timestamp:       2026-02-22T17:50:18.233286
+Motivo:          BONIFICO/LOGIN da subnet API (dovrebbe essere da clienti)
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:35:03
+═══════════════════════════════════════════
+IP:              192.168.40.100
+Azione:          LOGIN
+Customer:        admin_3
+Timestamp:       2026-02-22T17:50:17.931466
+Motivo:          BONIFICO/LOGIN da subnet API (dovrebbe essere da clienti)
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:35:03
+═══════════════════════════════════════════
+IP:              192.168.40.100
+Azione:          LOGIN
+Customer:        admin_2
+Timestamp:       2026-02-22T17:50:17.630003
+Motivo:          BONIFICO/LOGIN da subnet API (dovrebbe essere da clienti)
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:35:03
+═══════════════════════════════════════════
+IP:              192.168.40.100
+Azione:          LOGIN
+Customer:        admin_1
+Timestamp:       2026-02-22T17:50:17.328896
+Motivo:          BONIFICO/LOGIN da subnet API (dovrebbe essere da clienti)
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:35:03
+═══════════════════════════════════════════
+IP:              192.168.40.100
+Azione:          LOGIN
+Customer:        admin_15
+Timestamp:       2026-02-22T17:49:36.674469
+Motivo:          BONIFICO/LOGIN da subnet API (dovrebbe essere da clienti)
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:35:03
+═══════════════════════════════════════════
+IP:              192.168.40.100
+Azione:          LOGIN
+Customer:        admin_14
+Timestamp:       2026-02-22T17:49:36.372443
+Motivo:          BONIFICO/LOGIN da subnet API (dovrebbe essere da clienti)
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:35:03
+═══════════════════════════════════════════
+IP:              192.168.40.100
+Azione:          LOGIN
+Customer:        admin_13
+Timestamp:       2026-02-22T17:49:36.069287
+Motivo:          BONIFICO/LOGIN da subnet API (dovrebbe essere da clienti)
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:35:03
+═══════════════════════════════════════════
+IP:              192.168.40.100
+Azione:          LOGIN
+Customer:        admin_12
+Timestamp:       2026-02-22T17:49:35.767437
+Motivo:          BONIFICO/LOGIN da subnet API (dovrebbe essere da clienti)
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:35:03
+═══════════════════════════════════════════
+IP:              192.168.40.100
+Azione:          LOGIN
+Customer:        admin_11
+Timestamp:       2026-02-22T17:49:35.466595
+Motivo:          BONIFICO/LOGIN da subnet API (dovrebbe essere da clienti)
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:35:03
+═══════════════════════════════════════════
+IP:              192.168.40.100
+Azione:          LOGIN
+Customer:        admin_10
+Timestamp:       2026-02-22T17:49:35.166286
+Motivo:          BONIFICO/LOGIN da subnet API (dovrebbe essere da clienti)
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:35:03
+═══════════════════════════════════════════
+IP:              192.168.40.100
+Azione:          LOGIN
+Customer:        admin_9
+Timestamp:       2026-02-22T17:49:34.861740
+Motivo:          BONIFICO/LOGIN da subnet API (dovrebbe essere da clienti)
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:35:03
+═══════════════════════════════════════════
+IP:              192.168.40.100
+Azione:          LOGIN
+Customer:        admin_8
+Timestamp:       2026-02-22T17:49:34.560228
+Motivo:          BONIFICO/LOGIN da subnet API (dovrebbe essere da clienti)
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:35:03
+═══════════════════════════════════════════
+IP:              192.168.40.100
+Azione:          LOGIN
+Customer:        admin_7
+Timestamp:       2026-02-22T17:49:34.256448
+Motivo:          BONIFICO/LOGIN da subnet API (dovrebbe essere da clienti)
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:35:03
+═══════════════════════════════════════════
+IP:              192.168.40.100
+Azione:          LOGIN
+Customer:        admin_6
+Timestamp:       2026-02-22T17:49:33.954182
+Motivo:          BONIFICO/LOGIN da subnet API (dovrebbe essere da clienti)
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:35:03
+═══════════════════════════════════════════
+IP:              192.168.40.100
+Azione:          LOGIN
+Customer:        admin_5
+Timestamp:       2026-02-22T17:49:33.677337
+Motivo:          BONIFICO/LOGIN da subnet API (dovrebbe essere da clienti)
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:35:03
+═══════════════════════════════════════════
+IP:              192.168.40.100
+Azione:          LOGIN
+Customer:        admin_4
+Timestamp:       2026-02-22T17:49:33.344801
+Motivo:          BONIFICO/LOGIN da subnet API (dovrebbe essere da clienti)
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:35:03
+═══════════════════════════════════════════
+IP:              192.168.40.100
+Azione:          LOGIN
+Customer:        admin_3
+Timestamp:       2026-02-22T17:49:33.042861
+Motivo:          BONIFICO/LOGIN da subnet API (dovrebbe essere da clienti)
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:35:03
+═══════════════════════════════════════════
+IP:              192.168.40.100
+Azione:          LOGIN
+Customer:        admin_2
+Timestamp:       2026-02-22T17:49:32.741903
+Motivo:          BONIFICO/LOGIN da subnet API (dovrebbe essere da clienti)
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:35:03
+═══════════════════════════════════════════
+IP:              192.168.40.100
+Azione:          LOGIN
+Customer:        admin_1
+Timestamp:       2026-02-22T17:49:32.439650
+Motivo:          BONIFICO/LOGIN da subnet API (dovrebbe essere da clienti)
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:35:03
+═══════════════════════════════════════════
+IP:              192.168.30.3
+Azione:          LOGIN
+Customer:        ATM_3
+Timestamp:       2026-02-22T17:46:33.044914
+Motivo:          BONIFICO/LOGIN da subnet ATM (dovrebbe essere da clienti)
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:35:03
+═══════════════════════════════════════════
+IP:              192.168.30.2
+Azione:          LOGIN
+Customer:        ATM_2
+Timestamp:       2026-02-22T17:46:32.548162
+Motivo:          BONIFICO/LOGIN da subnet ATM (dovrebbe essere da clienti)
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:35:03
+═══════════════════════════════════════════
+IP:              192.168.30.1
+Azione:          LOGIN
+Customer:        ATM_1
+Timestamp:       2026-02-22T17:46:32.041325
+Motivo:          BONIFICO/LOGIN da subnet ATM (dovrebbe essere da clienti)
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:35:03
+═══════════════════════════════════════════
+IP:              192.168.30.3
+Azione:          LOGIN
+Customer:        ATM_3
+Timestamp:       2026-02-22T17:43:37.037646
+Motivo:          BONIFICO/LOGIN da subnet ATM (dovrebbe essere da clienti)
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:35:03
+═══════════════════════════════════════════
+IP:              192.168.30.2
+Azione:          LOGIN
+Customer:        ATM_2
+Timestamp:       2026-02-22T17:43:36.535736
+Motivo:          BONIFICO/LOGIN da subnet ATM (dovrebbe essere da clienti)
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:35:03
+═══════════════════════════════════════════
+IP:              192.168.30.1
+Azione:          LOGIN
+Customer:        ATM_1
+Timestamp:       2026-02-22T17:43:36.034340
+Motivo:          BONIFICO/LOGIN da subnet ATM (dovrebbe essere da clienti)
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:35:03
+═══════════════════════════════════════════
+IP:              192.168.30.3
+Azione:          LOGIN
+Customer:        ATM_3
+Timestamp:       2026-02-22T17:39:43.824802
+Motivo:          BONIFICO/LOGIN da subnet ATM (dovrebbe essere da clienti)
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:35:03
+═══════════════════════════════════════════
+IP:              192.168.30.2
+Azione:          LOGIN
+Customer:        ATM_2
+Timestamp:       2026-02-22T17:39:43.323023
+Motivo:          BONIFICO/LOGIN da subnet ATM (dovrebbe essere da clienti)
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:35:03
+═══════════════════════════════════════════
+IP:              192.168.30.1
+Azione:          LOGIN
+Customer:        ATM_1
+Timestamp:       2026-02-22T17:39:42.821437
+Motivo:          BONIFICO/LOGIN da subnet ATM (dovrebbe essere da clienti)
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:35:03
+═══════════════════════════════════════════
+IP:              192.168.30.3
+Azione:          LOGIN
+Customer:        ATM_3
+Timestamp:       2026-02-22T17:37:46.513651
+Motivo:          BONIFICO/LOGIN da subnet ATM (dovrebbe essere da clienti)
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:35:03
+═══════════════════════════════════════════
+IP:              192.168.30.2
+Azione:          LOGIN
+Customer:        ATM_2
+Timestamp:       2026-02-22T17:37:46.007559
+Motivo:          BONIFICO/LOGIN da subnet ATM (dovrebbe essere da clienti)
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:35:03
+═══════════════════════════════════════════
+IP:              192.168.30.1
+Azione:          LOGIN
+Customer:        ATM_1
+Timestamp:       2026-02-22T17:37:45.505730
+Motivo:          BONIFICO/LOGIN da subnet ATM (dovrebbe essere da clienti)
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:35:03
+═══════════════════════════════════════════
+IP:              192.168.30.3
+Azione:          LOGIN
+Customer:        ATM_3
+Timestamp:       2026-02-22T17:37:27.726960
+Motivo:          BONIFICO/LOGIN da subnet ATM (dovrebbe essere da clienti)
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:35:03
+═══════════════════════════════════════════
+IP:              192.168.30.2
+Azione:          LOGIN
+Customer:        ATM_2
+Timestamp:       2026-02-22T17:37:27.225305
+Motivo:          BONIFICO/LOGIN da subnet ATM (dovrebbe essere da clienti)
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:35:04
+═══════════════════════════════════════════
+IP:              192.168.30.1
+Azione:          LOGIN
+Customer:        ATM_1
+Timestamp:       2026-02-22T17:37:26.724123
+Motivo:          BONIFICO/LOGIN da subnet ATM (dovrebbe essere da clienti)
+
+═══════════════════════════════════════════
+ALERT SUBNET NON AUTORIZZATA - 2026-02-22 19:35:04
+═══════════════════════════════════════════
+IP:              192.168.99.99
+Azione:          LOGIN
+Customer:        test_user
+Timestamp:       2026-02-22T17:20:00.360580
+Motivo:          BONIFICO/LOGIN da subnet sconosciuta
+

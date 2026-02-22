@@ -1,17 +1,18 @@
 #!/bin/bash
 
-# PROBLEMA 9: INCOERENZA RETE - GEOLOCATION & PATH ANALYSIS
+# PROBLEMA 9: INCOERENZA RETE - SUBNET AUTHORIZATION & CONTEXT VALIDATION
 #
-# SCOPO: Identificare connessioni da location geografiche incoerenti o path
-#        di rete sospetti (troppe hop, routing anomalo)
+# SCOPO: Identificare operazioni da subnet inappropriate (es. bonifico da range ATM,
+#        prelievo da range API, accessi da IP pubblici non autorizzati)
 #
-# METODO: Usa traceroute/mtr per analizzare path di rete, dig/host per DNS reverse,
-#         verifica RTT e numero hop
+# METODO: Verifica che l'IP sorgente appartenga alla subnet corretta per il tipo
+#         di operazione eseguita. Es: BONIFICO da subnet clienti (OK), 
+#         BONIFICO da subnet ATM (ANOMALO)
 #
-# DATABASE: Usato SOLO per lookup puntuale customer_id
-# BLACKLIST: Registra IP con path di rete anomali
+# DATABASE: Legge log recenti per verificare IP vs azione
+# BLACKLIST: Registra IP che eseguono operazioni da subnet inappropriate
 #
-# DIPENDENZE: traceroute o mtr, dig, host, ss
+# DIPENDENZE: sqlite3
 
 BLACKLIST_PATH="/workspaces/SO/blacklist.csv"
 LOG_INCOERENZA="/workspaces/SO/logs/incoerenza_rete_alerts.log"
@@ -19,10 +20,31 @@ DB_PATH="/workspaces/SO/data/bank_logs.db"
 
 # Parametri
 SERVER_PORT=8000
-SOGLIA_HOP_MAX=15        # Max hop accettabili (tipico: 8-12 per rete normale)
-SOGLIA_RTT_MAX=200       # Max RTT in ms (200ms = sospetto se "locale")
-INTERVALLO_CHECK=20
-DURATA_MONITORAGGIO=120
+INTERVALLO_CHECK=10      # Controlla ogni 10 secondi
+DURATA_MONITORAGGIO=60   # Durata totale 60 secondi
+
+# DEFINIZIONE SUBNET AUTORIZZATE
+# Ogni tipo di operazione ha subnet specifiche da cui può provenire
+# Formato subnet: 192.168.X.0/24 → verifica 192.168.X.*
+
+# Subnet clienti normali (possono fare: LOGIN, BONIFICO, CONSULTA_SALDO)
+SUBNET_CLIENTI="192.168.10 192.168.20"
+
+# Subnet ATM (possono fare: PRELIEVO, DEPOSITO, CONSULTA_SALDO)
+SUBNET_ATM="192.168.30"
+
+# Subnet API/servizi (possono fare: solo operazioni automatiche)
+SUBNET_API="192.168.40"
+
+# Subnet amministrazione (possono fare tutto)
+SUBNET_ADMIN="192.168.1"
+
+# Localhost (test - permesso)
+SUBNET_TEST="127.0.0"
+
+# Subnet pubbliche non autorizzate (tutti gli altri IP pubblici sono sospetti)
+# 203.0.113.0/24 è range di test RFC5737
+SUBNET_PUBBLICHE_TEST="203.0.113"
 
 mkdir -p $(dirname "$LOG_INCOERENZA")
 
@@ -65,184 +87,196 @@ aggiungi_blacklist() {
     fi
 }
 
-# FUNZIONE: traceroute_analisi
-# Esegue traceroute e conta numero di hop
-# ARG1: IP destinazione
-# RETURN: stampa numero hop (o 0 se fallisce)
-traceroute_analisi() {
-    local target_ip="$1"
-    
-    # traceroute:
-    # -m 20: max-hops 20 (ferma dopo 20 hop)
-    # -w 2: wait 2 secondi per risposta
-    # -q 1: query 1 pacchetto per hop (più veloce)
-    # grep -c "^ ": conta righe che iniziano con spazio (hop validi)
-    
-    local num_hop=$(traceroute -m 20 -w 2 -q 1 "$target_ip" 2>/dev/null | grep -c "^ " || echo 0)
-    
-    echo "$num_hop"
-}
-
-# FUNZIONE: ottieni_asn_info
-# Tenta di ottenere ASN (Autonomous System Number) dall'IP
-# Utile per identificare ISP/organizzazione
-# ARG1: IP
-ottieni_asn_info() {
+# FUNZIONE: verifica_subnet
+# Controlla se un IP appartiene a una subnet
+# ARG1: IP (es. 192.168.30.1)
+# ARG2: Lista subnet (es. "192.168.30 192.168.40")
+# RETURN: 0 se appartiene, 1 se non appartiene
+verifica_subnet() {
     local ip="$1"
+    local subnet_list="$2"
     
-    # Reverse IP per query whois-like
-    # dig può interrogare servizi come cymru.com per ASN
-    # Esempio query: dig +short <reversed-ip>.origin.asn.cymru.com TXT
+    # Estrai i primi 3 ottetti dell'IP (es. 192.168.30 da 192.168.30.1)
+    local ip_prefix=$(echo "$ip" | cut -d'.' -f1-3)
     
-    # Per semplicità, usiamo solo reverse DNS
-    # dig:
-    # -x: reverse lookup (PTR record)
-    # +short: output solo risposta
-    local ptr=$(dig -x "$ip" +short 2>/dev/null | head -1)
+    # Controlla se il prefisso è in una delle subnet
+    for subnet in $subnet_list; do
+        if [ "$ip_prefix" = "$subnet" ]; then
+            return 0  # Trovato
+        fi
+    done
     
-    if [ -z "$ptr" ]; then
-        echo "UNKNOWN"
-    else
-        echo "$ptr"
-    fi
+    return 1  # Non trovato
 }
 
-# FUNZIONE: analizza_hostname_geolocation
-# Estrae info geografiche da hostname (es. "fra" = Frankfurt)
-# ARG1: hostname
-analizza_hostname_geolocation() {
-    local hostname="$1"
+# FUNZIONE: verifica_azione_autorizzata
+# Verifica se un'azione è autorizzata per una determinata subnet
+# ARG1: IP
+# ARG2: Azione (BONIFICO, PRELIEVO, LOGIN, ecc.)
+# RETURN: 0 se autorizzata, 1 se NON autorizzata (+ echo messaggio)
+verifica_azione_autorizzata() {
+    local ip="$1"
+    local azione="$2"
     
-    # Cerca pattern geografici comuni in hostname
-    # fra/frank = Frankfurt, ams = Amsterdam, lon = London, etc
-    
-    # grep -oiE: output only, case-insensitive, extended regex
-    local geo=$(echo "$hostname" | grep -oiE "fra|frank|ams|lon|nyc|sfo|lax|par|mil|rom" | head -1)
-    
-    if [ -n "$geo" ]; then
-        echo "$geo (identificato da hostname)"
-    else
-        echo "UNKNOWN"
+    # Localhost/test sempre autorizzato (per non bloccare i test)
+    if verifica_subnet "$ip" "$SUBNET_TEST"; then
+        return 0
     fi
+    
+    # Admin sempre autorizzato
+    if verifica_subnet "$ip" "$SUBNET_ADMIN"; then
+        return 0
+    fi
+    
+    # Regole specifiche per azione
+    case "$azione" in
+        BONIFICO|CONSULTA_SALDO|LOGIN)
+            # Queste azioni DEVONO venire da subnet clienti
+            if verifica_subnet "$ip" "$SUBNET_CLIENTI"; then
+                return 0
+            else
+                # ANOMALO: bonifico/login da subnet non-clienti
+                if verifica_subnet "$ip" "$SUBNET_ATM"; then
+                    echo "BONIFICO/LOGIN da subnet ATM (dovrebbe essere da clienti)"
+                    return 1
+                elif verifica_subnet "$ip" "$SUBNET_API"; then
+                    echo "BONIFICO/LOGIN da subnet API (dovrebbe essere da clienti)"
+                    return 1
+                elif verifica_subnet "$ip" "$SUBNET_PUBBLICHE_TEST"; then
+                    echo "BONIFICO/LOGIN da IP pubblico non autorizzato"
+                    return 1
+                else
+                    echo "BONIFICO/LOGIN da subnet sconosciuta"
+                    return 1
+                fi
+            fi
+            ;;
+        
+        PRELIEVO|DEPOSITO)
+            # Queste azioni DEVONO venire da ATM
+            if verifica_subnet "$ip" "$SUBNET_ATM"; then
+                return 0
+            else
+                # ANOMALO: prelievo da subnet non-ATM
+                if verifica_subnet "$ip" "$SUBNET_CLIENTI"; then
+                    echo "PRELIEVO/DEPOSITO da subnet clienti (dovrebbe essere da ATM)"
+                    return 1
+                elif verifica_subnet "$ip" "$SUBNET_API"; then
+                    echo "PRELIEVO/DEPOSITO da subnet API (dovrebbe essere da ATM)"
+                    return 1
+                else
+                    echo "PRELIEVO/DEPOSITO da subnet non-ATM"
+                    return 1
+                fi
+            fi
+            ;;
+        
+        *)
+            # Azioni sconosciute: permetti ma logga
+            return 0
+            ;;
+    esac
 }
+
 
 echo "================================================================================"
-echo "[$(date '+%Y-%m-%d %H:%M:%S')] ANALISI INCOERENZA RETE AVVIATA"
+echo "[$(date '+%Y-%m-%d %H:%M:%S')] ANALISI INCOERENZA RETE (SUBNET) AVVIATA"
 echo "================================================================================" | tee -a "$LOG_INCOERENZA"
 
 echo "[*] Porta: $SERVER_PORT"
-echo "[*] Soglie: max $SOGLIA_HOP_MAX hop, max $SOGLIA_RTT_MAX ms RTT"
+echo "[*] Verifica subnet autorizzate per tipo operazione"
 echo "[*] Intervallo: $INTERVALLO_CHECK secondi"
 echo "[*] Durata: $DURATA_MONITORAGGIO secondi"
 echo ""
-
-# Verifica traceroute disponibile
-if ! command -v traceroute &> /dev/null; then
-    echo "[!] WARNING: traceroute non installato, alcune analisi saranno skippate"
-    echo "[*] Installa con: sudo apt-get install traceroute"
-fi
+echo "[*] Subnet clienti: $SUBNET_CLIENTI"
+echo "[*] Subnet ATM: $SUBNET_ATM"
+echo "[*] Subnet API: $SUBNET_API"
+echo ""
 
 ITERAZIONI=0
 MAX_ITERAZIONI=$((DURATA_MONITORAGGIO / INTERVALLO_CHECK))
 ALERT_COUNT=0
 
+# Timestamp ultimo controllo (per evitare di riprocessare stessi log)
+LAST_CHECK_TIMESTAMP=$(date -d '1 minute ago' '+%Y-%m-%d %H:%M:%S')
+
 while [ $ITERAZIONI -le $MAX_ITERAZIONI ]; do
     
     echo "[Check #$ITERAZIONI] $(date '+%H:%M:%S')"
     
-    # Estrai IP connessi
-    IPS_CONNESSI=$(ss -tn state established sport = :$SERVER_PORT 2>/dev/null | \
-        awk 'NR>1 {print $5}' | cut -d':' -f1 | sort -u)
+    # Leggi log recenti dal database (ultimi 30 secondi)
+    QUERY="SELECT ip_address, azione, customer_id, timestamp 
+           FROM logs 
+           WHERE timestamp > '$LAST_CHECK_TIMESTAMP' 
+           ORDER BY timestamp DESC"
     
-    NUM_IPS=$(echo "$IPS_CONNESSI" | grep -c '^' 2>/dev/null || echo 0)
+    IPS_ANALIZZATI=0
     
-    if [ $NUM_IPS -gt 0 ]; then
-        echo "  → IP da analizzare: $NUM_IPS"
+    while IFS='|' read -r ip azione customer timestamp; do
         
-        echo "$IPS_CONNESSI" | while read -r ip; do
+        if [ -n "$ip" ] && [ -n "$azione" ]; then
+            IPS_ANALIZZATI=$((IPS_ANALIZZATI + 1))
             
-            if [ -n "$ip" ]; then
+            # Verifica se azione è autorizzata per la subnet dell'IP
+            MOTIVO=$(verifica_azione_autorizzata "$ip" "$azione")
+            AUTORIZZATO=$?
+            
+            if [ $AUTORIZZATO -ne 0 ]; then
+                # ANOMALIA RILEVATA
                 echo ""
-                echo "  ┌─ Analisi: $ip"
+                echo "  [!!!] ANOMALIA RILEVATA"
+                echo "  ├─ IP: $ip"
+                echo "  ├─ Azione: $azione"
+                echo "  ├─ Customer: $customer"
+                echo "  ├─ Timestamp: $timestamp"
+                echo "  └─ Motivo: $MOTIVO"
                 
-                # PTR / ASN info
-                PTR_INFO=$(ottieni_asn_info "$ip")
-                echo "  │  PTR: $PTR_INFO"
-                
-                # Geolocation da hostname
-                GEO=$(analizza_hostname_geolocation "$PTR_INFO")
-                echo "  │  Geo: $GEO"
-                
-                # Traceroute (se disponibile)
-                if command -v traceroute &> /dev/null; then
-                    echo "  │  Traceroute in corso..."
-                    
-                    NUM_HOP=$(traceroute_analisi "$ip")
-                    echo "  │  Hop: $NUM_HOP"
-                    
-                    # Verifica se hop eccessivi
-                    # -gt: greater than
-                    if [ "$NUM_HOP" -gt "$SOGLIA_HOP_MAX" ]; then
-                        echo "  │"
-                        echo "  └─ [!!!] TROPPI HOP: $NUM_HOP (soglia: $SOGLIA_HOP_MAX)"
-                        
-                        # Lookup customer
-                        CUSTOMER_QUERY="SELECT customer_id FROM logs 
-                                        WHERE ip_address='$ip' 
-                                        ORDER BY timestamp DESC LIMIT 1"
-                        customer_id=$(sqlite3 "$DB_PATH" "$CUSTOMER_QUERY" 2>/dev/null)
-                        
-                        if [ -z "$customer_id" ]; then
-                            customer_id="UNKNOWN"
-                        fi
-                        
-                        # Blacklist
-                        if controlla_blacklist "IP" "$ip"; then
-                            echo "      → GIÀ IN BLACKLIST (RECIDIVO)"
-                            aggiungi_blacklist "IP" "$ip" "PATH_RETE_ANOMALO" \
-                                "ALTA" 60 "$NUM_HOP hop (max: $SOGLIA_HOP_MAX), PTR: $PTR_INFO, geo: $GEO, customer: $customer_id"
-                        else
-                            echo "      → PRIMO RILEVAMENTO"
-                            aggiungi_blacklist "IP" "$ip" "PATH_RETE_ANOMALO" \
-                                "MEDIA" 40 "$NUM_HOP hop (max: $SOGLIA_HOP_MAX), PTR: $PTR_INFO, geo: $GEO, customer: $customer_id"
-                        fi
-                        
-                        ALERT_COUNT=$((ALERT_COUNT + 1))
-                        
-                        # Log
-                        {
-                            echo "═══════════════════════════════════════════"
-                            echo "ALERT INCOERENZA - $(date '+%Y-%m-%d %H:%M:%S')"
-                            echo "═══════════════════════════════════════════"
-                            echo "IP:          $ip"
-                            echo "Hop:         $NUM_HOP (soglia: $SOGLIA_HOP_MAX)"
-                            echo "PTR:         $PTR_INFO"
-                            echo "Geo:         $GEO"
-                            echo "Customer:    $customer_id"
-                            echo ""
-                        } >> "$LOG_INCOERENZA"
-                        
-                    else
-                        echo "  └─ Path normale ($NUM_HOP hop)"
-                    fi
+                # Blacklist
+                if controlla_blacklist "IP" "$ip"; then
+                    aggiungi_blacklist "IP" "$ip" "SUBNET_NON_AUTORIZZATA" \
+                        "CRITICA" 90 "Azione $azione da subnet inappropriata: $MOTIVO, customer: $customer"
+                    echo "  [!] AGGIUNTO A BLACKLIST (RECIDIVO)"
                 else
-                    echo "  └─ Traceroute non disponibile"
+                    aggiungi_blacklist "IP" "$ip" "SUBNET_NON_AUTORIZZATA" \
+                        "ALTA" 70 "Azione $azione da subnet inappropriata: $MOTIVO, customer: $customer"
+                    echo "  [!] AGGIUNTO A BLACKLIST"
                 fi
                 
+                ALERT_COUNT=$((ALERT_COUNT + 1))
+                
+                # Log
+                {
+                    echo "═══════════════════════════════════════════"
+                    echo "ALERT SUBNET NON AUTORIZZATA - $(date '+%Y-%m-%d %H:%M:%S')"
+                    echo "═══════════════════════════════════════════"
+                    echo "IP:              $ip"
+                    echo "Azione:          $azione"
+                    echo "Customer:        $customer"
+                    echo "Timestamp:       $timestamp"
+                    echo "Motivo:          $MOTIVO"
+                    echo ""
+                } >> "$LOG_INCOERENZA"
+                
+                echo ""
             fi
-        done
-    else
-        echo "  → Nessuna connessione"
-    fi
+        fi
+        
+    done < <(sqlite3 "$DB_PATH" "$QUERY" 2>/dev/null)
     
-    echo ""
+    echo "  → Log analizzati: $IPS_ANALIZZATI | Alert: $ALERT_COUNT"
+    
+    # Aggiorna timestamp per prossimo controllo
+    LAST_CHECK_TIMESTAMP=$(date '+%Y-%m-%d %H:%M:%S')
+    
     ITERAZIONI=$((ITERAZIONI + 1))
     
-    if [ $ITERAZIONI -lt $MAX_ITERAZIONI ]; then
+    if [ $ITERAZIONI -le $MAX_ITERAZIONI ]; then
         sleep $INTERVALLO_CHECK
     fi
+    
 done
 
+echo ""
 echo "================================================================================"
 echo "[✓] Analisi completata"
 echo "[*] Check eseguiti: $ITERAZIONI"

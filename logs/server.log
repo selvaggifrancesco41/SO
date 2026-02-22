@@ -976,3 +976,21 @@
 2026-02-22 19:22:30,887 127.0.0.1 - - [22/Feb/2026 19:22:30] "GET /login?customer_id=test_simple&session_duration=2 HTTP/1.1" 200 -
 2026-02-22 19:24:46,768 LOGIN customer_id=test_fix ip=127.0.0.1 importo=None iban=None
 2026-02-22 19:24:46,769 127.0.0.1 - - [22/Feb/2026 19:24:46] "GET /login?customer_id=test_fix&session_duration=2 HTTP/1.1" 200 -
+2026-02-22 19:27:40,537 BONIFICO customer_id=atm_001 ip=192.168.30.1 importo=50000 iban=IT5678...
+2026-02-22 19:27:40,537 127.0.0.1 - - [22/Feb/2026 19:27:40] "GET /bonifico?customer_id=atm_001&importo=50000&iban=IT5678... HTTP/1.1" 200 -
+2026-02-22 19:27:41,546 PRELIEVO customer_id=api_client ip=192.168.40.50 importo=500 iban=None
+2026-02-22 19:27:41,546 127.0.0.1 - - [22/Feb/2026 19:27:41] "GET /prelievo?customer_id=api_client&importo=500 HTTP/1.1" 200 -
+2026-02-22 19:27:42,542 LOGIN customer_id=admin ip=203.0.113.25 importo=None iban=None
+2026-02-22 19:27:42,542 127.0.0.1 - - [22/Feb/2026 19:27:42] "GET /login?customer_id=admin&session_duration=60 HTTP/1.1" 200 -
+2026-02-22 19:34:21,760 BONIFICO customer_id=atm_001 ip=192.168.30.1 importo=50000 iban=IT5678...
+2026-02-22 19:34:21,760 127.0.0.1 - - [22/Feb/2026 19:34:21] "GET /bonifico?customer_id=atm_001&importo=50000&iban=IT5678... HTTP/1.1" 200 -
+2026-02-22 19:34:22,762 PRELIEVO customer_id=api_client ip=192.168.40.50 importo=500 iban=None
+2026-02-22 19:34:22,762 127.0.0.1 - - [22/Feb/2026 19:34:22] "GET /prelievo?customer_id=api_client&importo=500 HTTP/1.1" 200 -
+2026-02-22 19:34:23,764 LOGIN customer_id=admin ip=203.0.113.25 importo=None iban=None
+2026-02-22 19:34:23,764 127.0.0.1 - - [22/Feb/2026 19:34:23] "GET /login?customer_id=admin&session_duration=60 HTTP/1.1" 200 -
+2026-02-22 19:34:37,258 BONIFICO customer_id=atm_001 ip=192.168.30.1 importo=50000 iban=IT5678...
+2026-02-22 19:34:37,258 127.0.0.1 - - [22/Feb/2026 19:34:37] "GET /bonifico?customer_id=atm_001&importo=50000&iban=IT5678... HTTP/1.1" 200 -
+2026-02-22 19:34:38,259 PRELIEVO customer_id=api_client ip=192.168.40.50 importo=500 iban=None
+2026-02-22 19:34:38,260 127.0.0.1 - - [22/Feb/2026 19:34:38] "GET /prelievo?customer_id=api_client&importo=500 HTTP/1.1" 200 -
+2026-02-22 19:34:39,262 LOGIN customer_id=admin ip=203.0.113.25 importo=None iban=None
+2026-02-22 19:34:39,262 127.0.0.1 - - [22/Feb/2026 19:34:39] "GET /login?customer_id=admin&session_duration=60 HTTP/1.1" 200 -
