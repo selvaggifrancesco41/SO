@@ -115,45 +115,41 @@ COUNTER=0
 ALERT_COUNT=0
 
 # CATTURA CON TCPDUMP
-# tcpdump:
-# -i any: tutte le interfacce
+# tcpdump (SENZA -v per output prevedibile su singola riga):
+# -i lo: interfaccia loopback
 # -n: no DNS resolution
 # -tttt: timestamp human-readable
-# -v: verbose (mostra più dettagli)
 # -s 0: snapshot-length 0 = cattura pacchetto intero (no truncate)
 # tcp port 8000: filtra TCP porta 8000
-# ${var##* }: rimuove tutto fino all'ultimo spazio (bash parameter expansion)
+#
+# Output format (su UNA riga):
+# 2026-02-22 19:20:58.123456 IP 127.0.0.1.8000 > 127.0.0.1.49136: Flags [S], seq 123, win 65495, length 0
 
-timeout $DURATA_CATTURA sudo tcpdump -i lo -n -tttt -v -s 0 "tcp port $SERVER_PORT" 2>/dev/null | \
+timeout $DURATA_CATTURA sudo tcpdump -i lo -n -tttt -s 0 "tcp port $SERVER_PORT" 2>/dev/null | \
 while read -r line; do
     
-    # tcpdump output format con -v (verbose):
-    # Riga 1: timestamp IP (tos...) length XXX
-    # Riga 2: src.port > dst.port: Flags [...], length YYY
+    # Ogni riga contiene tutte le info: timestamp, IP src>dst, Flags, length
     
-    # Salva righe con "length" per estrazione dimensioni
-    if echo "$line" | grep -q "length"; then
-        # Salva questa riga e leggi la successiva per IP
-        METADATA_LINE="$line"
-        read -r IP_LINE
-        
-        # Verifica che IP_LINE contenga ">" (indicatore di src > dst)
-        if ! echo "$IP_LINE" | grep -q ">"; then
-            # Non è una riga con IP, skippa
-            continue
-        fi
+    # Verifica che sia una riga di pacchetto (contiene ">" e "length")
+    if echo "$line" | grep -q ">" && echo "$line" | grep -q "length"; then
         
         COUNTER=$((COUNTER + 1))
         
-        # Estrai lunghezza pacchetto dalla metadata line
+        # Estrai lunghezza pacchetto (alla fine della riga)
         # grep -oP: output only match, Perl regex
         # 'length \K\d+': \K scarta tutto prima, \d+ cattura cifre
-        PACKET_LENGTH=$(echo "$METADATA_LINE" | grep -oP 'length \K\d+' 2>/dev/null)
+        PACKET_LENGTH=$(echo "$line" | grep -oP 'length \K\d+' 2>/dev/null)
         
-        # Estrai IP sorgente dalla IP line (prima del >)
-        # awk '{print $1}': primo campo = src_ip.port
+        # Estrai IP sorgente (prima del >)
+        # awk: cerca campo con ">" e prendi quello prima
         # cut -d'.' -f1-4: primi 4 campi delimitati da . (IP senza porta)
-        SRC_IP=$(echo "$IP_LINE" | awk '{print $1}' | cut -d'.' -f1-4)
+        SRC_IP=$(echo "$line" | awk -F'>' '{print $1}' | awk '{print $NF}' | cut -d'.' -f1-4)
+        
+        # Valida che SRC_IP sia un IP valido (contiene almeno 1 punto)
+        if ! echo "$SRC_IP" | grep -q '\.'; then
+            # Non è un IP valido, skippa
+            continue
+        fi
         
         # -n: verifica NON vuoto
         if [ -n "$PACKET_LENGTH" ] && [ -n "$SRC_IP" ]; then
@@ -167,8 +163,8 @@ while read -r line; do
                 echo "[+] Pacchetto #$COUNTER ANOMALO:"
                 echo "    IP: $SRC_IP | Dimensione: $PACKET_LENGTH bytes"
                 
-                # Estrai TCP flags dalla IP_LINE (la seconda riga con gli indirizzi)
-                FLAGS=$(echo "$IP_LINE" | grep -oP 'Flags \[\K[^\]]+' 2>/dev/null)
+                # Estrai TCP flags dalla stessa riga
+                FLAGS=$(echo "$line" | grep -oP 'Flags \[\K[^\]]+' 2>/dev/null)
                 if [ -n "$FLAGS" ]; then
                     FLAG_ANALYSIS=$(analizza_tcp_flags "$FLAGS")
                     echo "    Flags: $FLAGS → $FLAG_ANALYSIS"
@@ -222,8 +218,7 @@ while read -r line; do
                     echo "Customer:        $customer_id"
                     echo ""
                     echo "Dettagli pacchetto:"
-                    echo "$METADATA_LINE"
-                    echo "$IP_LINE"
+                    echo "$line"
                     echo ""
                 } >> "$LOG_COVERT"
                 

@@ -972,3 +972,7 @@
 2026-02-22 19:18:17,999 127.0.0.1 - - [22/Feb/2026 19:18:17] "GET /login?customer_id=test_tcpdump&session_duration=5 HTTP/1.1" 200 -
 2026-02-22 19:18:30,655 LOGIN customer_id=tcpdump_test ip=127.0.0.1 importo=None iban=None
 2026-02-22 19:18:30,655 127.0.0.1 - - [22/Feb/2026 19:18:30] "GET /login?customer_id=tcpdump_test&session_duration=3 HTTP/1.1" 200 -
+2026-02-22 19:22:30,887 LOGIN customer_id=test_simple ip=127.0.0.1 importo=None iban=None
+2026-02-22 19:22:30,887 127.0.0.1 - - [22/Feb/2026 19:22:30] "GET /login?customer_id=test_simple&session_duration=2 HTTP/1.1" 200 -
+2026-02-22 19:24:46,768 LOGIN customer_id=test_fix ip=127.0.0.1 importo=None iban=None
+2026-02-22 19:24:46,769 127.0.0.1 - - [22/Feb/2026 19:24:46] "GET /login?customer_id=test_fix&session_duration=2 HTTP/1.1" 200 -
