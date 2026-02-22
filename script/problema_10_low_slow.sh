@@ -124,7 +124,7 @@ while [ $ITERAZIONI -le $MAX_ITERAZIONI ]; do
     
     CONNESSIONI=$(ss -tno state established sport = :$SERVER_PORT 2>/dev/null)
     
-    NUM_CONN=$(echo "$CONNESSIONI" | grep -c "^tcp" 2>/dev/null || echo 0)
+    NUM_CONN=$(echo "$CONNESSIONI" | grep "^tcp" | wc -l)
     
     echo "  → Connessioni attive: $NUM_CONN"
     

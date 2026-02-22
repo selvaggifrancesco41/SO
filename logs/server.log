@@ -994,3 +994,11 @@
 2026-02-22 19:34:38,260 127.0.0.1 - - [22/Feb/2026 19:34:38] "GET /prelievo?customer_id=api_client&importo=500 HTTP/1.1" 200 -
 2026-02-22 19:34:39,262 LOGIN customer_id=admin ip=203.0.113.25 importo=None iban=None
 2026-02-22 19:34:39,262 127.0.0.1 - - [22/Feb/2026 19:34:39] "GET /login?customer_id=admin&session_duration=60 HTTP/1.1" 200 -
+2026-02-22 19:37:03,571 PRELIEVO customer_id=slow_client_1 ip=192.168.70.100 importo=10 iban=None
+2026-02-22 19:37:03,571 127.0.0.1 - - [22/Feb/2026 19:37:03] "GET /prelievo?customer_id=slow_client_1&importo=10 HTTP/1.1" 200 -
+2026-02-22 19:37:27,573 PRELIEVO customer_id=slow_client_2 ip=192.168.70.100 importo=10 iban=None
+2026-02-22 19:37:27,573 127.0.0.1 - - [22/Feb/2026 19:37:27] "GET /prelievo?customer_id=slow_client_2&importo=10 HTTP/1.1" 200 -
+2026-02-22 19:37:49,100 PRELIEVO customer_id=slow_client_1 ip=192.168.70.100 importo=10 iban=None
+2026-02-22 19:37:49,100 127.0.0.1 - - [22/Feb/2026 19:37:49] "GET /prelievo?customer_id=slow_client_1&importo=10 HTTP/1.1" 200 -
+2026-02-22 19:38:13,105 PRELIEVO customer_id=slow_client_2 ip=192.168.70.100 importo=10 iban=None
+2026-02-22 19:38:13,105 127.0.0.1 - - [22/Feb/2026 19:38:13] "GET /prelievo?customer_id=slow_client_2&importo=10 HTTP/1.1" 200 -
