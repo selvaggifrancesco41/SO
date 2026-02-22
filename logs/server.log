@@ -964,3 +964,11 @@
 2026-02-22 19:12:09,905 127.0.0.1 - - [22/Feb/2026 19:12:09] "GET /prelievo?customer_id=api_client&importo=500 HTTP/1.1" 200 -
 2026-02-22 19:12:10,907 LOGIN customer_id=admin ip=203.0.113.25 importo=None iban=None
 2026-02-22 19:12:10,907 127.0.0.1 - - [22/Feb/2026 19:12:10] "GET /login?customer_id=admin&session_duration=60 HTTP/1.1" 200 -
+2026-02-22 19:17:58,302 LOGIN customer_id=test ip=127.0.0.1 importo=None iban=None
+2026-02-22 19:17:58,303 127.0.0.1 - - [22/Feb/2026 19:17:58] "GET /login?customer_id=test&session_duration=10 HTTP/1.1" 200 -
+2026-02-22 19:18:13,140 LOGIN customer_id=test ip=127.0.0.1 importo=None iban=None
+2026-02-22 19:18:13,140 127.0.0.1 - - [22/Feb/2026 19:18:13] "GET /login?customer_id=test&session_duration=10 HTTP/1.1" 200 -
+2026-02-22 19:18:17,999 LOGIN customer_id=test_tcpdump ip=127.0.0.1 importo=None iban=None
+2026-02-22 19:18:17,999 127.0.0.1 - - [22/Feb/2026 19:18:17] "GET /login?customer_id=test_tcpdump&session_duration=5 HTTP/1.1" 200 -
+2026-02-22 19:18:30,655 LOGIN customer_id=tcpdump_test ip=127.0.0.1 importo=None iban=None
+2026-02-22 19:18:30,655 127.0.0.1 - - [22/Feb/2026 19:18:30] "GET /login?customer_id=tcpdump_test&session_duration=3 HTTP/1.1" 200 -
