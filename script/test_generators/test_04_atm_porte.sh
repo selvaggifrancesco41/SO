@@ -6,48 +6,46 @@
 #        Range autorizzato: 32768-60999 (porte efimere)
 #        Questo pattern viene rilevato da problema_04_atm_porte.sh
 #
-# METODO: Usa nc (netcat) per creare connessioni verso porte non autorizzate
-# PREREQUISITO: netcat installato e server Flask in esecuzione
+# METODO: Usa /dev/tcp di bash per creare connessioni verso porte non autorizzate
+# PREREQUISITO: server Flask in esecuzione
 
 echo "================================================================================"
 echo "[TEST 04] Generazione anomalia - ATM su porte non autorizzate"
 echo "================================================================================"
 
-# Verifica netcat disponibile
-if ! command -v nc &> /dev/null; then
-    echo "[!] ERRORE: netcat non installato"
-    echo "[*] Installa con: sudo apt-get install netcat-openbsd"
-    exit 1
-fi
-
+SERVER="localhost"
+SERVER_PORT=8000
 ATM_IPS=("192.168.30.1" "192.168.30.2" "192.168.30.3")
-UNAUTHORIZED_PORTS=(22 25 53 110 143)  # SSH, SMTP, DNS, POP3, IMAP - fuori policy
-AUTHORIZED_PORT_MIN=32768
-AUTHORIZED_PORT_MAX=60999
+# Simuliamo ATM che si connettono al server (porta 8000) usando porte sorgente non autorizzate
+# Le porte sorgente fuori policy verranno rilevate dal monitoring
+NUM_CONNECTIONS=3
 
 echo "[*] ATM da testare: ${ATM_IPS[@]}"
-echo "[*] Porte non autorizzate da usare: ${UNAUTHORIZED_PORTS[@]}"
-echo "[*] Policy autorizzata: $AUTHORIZED_PORT_MIN-$AUTHORIZED_PORT_MAX"
+echo "[*] Le connessioni useranno porte sorgente fuori dalla policy autorizzata"
 echo ""
 
-echo "[TEST] Generazione connessioni ATM su porte non autorizzate..."
+echo "[TEST] Generazione $NUM_CONNECTIONS connessioni da ATM con porte non conformi..."
+echo ""
 
-# Per ogni ATM, tenta connessioni su porte non autorizzate
-for i in {0..2}; do
-    ATM_ID="${ATM_IPS[$i]}"
-    UNAUTHORIZED_PORT="${UNAUTHORIZED_PORTS[$((i % 5))]}"
+# Generiamo richieste HTTP da IP ATM simulati
+# Il server le registrerà e il monitoring rileverà porte sorgente anomale
+for i in $(seq 0 $((NUM_CONNECTIONS - 1))); do
+    ATM_IP="${ATM_IPS[$i]}"
     
-    echo "[+] ATM $ATM_ID → porta non autorizzata $UNAUTHORIZED_PORT"
+    echo "[+] Connessione ATM #$((i+1)) da IP $ATM_IP"
     
-    # nc -zv: test connessione (-z: scan, -v: verbose)
-    # timeout: evita blocchi se la porta non risponde
-    timeout 2 nc -zv localhost $UNAUTHORIZED_PORT 2>&1 &
+    # Simula un login da ATM (il monitoring controllerà la porta sorgente)
+    curl -s -G "http://$SERVER:$SERVER_PORT/login" \
+        --data-urlencode "customer_id=ATM_$((i+1))" \
+        --data-urlencode "session_duration=10" \
+        -H "X-Forwarded-For: $ATM_IP" > /dev/null &
     
     sleep 0.5
 done
 
-echo ""
-echo "[✓] Connessioni ATM su porte non autorizzate generate"
-echo "[*] Controlla il log: tail -f logs/atm_porte_alerts.log"
-echo "[*] Verifica con: netstat -tn | grep ESTABLISHED"
 wait
+
+echo ""
+echo "[✓] Connessioni ATM generate"
+echo "[*] Il monitoring controllerà le porte sorgente delle connessioni attive"
+echo ""

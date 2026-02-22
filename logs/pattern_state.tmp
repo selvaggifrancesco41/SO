@@ -1,0 +1,16 @@
+# Pattern API state - Sun Feb 22 18:06:19 UTC 2026
+1771783584|127.0.0.1|GET|/prelievo?customer_id=bot_pattern&importo=100|curl/8.5.0
+1771783585|127.0.0.1|GET|/deposito?customer_id=bot_pattern&importo=50|curl/8.5.0
+1771783585|127.0.0.1|GET|/prelievo?customer_id=bot_pattern&importo=100|curl/8.5.0
+1771783587|127.0.0.1|GET|/prelievo?customer_id=bot_pattern&importo=100|curl/8.5.0
+1771783587|127.0.0.1|GET|/deposito?customer_id=bot_pattern&importo=50|curl/8.5.0
+1771783588|127.0.0.1|GET|/prelievo?customer_id=bot_pattern&importo=100|curl/8.5.0
+1771783589|127.0.0.1|GET|/prelievo?customer_id=bot_pattern&importo=100|curl/8.5.0
+1771783590|127.0.0.1|GET|/deposito?customer_id=bot_pattern&importo=50|curl/8.5.0
+1771783590|127.0.0.1|GET|/prelievo?customer_id=bot_pattern&importo=100|curl/8.5.0
+1771783592|127.0.0.1|GET|/prelievo?customer_id=bot_pattern&importo=100|curl/8.5.0
+1771783592|127.0.0.1|GET|/deposito?customer_id=bot_pattern&importo=50|curl/8.5.0
+1771783593|127.0.0.1|GET|/prelievo?customer_id=bot_pattern&importo=100|curl/8.5.0
+1771783594|127.0.0.1|GET|/prelievo?customer_id=bot_pattern&importo=100|curl/8.5.0
+1771783595|127.0.0.1|GET|/deposito?customer_id=bot_pattern&importo=50|curl/8.5.0
+1771783595|127.0.0.1|GET|/prelievo?customer_id=bot_pattern&importo=100|curl/8.5.0

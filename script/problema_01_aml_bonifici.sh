@@ -17,7 +17,7 @@
 BLACKLIST_PATH="/workspaces/SO/blacklist.csv"
 LOG_AML="/workspaces/SO/logs/aml_alerts.log"
 STATE_FILE="/workspaces/SO/logs/aml_state.tmp"  # File temporaneo per tracciare bonifici
-DB_PATH="/workspaces/SO/data/eventi_bancari.db"  # Solo per lookup puntuali
+DB_PATH="/workspaces/SO/data/bank_logs.db"  # Solo per lookup puntuali
 
 # Parametri soglia rilevamento
 SOGLIA_MITTENTI_UNICI=5     # Max mittenti distinti verso stesso IBAN

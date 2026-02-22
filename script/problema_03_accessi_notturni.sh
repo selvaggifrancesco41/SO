@@ -1,30 +1,37 @@
 #!/bin/bash
 
-# PROBLEMA 3: RILEVAMENTO ACCESSI NOTTURNI SOSPETTI - NETWORK MONITORING
+# PROBLEMA 3: RILEVAMENTO ACCESSI NOTTURNI SOSPETTI - DATABASE ANALYSIS
 #
-# SCOPO: Identificare connessioni al server durante orario notturno (22:00-06:00)
+# SCOPO: Identificare login al server durante orario notturno (22:00-06:00)
 #        che potrebbero indicare attività non autorizzate o compromissione
 #
-# METODO: Usa ss/netstat per monitorare connessioni attive durante fasce orarie
-#         sospette, verifica IP sorgente con nslookup/host per geolocalizzazione
+# METODO: Analizza periodicamente il database eventi per trovare eventi di tipo 'login'
+#         con timestamp in orario notturno. Verifica IP sorgente e customer_id
 #
-# DATABASE: Usato SOLO per lookup puntuale customer_id (opzionale)
-# BLACKLIST: Registra IP che si connettono in orari anomali
+# DATABASE: Query periodiche per eventi recenti in fascia oraria sospetta
+# BLACKLIST: Registra IP che fanno login in orari anomali
 #
-# DIPENDENZE: ss, date, host/nslookup, awk
+# DIPENDENZE: sqlite3, date, awk
 
 BLACKLIST_PATH="/workspaces/SO/blacklist.csv"
 LOG_NOTTURNI="/workspaces/SO/logs/notturni_alerts.log"
-DB_PATH="/workspaces/SO/data/eventi_bancari.db"
+DB_PATH="/workspaces/SO/data/bank_logs.db"
+LAST_CHECK_FILE="/tmp/problema03_last_check.txt"
 
 # Parametri
 SERVER_PORT=8000
 ORA_INIZIO_NOTTE=22    # 22:00 (10 PM)
 ORA_FINE_NOTTE=6       # 06:00 (6 AM)
-INTERVALLO_CHECK=10    # Secondi tra controlli
-DURATA_MONITORAGGIO=180  # 3 minuti totali
+INTERVALLO_CHECK=2     # Secondi tra controlli
+DURATA_MONITORAGGIO=30   # 30 secondi totale
 
 mkdir -p $(dirname "$LOG_NOTTURNI")
+
+# Inizializza timestamp ultimo check (solo se non esiste)
+if [ ! -f "$LAST_CHECK_FILE" ]; then
+    # Primo avvio: usa timestamp corrente in formato ISO
+    date -u '+%Y-%m-%dT%H:%M:%S' > "$LAST_CHECK_FILE"
+fi
 
 # FUNZIONE: controlla_blacklist
 controlla_blacklist() {
@@ -75,6 +82,11 @@ aggiungi_blacklist() {
 # FUNZIONE: verifica_orario_notturno
 # RETURN: 0 se è orario notturno, 1 se diurno
 verifica_orario_notturno() {
+    # Se TEST_MODE è attivo, forza sempre modalità notturna
+    if [ "${TEST_MODE:-0}" = "1" ]; then
+        return 0  # Modalità test - forza orario notturno
+    fi
+    
     # date +%H: estrae ora corrente in formato 24h (00-23)
     local ora_corrente=$(date +%H)
     # Rimuovi zero iniziale per confronto numerico
@@ -116,6 +128,9 @@ echo "[*] Porta monitorata: $SERVER_PORT"
 echo "[*] Orario notturno: ${ORA_INIZIO_NOTTE}:00 - 0${ORA_FINE_NOTTE}:00"
 echo "[*] Intervallo check: $INTERVALLO_CHECK secondi"
 echo "[*] Durata: $DURATA_MONITORAGGIO secondi"
+if [ "${TEST_MODE:-0}" = "1" ]; then
+    echo "[*] MODALITÀ TEST: controllo orario bypassato"
+fi
 echo ""
 
 ITERAZIONI=0
@@ -127,60 +142,70 @@ while [ $ITERAZIONI -le $MAX_ITERAZIONI ]; do
     ORA_ATTUALE=$(date '+%H:%M:%S')
     echo "[Check #$ITERAZIONI] $ORA_ATTUALE"
     
-    # Verifica se siamo in orario notturno
+    # Leggi timestamp ultimo check
+    LAST_CHECK=$(cat "$LAST_CHECK_FILE" 2>/dev/null || echo "1970-01-01T00:00:00")
+    
+    # Verifica se siamo in orario notturno (o in modalità TEST)
     if verifica_orario_notturno; then
-        echo "  → ORARIO NOTTURNO - Analisi attiva"
+        if [ "${TEST_MODE:-0}" = "1" ]; then
+            echo "  → MODALITÀ TEST - Analisi attiva"
+        else
+            echo "  → ORARIO NOTTURNO - Analisi attiva"
+        fi
         
-        # ss: socket statistics
-        # -t: TCP sockets only
-        # -n: numeric (no DNS resolution, più veloce)
-        # state established: solo connessioni stabilite
-        # sport = :8000: source port (porta del server)
-        # awk NR>1: salta header (Number of Record > 1)
-        # $5: campo 5 contiene IP:porta remoto
-        IPS_CONNESSI=$(ss -tn state established sport = :$SERVER_PORT 2>/dev/null | \
-            awk 'NR>1 {print $5}' | cut -d':' -f1 | sort -u)
+        # Query: trova login recenti in orario notturno
+        # In modalità TEST, considera tutti i login
+        # Altrimenti, filtra solo quelli con ora tra 22:00-06:00
+        if [ "${TEST_MODE:-0}" = "1" ]; then
+            # Modalità test: rileva tutti i login recenti
+            QUERY="SELECT timestamp, customer_id, ip_address, session_duration 
+                   FROM logs 
+                   WHERE azione = 'LOGIN' 
+                   AND timestamp > '$LAST_CHECK'
+                   ORDER BY timestamp DESC"
+        else
+            # Modalità normale: solo login in orario notturno (22:00-06:00)
+            QUERY="SELECT timestamp, customer_id, ip_address, session_duration 
+                   FROM logs 
+                   WHERE azione = 'LOGIN' 
+                   AND timestamp > '$LAST_CHECK'
+                   AND (CAST(strftime('%H', timestamp) AS INTEGER) >= $ORA_INIZIO_NOTTE 
+                        OR CAST(strftime('%H', timestamp) AS INTEGER) < $ORA_FINE_NOTTE)
+                   ORDER BY timestamp DESC"
+        fi
         
-        # wc -l: conta linee (word count lines)
-        NUM_CONNESSIONI=$(echo "$IPS_CONNESSI" | grep -c '^' 2>/dev/null || echo 0)
+        # Esegui query e processa risultati
+        LOGIN_NOTTURNI=$(sqlite3 "$DB_PATH" "$QUERY" 2>/dev/null)
         
-        # -gt: greater than (>)
-        if [ $NUM_CONNESSIONI -gt 0 ]; then
-            echo "  → Connessioni attive in orario notturno: $NUM_CONNESSIONI"
+        if [ -n "$LOGIN_NOTTURNI" ]; then
+            NUM_LOGIN=$(echo "$LOGIN_NOTTURNI" | wc -l)
+            echo "  → Login rilevati: $NUM_LOGIN"
             echo ""
             
-            # Analizza ogni IP connesso
-            echo "$IPS_CONNESSI" | while read -r suspicious_ip; do
+            # Processa ogni login (formato: timestamp|customer_id|ip_address|session_duration)
+            echo "$LOGIN_NOTTURNI" | while IFS='|' read -r timestamp customer_id suspicious_ip session_dur; do
                 
-                # -n: verifica stringa NON vuota
                 if [ -n "$suspicious_ip" ]; then
                     
-                    echo "  [!] IP NOTTURNO: $suspicious_ip"
+                    echo "  [!] LOGIN NOTTURNO RILEVATO"
+                    echo "      → Timestamp: $timestamp"
+                    echo "      → Customer: $customer_id"
+                    echo "      → IP: $suspicious_ip"
+                    echo "      → Durata sessione: ${session_dur}s"
                     
                     # Risolvi hostname per identificare provider
                     HOSTNAME=$(resolve_hostname "$suspicious_ip")
                     echo "      → Hostname: $HOSTNAME"
                     
-                    # Lookup customer_id dal database (SOLO query puntuale)
-                    CUSTOMER_QUERY="SELECT customer_id FROM eventi 
-                                    WHERE ip_address='$suspicious_ip' 
-                                    ORDER BY timestamp DESC LIMIT 1"
-                    customer_id=$(sqlite3 "$DB_PATH" "$CUSTOMER_QUERY" 2>/dev/null)
-                    
-                    if [ -z "$customer_id" ]; then
-                        customer_id="UNKNOWN"
-                    fi
-                    echo "      → Customer: $customer_id"
-                    
                     # Controlla blacklist
                     if controlla_blacklist "IP" "$suspicious_ip"; then
                         echo "      → GIÀ IN BLACKLIST (RECIDIVO)"
                         aggiungi_blacklist "IP" "$suspicious_ip" "ACCESSO_NOTTURNO" \
-                            "ALTA" 50 "Connessione in orario notturno ($ORA_ATTUALE), hostname: $HOSTNAME, customer: $customer_id"
+                            "ALTA" 50 "Login notturno ($timestamp), customer: $customer_id, hostname: $HOSTNAME"
                     else
                         echo "      → PRIMO RILEVAMENTO"
                         aggiungi_blacklist "IP" "$suspicious_ip" "ACCESSO_NOTTURNO" \
-                            "MEDIA" 30 "Connessione in orario notturno ($ORA_ATTUALE), hostname: $HOSTNAME, customer: $customer_id"
+                            "MEDIA" 30 "Login notturno ($timestamp), customer: $customer_id, hostname: $HOSTNAME"
                     fi
                     
                     ALERT_COUNT=$((ALERT_COUNT + 1))
@@ -193,7 +218,8 @@ while [ $ITERAZIONI -le $MAX_ITERAZIONI ]; do
                         echo "IP:           $suspicious_ip"
                         echo "Hostname:     $HOSTNAME"
                         echo "Customer:     $customer_id"
-                        echo "Orario:       $ORA_ATTUALE"
+                        echo "Timestamp:    $timestamp"
+                        echo "Sessione:     ${session_dur}s"
                         echo ""
                     } >> "$LOG_NOTTURNI"
                     
@@ -201,11 +227,14 @@ while [ $ITERAZIONI -le $MAX_ITERAZIONI ]; do
                 fi
             done
         else
-            echo "  → Nessuna connessione attiva"
+            echo "  → Nessun login rilevato"
         fi
     else
         echo "  → Orario diurno - Skip analisi"
     fi
+    
+    # Aggiorna timestamp ultimo check (formato ISO compatibile con DB)
+    date -u '+%Y-%m-%dT%H:%M:%S' > "$LAST_CHECK_FILE"
     
     echo ""
     ITERAZIONI=$((ITERAZIONI + 1))

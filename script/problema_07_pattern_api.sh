@@ -16,7 +16,7 @@
 BLACKLIST_PATH="/workspaces/SO/blacklist.csv"
 LOG_PATTERN="/workspaces/SO/logs/pattern_api_alerts.log"
 STATE_FILE="/workspaces/SO/logs/pattern_state.tmp"
-DB_PATH="/workspaces/SO/data/eventi_bancari.db"
+DB_PATH="/workspaces/SO/data/bank_logs.db"
 
 # Parametri
 SERVER_PORT=8000
@@ -179,7 +179,7 @@ while IFS=$'\t' read -r timestamp ip_src method uri user_agent; do
         echo "  [*] Richieste da $ip_src ultimi ${FINESTRA_SECONDI}s: $RICHIESTE_IP"
         
         # Lookup customer
-        CUSTOMER_QUERY="SELECT customer_id FROM eventi 
+        CUSTOMER_QUERY="SELECT customer_id FROM logs 
                         WHERE ip_address='$ip_src' 
                         ORDER BY timestamp DESC LIMIT 1"
         customer_id=$(sqlite3 "$DB_PATH" "$CUSTOMER_QUERY" 2>/dev/null)
@@ -233,7 +233,7 @@ while IFS=$'\t' read -r timestamp ip_src method uri user_agent; do
         # Blacklist (se non già fatto per UA)
         if ! identifica_user_agent_sospetto "$user_agent"; then
             
-            CUSTOMER_QUERY="SELECT customer_id FROM eventi 
+            CUSTOMER_QUERY="SELECT customer_id FROM logs 
                             WHERE ip_address='$ip_src' 
                             ORDER BY timestamp DESC LIMIT 1"
             customer_id=$(sqlite3 "$DB_PATH" "$CUSTOMER_QUERY" 2>/dev/null)

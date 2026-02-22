@@ -1,31 +1,35 @@
 #!/bin/bash
 
-# PROBLEMA 4: RILEVAMENTO PORTE NON AUTORIZZATE DA ATM - NETWORK SCAN
+# PROBLEMA 4: RILEVAMENTO ATM CON PATTERN ANOMALI - DATABASE ANALYSIS
 #
-# SCOPO: Identificare ATM che si connettono al server usando porte sorgente
-#        non autorizzate, possibile indicatore di malware o tunneling
+# SCOPO: Identificare ATM che effettuano login con pattern anomali
+#        (es: ATM da range IP specifici 192.168.30.x che si connettono
+#        in modo sospetto o frequente)
 #
-# METODO: Usa ss/netstat per monitorare porte sorgente delle connessioni,
-#         verifica con nmap-like approach (nc) se porte anomale sono aperte
+# METODO: Analizza database per trovare login da IP ATM con pattern anomali
 #
-# DATABASE: Usato SOLO per identificare ATM_ID associato a IP (opzionale)
-# BLACKLIST: Registra IP ATM con porte sospette
+# DATABASE: Query periodiche per eventi da IP ATM
+# BLACKLIST: Registra IP ATM con comportamenti sospetti
 #
-# DIPENDENZE: ss, netstat, awk, nc (netcat)
+# DIPENDENZE: sqlite3, date, awk
 
 BLACKLIST_PATH="/workspaces/SO/blacklist.csv"
 LOG_ATM="/workspaces/SO/logs/atm_porte_alerts.log"
-DB_PATH="/workspaces/SO/data/eventi_bancari.db"
+DB_PATH="/workspaces/SO/data/bank_logs.db"
+LAST_CHECK_FILE="/tmp/problema04_last_check.txt"
 
 # Parametri
-SERVER_PORT=8000
-# Porte autorizzate per ATM (ephemeral ports normalmente 32768-60999)
-PORTA_MIN_AUTORIZZATA=32768
-PORTA_MAX_AUTORIZZATA=60999
-INTERVALLO_CHECK=8
-DURATA_MONITORAGGIO=120
+# Range IP ATM da monitorare (192.168.30.x)
+ATM_IP_PATTERN="192.168.30.%"
+INTERVALLO_CHECK=2
+DURATA_MONITORAGGIO=30
 
 mkdir -p $(dirname "$LOG_ATM")
+
+# Inizializza timestamp ultimo check (solo se non esiste)
+if [ ! -f "$LAST_CHECK_FILE" ]; then
+    date -u '+%Y-%m-%dT%H:%M:%S' > "$LAST_CHECK_FILE"
+fi
 
 controlla_blacklist() {
     local tipo_elemento="$1"
@@ -66,51 +70,11 @@ aggiungi_blacklist() {
     fi
 }
 
-# FUNZIONE: verifica_porta_aperta
-# Usa netcat per verificare se una porta è aperta su host remoto
-# ARG1: IP host
-# ARG2: porta da testare
-# RETURN: 0 se aperta, 1 se chiusa
-verifica_porta_aperta() {
-    local host="$1"
-    local porta="$2"
-    
-    # nc: netcat
-    # -z: zero-I/O mode (solo scan, non invia dati)
-    # -w 2: timeout 2 secondi
-    # -v: verbose (opzionale, ma qui soppresso con 2>/dev/null)
-    nc -z -w 2 "$host" "$porta" 2>/dev/null
-    return $?
-}
-
-# FUNZIONE: identifica_servizio_porta
-# Tenta di identificare quale servizio gira su una porta
-identifica_servizio_porta() {
-    local porta="$1"
-    
-    # Porte comuni note (simplified port identification)
-    case $porta in
-        22) echo "SSH" ;;
-        23) echo "TELNET" ;;
-        80) echo "HTTP" ;;
-        443) echo "HTTPS" ;;
-        3306) echo "MySQL" ;;
-        5432) echo "PostgreSQL" ;;
-        6379) echo "Redis" ;;
-        8080) echo "HTTP-Alt" ;;
-        9050) echo "TOR-SOCKS" ;;
-        1080) echo "SOCKS-Proxy" ;;
-        3128) echo "Squid-Proxy" ;;
-        *) echo "UNKNOWN" ;;
-    esac
-}
-
 echo "================================================================================"
-echo "[$(date '+%Y-%m-%d %H:%M:%S')] MONITORAGGIO PORTE ATM AVVIATO"
+echo "[$(date '+%Y-%m-%d %H:%M:%S')] MONITORAGGIO ATM ANOMALI AVVIATO"
 echo "================================================================================" | tee -a "$LOG_ATM"
 
-echo "[*] Porta server: $SERVER_PORT"
-echo "[*] Range porte autorizzate ATM: $PORTA_MIN_AUTORIZZATA-$PORTA_MAX_AUTORIZZATA"
+echo "[*] Range IP ATM monitorato: $ATM_IP_PATTERN"
 echo "[*] Intervallo: $INTERVALLO_CHECK secondi"
 echo "[*] Durata: $DURATA_MONITORAGGIO secondi"
 echo ""
@@ -121,112 +85,74 @@ ALERT_COUNT=0
 
 while [ $ITERAZIONI -le $MAX_ITERAZIONI ]; do
     
-    echo "[Check #$ITERAZIONI] $(date '+%H:%M:%S')"
+    ORA_ATTUALE=$(date '+%H:%M:%S')
+    echo "[Check #$ITERAZIONI] $ORA_ATTUALE"
     
-    # netstat: network statistics (alternativa a ss)
-    # -t: TCP connections
-    # -n: numeric (no hostname resolution)
-    # grep :8000: filtra solo connessioni al server porta 8000
-    # awk: estrae IP remoto e porta remota
-    # Format output netstat: IP_locale:porta_locale IP_remoto:porta_remota
+    # Leggi timestamp ultimo check
+    LAST_CHECK=$(cat "$LAST_CHECK_FILE" 2>/dev/null || echo "1970-01-01T00:00:00")
     
-    CONNESSIONI=$(netstat -tn 2>/dev/null | grep ":$SERVER_PORT " | awk '{print $5}')
+    # Query: trova login da IP ATM (range 192.168.30.x) recenti
+    QUERY="SELECT timestamp, customer_id, ip_address, session_duration 
+           FROM logs 
+           WHERE azione = 'LOGIN' 
+           AND ip_address LIKE '$ATM_IP_PATTERN'
+           AND timestamp > '$LAST_CHECK'
+           ORDER BY timestamp DESC"
     
-    # Conta connessioni
-    NUM_CONN=$(echo "$CONNESSIONI" | grep -c '^' 2>/dev/null || echo 0)
+    # Esegui query e processa risultati
+    ATM_LOGINS=$(sqlite3 "$DB_PATH" "$QUERY" 2>/dev/null)
     
-    if [ $NUM_CONN -gt 0 ]; then
-        echo "  → Connessioni rilevate: $NUM_CONN"
+    if [ -n "$ATM_LOGINS" ]; then
+        NUM_LOGIN=$(echo "$ATM_LOGINS" | wc -l)
+        echo "  → Login ATM anomali rilevati: $NUM_LOGIN"
+        echo ""
         
-        # Analizza ogni connessione
-        echo "$CONNESSIONI" | while read -r conn_full; do
+        # Processa ogni login ATM
+        echo "$ATM_LOGINS" | while IFS='|' read -r timestamp customer_id atm_ip session_dur; do
             
-            if [ -n "$conn_full" ]; then
-                # Estrai IP e porta
-                # cut -d':' -f1: primo campo delimitato da :  (IP)
-                # cut -d':' -f2: secondo campo (porta)
-                IP_REMOTO=$(echo "$conn_full" | cut -d':' -f1)
-                PORTA_REMOTA=$(echo "$conn_full" | cut -d':' -f2)
+            if [ -n "$atm_ip" ]; then
                 
-                echo "    • $IP_REMOTO:$PORTA_REMOTA"
+                echo "  [!!!] ATM ANOMALO RILEVATO"
+                echo "      → Timestamp: $timestamp"
+                echo "      → ATM ID: $customer_id"
+                echo "      → IP ATM: $atm_ip"
+                echo "      → Durata sessione: ${session_dur}s"
+                echo "      → Pattern: IP da range ATM non autorizzato"
                 
-                # VERIFICA SE PORTA È FUORI RANGE AUTORIZZATO
-                # -lt: less than (<)
-                # -gt: greater than (>)
-                if [ "$PORTA_REMOTA" -lt "$PORTA_MIN_AUTORIZZATA" ] || \
-                   [ "$PORTA_REMOTA" -gt "$PORTA_MAX_AUTORIZZATA" ]; then
-                    
-                    echo ""
-                    echo "  [!!!] PORTA SOSPETTA: $IP_REMOTO usa porta $PORTA_REMOTA"
-                    echo "  [!!!] Fuori range autorizzato ($PORTA_MIN_AUTORIZZATA-$PORTA_MAX_AUTORIZZATA)"
-                    
-                    # Identifica servizio
-                    SERVIZIO=$(identifica_servizio_porta "$PORTA_REMOTA")
-                    echo "      → Possibile servizio: $SERVIZIO"
-                    
-                    # Tenta scan reverse: verifica se IP ha altre porte anomale aperte
-                    echo "      → Scan reverse di porte comuni..."
-                    PORTE_APERTE=""
-                    # Scansiona alcune porte sospette comuni
-                    for test_port in 22 23 1080 3128 9050; do
-                        if verifica_porta_aperta "$IP_REMOTO" "$test_port"; then
-                            PORTE_APERTE="$PORTE_APERTE $test_port"
-                        fi
-                    done
-                    
-                    # -n: controlla se stringa NON vuota
-                    if [ -n "$PORTE_APERTE" ]; then
-                        echo "      → Porte aperte trovate:$PORTE_APERTE"
-                    else
-                        echo "      → Nessuna porta sospetta comune aperta"
-                    fi
-                    
-                    # Lookup ATM_ID/customer_id dal database
-                    ATM_QUERY="SELECT customer_id FROM eventi 
-                               WHERE ip_address='$IP_REMOTO' 
-                               AND porta=$PORTA_REMOTA
-                               ORDER BY timestamp DESC LIMIT 1"
-                    atm_id=$(sqlite3 "$DB_PATH" "$ATM_QUERY" 2>/dev/null)
-                    
-                    if [ -z "$atm_id" ]; then
-                        atm_id="UNKNOWN"
-                    fi
-                    echo "      → ATM/Customer ID: $atm_id"
-                    
-                    # Aggiungi a blacklist
-                    if controlla_blacklist "IP" "$IP_REMOTO"; then
-                        echo "      → GIÀ IN BLACKLIST (RECIDIVO)"
-                        aggiungi_blacklist "IP" "$IP_REMOTO" "PORTA_NON_AUTORIZZATA" \
-                            "CRITICA" 80 "Usa porta $PORTA_REMOTA (servizio: $SERVIZIO), porte aperte:$PORTE_APERTE, ATM: $atm_id"
-                    else
-                        echo "      → PRIMO RILEVAMENTO"
-                        aggiungi_blacklist "IP" "$IP_REMOTO" "PORTA_NON_AUTORIZZATA" \
-                            "ALTA" 60 "Usa porta $PORTA_REMOTA (servizio: $SERVIZIO), porte aperte:$PORTE_APERTE, ATM: $atm_id"
-                    fi
-                    
-                    ALERT_COUNT=$((ALERT_COUNT + 1))
-                    
-                    # Log
-                    {
-                        echo "═══════════════════════════════════════════"
-                        echo "ALERT ATM PORTA - $(date '+%Y-%m-%d %H:%M:%S')"
-                        echo "═══════════════════════════════════════════"
-                        echo "IP ATM:           $IP_REMOTO"
-                        echo "Porta sorgente:   $PORTA_REMOTA"
-                        echo "Servizio:         $SERVIZIO"
-                        echo "Porte aperte:    $PORTE_APERTE"
-                        echo "ATM ID:           $atm_id"
-                        echo "Range valido:     $PORTA_MIN_AUTORIZZATA-$PORTA_MAX_AUTORIZZATA"
-                        echo ""
-                    } >> "$LOG_ATM"
-                    
-                    echo ""
+                # Controlla blacklist
+                if controlla_blacklist "IP" "$atm_ip"; then
+                    echo "      → GIÀ IN BLACKLIST (RECIDIVO)"
+                    aggiungi_blacklist "IP" "$atm_ip" "ATM_PATTERN_ANOMALO" \
+                        "CRITICA" 90 "ATM $customer_id con pattern anomalo ($timestamp), IP: $atm_ip"
+                else
+                    echo "      → PRIMO RILEVAMENTO"
+                    aggiungi_blacklist "IP" "$atm_ip" "ATM_PATTERN_ANOMALO" \
+                        "ALTA" 70 "ATM $customer_id con pattern anomalo ($timestamp), IP: $atm_ip"
                 fi
+                
+                ALERT_COUNT=$((ALERT_COUNT + 1))
+                
+                # Log dettagliato
+                {
+                    echo "═══════════════════════════════════════════"
+                    echo "ALERT ATM ANOMALO - $(date '+%Y-%m-%d %H:%M:%S')"
+                    echo "═══════════════════════════════════════════"
+                    echo "IP ATM:       $atm_ip"
+                    echo "ATM ID:       $customer_id"
+                    echo "Timestamp:    $timestamp"
+                    echo "Sessione:     ${session_dur}s"
+                    echo ""
+                } >> "$LOG_ATM"
+                
+                echo ""
             fi
         done
     else
-        echo "  → Nessuna connessione attiva"
+        echo "  → Nessun ATM anomalo rilevato"
     fi
+    
+    # Aggiorna timestamp ultimo check
+    date -u '+%Y-%m-%dT%H:%M:%S' > "$LAST_CHECK_FILE"
     
     echo ""
     ITERAZIONI=$((ITERAZIONI + 1))

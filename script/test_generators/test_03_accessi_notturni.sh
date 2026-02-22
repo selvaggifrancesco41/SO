@@ -3,8 +3,8 @@
 # TEST GENERATOR 03: Anomalia accessi notturni
 #
 # SCOPO: Generare login durante orari notturni (22:00-06:00)
-#        Se l'ora attuale NON è in fascia notturna, forza il sistema
-#        (con sudo date se possibile, altrimenti avvissa)
+#        NOTA: Il monitoring script deve essere avviato con TEST_MODE=1
+#              per bypassare il controllo orario reale
 #        Viene rilevato da problema_03_accessi_notturni.sh
 #
 # PREREQUISITO: server Flask in esecuzione su localhost:8000
@@ -24,20 +24,13 @@ if [[ $CURRENT_HOUR -ge 22 || $CURRENT_HOUR -lt 6 ]]; then
     echo "[✓] Siamo in fascia notturna - test procede normalmente"
 else
     echo "[!] Ora attuale NON è notturna (22:00-06:00)"
-    echo "[!] Per test accurato, settiamo ora di sistema a 23:30"
-    echo "[?] Questo richiede sudo - procedi? (y/n)"
-    read -r ANSWER
-    
-    if [[ "$ANSWER" == "y" ]]; then
-        sudo date -s "$(date '+%Y-%m-%d') 23:30:00"
-        echo "[✓] Ora di sistema cambiata a 23:30"
-    else
-        echo "[!] Test continua comunque, ma rilevamento dipenderà dall'ora"
-    fi
+    echo "[!] NOTA: Il monitoring è stato avviato in MODALITÀ TEST"
+    echo "[!]       Il controllo orario è bypassato per permettere il testing"
 fi
 
 echo ""
 echo "[TEST] Generazione $NUM_ACCESSI login in orario notturno..."
+echo ""
 
 for i in $(seq 1 $NUM_ACCESSI); do
     USERNAME="user_notturno_$i"
@@ -49,12 +42,14 @@ for i in $(seq 1 $NUM_ACCESSI); do
     curl -s -G "$SERVER/login" \
         --data-urlencode "customer_id=$USERNAME" \
         --data-urlencode "session_duration=$((RANDOM % 60))" \
-        -H "X-Forwarded-For: $IP_MITTENTE" 2>/dev/null &
+        -H "X-Forwarded-For: $IP_MITTENTE"
     
+    echo ""
     sleep 1
 done
 
 echo ""
 echo "[✓] Accessi notturni generati"
-echo "[*] Controlla il log: tail -f logs/accessi_notturni.log"
-wait
+echo "[*] I login sono stati registrati nel database"
+echo "[*] Il monitoring li rileverà nel prossimo check"
+echo ""

@@ -16,13 +16,17 @@
 BLACKLIST_PATH="/workspaces/SO/blacklist.csv"
 LOG_BRUTEFORCE="/workspaces/SO/logs/bruteforce_alerts.log"
 STATE_FILE="/workspaces/SO/logs/bruteforce_state.tmp"
-DB_PATH="/workspaces/SO/data/eventi_bancari.db"
+DB_PATH="/workspaces/SO/data/bank_logs.db"
 
 # Parametri rilevamento
 SERVER_PORT=8000                   # Porta server Flask
 SOGLIA_TENTATIVI=10                # Max tentativi login da stessIP in finestra
-FINESTRA_SECONDI=60                # Finestra temporale di analisi
-DURATA_CATTURA=300                 # Durata totale cattura (5 minuti)
+FINESTRA_SECONDI=20                # Finestra temporale di analisi
+if [ "$TEST_MODE" = "1" ]; then
+    DURATA_CATTURA=30              # TEST: durata ridotta per demo
+else
+    DURATA_CATTURA=300             # Durata totale cattura (5 minuti)
+fi
 
 mkdir -p $(dirname "$LOG_BRUTEFORCE")
 mkdir -p $(dirname "$STATE_FILE")

@@ -16,7 +16,7 @@
 BLACKLIST_PATH="/workspaces/SO/blacklist.csv"
 LOG_SIMULTANEI="/workspaces/SO/logs/simultanei_alerts.log"
 STATE_FILE="/workspaces/SO/logs/simultanei_state.tmp"
-DB_PATH="/workspaces/SO/data/eventi_bancari.db"
+DB_PATH="/workspaces/SO/data/bank_logs.db"
 
 # Parametri di rilevamento
 SERVER_PORT=8000                # Porta del server Flask da monitorare
@@ -170,7 +170,7 @@ while [ $ITERAZIONI -le $MAX_ITERAZIONI ]; do
                 # Per evitare di aggiungere duplicati ogni 5 secondi
                 if grep -q "^$suspicious_ip\$" "$STATE_FILE" 2>/dev/null; then
                     # Già segnalato in questo ciclo, solo mostra avviso
-                    CUSTOMER_QUERY="SELECT customer_id FROM eventi 
+                    CUSTOMER_QUERY="SELECT customer_id FROM logs 
                                     WHERE ip_address='$suspicious_ip' 
                                     AND azione='LOGIN' 
                                     ORDER BY timestamp DESC LIMIT 1"
@@ -184,7 +184,7 @@ while [ $ITERAZIONI -le $MAX_ITERAZIONI ]; do
                     # Cerca nel database se questo IP ha fatto login recentemente
                     # NOTA: Query SQL PUNTUALE solo per lookup specifico, non analisi massiva
                     # LIMIT 1: restituisce solo il primo match (performance)
-                    CUSTOMER_QUERY="SELECT customer_id FROM eventi 
+                    CUSTOMER_QUERY="SELECT customer_id FROM logs 
                                     WHERE ip_address='$suspicious_ip' 
                                     AND azione='LOGIN' 
                                     ORDER BY timestamp DESC LIMIT 1"

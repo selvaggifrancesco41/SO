@@ -10,7 +10,7 @@
 
 SERVER="http://localhost:8000"
 NUM_TENTATIVI=15
-SLEEP_TRA_TENTATIVI=2  # secondi tra un tentativo e l'altro
+SLEEP_TRA_TENTATIVI=0.3  # secondi tra un tentativo e l'altro (veloce per demo)
 
 echo "================================================================================"
 echo "[TEST 05] Generazione anomalia - brute-force su endpoint /login"
@@ -18,7 +18,7 @@ echo "==========================================================================
 echo "[*] Endpoint target: POST /login"
 echo "[*] Numero tentativi: $NUM_TENTATIVI"
 echo "[*] Intervallo tra tentativi: ${SLEEP_TRA_TENTATIVI}s"
-echo "[*] Tempo totale: ~$((NUM_TENTATIVI * SLEEP_TRA_TENTATIVI))s"
+echo "[*] Tempo totale: ~5s"
 echo ""
 
 echo "[TEST] Generazione tentativi falliti da IP: 192.168.40.100"

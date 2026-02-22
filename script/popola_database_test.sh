@@ -5,7 +5,7 @@
 ################################################################################
 #
 # DESCRIZIONE:
-# Questo script popola il database eventi_bancari.db con dati simulati che
+# Questo script popola il database bank_logs.db con dati simulati che
 # includono sia comportamenti normali che anomali, per testare i 10 problemi.
 #
 # GENERAZIONE:
@@ -19,7 +19,7 @@
 #
 ################################################################################
 
-DB_PATH="/workspaces/SO/data/eventi_bancari.db"
+DB_PATH="/workspaces/SO/data/bank_logs.db"
 CSV_CLIENTI="/workspaces/SO/clienti_banca.csv"
 
 echo "================================================================================"
@@ -32,7 +32,7 @@ python3 << 'EOF'
 import sqlite3
 import os
 
-DB_PATH = "/workspaces/SO/data/eventi_bancari.db"
+DB_PATH = "/workspaces/SO/data/bank_logs.db"
 os.makedirs(os.path.dirname(DB_PATH), exist_ok=True)
 
 conn = sqlite3.connect(DB_PATH)
@@ -40,7 +40,7 @@ cur = conn.cursor()
 
 # Crea tabella eventi se non esiste
 cur.execute("""
-    CREATE TABLE IF NOT EXISTS eventi (
+    CREATE TABLE IF NOT EXISTS logs (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         timestamp TEXT,
         customer_id INTEGER,
@@ -48,9 +48,7 @@ cur.execute("""
         azione TEXT,
         importo REAL,
         iban_destinatario TEXT,
-        session_duration INTEGER,
-        porta INTEGER,
-        source_type TEXT
+        session_duration INTEGER
     )
 """)
 
@@ -70,7 +68,7 @@ import random
 import csv
 from datetime import datetime, timedelta
 
-DB_PATH = "/workspaces/SO/data/eventi_bancari.db"
+DB_PATH = "/workspaces/SO/data/bank_logs.db"
 CSV_PATH = "/workspaces/SO/clienti_banca.csv"
 
 # Leggi i clienti dal CSV
@@ -114,16 +112,16 @@ for _ in range(150):  # 150 operazioni normali
     azione = random.choice(['LOGIN', 'PRELIEVO', 'BONIFICO'])
     
     if azione == 'LOGIN':
-        eventi_normali.append((timestamp, cliente['customer_id'], ip, azione, None, None, None, porta, 'USER'))
+        eventi_normali.append((timestamp, cliente['customer_id'], ip, azione, None, None, None))
     elif azione == 'PRELIEVO':
         importo = random.randint(50, 500)
-        eventi_normali.append((timestamp, cliente['customer_id'], ip, azione, importo, None, None, porta, 'USER'))
+        eventi_normali.append((timestamp, cliente['customer_id'], ip, azione, importo, None, None))
     else:  # BONIFICO
         importo = random.randint(100, 1000)
         iban_dest = random.choice(clienti)['iban']
-        eventi_normali.append((timestamp, cliente['customer_id'], ip, azione, importo, iban_dest, None, porta, 'USER'))
+        eventi_normali.append((timestamp, cliente['customer_id'], ip, azione, importo, iban_dest, None))
 
-cur.executemany("INSERT INTO eventi (timestamp, customer_id, ip_address, azione, importo, iban_destinatario, session_duration, porta, source_type) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)", eventi_normali)
+cur.executemany("INSERT INTO logs (timestamp, customer_id, ip_address, azione, importo, iban_destinatario, session_duration) VALUES (?, ?, ?, ?, ?, ?, ?)", eventi_normali)
 print(f"[✓] Inseriti {len(eventi_normali)} eventi normali")
 
 # ============================================================================
@@ -145,7 +143,7 @@ for _ in range(8):  # 8 accessi notturni
     ip = f"203.{random.randint(0,255)}.{random.randint(0,255)}.{random.randint(1,254)}"
     eventi_notturni.append((timestamp, customer_notturno, ip, 'LOGIN', None, None, None, 8000, 'USER'))
 
-cur.executemany("INSERT INTO eventi (timestamp, customer_id, ip_address, azione, importo, iban_destinatario, session_duration, porta, source_type) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)", eventi_notturni)
+cur.executemany("INSERT INTO logs (timestamp, customer_id, ip_address, azione, importo, iban_destinatario, session_duration) VALUES (?, ?, ?, ?, ?, ?, ?)", eventi_notturni)
 print(f"[✓] Inseriti {len(eventi_notturni)} accessi notturni per customer {customer_notturno}")
 
 # ============================================================================
@@ -164,7 +162,7 @@ ip2 = "192.168.50.60"
 eventi_simultanei.append((base_time.isoformat(), customer_simultaneo, ip1, 'LOGIN', None, None, None, 8000, 'USER'))
 eventi_simultanei.append(((base_time + timedelta(seconds=30)).isoformat(), customer_simultaneo, ip2, 'LOGIN', None, None, None, 8000, 'USER'))
 
-cur.executemany("INSERT INTO eventi (timestamp, customer_id, ip_address, azione, importo, iban_destinatario, session_duration, porta, source_type) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)", eventi_simultanei)
+cur.executemany("INSERT INTO logs (timestamp, customer_id, ip_address, azione, importo, iban_destinatario, session_duration) VALUES (?, ?, ?, ?, ?, ?, ?)", eventi_simultanei)
 print(f"[✓] Inseriti {len(eventi_simultanei)} accessi simultanei per customer {customer_simultaneo}")
 
 # ============================================================================
@@ -192,7 +190,7 @@ for _ in range(3):
     iban_dest = random.choice(clienti)['iban']
     eventi_atm.append((timestamp, cliente['customer_id'], ip_atm_bad, 'BONIFICO', 500, iban_dest, None, 9999, 'ATM'))
 
-cur.executemany("INSERT INTO eventi (timestamp, customer_id, ip_address, azione, importo, iban_destinatario, session_duration, porta, source_type) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)", eventi_atm)
+cur.executemany("INSERT INTO logs (timestamp, customer_id, ip_address, azione, importo, iban_destinatario, session_duration) VALUES (?, ?, ?, ?, ?, ?, ?)", eventi_atm)
 print(f"[✓] Inseriti {len(eventi_atm)} eventi ATM (inclusi anomali)")
 
 # ============================================================================
@@ -208,7 +206,7 @@ for i in range(25):  # 25 tentativi in 1 ora
     timestamp = (base_time + timedelta(seconds=i*120)).isoformat()
     eventi_brute.append((timestamp, random.choice(clienti)['customer_id'], ip_attaccante, 'LOGIN', None, None, None, 8000, 'USER'))
 
-cur.executemany("INSERT INTO eventi (timestamp, customer_id, ip_address, azione, importo, iban_destinatario, session_duration, porta, source_type) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)", eventi_brute)
+cur.executemany("INSERT INTO logs (timestamp, customer_id, ip_address, azione, importo, iban_destinatario, session_duration) VALUES (?, ?, ?, ?, ?, ?, ?)", eventi_brute)
 print(f"[✓] Inseriti {len(eventi_brute)} tentativi brute-force da IP {ip_attaccante}")
 
 # ============================================================================
@@ -229,7 +227,7 @@ for i in range(10):
     # Il bonifico "va verso" iban_sospetto, ma nel db registriamo dal punto di vista del mittente
     eventi_aml.append((timestamp, mittente, ip, 'BONIFICO', importo, clienti[5]['iban'], None, 8000, 'USER'))
 
-cur.executemany("INSERT INTO eventi (timestamp, customer_id, ip_address, azione, importo, iban_destinatario, session_duration, porta, source_type) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)", eventi_aml)
+cur.executemany("INSERT INTO logs (timestamp, customer_id, ip_address, azione, importo, iban_destinatario, session_duration) VALUES (?, ?, ?, ?, ?, ?, ?)", eventi_aml)
 print(f"[✓] Inseriti {len(eventi_aml)} bonifici verso account sospetto AML")
 
 # ============================================================================
@@ -252,7 +250,7 @@ for i in range(25):
     importo = random.randint(50, 95)  # Importi piccoli ma frequenti
     eventi_low_slow.append((timestamp, customer_low_slow, ip_low_slow, 'PRELIEVO', importo, None, None, 8000, 'USER'))
 
-cur.executemany("INSERT INTO eventi (timestamp, customer_id, ip_address, azione, importo, iban_destinatario, session_duration, porta, source_type) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)", eventi_low_slow)
+cur.executemany("INSERT INTO logs (timestamp, customer_id, ip_address, azione, importo, iban_destinatario, session_duration) VALUES (?, ?, ?, ?, ?, ?, ?)", eventi_low_slow)
 print(f"[✓] Inseriti {len(eventi_low_slow)} eventi Low & Slow")
 
 # ============================================================================
@@ -267,7 +265,7 @@ for i in range(20):
     timestamp = (now - timedelta(hours=5) + timedelta(minutes=i*10)).isoformat()
     eventi_api.append((timestamp, random.choice(clienti)['customer_id'], ip_bot, 'LOGIN', None, None, None, 8000, 'USER'))
 
-cur.executemany("INSERT INTO eventi (timestamp, customer_id, ip_address, azione, importo, iban_destinatario, session_duration, porta, source_type) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)", eventi_api)
+cur.executemany("INSERT INTO logs (timestamp, customer_id, ip_address, azione, importo, iban_destinatario, session_duration) VALUES (?, ?, ?, ?, ?, ?, ?)", eventi_api)
 print(f"[✓] Inseriti {len(eventi_api)} eventi con pattern API meccanico")
 
 conn.commit()

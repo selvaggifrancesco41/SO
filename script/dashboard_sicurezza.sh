@@ -4,7 +4,7 @@
 # DASHBOARD DI SICUREZZA BANCARIA - STATO ATTUALE DEL SISTEMA
 ################################################################################
 
-DB_PATH="/workspaces/SO/data/eventi_bancari.db"
+DB_PATH="/workspaces/SO/data/bank_logs.db"
 BLACKLIST_PATH="/workspaces/SO/blacklist.csv"
 
 echo "┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓"
@@ -24,23 +24,23 @@ echo "└───────────────────────�
 echo ""
 
 if [ -f "$DB_PATH" ]; then
-    TOTALE_EVENTI=$(sqlite3 "$DB_PATH" "SELECT COUNT(*) FROM eventi;" 2>/dev/null || echo 0)
+    TOTALE_EVENTI=$(sqlite3 "$DB_PATH" "SELECT COUNT(*) FROM logs;" 2>/dev/null || echo 0)
     
     echo "Totale eventi registrati:     $TOTALE_EVENTI"
     echo ""
     
     if [ "$TOTALE_EVENTI" -gt 0 ]; then
         echo "Distribuzione per azione:"
-        sqlite3 "$DB_PATH" "SELECT azione, COUNT(*) as count FROM eventi GROUP BY azione ORDER BY count DESC;" 2>/dev/null | \
+        sqlite3 "$DB_PATH" "SELECT azione, COUNT(*) as count FROM logs GROUP BY azione ORDER BY count DESC;" 2>/dev/null | \
             awk -F'|' '{printf "  %-15s: %6s eventi\n", $1, $2}'
         echo ""
         
-        echo "Eventi ultimi 7 giorni:       $(sqlite3 "$DB_PATH" "SELECT COUNT(*) FROM eventi WHERE datetime(timestamp) >= datetime('now', '-7 days');" 2>/dev/null)"
-        echo "Eventi ultime 24 ore:         $(sqlite3 "$DB_PATH" "SELECT COUNT(*) FROM eventi WHERE datetime(timestamp) >= datetime('now', '-1 day');" 2>/dev/null)"
+        echo "Eventi ultimi 7 giorni:       $(sqlite3 "$DB_PATH" "SELECT COUNT(*) FROM logs WHERE datetime(timestamp) >= datetime('now', '-7 days');" 2>/dev/null)"
+        echo "Eventi ultime 24 ore:         $(sqlite3 "$DB_PATH" "SELECT COUNT(*) FROM logs WHERE datetime(timestamp) >= datetime('now', '-1 day');" 2>/dev/null)"
         echo ""
         
-        echo "IP unici registrati:          $(sqlite3 "$DB_PATH" "SELECT COUNT(DISTINCT ip_address) FROM eventi;" 2>/dev/null)"
-        echo "Account unici attivi:         $(sqlite3 "$DB_PATH" "SELECT COUNT(DISTINCT customer_id) FROM eventi;" 2>/dev/null)"
+        echo "IP unici registrati:          $(sqlite3 "$DB_PATH" "SELECT COUNT(DISTINCT ip_address) FROM logs;" 2>/dev/null)"
+        echo "Account unici attivi:         $(sqlite3 "$DB_PATH" "SELECT COUNT(DISTINCT customer_id) FROM logs;" 2>/dev/null)"
         echo ""
     fi
 else

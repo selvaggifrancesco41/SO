@@ -1,1 +1,112 @@
 ================================================================================
+================================================================================
+================================================================================
+═══════════════════════════════════════════
+ALERT BRUTE-FORCE - 2026-02-22 17:50:20
+═══════════════════════════════════════════
+IP attaccante:      127.0.0.1
+Tentativi:          10
+Finestra:           20 secondi
+Soglia:             10
+Ultimo URI:         /login?customer_id=admin_10&session_duration=5
+
+═══════════════════════════════════════════
+ALERT BRUTE-FORCE - 2026-02-22 17:50:20
+═══════════════════════════════════════════
+IP attaccante:      127.0.0.1
+Tentativi:          11
+Finestra:           20 secondi
+Soglia:             10
+Ultimo URI:         /login?customer_id=admin_11&session_duration=5
+
+═══════════════════════════════════════════
+ALERT BRUTE-FORCE - 2026-02-22 17:50:20
+═══════════════════════════════════════════
+IP attaccante:      127.0.0.1
+Tentativi:          12
+Finestra:           20 secondi
+Soglia:             10
+Ultimo URI:         /login?customer_id=admin_12&session_duration=5
+
+═══════════════════════════════════════════
+ALERT BRUTE-FORCE - 2026-02-22 17:50:21
+═══════════════════════════════════════════
+IP attaccante:      127.0.0.1
+Tentativi:          13
+Finestra:           20 secondi
+Soglia:             10
+Ultimo URI:         /login?customer_id=admin_13&session_duration=5
+
+═══════════════════════════════════════════
+ALERT BRUTE-FORCE - 2026-02-22 17:50:21
+═══════════════════════════════════════════
+IP attaccante:      127.0.0.1
+Tentativi:          14
+Finestra:           20 secondi
+Soglia:             10
+Ultimo URI:         /login?customer_id=admin_14&session_duration=5
+
+═══════════════════════════════════════════
+ALERT BRUTE-FORCE - 2026-02-22 17:50:21
+═══════════════════════════════════════════
+IP attaccante:      127.0.0.1
+Tentativi:          15
+Finestra:           20 secondi
+Soglia:             10
+Ultimo URI:         /login?customer_id=admin_15&session_duration=5
+
+================================================================================
+═══════════════════════════════════════════
+ALERT BRUTE-FORCE - 2026-02-22 17:52:35
+═══════════════════════════════════════════
+IP attaccante:      127.0.0.1
+Tentativi:          10
+Finestra:           20 secondi
+Soglia:             10
+Ultimo URI:         /login?customer_id=admin_10&session_duration=5
+
+═══════════════════════════════════════════
+ALERT BRUTE-FORCE - 2026-02-22 17:52:35
+═══════════════════════════════════════════
+IP attaccante:      127.0.0.1
+Tentativi:          11
+Finestra:           20 secondi
+Soglia:             10
+Ultimo URI:         /login?customer_id=admin_11&session_duration=5
+
+═══════════════════════════════════════════
+ALERT BRUTE-FORCE - 2026-02-22 17:52:35
+═══════════════════════════════════════════
+IP attaccante:      127.0.0.1
+Tentativi:          12
+Finestra:           20 secondi
+Soglia:             10
+Ultimo URI:         /login?customer_id=admin_12&session_duration=5
+
+═══════════════════════════════════════════
+ALERT BRUTE-FORCE - 2026-02-22 17:52:36
+═══════════════════════════════════════════
+IP attaccante:      127.0.0.1
+Tentativi:          13
+Finestra:           20 secondi
+Soglia:             10
+Ultimo URI:         /login?customer_id=admin_13&session_duration=5
+
+═══════════════════════════════════════════
+ALERT BRUTE-FORCE - 2026-02-22 17:52:36
+═══════════════════════════════════════════
+IP attaccante:      127.0.0.1
+Tentativi:          14
+Finestra:           20 secondi
+Soglia:             10
+Ultimo URI:         /login?customer_id=admin_14&session_duration=5
+
+═══════════════════════════════════════════
+ALERT BRUTE-FORCE - 2026-02-22 17:52:36
+═══════════════════════════════════════════
+IP attaccante:      127.0.0.1
+Tentativi:          15
+Finestra:           20 secondi
+Soglia:             10
+Ultimo URI:         /login?customer_id=admin_15&session_duration=5
+

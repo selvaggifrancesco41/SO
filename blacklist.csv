@@ -224,3 +224,5 @@ timestamp,tipo_elemento,elemento,azione_rilevata,gravita,recidivita,risk_score,s
 2026-02-22 18:06:34,IP,127.0.0.1,USER_AGENT_SOSPETTO,ALTA,178,70,blacklisted,PATTERN_API,UA: curl/8.5.0, 13 richieste, customer: 800018 [RECIDIVO]
 2026-02-22 18:06:35,IP,127.0.0.1,USER_AGENT_SOSPETTO,ALTA,179,70,blacklisted,PATTERN_API,UA: curl/8.5.0, 14 richieste, customer: 800018 [RECIDIVO]
 2026-02-22 18:06:35,IP,127.0.0.1,USER_AGENT_SOSPETTO,ALTA,180,70,blacklisted,PATTERN_API,UA: curl/8.5.0, 15 richieste, customer: 800018 [RECIDIVO]
+2026-02-22 18:52:04,IP,127.0.0.1,SUBNET_NON_AUTORIZZATA,ALTA,181,70,blacklisted,CORRELAZIONE_RETE,IP fuori subnet autorizzate, RTT: UNREACHABLE, MAC: UNKNOWN, customer: 800018 [RECIDIVO]
+2026-02-22 18:52:16,IP,127.0.0.1,SUBNET_NON_AUTORIZZATA,ALTA,182,70,blacklisted,CORRELAZIONE_RETE,IP fuori subnet autorizzate, RTT: UNREACHABLE, MAC: UNKNOWN, customer: 800018 [RECIDIVO]

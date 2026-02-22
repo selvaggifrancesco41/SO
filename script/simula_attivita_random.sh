@@ -52,13 +52,13 @@ salva_nel_db() {
 import sqlite3
 from datetime import datetime
 
-DB_PATH = "/workspaces/SO/data/eventi_bancari.db"
+DB_PATH = "/workspaces/SO/data/bank_logs.db"
 timestamp = datetime.now().isoformat()
 
 conn = sqlite3.connect(DB_PATH)
 cur = conn.cursor()
 cur.execute("""
-    INSERT INTO eventi
+    INSERT INTO logs
     (timestamp, customer_id, ip_address, azione, importo, iban_destinatario, session_duration)
     VALUES (?, ?, ?, ?, ?, ?, ?)
 """, ("$timestamp", "$customer_id", "$ip", "$azione", $importo, "$iban", None))

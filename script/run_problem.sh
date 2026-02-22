@@ -67,12 +67,20 @@ echo "    3. Premi INVIO quando pronto ad iniziare il TEST"
 echo "    4. Il test genererà anomalie"
 echo "    5. Il monitoraggio le rileverà in TEMPO REALE"
 echo ""
-read -p "Premi INVIO per continuare..." continua
+# Problemi 3, 4 e 5 sono completamente automatici
+if [ "$NUMERO" != "3" ] && [ "$NUMERO" != "4" ] && [ "$NUMERO" != "5" ]; then
+    read -p "Premi INVIO per continuare..." continua
+fi
 
 # Avvia monitoraggio in background
 echo ""
 echo "[●] AVVIANDO MONITORAGGIO..."
-$PROBLEMA_FULL &
+# Per problema 03 e 05, abilita TEST_MODE per parametri ottimizzati
+if [ "$NUMERO" = "3" ] || [ "$NUMERO" = "5" ]; then
+    TEST_MODE=1 $PROBLEMA_FULL &
+else
+    $PROBLEMA_FULL &
+fi
 MONITOR_PID=$!
 
 # Aspetta che il monitoraggio sia pronto
@@ -81,11 +89,20 @@ sleep 2
 echo ""
 echo "[✓] Monitoraggio in esecuzione (PID: $MONITOR_PID)"
 echo ""
-read -p "Premi INVIO per avviare il TEST GENERATORE..." continua
 
-echo ""
-echo "[●] AVVIANDO TEST GENERATORE..."
-$TEST_FULL
+# Problemi 03, 04 e 05: avvio automatico del test dopo 3 secondi
+if [ "$NUMERO" = "3" ] || [ "$NUMERO" = "4" ] || [ "$NUMERO" = "5" ]; then
+    echo "[*] Test si avvierà automaticamente tra 3 secondi..."
+    sleep 3
+    echo ""
+    echo "[●] AVVIANDO TEST GENERATORE..."
+    $TEST_FULL
+else
+    read -p "Premi INVIO per avviare il TEST GENERATORE..." continua
+    echo ""
+    echo "[●] AVVIANDO TEST GENERATORE..."
+    $TEST_FULL
+fi
 
 # Attendi completamento test
 wait $!

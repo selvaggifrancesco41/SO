@@ -16,7 +16,7 @@
 BLACKLIST_PATH="/workspaces/SO/blacklist.csv"
 LOG_LOWSLOW="/workspaces/SO/logs/low_slow_alerts.log"
 STATE_FILE="/workspaces/SO/logs/lowslow_state.tmp"
-DB_PATH="/workspaces/SO/data/eventi_bancari.db"
+DB_PATH="/workspaces/SO/data/bank_logs.db"
 
 # Parametri
 SERVER_PORT=8000
@@ -192,7 +192,7 @@ while [ $ITERAZIONI -le $MAX_ITERAZIONI ]; do
                         echo "  [!!!] Rate troppo basso: $RATE req/s"
                         
                         # Lookup customer
-                        CUSTOMER_QUERY="SELECT customer_id FROM eventi 
+                        CUSTOMER_QUERY="SELECT customer_id FROM logs 
                                         WHERE ip_address='$IP_REMOTO' 
                                         ORDER BY timestamp DESC LIMIT 1"
                         customer_id=$(sqlite3 "$DB_PATH" "$CUSTOMER_QUERY" 2>/dev/null)

@@ -664,3 +664,253 @@
 2026-02-21 19:02:16,195 127.0.0.1 - - [21/Feb/2026 19:02:16] "[33mGET /saldo?user=cliente4 HTTP/1.1[0m" 404 -
 2026-02-21 19:02:21,203 127.0.0.1 - - [21/Feb/2026 19:02:21] "[31m[1mPOST /login HTTP/1.1[0m" 405 -
 2026-02-21 19:02:37,211 127.0.0.1 - - [21/Feb/2026 19:02:37] "[31m[1mPOST /login HTTP/1.1[0m" 405 -
+2026-02-22 17:13:09,516 [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:8000
+ * Running on http://10.0.10.97:8000
+2026-02-22 17:13:09,516 [33mPress CTRL+C to quit[0m
+2026-02-22 17:13:39,717 LOGIN customer_id=user_notturno_1 ip=192.168.20.1 importo=None iban=None
+2026-02-22 17:13:39,717 127.0.0.1 - - [22/Feb/2026 17:13:39] "GET /login?customer_id=user_notturno_1&session_duration=38 HTTP/1.1" 200 -
+2026-02-22 17:13:40,720 LOGIN customer_id=user_notturno_2 ip=192.168.20.2 importo=None iban=None
+2026-02-22 17:13:40,721 127.0.0.1 - - [22/Feb/2026 17:13:40] "GET /login?customer_id=user_notturno_2&session_duration=4 HTTP/1.1" 200 -
+2026-02-22 17:13:41,719 LOGIN customer_id=user_notturno_3 ip=192.168.20.3 importo=None iban=None
+2026-02-22 17:13:41,719 127.0.0.1 - - [22/Feb/2026 17:13:41] "GET /login?customer_id=user_notturno_3&session_duration=42 HTTP/1.1" 200 -
+2026-02-22 17:19:42,752 LOGIN customer_id=user_notturno_1 ip=192.168.20.1 importo=None iban=None
+2026-02-22 17:19:42,752 127.0.0.1 - - [22/Feb/2026 17:19:42] "GET /login?customer_id=user_notturno_1&session_duration=23 HTTP/1.1" 200 -
+2026-02-22 17:20:00,363 LOGIN customer_id=test_user ip=192.168.99.99 importo=None iban=None
+2026-02-22 17:20:00,363 127.0.0.1 - - [22/Feb/2026 17:20:00] "GET /login?customer_id=test_user&session_duration=30 HTTP/1.1" 200 -
+2026-02-22 17:25:01,863 LOGIN customer_id=user_notturno_1 ip=192.168.20.1 importo=None iban=None
+2026-02-22 17:25:01,863 127.0.0.1 - - [22/Feb/2026 17:25:01] "GET /login?customer_id=user_notturno_1&session_duration=28 HTTP/1.1" 200 -
+2026-02-22 17:25:02,874 LOGIN customer_id=user_notturno_2 ip=192.168.20.2 importo=None iban=None
+2026-02-22 17:25:02,874 127.0.0.1 - - [22/Feb/2026 17:25:02] "GET /login?customer_id=user_notturno_2&session_duration=45 HTTP/1.1" 200 -
+2026-02-22 17:25:03,885 LOGIN customer_id=user_notturno_3 ip=192.168.20.3 importo=None iban=None
+2026-02-22 17:25:03,886 127.0.0.1 - - [22/Feb/2026 17:25:03] "GET /login?customer_id=user_notturno_3&session_duration=23 HTTP/1.1" 200 -
+2026-02-22 17:30:54,489 LOGIN customer_id=user_notturno_1 ip=192.168.20.1 importo=None iban=None
+2026-02-22 17:30:54,489 127.0.0.1 - - [22/Feb/2026 17:30:54] "GET /login?customer_id=user_notturno_1&session_duration=3 HTTP/1.1" 200 -
+2026-02-22 17:30:55,499 LOGIN customer_id=user_notturno_2 ip=192.168.20.2 importo=None iban=None
+2026-02-22 17:30:55,500 127.0.0.1 - - [22/Feb/2026 17:30:55] "GET /login?customer_id=user_notturno_2&session_duration=40 HTTP/1.1" 200 -
+2026-02-22 17:30:56,514 LOGIN customer_id=user_notturno_3 ip=192.168.20.3 importo=None iban=None
+2026-02-22 17:30:56,514 127.0.0.1 - - [22/Feb/2026 17:30:56] "GET /login?customer_id=user_notturno_3&session_duration=24 HTTP/1.1" 200 -
+2026-02-22 17:32:48,636 LOGIN customer_id=user_notturno_1 ip=192.168.20.1 importo=None iban=None
+2026-02-22 17:32:48,637 127.0.0.1 - - [22/Feb/2026 17:32:48] "GET /login?customer_id=user_notturno_1&session_duration=1 HTTP/1.1" 200 -
+2026-02-22 17:32:49,647 LOGIN customer_id=user_notturno_2 ip=192.168.20.2 importo=None iban=None
+2026-02-22 17:32:49,648 127.0.0.1 - - [22/Feb/2026 17:32:49] "GET /login?customer_id=user_notturno_2&session_duration=52 HTTP/1.1" 200 -
+2026-02-22 17:32:50,657 LOGIN customer_id=user_notturno_3 ip=192.168.20.3 importo=None iban=None
+2026-02-22 17:32:50,658 127.0.0.1 - - [22/Feb/2026 17:32:50] "GET /login?customer_id=user_notturno_3&session_duration=58 HTTP/1.1" 200 -
+2026-02-22 17:37:26,726 LOGIN customer_id=ATM_1 ip=192.168.30.1 importo=None iban=None
+2026-02-22 17:37:26,727 127.0.0.1 - - [22/Feb/2026 17:37:26] "GET /login?customer_id=ATM_1&session_duration=10 HTTP/1.1" 200 -
+2026-02-22 17:37:27,228 LOGIN customer_id=ATM_2 ip=192.168.30.2 importo=None iban=None
+2026-02-22 17:37:27,229 127.0.0.1 - - [22/Feb/2026 17:37:27] "GET /login?customer_id=ATM_2&session_duration=10 HTTP/1.1" 200 -
+2026-02-22 17:37:27,729 LOGIN customer_id=ATM_3 ip=192.168.30.3 importo=None iban=None
+2026-02-22 17:37:27,730 127.0.0.1 - - [22/Feb/2026 17:37:27] "GET /login?customer_id=ATM_3&session_duration=10 HTTP/1.1" 200 -
+2026-02-22 17:37:45,508 LOGIN customer_id=ATM_1 ip=192.168.30.1 importo=None iban=None
+2026-02-22 17:37:45,508 127.0.0.1 - - [22/Feb/2026 17:37:45] "GET /login?customer_id=ATM_1&session_duration=10 HTTP/1.1" 200 -
+2026-02-22 17:37:46,010 LOGIN customer_id=ATM_2 ip=192.168.30.2 importo=None iban=None
+2026-02-22 17:37:46,011 127.0.0.1 - - [22/Feb/2026 17:37:46] "GET /login?customer_id=ATM_2&session_duration=10 HTTP/1.1" 200 -
+2026-02-22 17:37:46,521 LOGIN customer_id=ATM_3 ip=192.168.30.3 importo=None iban=None
+2026-02-22 17:37:46,522 127.0.0.1 - - [22/Feb/2026 17:37:46] "GET /login?customer_id=ATM_3&session_duration=10 HTTP/1.1" 200 -
+2026-02-22 17:39:42,824 LOGIN customer_id=ATM_1 ip=192.168.30.1 importo=None iban=None
+2026-02-22 17:39:42,824 127.0.0.1 - - [22/Feb/2026 17:39:42] "GET /login?customer_id=ATM_1&session_duration=10 HTTP/1.1" 200 -
+2026-02-22 17:39:43,326 LOGIN customer_id=ATM_2 ip=192.168.30.2 importo=None iban=None
+2026-02-22 17:39:43,326 127.0.0.1 - - [22/Feb/2026 17:39:43] "GET /login?customer_id=ATM_2&session_duration=10 HTTP/1.1" 200 -
+2026-02-22 17:39:43,826 LOGIN customer_id=ATM_3 ip=192.168.30.3 importo=None iban=None
+2026-02-22 17:39:43,827 127.0.0.1 - - [22/Feb/2026 17:39:43] "GET /login?customer_id=ATM_3&session_duration=10 HTTP/1.1" 200 -
+2026-02-22 17:43:36,036 LOGIN customer_id=ATM_1 ip=192.168.30.1 importo=None iban=None
+2026-02-22 17:43:36,037 127.0.0.1 - - [22/Feb/2026 17:43:36] "GET /login?customer_id=ATM_1&session_duration=10 HTTP/1.1" 200 -
+2026-02-22 17:43:36,538 LOGIN customer_id=ATM_2 ip=192.168.30.2 importo=None iban=None
+2026-02-22 17:43:36,538 127.0.0.1 - - [22/Feb/2026 17:43:36] "GET /login?customer_id=ATM_2&session_duration=10 HTTP/1.1" 200 -
+2026-02-22 17:43:37,041 LOGIN customer_id=ATM_3 ip=192.168.30.3 importo=None iban=None
+2026-02-22 17:43:37,041 127.0.0.1 - - [22/Feb/2026 17:43:37] "GET /login?customer_id=ATM_3&session_duration=10 HTTP/1.1" 200 -
+2026-02-22 17:46:32,043 LOGIN customer_id=ATM_1 ip=192.168.30.1 importo=None iban=None
+2026-02-22 17:46:32,044 127.0.0.1 - - [22/Feb/2026 17:46:32] "GET /login?customer_id=ATM_1&session_duration=10 HTTP/1.1" 200 -
+2026-02-22 17:46:32,552 LOGIN customer_id=ATM_2 ip=192.168.30.2 importo=None iban=None
+2026-02-22 17:46:32,553 127.0.0.1 - - [22/Feb/2026 17:46:32] "GET /login?customer_id=ATM_2&session_duration=10 HTTP/1.1" 200 -
+2026-02-22 17:46:33,047 LOGIN customer_id=ATM_3 ip=192.168.30.3 importo=None iban=None
+2026-02-22 17:46:33,047 127.0.0.1 - - [22/Feb/2026 17:46:33] "GET /login?customer_id=ATM_3&session_duration=10 HTTP/1.1" 200 -
+2026-02-22 17:49:32,527 LOGIN customer_id=admin_1 ip=192.168.40.100 importo=None iban=None
+2026-02-22 17:49:32,527 127.0.0.1 - - [22/Feb/2026 17:49:32] "GET /login?customer_id=admin_1&session_duration=5 HTTP/1.1" 200 -
+2026-02-22 17:49:32,985 LOGIN customer_id=admin_2 ip=192.168.40.100 importo=None iban=None
+2026-02-22 17:49:32,985 127.0.0.1 - - [22/Feb/2026 17:49:32] "GET /login?customer_id=admin_2&session_duration=5 HTTP/1.1" 200 -
+2026-02-22 17:49:33,147 LOGIN customer_id=admin_3 ip=192.168.40.100 importo=None iban=None
+2026-02-22 17:49:33,147 127.0.0.1 - - [22/Feb/2026 17:49:33] "GET /login?customer_id=admin_3&session_duration=5 HTTP/1.1" 200 -
+2026-02-22 17:49:33,522 LOGIN customer_id=admin_4 ip=192.168.40.100 importo=None iban=None
+2026-02-22 17:49:33,522 127.0.0.1 - - [22/Feb/2026 17:49:33] "GET /login?customer_id=admin_4&session_duration=5 HTTP/1.1" 200 -
+2026-02-22 17:49:33,817 LOGIN customer_id=admin_5 ip=192.168.40.100 importo=None iban=None
+2026-02-22 17:49:33,817 127.0.0.1 - - [22/Feb/2026 17:49:33] "GET /login?customer_id=admin_5&session_duration=5 HTTP/1.1" 200 -
+2026-02-22 17:49:34,058 LOGIN customer_id=admin_6 ip=192.168.40.100 importo=None iban=None
+2026-02-22 17:49:34,058 127.0.0.1 - - [22/Feb/2026 17:49:34] "GET /login?customer_id=admin_6&session_duration=5 HTTP/1.1" 200 -
+2026-02-22 17:49:34,484 LOGIN customer_id=admin_7 ip=192.168.40.100 importo=None iban=None
+2026-02-22 17:49:34,485 127.0.0.1 - - [22/Feb/2026 17:49:34] "GET /login?customer_id=admin_7&session_duration=5 HTTP/1.1" 200 -
+2026-02-22 17:49:34,589 LOGIN customer_id=admin_8 ip=192.168.40.100 importo=None iban=None
+2026-02-22 17:49:34,589 127.0.0.1 - - [22/Feb/2026 17:49:34] "GET /login?customer_id=admin_8&session_duration=5 HTTP/1.1" 200 -
+2026-02-22 17:49:35,128 LOGIN customer_id=admin_9 ip=192.168.40.100 importo=None iban=None
+2026-02-22 17:49:35,128 127.0.0.1 - - [22/Feb/2026 17:49:35] "GET /login?customer_id=admin_9&session_duration=5 HTTP/1.1" 200 -
+2026-02-22 17:49:35,310 LOGIN customer_id=admin_10 ip=192.168.40.100 importo=None iban=None
+2026-02-22 17:49:35,311 127.0.0.1 - - [22/Feb/2026 17:49:35] "GET /login?customer_id=admin_10&session_duration=5 HTTP/1.1" 200 -
+2026-02-22 17:49:35,515 LOGIN customer_id=admin_11 ip=192.168.40.100 importo=None iban=None
+2026-02-22 17:49:35,516 127.0.0.1 - - [22/Feb/2026 17:49:35] "GET /login?customer_id=admin_11&session_duration=5 HTTP/1.1" 200 -
+2026-02-22 17:49:35,834 LOGIN customer_id=admin_12 ip=192.168.40.100 importo=None iban=None
+2026-02-22 17:49:35,835 127.0.0.1 - - [22/Feb/2026 17:49:35] "GET /login?customer_id=admin_12&session_duration=5 HTTP/1.1" 200 -
+2026-02-22 17:49:36,131 LOGIN customer_id=admin_13 ip=192.168.40.100 importo=None iban=None
+2026-02-22 17:49:36,131 127.0.0.1 - - [22/Feb/2026 17:49:36] "GET /login?customer_id=admin_13&session_duration=5 HTTP/1.1" 200 -
+2026-02-22 17:49:36,482 LOGIN customer_id=admin_14 ip=192.168.40.100 importo=None iban=None
+2026-02-22 17:49:36,482 127.0.0.1 - - [22/Feb/2026 17:49:36] "GET /login?customer_id=admin_14&session_duration=5 HTTP/1.1" 200 -
+2026-02-22 17:49:36,771 LOGIN customer_id=admin_15 ip=192.168.40.100 importo=None iban=None
+2026-02-22 17:49:36,771 127.0.0.1 - - [22/Feb/2026 17:49:36] "GET /login?customer_id=admin_15&session_duration=5 HTTP/1.1" 200 -
+2026-02-22 17:50:17,331 LOGIN customer_id=admin_1 ip=192.168.40.100 importo=None iban=None
+2026-02-22 17:50:17,332 127.0.0.1 - - [22/Feb/2026 17:50:17] "GET /login?customer_id=admin_1&session_duration=5 HTTP/1.1" 200 -
+2026-02-22 17:50:17,632 LOGIN customer_id=admin_2 ip=192.168.40.100 importo=None iban=None
+2026-02-22 17:50:17,633 127.0.0.1 - - [22/Feb/2026 17:50:17] "GET /login?customer_id=admin_2&session_duration=5 HTTP/1.1" 200 -
+2026-02-22 17:50:17,933 LOGIN customer_id=admin_3 ip=192.168.40.100 importo=None iban=None
+2026-02-22 17:50:17,934 127.0.0.1 - - [22/Feb/2026 17:50:17] "GET /login?customer_id=admin_3&session_duration=5 HTTP/1.1" 200 -
+2026-02-22 17:50:18,235 LOGIN customer_id=admin_4 ip=192.168.40.100 importo=None iban=None
+2026-02-22 17:50:18,235 127.0.0.1 - - [22/Feb/2026 17:50:18] "GET /login?customer_id=admin_4&session_duration=5 HTTP/1.1" 200 -
+2026-02-22 17:50:18,537 LOGIN customer_id=admin_5 ip=192.168.40.100 importo=None iban=None
+2026-02-22 17:50:18,538 127.0.0.1 - - [22/Feb/2026 17:50:18] "GET /login?customer_id=admin_5&session_duration=5 HTTP/1.1" 200 -
+2026-02-22 17:50:18,839 LOGIN customer_id=admin_6 ip=192.168.40.100 importo=None iban=None
+2026-02-22 17:50:18,839 127.0.0.1 - - [22/Feb/2026 17:50:18] "GET /login?customer_id=admin_6&session_duration=5 HTTP/1.1" 200 -
+2026-02-22 17:50:19,141 LOGIN customer_id=admin_7 ip=192.168.40.100 importo=None iban=None
+2026-02-22 17:50:19,142 127.0.0.1 - - [22/Feb/2026 17:50:19] "GET /login?customer_id=admin_7&session_duration=5 HTTP/1.1" 200 -
+2026-02-22 17:50:19,442 LOGIN customer_id=admin_8 ip=192.168.40.100 importo=None iban=None
+2026-02-22 17:50:19,443 127.0.0.1 - - [22/Feb/2026 17:50:19] "GET /login?customer_id=admin_8&session_duration=5 HTTP/1.1" 200 -
+2026-02-22 17:50:19,744 LOGIN customer_id=admin_9 ip=192.168.40.100 importo=None iban=None
+2026-02-22 17:50:19,745 127.0.0.1 - - [22/Feb/2026 17:50:19] "GET /login?customer_id=admin_9&session_duration=5 HTTP/1.1" 200 -
+2026-02-22 17:50:20,046 LOGIN customer_id=admin_10 ip=192.168.40.100 importo=None iban=None
+2026-02-22 17:50:20,046 127.0.0.1 - - [22/Feb/2026 17:50:20] "GET /login?customer_id=admin_10&session_duration=5 HTTP/1.1" 200 -
+2026-02-22 17:50:20,349 LOGIN customer_id=admin_11 ip=192.168.40.100 importo=None iban=None
+2026-02-22 17:50:20,350 127.0.0.1 - - [22/Feb/2026 17:50:20] "GET /login?customer_id=admin_11&session_duration=5 HTTP/1.1" 200 -
+2026-02-22 17:50:20,651 LOGIN customer_id=admin_12 ip=192.168.40.100 importo=None iban=None
+2026-02-22 17:50:20,651 127.0.0.1 - - [22/Feb/2026 17:50:20] "GET /login?customer_id=admin_12&session_duration=5 HTTP/1.1" 200 -
+2026-02-22 17:50:20,962 LOGIN customer_id=admin_13 ip=192.168.40.100 importo=None iban=None
+2026-02-22 17:50:20,962 127.0.0.1 - - [22/Feb/2026 17:50:20] "GET /login?customer_id=admin_13&session_duration=5 HTTP/1.1" 200 -
+2026-02-22 17:50:21,257 LOGIN customer_id=admin_14 ip=192.168.40.100 importo=None iban=None
+2026-02-22 17:50:21,258 127.0.0.1 - - [22/Feb/2026 17:50:21] "GET /login?customer_id=admin_14&session_duration=5 HTTP/1.1" 200 -
+2026-02-22 17:50:21,558 LOGIN customer_id=admin_15 ip=192.168.40.100 importo=None iban=None
+2026-02-22 17:50:21,558 127.0.0.1 - - [22/Feb/2026 17:50:21] "GET /login?customer_id=admin_15&session_duration=5 HTTP/1.1" 200 -
+2026-02-22 17:51:55,205 LOGIN customer_id=ATM_1 ip=192.168.30.1 importo=None iban=None
+2026-02-22 17:51:55,206 127.0.0.1 - - [22/Feb/2026 17:51:55] "GET /login?customer_id=ATM_1&session_duration=10 HTTP/1.1" 200 -
+2026-02-22 17:51:55,706 LOGIN customer_id=ATM_2 ip=192.168.30.2 importo=None iban=None
+2026-02-22 17:51:55,707 127.0.0.1 - - [22/Feb/2026 17:51:55] "GET /login?customer_id=ATM_2&session_duration=10 HTTP/1.1" 200 -
+2026-02-22 17:51:56,208 LOGIN customer_id=ATM_3 ip=192.168.30.3 importo=None iban=None
+2026-02-22 17:51:56,208 127.0.0.1 - - [22/Feb/2026 17:51:56] "GET /login?customer_id=ATM_3&session_duration=10 HTTP/1.1" 200 -
+2026-02-22 17:52:32,282 LOGIN customer_id=admin_1 ip=192.168.40.100 importo=None iban=None
+2026-02-22 17:52:32,282 127.0.0.1 - - [22/Feb/2026 17:52:32] "GET /login?customer_id=admin_1&session_duration=5 HTTP/1.1" 200 -
+2026-02-22 17:52:32,599 LOGIN customer_id=admin_2 ip=192.168.40.100 importo=None iban=None
+2026-02-22 17:52:32,600 127.0.0.1 - - [22/Feb/2026 17:52:32] "GET /login?customer_id=admin_2&session_duration=5 HTTP/1.1" 200 -
+2026-02-22 17:52:32,885 LOGIN customer_id=admin_3 ip=192.168.40.100 importo=None iban=None
+2026-02-22 17:52:32,885 127.0.0.1 - - [22/Feb/2026 17:52:32] "GET /login?customer_id=admin_3&session_duration=5 HTTP/1.1" 200 -
+2026-02-22 17:52:33,186 LOGIN customer_id=admin_4 ip=192.168.40.100 importo=None iban=None
+2026-02-22 17:52:33,187 127.0.0.1 - - [22/Feb/2026 17:52:33] "GET /login?customer_id=admin_4&session_duration=5 HTTP/1.1" 200 -
+2026-02-22 17:52:33,488 LOGIN customer_id=admin_5 ip=192.168.40.100 importo=None iban=None
+2026-02-22 17:52:33,488 127.0.0.1 - - [22/Feb/2026 17:52:33] "GET /login?customer_id=admin_5&session_duration=5 HTTP/1.1" 200 -
+2026-02-22 17:52:33,796 LOGIN customer_id=admin_6 ip=192.168.40.100 importo=None iban=None
+2026-02-22 17:52:33,796 127.0.0.1 - - [22/Feb/2026 17:52:33] "GET /login?customer_id=admin_6&session_duration=5 HTTP/1.1" 200 -
+2026-02-22 17:52:34,093 LOGIN customer_id=admin_7 ip=192.168.40.100 importo=None iban=None
+2026-02-22 17:52:34,094 127.0.0.1 - - [22/Feb/2026 17:52:34] "GET /login?customer_id=admin_7&session_duration=5 HTTP/1.1" 200 -
+2026-02-22 17:52:34,395 LOGIN customer_id=admin_8 ip=192.168.40.100 importo=None iban=None
+2026-02-22 17:52:34,395 127.0.0.1 - - [22/Feb/2026 17:52:34] "GET /login?customer_id=admin_8&session_duration=5 HTTP/1.1" 200 -
+2026-02-22 17:52:34,696 LOGIN customer_id=admin_9 ip=192.168.40.100 importo=None iban=None
+2026-02-22 17:52:34,697 127.0.0.1 - - [22/Feb/2026 17:52:34] "GET /login?customer_id=admin_9&session_duration=5 HTTP/1.1" 200 -
+2026-02-22 17:52:34,998 LOGIN customer_id=admin_10 ip=192.168.40.100 importo=None iban=None
+2026-02-22 17:52:34,999 127.0.0.1 - - [22/Feb/2026 17:52:34] "GET /login?customer_id=admin_10&session_duration=5 HTTP/1.1" 200 -
+2026-02-22 17:52:35,301 LOGIN customer_id=admin_11 ip=192.168.40.100 importo=None iban=None
+2026-02-22 17:52:35,301 127.0.0.1 - - [22/Feb/2026 17:52:35] "GET /login?customer_id=admin_11&session_duration=5 HTTP/1.1" 200 -
+2026-02-22 17:52:35,602 LOGIN customer_id=admin_12 ip=192.168.40.100 importo=None iban=None
+2026-02-22 17:52:35,602 127.0.0.1 - - [22/Feb/2026 17:52:35] "GET /login?customer_id=admin_12&session_duration=5 HTTP/1.1" 200 -
+2026-02-22 17:52:35,904 LOGIN customer_id=admin_13 ip=192.168.40.100 importo=None iban=None
+2026-02-22 17:52:35,905 127.0.0.1 - - [22/Feb/2026 17:52:35] "GET /login?customer_id=admin_13&session_duration=5 HTTP/1.1" 200 -
+2026-02-22 17:52:36,205 LOGIN customer_id=admin_14 ip=192.168.40.100 importo=None iban=None
+2026-02-22 17:52:36,205 127.0.0.1 - - [22/Feb/2026 17:52:36] "GET /login?customer_id=admin_14&session_duration=5 HTTP/1.1" 200 -
+2026-02-22 17:52:36,514 LOGIN customer_id=admin_15 ip=192.168.40.100 importo=None iban=None
+2026-02-22 17:52:36,514 127.0.0.1 - - [22/Feb/2026 17:52:36] "GET /login?customer_id=admin_15&session_duration=5 HTTP/1.1" 200 -
+2026-02-22 17:58:38,196 PRELIEVO customer_id=client_1 ip=192.168.50.1 importo=100 iban=None
+2026-02-22 17:58:38,197 127.0.0.1 - - [22/Feb/2026 17:58:38] "GET /prelievo?customer_id=client_1&importo=100 HTTP/1.1" 200 -
+2026-02-22 17:58:38,397 PRELIEVO customer_id=client_2 ip=192.168.50.2 importo=100 iban=None
+2026-02-22 17:58:38,398 127.0.0.1 - - [22/Feb/2026 17:58:38] "GET /prelievo?customer_id=client_2&importo=100 HTTP/1.1" 200 -
+2026-02-22 17:58:38,599 PRELIEVO customer_id=client_3 ip=192.168.50.3 importo=100 iban=None
+2026-02-22 17:58:38,599 127.0.0.1 - - [22/Feb/2026 17:58:38] "GET /prelievo?customer_id=client_3&importo=100 HTTP/1.1" 200 -
+2026-02-22 17:58:38,802 PRELIEVO customer_id=client_4 ip=192.168.50.4 importo=100 iban=None
+2026-02-22 17:58:38,803 127.0.0.1 - - [22/Feb/2026 17:58:38] "GET /prelievo?customer_id=client_4&importo=100 HTTP/1.1" 200 -
+2026-02-22 17:58:39,003 PRELIEVO customer_id=client_5 ip=192.168.50.5 importo=100 iban=None
+2026-02-22 17:58:39,004 127.0.0.1 - - [22/Feb/2026 17:58:39] "GET /prelievo?customer_id=client_5&importo=100 HTTP/1.1" 200 -
+2026-02-22 17:58:39,207 PRELIEVO customer_id=client_6 ip=192.168.50.6 importo=100 iban=None
+2026-02-22 17:58:39,207 127.0.0.1 - - [22/Feb/2026 17:58:39] "GET /prelievo?customer_id=client_6&importo=100 HTTP/1.1" 200 -
+2026-02-22 17:58:39,407 PRELIEVO customer_id=client_7 ip=192.168.50.7 importo=100 iban=None
+2026-02-22 17:58:39,407 127.0.0.1 - - [22/Feb/2026 17:58:39] "GET /prelievo?customer_id=client_7&importo=100 HTTP/1.1" 200 -
+2026-02-22 17:58:39,608 PRELIEVO customer_id=client_8 ip=192.168.50.8 importo=100 iban=None
+2026-02-22 17:58:39,609 127.0.0.1 - - [22/Feb/2026 17:58:39] "GET /prelievo?customer_id=client_8&importo=100 HTTP/1.1" 200 -
+2026-02-22 17:58:39,811 PRELIEVO customer_id=client_9 ip=192.168.50.9 importo=100 iban=None
+2026-02-22 17:58:39,811 127.0.0.1 - - [22/Feb/2026 17:58:39] "GET /prelievo?customer_id=client_9&importo=100 HTTP/1.1" 200 -
+2026-02-22 17:58:40,016 PRELIEVO customer_id=client_10 ip=192.168.50.10 importo=100 iban=None
+2026-02-22 17:58:40,017 127.0.0.1 - - [22/Feb/2026 17:58:40] "GET /prelievo?customer_id=client_10&importo=100 HTTP/1.1" 200 -
+2026-02-22 17:58:40,219 PRELIEVO customer_id=client_11 ip=192.168.50.11 importo=100 iban=None
+2026-02-22 17:58:40,219 127.0.0.1 - - [22/Feb/2026 17:58:40] "GET /prelievo?customer_id=client_11&importo=100 HTTP/1.1" 200 -
+2026-02-22 17:58:40,417 PRELIEVO customer_id=client_12 ip=192.168.50.12 importo=100 iban=None
+2026-02-22 17:58:40,418 127.0.0.1 - - [22/Feb/2026 17:58:40] "GET /prelievo?customer_id=client_12&importo=100 HTTP/1.1" 200 -
+2026-02-22 17:58:40,619 PRELIEVO customer_id=client_13 ip=192.168.50.13 importo=100 iban=None
+2026-02-22 17:58:40,619 127.0.0.1 - - [22/Feb/2026 17:58:40] "GET /prelievo?customer_id=client_13&importo=100 HTTP/1.1" 200 -
+2026-02-22 17:58:40,820 PRELIEVO customer_id=client_14 ip=192.168.50.14 importo=100 iban=None
+2026-02-22 17:58:40,821 127.0.0.1 - - [22/Feb/2026 17:58:40] "GET /prelievo?customer_id=client_14&importo=100 HTTP/1.1" 200 -
+2026-02-22 17:58:41,022 PRELIEVO customer_id=client_15 ip=192.168.50.15 importo=100 iban=None
+2026-02-22 17:58:41,022 127.0.0.1 - - [22/Feb/2026 17:58:41] "GET /prelievo?customer_id=client_15&importo=100 HTTP/1.1" 200 -
+2026-02-22 17:58:41,223 PRELIEVO customer_id=client_16 ip=192.168.50.16 importo=100 iban=None
+2026-02-22 17:58:41,224 127.0.0.1 - - [22/Feb/2026 17:58:41] "GET /prelievo?customer_id=client_16&importo=100 HTTP/1.1" 200 -
+2026-02-22 17:58:41,426 PRELIEVO customer_id=client_17 ip=192.168.50.17 importo=100 iban=None
+2026-02-22 17:58:41,426 127.0.0.1 - - [22/Feb/2026 17:58:41] "GET /prelievo?customer_id=client_17&importo=100 HTTP/1.1" 200 -
+2026-02-22 17:58:41,627 PRELIEVO customer_id=client_18 ip=192.168.50.18 importo=100 iban=None
+2026-02-22 17:58:41,628 127.0.0.1 - - [22/Feb/2026 17:58:41] "GET /prelievo?customer_id=client_18&importo=100 HTTP/1.1" 200 -
+2026-02-22 17:58:41,829 PRELIEVO customer_id=client_19 ip=192.168.50.19 importo=100 iban=None
+2026-02-22 17:58:41,829 127.0.0.1 - - [22/Feb/2026 17:58:41] "GET /prelievo?customer_id=client_19&importo=100 HTTP/1.1" 200 -
+2026-02-22 17:58:42,032 PRELIEVO customer_id=client_20 ip=192.168.50.20 importo=100 iban=None
+2026-02-22 17:58:42,032 127.0.0.1 - - [22/Feb/2026 17:58:42] "GET /prelievo?customer_id=client_20&importo=100 HTTP/1.1" 200 -
+2026-02-22 18:06:19,951 LOGIN customer_id=test ip=127.0.0.1 importo=None iban=None
+2026-02-22 18:06:19,952 127.0.0.1 - - [22/Feb/2026 18:06:19] "GET /login?customer_id=test&porta=5000 HTTP/1.1" 200 -
+2026-02-22 18:06:24,436 PRELIEVO customer_id=bot_pattern ip=192.168.60.100 importo=100 iban=None
+2026-02-22 18:06:24,436 127.0.0.1 - - [22/Feb/2026 18:06:24] "GET /prelievo?customer_id=bot_pattern&importo=100 HTTP/1.1" 200 -
+2026-02-22 18:06:24,935 DEPOSITO customer_id=bot_pattern ip=192.168.60.100 importo=50 iban=None
+2026-02-22 18:06:24,936 127.0.0.1 - - [22/Feb/2026 18:06:24] "GET /deposito?customer_id=bot_pattern&importo=50 HTTP/1.1" 200 -
+2026-02-22 18:06:25,444 PRELIEVO customer_id=bot_pattern ip=192.168.60.100 importo=100 iban=None
+2026-02-22 18:06:25,444 127.0.0.1 - - [22/Feb/2026 18:06:25] "GET /prelievo?customer_id=bot_pattern&importo=100 HTTP/1.1" 200 -
+2026-02-22 18:06:26,941 PRELIEVO customer_id=bot_pattern ip=192.168.60.100 importo=100 iban=None
+2026-02-22 18:06:26,941 127.0.0.1 - - [22/Feb/2026 18:06:26] "GET /prelievo?customer_id=bot_pattern&importo=100 HTTP/1.1" 200 -
+2026-02-22 18:06:27,444 DEPOSITO customer_id=bot_pattern ip=192.168.60.100 importo=50 iban=None
+2026-02-22 18:06:27,445 127.0.0.1 - - [22/Feb/2026 18:06:27] "GET /deposito?customer_id=bot_pattern&importo=50 HTTP/1.1" 200 -
+2026-02-22 18:06:27,950 PRELIEVO customer_id=bot_pattern ip=192.168.60.100 importo=100 iban=None
+2026-02-22 18:06:27,950 127.0.0.1 - - [22/Feb/2026 18:06:27] "GET /prelievo?customer_id=bot_pattern&importo=100 HTTP/1.1" 200 -
+2026-02-22 18:06:29,453 PRELIEVO customer_id=bot_pattern ip=192.168.60.100 importo=100 iban=None
+2026-02-22 18:06:29,453 127.0.0.1 - - [22/Feb/2026 18:06:29] "GET /prelievo?customer_id=bot_pattern&importo=100 HTTP/1.1" 200 -
+2026-02-22 18:06:29,951 DEPOSITO customer_id=bot_pattern ip=192.168.60.100 importo=50 iban=None
+2026-02-22 18:06:29,951 127.0.0.1 - - [22/Feb/2026 18:06:29] "GET /deposito?customer_id=bot_pattern&importo=50 HTTP/1.1" 200 -
+2026-02-22 18:06:30,456 PRELIEVO customer_id=bot_pattern ip=192.168.60.100 importo=100 iban=None
+2026-02-22 18:06:30,457 127.0.0.1 - - [22/Feb/2026 18:06:30] "GET /prelievo?customer_id=bot_pattern&importo=100 HTTP/1.1" 200 -
+2026-02-22 18:06:31,957 PRELIEVO customer_id=bot_pattern ip=192.168.60.100 importo=100 iban=None
+2026-02-22 18:06:31,958 127.0.0.1 - - [22/Feb/2026 18:06:31] "GET /prelievo?customer_id=bot_pattern&importo=100 HTTP/1.1" 200 -
+2026-02-22 18:06:32,459 DEPOSITO customer_id=bot_pattern ip=192.168.60.100 importo=50 iban=None
+2026-02-22 18:06:32,459 127.0.0.1 - - [22/Feb/2026 18:06:32] "GET /deposito?customer_id=bot_pattern&importo=50 HTTP/1.1" 200 -
+2026-02-22 18:06:32,969 PRELIEVO customer_id=bot_pattern ip=192.168.60.100 importo=100 iban=None
+2026-02-22 18:06:32,970 127.0.0.1 - - [22/Feb/2026 18:06:32] "GET /prelievo?customer_id=bot_pattern&importo=100 HTTP/1.1" 200 -
+2026-02-22 18:06:34,466 PRELIEVO customer_id=bot_pattern ip=192.168.60.100 importo=100 iban=None
+2026-02-22 18:06:34,466 127.0.0.1 - - [22/Feb/2026 18:06:34] "GET /prelievo?customer_id=bot_pattern&importo=100 HTTP/1.1" 200 -
+2026-02-22 18:06:34,968 DEPOSITO customer_id=bot_pattern ip=192.168.60.100 importo=50 iban=None
+2026-02-22 18:06:34,968 127.0.0.1 - - [22/Feb/2026 18:06:34] "GET /deposito?customer_id=bot_pattern&importo=50 HTTP/1.1" 200 -
+2026-02-22 18:06:35,475 PRELIEVO customer_id=bot_pattern ip=192.168.60.100 importo=100 iban=None
+2026-02-22 18:06:35,475 127.0.0.1 - - [22/Feb/2026 18:06:35] "GET /prelievo?customer_id=bot_pattern&importo=100 HTTP/1.1" 200 -
+2026-02-22 18:15:33,991 PRELIEVO customer_id=slow_client_1 ip=192.168.70.100 importo=10 iban=None
+2026-02-22 18:15:33,991 127.0.0.1 - - [22/Feb/2026 18:15:33] "GET /prelievo?customer_id=slow_client_1&importo=10 HTTP/1.1" 200 -
+2026-02-22 18:15:57,992 PRELIEVO customer_id=slow_client_2 ip=192.168.70.100 importo=10 iban=None
+2026-02-22 18:15:57,992 127.0.0.1 - - [22/Feb/2026 18:15:57] "GET /prelievo?customer_id=slow_client_2&importo=10 HTTP/1.1" 200 -
+2026-02-22 18:16:21,993 PRELIEVO customer_id=slow_client_3 ip=192.168.70.100 importo=10 iban=None
+2026-02-22 18:16:21,994 127.0.0.1 - - [22/Feb/2026 18:16:21] "GET /prelievo?customer_id=slow_client_3&importo=10 HTTP/1.1" 200 -
+2026-02-22 18:16:45,995 PRELIEVO customer_id=slow_client_4 ip=192.168.70.100 importo=10 iban=None
+2026-02-22 18:16:45,995 127.0.0.1 - - [22/Feb/2026 18:16:45] "GET /prelievo?customer_id=slow_client_4&importo=10 HTTP/1.1" 200 -
+2026-02-22 18:17:09,996 PRELIEVO customer_id=slow_client_5 ip=192.168.70.100 importo=10 iban=None
+2026-02-22 18:17:09,997 127.0.0.1 - - [22/Feb/2026 18:17:09] "GET /prelievo?customer_id=slow_client_5&importo=10 HTTP/1.1" 200 -
+2026-02-22 18:51:09,494 [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:8000
+ * Running on http://10.0.13.189:8000
+2026-02-22 18:51:09,554 [33mPress CTRL+C to quit[0m
+2026-02-22 18:51:09,986 LOGIN customer_id=test ip=127.0.0.1 importo=None iban=None
+2026-02-22 18:51:09,988 127.0.0.1 - - [22/Feb/2026 18:51:09] "GET /login?customer_id=test HTTP/1.1" 200 -
+2026-02-22 18:51:09,993 LOGIN customer_id=test ip=127.0.0.1 importo=None iban=None
+2026-02-22 18:51:09,994 127.0.0.1 - - [22/Feb/2026 18:51:09] "GET /login?customer_id=test HTTP/1.1" 200 -

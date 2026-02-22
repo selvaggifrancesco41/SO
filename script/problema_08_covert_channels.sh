@@ -15,7 +15,7 @@
 
 BLACKLIST_PATH="/workspaces/SO/blacklist.csv"
 LOG_COVERT="/workspaces/SO/logs/covert_channels_alerts.log"
-DB_PATH="/workspaces/SO/data/eventi_bancari.db"
+DB_PATH="/workspaces/SO/data/bank_logs.db"
 
 # Parametri
 SERVER_PORT=8000
@@ -178,7 +178,7 @@ while read -r line; do
                 echo ""
                 
                 # Lookup customer
-                CUSTOMER_QUERY="SELECT customer_id FROM eventi 
+                CUSTOMER_QUERY="SELECT customer_id FROM logs 
                                 WHERE ip_address='$SRC_IP' 
                                 ORDER BY timestamp DESC LIMIT 1"
                 customer_id=$(sqlite3 "$DB_PATH" "$CUSTOMER_QUERY" 2>/dev/null)

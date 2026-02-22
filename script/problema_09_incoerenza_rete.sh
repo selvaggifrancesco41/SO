@@ -15,7 +15,7 @@
 
 BLACKLIST_PATH="/workspaces/SO/blacklist.csv"
 LOG_INCOERENZA="/workspaces/SO/logs/incoerenza_rete_alerts.log"
-DB_PATH="/workspaces/SO/data/eventi_bancari.db"
+DB_PATH="/workspaces/SO/data/bank_logs.db"
 
 # Parametri
 SERVER_PORT=8000
@@ -187,7 +187,7 @@ while [ $ITERAZIONI -le $MAX_ITERAZIONI ]; do
                         echo "  └─ [!!!] TROPPI HOP: $NUM_HOP (soglia: $SOGLIA_HOP_MAX)"
                         
                         # Lookup customer
-                        CUSTOMER_QUERY="SELECT customer_id FROM eventi 
+                        CUSTOMER_QUERY="SELECT customer_id FROM logs 
                                         WHERE ip_address='$ip' 
                                         ORDER BY timestamp DESC LIMIT 1"
                         customer_id=$(sqlite3 "$DB_PATH" "$CUSTOMER_QUERY" 2>/dev/null)
