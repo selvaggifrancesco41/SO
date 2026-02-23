@@ -13,17 +13,40 @@
 #
 # DIPENDENZE: ip, arp, ping, ss, awk
 
+# Output minimale: riduce il rumore sul terminale
+# FD 3 resta collegato al terminale per messaggi essenziali
+exec 3>&1
+# Silenzia stdout standard per tutte le stampe verbose
+exec 1>/dev/null
+
+# Stampa solo le righe essenziali su terminale
+log() {
+    # Usa FD 3 per non essere silenziato
+    printf "%s\n" "$1" >&3
+}
+
 BLACKLIST_PATH="/workspaces/SO/blacklist.csv"
 LOG_CORRELAZIONE="/workspaces/SO/logs/correlazione_alerts.log"
 DB_PATH="/workspaces/SO/data/bank_logs.db"
+LAST_CHECK_FILE="/tmp/problema06_last_check.txt"
 
 # Parametri
-SERVER_PORT=8000
 SUBNET_AUTORIZZATE=("192.168.0.0/16" "10.0.0.0/8" "172.16.0.0/12")
-INTERVALLO_CHECK=12
-DURATA_MONITORAGGIO=120
+INTERVALLO_CHECK=3
+DURATA_MONITORAGGIO=60
+
+# Soglia di blocco per risk_score (IP)
+RISK_BLOCK_THRESHOLD=100
 
 mkdir -p $(dirname "$LOG_CORRELAZIONE")
+
+# Inizializza timestamp ultimo check (solo se non esiste)
+if [ ! -f "$LAST_CHECK_FILE" ]; then
+    date -u '+%Y-%m-%dT%H:%M:%S' > "$LAST_CHECK_FILE"
+fi
+
+# Array per tracciare IP già segnalati in questa sessione
+declare -A SEGNALATI
 
 controlla_blacklist() {
     local tipo_elemento="$1"
@@ -44,6 +67,21 @@ get_risk_score() {
     fi
 }
 
+# FUNZIONE: blocca_ip_se_necessario
+# Blocca l'IP con iptables quando il risk_score supera la soglia
+blocca_ip_se_necessario() {
+    local ip_to_block="$1"
+    local risk_score="$2"
+
+    # Blocca solo se supera la soglia e iptables e' disponibile
+    if [ "$risk_score" -ge "$RISK_BLOCK_THRESHOLD" ] && command -v iptables >/dev/null 2>&1; then
+        # Evita duplicati: -C verifica se la regola esiste gia'
+        if ! iptables -C INPUT -s "$ip_to_block" -j DROP 2>/dev/null; then
+            iptables -A INPUT -s "$ip_to_block" -j DROP 2>/dev/null
+        fi
+    fi
+}
+
 aggiungi_blacklist() {
     local tipo_elemento="$1"
     local elemento="$2"
@@ -52,15 +90,30 @@ aggiungi_blacklist() {
     local risk_score="$5"
     local note="$6"
     local timestamp=$(date '+%Y-%m-%d %H:%M:%S')
+    local stato="blacklisted"
+    local final_risk="$risk_score"
     
     if controlla_blacklist "$tipo_elemento" "$elemento"; then
         local current_risk=$(get_risk_score "$tipo_elemento" "$elemento")
         local recidivita=$(grep -c "^.*,${tipo_elemento},${elemento}," "$BLACKLIST_PATH")
         recidivita=$((recidivita + 1))
         local new_risk=$((current_risk + risk_score))
-        echo "${timestamp},${tipo_elemento},${elemento},${azione},${gravita},${recidivita},${new_risk},blacklisted,CORRELAZIONE_RETE,${note} [RECIDIVO]" >> "$BLACKLIST_PATH"
+        final_risk="$new_risk"
+        if [ "$tipo_elemento" = "IP" ] && [ "$final_risk" -ge "$RISK_BLOCK_THRESHOLD" ]; then
+            stato="blocked"
+            blocca_ip_se_necessario "$elemento" "$final_risk"
+            # Traccia blocco nel log problema
+            echo "BLOCKED IP: $elemento | risk=$final_risk" >> "$LOG_CORRELAZIONE"
+        fi
+        echo "${timestamp},${tipo_elemento},${elemento},${azione},${gravita},${recidivita},${final_risk},${stato},CORRELAZIONE_RETE,${note} [RECIDIVO]" >> "$BLACKLIST_PATH"
     else
-        echo "${timestamp},${tipo_elemento},${elemento},${azione},${gravita},1,${risk_score},blacklisted,CORRELAZIONE_RETE,${note}" >> "$BLACKLIST_PATH"
+        if [ "$tipo_elemento" = "IP" ] && [ "$final_risk" -ge "$RISK_BLOCK_THRESHOLD" ]; then
+            stato="blocked"
+            blocca_ip_se_necessario "$elemento" "$final_risk"
+            # Traccia blocco nel log problema
+            echo "BLOCKED IP: $elemento | risk=$final_risk" >> "$LOG_CORRELAZIONE"
+        fi
+        echo "${timestamp},${tipo_elemento},${elemento},${azione},${gravita},1,${final_risk},${stato},CORRELAZIONE_RETE,${note}" >> "$BLACKLIST_PATH"
     fi
 }
 
@@ -158,14 +211,15 @@ ottieni_mac_da_arp() {
     fi
 }
 
-echo "================================================================================"
-echo "[$(date '+%Y-%m-%d %H:%M:%S')] ANALISI CORRELAZIONE RETE AVVIATA"
-echo "================================================================================" | tee -a "$LOG_CORRELAZIONE"
+# Avvio monitoraggio con output minimo
+log "P06 start"
+# Log dettagliato su file
+echo "================================================================================" >> "$LOG_CORRELAZIONE"
+echo "[$(date '+%Y-%m-%d %H:%M:%S')] ANALISI CORRELAZIONE RETE AVVIATA" >> "$LOG_CORRELAZIONE"
+echo "================================================================================" >> "$LOG_CORRELAZIONE"
 
-# Mostra info rete corrente
-ottieni_info_rete
-
-echo "[*] Porta server: $SERVER_PORT"
+# Output verbose silenziato da exec 1>/dev/null
+echo "[*] Subnet autorizzate: ${SUBNET_AUTORIZZATE[@]}"
 echo "[*] Intervallo: $INTERVALLO_CHECK secondi"
 echo "[*] Durata: $DURATA_MONITORAGGIO secondi"
 echo ""
@@ -174,81 +228,103 @@ ITERAZIONI=0
 MAX_ITERAZIONI=$((DURATA_MONITORAGGIO / INTERVALLO_CHECK))
 ALERT_COUNT=0
 
-while [ $ITERAZIONI -le $MAX_ITERAZIONI ]; do
+while [ $ITERAZIONI -le $MAX_ITERAZIONI ] && [ $ALERT_COUNT -eq 0 ]; do
     
     echo "[Check #$ITERAZIONI] $(date '+%H:%M:%S')"
     
-    # Estrai IP connessi al server
-    IPS_CONNESSI=$(ss -tn | grep -E ":(8000|8000 )" | grep ESTAB | \
-        awk '{print $5}' | cut -d':' -f1 | sort -u)
+    # Leggi timestamp ultimo check
+    LAST_CHECK=$(cat "$LAST_CHECK_FILE" 2>/dev/null || echo "1970-01-01T00:00:00")
     
-    NUM_IPS=$(echo "$IPS_CONNESSI" | grep -c '^' 2>/dev/null || echo 0)
+    # Query: trova login recenti per analizzare IP
+    QUERY="SELECT DISTINCT ip_address 
+           FROM logs 
+           WHERE azione = 'LOGIN' 
+           AND timestamp > '$LAST_CHECK'"
+    
+    IPS_RECENTI=$(sqlite3 "$DB_PATH" "$QUERY" 2>/dev/null)
+    
+    # Conta IP solo se la stringa non è vuota
+    if [ -n "$IPS_RECENTI" ]; then
+        NUM_IPS=$(echo "$IPS_RECENTI" | wc -l)
+    else
+        NUM_IPS=0
+    fi
     
     if [ $NUM_IPS -gt 0 ]; then
-        echo "  → IP connessi: $NUM_IPS"
+        echo "  → IP rilevati: $NUM_IPS"
+        echo ""
         
-        echo "$IPS_CONNESSI" | while read -r ip; do
+        # Usa process substitution per evitare subshell
+        while read -r ip; do
             
             if [ -n "$ip" ]; then
-                echo "    • Analisi IP: $ip"
                 
                 # VERIFICA SUBNET
                 if ! verifica_ip_in_subnet "$ip"; then
-                    echo ""
                     echo "  [!!!] IP SOSPETTO: $ip NON in subnet autorizzata"
-                    
-                    # Ping check per RTT
-                    RTT=$(ping_check "$ip")
-                    echo "      → RTT: $RTT"
-                    
-                    # Controlla ARP table per MAC
-                    MAC=$(ottieni_mac_da_arp "$ip")
-                    echo "      → MAC: $MAC"
+                    # Messaggio minimo di alert
+                    log "P06 alert $ip"
                     
                     # Lookup customer dal DB
-                    CUSTOMER_QUERY="SELECT customer_id FROM logs 
+                    CUSTOMER_QUERY="SELECT DISTINCT customer_id 
+                                    FROM logs 
                                     WHERE ip_address='$ip' 
-                                    ORDER BY timestamp DESC LIMIT 1"
-                    customer_id=$(sqlite3 "$DB_PATH" "$CUSTOMER_QUERY" 2>/dev/null)
+                                    AND timestamp > '$LAST_CHECK'
+                                    LIMIT 5"
+                    customer_ids=$(sqlite3 "$DB_PATH" "$CUSTOMER_QUERY" 2>/dev/null | paste -sd ',' -)
                     
-                    if [ -z "$customer_id" ]; then
-                        customer_id="UNKNOWN"
+                    if [ -z "$customer_ids" ]; then
+                        customer_ids="UNKNOWN"
                     fi
-                    echo "      → Customer: $customer_id"
+                    echo "      → Customer: $customer_ids"
+                    echo "      → Subnet: PUBBLICA/NON AUTORIZZATA"
                     
-                    # Blacklist
-                    if controlla_blacklist "IP" "$ip"; then
-                        echo "      → GIÀ IN BLACKLIST (RECIDIVO)"
-                        aggiungi_blacklist "IP" "$ip" "SUBNET_NON_AUTORIZZATA" \
-                            "ALTA" 70 "IP fuori subnet autorizzate, RTT: $RTT, MAC: $MAC, customer: $customer_id"
+                    # Segnala solo se non già fatto in questa sessione
+                    if [ -z "${SEGNALATI[$ip]}" ]; then
+                        SEGNALATI[$ip]=1
+                        
+                        # Blacklist
+                        if controlla_blacklist "IP" "$ip"; then
+                            echo "      → GIÀ IN BLACKLIST (RECIDIVO)"
+                            aggiungi_blacklist "IP" "$ip" "SUBNET_NON_AUTORIZZATA" \
+                                "ALTA" 70 "IP fuori subnet autorizzate (pubblico); customer: $customer_ids"
+                        else
+                            echo "      → PRIMO RILEVAMENTO"
+                            aggiungi_blacklist "IP" "$ip" "SUBNET_NON_AUTORIZZATA" \
+                                "MEDIA" 50 "IP fuori subnet autorizzate (pubblico); customer: $customer_ids"
+                        fi
+                        
+                        # Messaggio minimo di alert
+                        log "P06 alert $ip"
+
+                        ALERT_COUNT=$((ALERT_COUNT + 1))
+                        
+                        # Log
+                        {
+                            echo "═══════════════════════════════════════════"
+                            echo "ALERT CORRELAZIONE - $(date '+%Y-%m-%d %H:%M:%S')"
+                            echo "═══════════════════════════════════════════"
+                            echo "IP:          $ip"
+                            echo "Customer:    $customer_ids"
+                            echo "Subnet:      PUBBLICA/NON AUTORIZZATA"
+                            echo ""
+                        } >> "$LOG_CORRELAZIONE"
+                        
+                        break
                     else
-                        echo "      → PRIMO RILEVAMENTO"
-                        aggiungi_blacklist "IP" "$ip" "SUBNET_NON_AUTORIZZATA" \
-                            "MEDIA" 50 "IP fuori subnet autorizzate, RTT: $RTT, MAC: $MAC, customer: $customer_id"
+                        echo "      → Già segnalato in questa sessione (SKIP)"
                     fi
-                    
-                    ALERT_COUNT=$((ALERT_COUNT + 1))
-                    
-                    # Log
-                    {
-                        echo "═══════════════════════════════════════════"
-                        echo "ALERT CORRELAZIONE - $(date '+%Y-%m-%d %H:%M:%S')"
-                        echo "═══════════════════════════════════════════"
-                        echo "IP:          $ip"
-                        echo "RTT:         $RTT"
-                        echo "MAC:         $MAC"
-                        echo "Customer:    $customer_id"
-                        echo "Subnet:      NON AUTORIZZATA"
-                        echo ""
-                    } >> "$LOG_CORRELAZIONE"
                     
                     echo ""
                 fi
             fi
-        done
+        done < <(echo "$IPS_RECENTI")
     else
-        echo "  → Nessuna connessione"
+        echo "  → Nessun IP rilevato"
     fi
+    
+    # Aggiorna timestamp ultimo check
+    date -u '+%Y-%m-%dT%H:%M:%S' > "$LAST_CHECK_FILE"
     
     echo ""
     ITERAZIONI=$((ITERAZIONI + 1))
@@ -258,9 +334,13 @@ while [ $ITERAZIONI -le $MAX_ITERAZIONI ]; do
     fi
 done
 
+# Report finale (verbose, silenziato)
 echo "================================================================================"
 echo "[✓] Analisi completata"
 echo "[*] Check eseguiti: $ITERAZIONI"
 echo "[*] Alert generati: $ALERT_COUNT"
 echo "[*] Log: $LOG_CORRELAZIONE"
 echo "================================================================================"
+
+# Messaggio minimo di fine
+log "P06 done"

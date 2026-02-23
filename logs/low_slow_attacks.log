@@ -1,0 +1,81 @@
+[2026-02-22T22:59:22] === AVVIO MONITORAGGIO LOW & SLOW ATTACKS ===
+[2026-02-22T22:59:22] Finestra analisi: 60 secondi
+[2026-02-22T22:59:22] Soglie richieste: MIN=3, MAX=8
+[2026-02-22T22:59:22] Ultimo controllo: 2026-02-22T22:59:22
+[2026-02-22T23:00:25] Nessun pattern low & slow rilevato in 60s
+[2026-02-22T23:00:25] === FINE MONITORAGGIO LOW & SLOW ===
+[2026-02-22T23:00:25] Iterazioni: 21 | Alert generati: 0
+[2026-02-22T23:01:11] === AVVIO MONITORAGGIO LOW & SLOW ATTACKS ===
+[2026-02-22T23:01:11] Finestra analisi: 60 secondi
+[2026-02-22T23:01:11] Soglie richieste: MIN=3, MAX=8
+[2026-02-22T23:01:11] Ultimo controllo: 2026-02-22T23:01:11
+[2026-02-22T23:01:29] ALERT LOW & SLOW: IP 192.168.80.97 | Richieste: 3 in 60s | Rate: 0.05 req/s | Cliente: 800093
+[2026-02-22T23:01:29] IP 192.168.80.97 → blacklist: LOW_SLOW_ATTACK (Gravità: ALTA, Cliente: 800093)
+[2026-02-22T23:01:29] === FINE MONITORAGGIO LOW & SLOW ===
+[2026-02-22T23:01:29] Iterazioni: 7 | Alert generati: 1
+[2026-02-22T23:01:59] === AVVIO MONITORAGGIO LOW & SLOW ATTACKS ===
+[2026-02-22T23:01:59] Finestra analisi: 60 secondi
+[2026-02-22T23:01:59] Soglie richieste: MIN=3, MAX=8
+[2026-02-22T23:01:59] Ultimo controllo: 2026-02-22T23:01:59
+[2026-02-22T23:02:17] ALERT LOW & SLOW: IP 192.168.80.199 | Richieste: 3 in 60s | Rate: 0.05 req/s | Cliente: 800039
+[2026-02-22T23:02:17] IP 192.168.80.199 → blacklist: LOW_SLOW_ATTACK (Gravità: ALTA, Cliente: 800039)
+[2026-02-22T23:02:17] === FINE MONITORAGGIO LOW & SLOW ===
+[2026-02-22T23:02:17] Iterazioni: 7 | Alert generati: 1
+[2026-02-22T23:02:34] === AVVIO MONITORAGGIO LOW & SLOW ATTACKS ===
+[2026-02-22T23:02:34] Finestra analisi: 60 secondi
+[2026-02-22T23:02:34] Soglie richieste: MIN=3, MAX=8
+[2026-02-22T23:02:34] Ultimo controllo: 2026-02-22T23:02:34
+[2026-02-22T23:02:52] ALERT LOW & SLOW: IP 192.168.80.112 | Richieste: 3 in 60s | Rate: 0.05 req/s | Cliente: 800062
+[2026-02-22T23:02:52] IP 192.168.80.112 → blacklist: LOW_SLOW_ATTACK (Gravità: ALTA, Cliente: 800062)
+[2026-02-22T23:02:52] === FINE MONITORAGGIO LOW & SLOW ===
+[2026-02-22T23:02:52] Iterazioni: 7 | Alert generati: 1
+[2026-02-22T23:04:35] === AVVIO MONITORAGGIO LOW & SLOW ATTACKS ===
+[2026-02-22T23:04:35] Finestra analisi: 60 secondi
+[2026-02-22T23:04:35] Soglie richieste: MIN=3, MAX=8
+[2026-02-22T23:04:35] Ultimo controllo: 2026-02-22T23:04:35
+[2026-02-22T23:04:53] ALERT LOW & SLOW: IP 192.168.80.181 | Richieste: 3 in 60s | Rate: 0.05 req/s | Cliente: 800082
+[2026-02-22T23:04:53] IP 192.168.80.181 → blacklist: LOW_SLOW_ATTACK (Gravità: ALTA, Cliente: 800082)
+[2026-02-22T23:04:53] === FINE MONITORAGGIO LOW & SLOW ===
+[2026-02-22T23:04:53] Iterazioni: 7 | Alert generati: 1
+[2026-02-22T23:09:03] === AVVIO MONITORAGGIO LOW & SLOW ATTACKS ===
+[2026-02-22T23:09:03] Finestra analisi: 60 secondi
+[2026-02-22T23:09:03] Soglie richieste: MIN=3, MAX=8
+[2026-02-22T23:09:03] Ultimo controllo: 2026-02-22T23:09:03
+[2026-02-22T23:09:21] ALERT LOW & SLOW: IP 192.168.80.116 | Richieste: 3 in 60s | Rate: 0.05 req/s | Cliente: 800037
+[2026-02-22T23:09:21] === FINE MONITORAGGIO LOW & SLOW ===
+[2026-02-22T23:09:21] Iterazioni: 7 | Alert generati: 1
+[2026-02-22T23:09:41] === AVVIO MONITORAGGIO LOW & SLOW ATTACKS ===
+[2026-02-22T23:09:41] Finestra analisi: 60 secondi
+[2026-02-22T23:09:41] Soglie richieste: MIN=3, MAX=8
+[2026-02-22T23:09:41] Ultimo controllo: 2026-02-22T23:09:41
+[2026-02-22T23:10:00] ALERT LOW & SLOW: IP 192.168.80.69 | Richieste: 3 in 60s | Rate: 0.05 req/s | Cliente: 800087
+[2026-02-22T23:10:00] === FINE MONITORAGGIO LOW & SLOW ===
+[2026-02-22T23:10:00] Iterazioni: 7 | Alert generati: 1
+[2026-02-22T23:17:01] === AVVIO MONITORAGGIO LOW & SLOW ATTACKS ===
+[2026-02-22T23:17:01] Finestra analisi: 60 secondi
+[2026-02-22T23:17:01] Soglie richieste: MIN=3, MAX=8
+[2026-02-22T23:17:01] Ultimo controllo: 2026-02-22T23:17:01
+[2026-02-22T23:17:19] ALERT LOW & SLOW: IP 192.168.80.249 | Richieste: 3 in 60s | Rate: 0.05 req/s | Cliente: 800087
+[2026-02-22T23:17:19] === FINE MONITORAGGIO LOW & SLOW ===
+[2026-02-22T23:17:19] Iterazioni: 7 | Alert generati: 1
+[2026-02-23T00:10:24] === AVVIO MONITORAGGIO LOW & SLOW ATTACKS ===
+[2026-02-23T00:10:24] Finestra analisi: 60 secondi
+[2026-02-23T00:10:24] Soglie richieste: MIN=3, MAX=8
+[2026-02-23T00:10:24] Ultimo controllo: 2026-02-23T00:10:24
+[2026-02-23T00:10:42] ALERT LOW & SLOW: IP 192.168.80.143 | Richieste: 3 in 60s | Rate: 0.05 req/s | Cliente: 800061
+[2026-02-23T00:10:42] === FINE MONITORAGGIO LOW & SLOW ===
+[2026-02-23T00:10:42] Iterazioni: 7 | Alert generati: 1
+[2026-02-23T00:15:11] === AVVIO MONITORAGGIO LOW & SLOW ATTACKS ===
+[2026-02-23T00:15:11] Finestra analisi: 60 secondi
+[2026-02-23T00:15:11] Soglie richieste: MIN=3, MAX=8
+[2026-02-23T00:15:11] Ultimo controllo: 2026-02-23T00:15:11
+[2026-02-23T00:15:29] ALERT LOW & SLOW: IP 192.168.80.5 | Richieste: 3 in 60s | Rate: 0.05 req/s | Cliente: 800025
+[2026-02-23T00:15:29] === FINE MONITORAGGIO LOW & SLOW ===
+[2026-02-23T00:15:29] Iterazioni: 7 | Alert generati: 1
+[2026-02-23T01:01:42] === AVVIO MONITORAGGIO LOW & SLOW ATTACKS ===
+[2026-02-23T01:01:42] Finestra analisi: 60 secondi
+[2026-02-23T01:01:42] Soglie richieste: MIN=3, MAX=8
+[2026-02-23T01:01:42] Ultimo controllo: 2026-02-23T01:01:42
+[2026-02-23T01:02:01] ALERT LOW & SLOW: IP 192.168.80.15 | Richieste: 3 in 60s | Rate: 0.05 req/s | Cliente: 800044
+[2026-02-23T01:02:01] === FINE MONITORAGGIO LOW & SLOW ===
+[2026-02-23T01:02:01] Iterazioni: 7 | Alert generati: 1

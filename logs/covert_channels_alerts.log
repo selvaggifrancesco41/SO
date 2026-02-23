@@ -1,387 +1,57 @@
-
-================================================================================
 ================================================================================
 ═══════════════════════════════════════════
-ALERT COVERT CHANNEL - 2026-02-22 19:27:00
+ALERT COVERT CHANNEL - 2026-02-22 22:46:08
 ═══════════════════════════════════════════
-IP:              ::1.47612
-Dimensione:      0 bytes
-Tipo anomalia:   PACKET_TROPPO_PICCOLO
-TCP Flags:       S (NORMAL)
-Customer:        UNKNOWN
+IP:              192.168.70.146
+Customer:        800037
+Operazioni fake: 6
+Tipo:            Importo 0 o NULL
 
-Dettagli pacchetto:
-2026-02-22 19:26:00.130466 IP6 ::1.47612 > ::1.8000: Flags [S], seq 1920163021, win 65476, options [mss 65476,sackOK,TS val 1519548184 ecr 0,nop,wscale 7], length 0
-
+================================================================================
 ═══════════════════════════════════════════
-ALERT COVERT CHANNEL - 2026-02-22 19:27:00
+ALERT COVERT CHANNEL - 2026-02-22 22:46:30
 ═══════════════════════════════════════════
-IP:              ::1.8000
-Dimensione:      0 bytes
-Tipo anomalia:   PACKET_TROPPO_PICCOLO
-TCP Flags:       R. (NORMAL)
-Customer:        UNKNOWN
+IP:              192.168.70.84
+Customer:        800096
+Operazioni fake: 6
+Tipo:            Importo 0 o NULL
 
-Dettagli pacchetto:
-2026-02-22 19:26:00.130476 IP6 ::1.8000 > ::1.47612: Flags [R.], seq 0, ack 1920163022, win 0, length 0
-
+================================================================================
 ═══════════════════════════════════════════
-ALERT COVERT CHANNEL - 2026-02-22 19:27:00
+ALERT COVERT CHANNEL - 2026-02-22 22:47:27
 ═══════════════════════════════════════════
-IP:              127.0.0.1
-Dimensione:      0 bytes
-Tipo anomalia:   PACKET_TROPPO_PICCOLO
-TCP Flags:       S (NORMAL)
-Customer:        test_fix
+IP:              192.168.70.176
+Customer:        800060
+Operazioni fake: 5
+Tipo:            Importo 0 o NULL
 
-Dettagli pacchetto:
-2026-02-22 19:26:00.130510 IP 127.0.0.1.51196 > 127.0.0.1.8000: Flags [S], seq 1473298423, win 65495, options [mss 65495,sackOK,TS val 1051318800 ecr 0,nop,wscale 7], length 0
-
+================================================================================
 ═══════════════════════════════════════════
-ALERT COVERT CHANNEL - 2026-02-22 19:27:01
+ALERT COVERT CHANNEL - 2026-02-23 00:05:55
 ═══════════════════════════════════════════
-IP:              127.0.0.1
-Dimensione:      0 bytes
-Tipo anomalia:   PACKET_TROPPO_PICCOLO
-TCP Flags:       S. (NORMAL)
-Customer:        test_fix
+IP:              192.168.70.90
+Customer:        800096
+Operazioni fake: 5
+Tipo:            Importo 0 o NULL
 
-Dettagli pacchetto:
-2026-02-22 19:26:00.130520 IP 127.0.0.1.8000 > 127.0.0.1.51196: Flags [S.], seq 122161895, ack 1473298424, win 65483, options [mss 65495,sackOK,TS val 1051318800 ecr 1051318800,nop,wscale 7], length 0
-
+================================================================================
 ═══════════════════════════════════════════
-ALERT COVERT CHANNEL - 2026-02-22 19:27:01
+ALERT COVERT CHANNEL - 2026-02-23 00:15:03
 ═══════════════════════════════════════════
-IP:              127.0.0.1
-Dimensione:      0 bytes
-Tipo anomalia:   PACKET_TROPPO_PICCOLO
-TCP Flags:       . (NORMAL)
-Customer:        test_fix
+IP:              192.168.70.122
+Customer:        800041
+Operazioni fake: 6
+Tipo:            Importo 0 o NULL
 
-Dettagli pacchetto:
-2026-02-22 19:26:00.130529 IP 127.0.0.1.51196 > 127.0.0.1.8000: Flags [.], ack 1, win 512, options [nop,nop,TS val 1051318800 ecr 1051318800], length 0
-
+================================================================================
+[2026-02-23 01:19:07] RILEVAMENTO COVERT CHANNELS AVVIATO
+================================================================================
+BLOCKED IP: 192.168.70.53 | risk=100
 ═══════════════════════════════════════════
-ALERT COVERT CHANNEL - 2026-02-22 19:27:01
+ALERT COVERT CHANNEL - 2026-02-23 01:19:17
 ═══════════════════════════════════════════
-IP:              ::1.47628
-Dimensione:      0 bytes
-Tipo anomalia:   PACKET_TROPPO_PICCOLO
-TCP Flags:       S (NORMAL)
-Customer:        UNKNOWN
-
-Dettagli pacchetto:
-2026-02-22 19:26:00.131543 IP6 ::1.47628 > ::1.8000: Flags [S], seq 3032930591, win 65476, options [mss 65476,sackOK,TS val 1519548185 ecr 0,nop,wscale 7], length 0
-
-═══════════════════════════════════════════
-ALERT COVERT CHANNEL - 2026-02-22 19:27:01
-═══════════════════════════════════════════
-IP:              ::1.8000
-Dimensione:      0 bytes
-Tipo anomalia:   PACKET_TROPPO_PICCOLO
-TCP Flags:       R. (NORMAL)
-Customer:        UNKNOWN
-
-Dettagli pacchetto:
-2026-02-22 19:26:00.131548 IP6 ::1.8000 > ::1.47628: Flags [R.], seq 0, ack 3032930592, win 0, length 0
-
-═══════════════════════════════════════════
-ALERT COVERT CHANNEL - 2026-02-22 19:27:01
-═══════════════════════════════════════════
-IP:              127.0.0.1
-Dimensione:      0 bytes
-Tipo anomalia:   PACKET_TROPPO_PICCOLO
-TCP Flags:       S (NORMAL)
-Customer:        test_fix
-
-Dettagli pacchetto:
-2026-02-22 19:26:00.131574 IP 127.0.0.1.51210 > 127.0.0.1.8000: Flags [S], seq 2909615112, win 65495, options [mss 65495,sackOK,TS val 1051318801 ecr 0,nop,wscale 7], length 0
-
-═══════════════════════════════════════════
-ALERT COVERT CHANNEL - 2026-02-22 19:27:01
-═══════════════════════════════════════════
-IP:              127.0.0.1
-Dimensione:      0 bytes
-Tipo anomalia:   PACKET_TROPPO_PICCOLO
-TCP Flags:       S. (NORMAL)
-Customer:        test_fix
-
-Dettagli pacchetto:
-2026-02-22 19:26:00.131582 IP 127.0.0.1.8000 > 127.0.0.1.51210: Flags [S.], seq 102495748, ack 2909615113, win 65483, options [mss 65495,sackOK,TS val 1051318801 ecr 1051318801,nop,wscale 7], length 0
-
-═══════════════════════════════════════════
-ALERT COVERT CHANNEL - 2026-02-22 19:27:01
-═══════════════════════════════════════════
-IP:              127.0.0.1
-Dimensione:      0 bytes
-Tipo anomalia:   PACKET_TROPPO_PICCOLO
-TCP Flags:       . (NORMAL)
-Customer:        test_fix
-
-Dettagli pacchetto:
-2026-02-22 19:26:00.131589 IP 127.0.0.1.51210 > 127.0.0.1.8000: Flags [.], ack 1, win 512, options [nop,nop,TS val 1051318801 ecr 1051318801], length 0
-
-═══════════════════════════════════════════
-ALERT COVERT CHANNEL - 2026-02-22 19:27:01
-═══════════════════════════════════════════
-IP:              ::1.47644
-Dimensione:      0 bytes
-Tipo anomalia:   PACKET_TROPPO_PICCOLO
-TCP Flags:       S (NORMAL)
-Customer:        UNKNOWN
-
-Dettagli pacchetto:
-2026-02-22 19:26:00.132714 IP6 ::1.47644 > ::1.8000: Flags [S], seq 102520416, win 65476, options [mss 65476,sackOK,TS val 1519548186 ecr 0,nop,wscale 7], length 0
-
-═══════════════════════════════════════════
-ALERT COVERT CHANNEL - 2026-02-22 19:27:01
-═══════════════════════════════════════════
-IP:              ::1.8000
-Dimensione:      0 bytes
-Tipo anomalia:   PACKET_TROPPO_PICCOLO
-TCP Flags:       R. (NORMAL)
-Customer:        UNKNOWN
-
-Dettagli pacchetto:
-2026-02-22 19:26:00.132719 IP6 ::1.8000 > ::1.47644: Flags [R.], seq 0, ack 102520417, win 0, length 0
-
-═══════════════════════════════════════════
-ALERT COVERT CHANNEL - 2026-02-22 19:27:01
-═══════════════════════════════════════════
-IP:              127.0.0.1
-Dimensione:      0 bytes
-Tipo anomalia:   PACKET_TROPPO_PICCOLO
-TCP Flags:       S (NORMAL)
-Customer:        test_fix
-
-Dettagli pacchetto:
-2026-02-22 19:26:00.132744 IP 127.0.0.1.51226 > 127.0.0.1.8000: Flags [S], seq 1258141096, win 65495, options [mss 65495,sackOK,TS val 1051318802 ecr 0,nop,wscale 7], length 0
-
-═══════════════════════════════════════════
-ALERT COVERT CHANNEL - 2026-02-22 19:27:01
-═══════════════════════════════════════════
-IP:              127.0.0.1
-Dimensione:      0 bytes
-Tipo anomalia:   PACKET_TROPPO_PICCOLO
-TCP Flags:       S. (NORMAL)
-Customer:        test_fix
-
-Dettagli pacchetto:
-2026-02-22 19:26:00.132752 IP 127.0.0.1.8000 > 127.0.0.1.51226: Flags [S.], seq 2403226880, ack 1258141097, win 65483, options [mss 65495,sackOK,TS val 1051318802 ecr 1051318802,nop,wscale 7], length 0
-
-═══════════════════════════════════════════
-ALERT COVERT CHANNEL - 2026-02-22 19:27:01
-═══════════════════════════════════════════
-IP:              127.0.0.1
-Dimensione:      0 bytes
-Tipo anomalia:   PACKET_TROPPO_PICCOLO
-TCP Flags:       . (NORMAL)
-Customer:        test_fix
-
-Dettagli pacchetto:
-2026-02-22 19:26:00.132760 IP 127.0.0.1.51226 > 127.0.0.1.8000: Flags [.], ack 1, win 512, options [nop,nop,TS val 1051318802 ecr 1051318802], length 0
-
-═══════════════════════════════════════════
-ALERT COVERT CHANNEL - 2026-02-22 19:27:01
-═══════════════════════════════════════════
-IP:              ::1.47658
-Dimensione:      0 bytes
-Tipo anomalia:   PACKET_TROPPO_PICCOLO
-TCP Flags:       S (NORMAL)
-Customer:        UNKNOWN
-
-Dettagli pacchetto:
-2026-02-22 19:26:00.133662 IP6 ::1.47658 > ::1.8000: Flags [S], seq 2502454370, win 65476, options [mss 65476,sackOK,TS val 1519548187 ecr 0,nop,wscale 7], length 0
-
-═══════════════════════════════════════════
-ALERT COVERT CHANNEL - 2026-02-22 19:27:01
-═══════════════════════════════════════════
-IP:              ::1.8000
-Dimensione:      0 bytes
-Tipo anomalia:   PACKET_TROPPO_PICCOLO
-TCP Flags:       R. (NORMAL)
-Customer:        UNKNOWN
-
-Dettagli pacchetto:
-2026-02-22 19:26:00.133667 IP6 ::1.8000 > ::1.47658: Flags [R.], seq 0, ack 2502454371, win 0, length 0
-
-═══════════════════════════════════════════
-ALERT COVERT CHANNEL - 2026-02-22 19:27:01
-═══════════════════════════════════════════
-IP:              127.0.0.1
-Dimensione:      0 bytes
-Tipo anomalia:   PACKET_TROPPO_PICCOLO
-TCP Flags:       S (NORMAL)
-Customer:        test_fix
-
-Dettagli pacchetto:
-2026-02-22 19:26:00.133693 IP 127.0.0.1.51238 > 127.0.0.1.8000: Flags [S], seq 2306476281, win 65495, options [mss 65495,sackOK,TS val 1051318803 ecr 0,nop,wscale 7], length 0
-
-═══════════════════════════════════════════
-ALERT COVERT CHANNEL - 2026-02-22 19:27:01
-═══════════════════════════════════════════
-IP:              127.0.0.1
-Dimensione:      0 bytes
-Tipo anomalia:   PACKET_TROPPO_PICCOLO
-TCP Flags:       S. (NORMAL)
-Customer:        test_fix
-
-Dettagli pacchetto:
-2026-02-22 19:26:00.133701 IP 127.0.0.1.8000 > 127.0.0.1.51238: Flags [S.], seq 3566959291, ack 2306476282, win 65483, options [mss 65495,sackOK,TS val 1051318803 ecr 1051318803,nop,wscale 7], length 0
-
-═══════════════════════════════════════════
-ALERT COVERT CHANNEL - 2026-02-22 19:27:01
-═══════════════════════════════════════════
-IP:              127.0.0.1
-Dimensione:      0 bytes
-Tipo anomalia:   PACKET_TROPPO_PICCOLO
-TCP Flags:       . (NORMAL)
-Customer:        test_fix
-
-Dettagli pacchetto:
-2026-02-22 19:26:00.133709 IP 127.0.0.1.51238 > 127.0.0.1.8000: Flags [.], ack 1, win 512, options [nop,nop,TS val 1051318803 ecr 1051318803], length 0
-
-═══════════════════════════════════════════
-ALERT COVERT CHANNEL - 2026-02-22 19:27:01
-═══════════════════════════════════════════
-IP:              127.0.0.1
-Dimensione:      0 bytes
-Tipo anomalia:   PACKET_TROPPO_PICCOLO
-TCP Flags:       F. (FIN_SCAN)
-Customer:        test_fix
-
-Dettagli pacchetto:
-2026-02-22 19:27:00.131471 IP 127.0.0.1.51196 > 127.0.0.1.8000: Flags [F.], seq 1, ack 1, win 512, options [nop,nop,TS val 1051378801 ecr 1051318800], length 0
-
-═══════════════════════════════════════════
-ALERT COVERT CHANNEL - 2026-02-22 19:27:01
-═══════════════════════════════════════════
-IP:              127.0.0.1
-Dimensione:      0 bytes
-Tipo anomalia:   PACKET_TROPPO_PICCOLO
-TCP Flags:       F. (FIN_SCAN)
-Customer:        test_fix
-
-Dettagli pacchetto:
-2026-02-22 19:27:00.131582 IP 127.0.0.1.8000 > 127.0.0.1.51196: Flags [F.], seq 1, ack 2, win 512, options [nop,nop,TS val 1051378801 ecr 1051378801], length 0
-
-═══════════════════════════════════════════
-ALERT COVERT CHANNEL - 2026-02-22 19:27:01
-═══════════════════════════════════════════
-IP:              127.0.0.1
-Dimensione:      0 bytes
-Tipo anomalia:   PACKET_TROPPO_PICCOLO
-TCP Flags:       . (NORMAL)
-Customer:        test_fix
-
-Dettagli pacchetto:
-2026-02-22 19:27:00.131604 IP 127.0.0.1.51196 > 127.0.0.1.8000: Flags [.], ack 2, win 512, options [nop,nop,TS val 1051378801 ecr 1051378801], length 0
-
-═══════════════════════════════════════════
-ALERT COVERT CHANNEL - 2026-02-22 19:27:01
-═══════════════════════════════════════════
-IP:              127.0.0.1
-Dimensione:      0 bytes
-Tipo anomalia:   PACKET_TROPPO_PICCOLO
-TCP Flags:       F. (FIN_SCAN)
-Customer:        test_fix
-
-Dettagli pacchetto:
-2026-02-22 19:27:00.132471 IP 127.0.0.1.51210 > 127.0.0.1.8000: Flags [F.], seq 1, ack 1, win 512, options [nop,nop,TS val 1051378802 ecr 1051318801], length 0
-
-═══════════════════════════════════════════
-ALERT COVERT CHANNEL - 2026-02-22 19:27:01
-═══════════════════════════════════════════
-IP:              127.0.0.1
-Dimensione:      0 bytes
-Tipo anomalia:   PACKET_TROPPO_PICCOLO
-TCP Flags:       F. (FIN_SCAN)
-Customer:        test_fix
-
-Dettagli pacchetto:
-2026-02-22 19:27:00.132532 IP 127.0.0.1.8000 > 127.0.0.1.51210: Flags [F.], seq 1, ack 2, win 512, options [nop,nop,TS val 1051378802 ecr 1051378802], length 0
-
-═══════════════════════════════════════════
-ALERT COVERT CHANNEL - 2026-02-22 19:27:27
-═══════════════════════════════════════════
-IP:              127.0.0.1
-Dimensione:      0 bytes
-Tipo anomalia:   PACKET_TROPPO_PICCOLO
-TCP Flags:       . (NORMAL)
-Customer:        test_fix
-
-Dettagli pacchetto:
-2026-02-22 19:27:00.132544 IP 127.0.0.1.51210 > 127.0.0.1.8000: Flags [.], ack 2, win 512, options [nop,nop,TS val 1051378802 ecr 1051378802], length 0
-
-═══════════════════════════════════════════
-ALERT COVERT CHANNEL - 2026-02-22 19:27:27
-═══════════════════════════════════════════
-IP:              127.0.0.1
-Dimensione:      0 bytes
-Tipo anomalia:   PACKET_TROPPO_PICCOLO
-TCP Flags:       F. (FIN_SCAN)
-Customer:        test_fix
-
-Dettagli pacchetto:
-2026-02-22 19:27:00.133670 IP 127.0.0.1.51226 > 127.0.0.1.8000: Flags [F.], seq 1, ack 1, win 512, options [nop,nop,TS val 1051378803 ecr 1051318802], length 0
-
-═══════════════════════════════════════════
-ALERT COVERT CHANNEL - 2026-02-22 19:27:27
-═══════════════════════════════════════════
-IP:              127.0.0.1
-Dimensione:      0 bytes
-Tipo anomalia:   PACKET_TROPPO_PICCOLO
-TCP Flags:       F. (FIN_SCAN)
-Customer:        test_fix
-
-Dettagli pacchetto:
-2026-02-22 19:27:00.133723 IP 127.0.0.1.8000 > 127.0.0.1.51226: Flags [F.], seq 1, ack 2, win 512, options [nop,nop,TS val 1051378803 ecr 1051378803], length 0
-
-═══════════════════════════════════════════
-ALERT COVERT CHANNEL - 2026-02-22 19:27:27
-═══════════════════════════════════════════
-IP:              127.0.0.1
-Dimensione:      0 bytes
-Tipo anomalia:   PACKET_TROPPO_PICCOLO
-TCP Flags:       . (NORMAL)
-Customer:        test_fix
-
-Dettagli pacchetto:
-2026-02-22 19:27:00.133733 IP 127.0.0.1.51226 > 127.0.0.1.8000: Flags [.], ack 2, win 512, options [nop,nop,TS val 1051378803 ecr 1051378803], length 0
-
-═══════════════════════════════════════════
-ALERT COVERT CHANNEL - 2026-02-22 19:27:27
-═══════════════════════════════════════════
-IP:              127.0.0.1
-Dimensione:      0 bytes
-Tipo anomalia:   PACKET_TROPPO_PICCOLO
-TCP Flags:       F. (FIN_SCAN)
-Customer:        test_fix
-
-Dettagli pacchetto:
-2026-02-22 19:27:00.134757 IP 127.0.0.1.51238 > 127.0.0.1.8000: Flags [F.], seq 1, ack 1, win 512, options [nop,nop,TS val 1051378804 ecr 1051318803], length 0
-
-═══════════════════════════════════════════
-ALERT COVERT CHANNEL - 2026-02-22 19:27:27
-═══════════════════════════════════════════
-IP:              127.0.0.1
-Dimensione:      0 bytes
-Tipo anomalia:   PACKET_TROPPO_PICCOLO
-TCP Flags:       F. (FIN_SCAN)
-Customer:        test_fix
-
-Dettagli pacchetto:
-2026-02-22 19:27:00.134797 IP 127.0.0.1.8000 > 127.0.0.1.51238: Flags [F.], seq 1, ack 2, win 512, options [nop,nop,TS val 1051378804 ecr 1051378804], length 0
-
-═══════════════════════════════════════════
-ALERT COVERT CHANNEL - 2026-02-22 19:27:27
-═══════════════════════════════════════════
-IP:              127.0.0.1
-Dimensione:      0 bytes
-Tipo anomalia:   PACKET_TROPPO_PICCOLO
-TCP Flags:       . (NORMAL)
-Customer:        test_fix
-
-Dettagli pacchetto:
-2026-02-22 19:27:00.134806 IP 127.0.0.1.51238 > 127.0.0.1.8000: Flags [.], ack 2, win 512, options [nop,nop,TS val 1051378804 ecr 1051378804], length 0
+IP:              192.168.70.53
+Customer:        800054
+Operazioni fake: 6
+Tipo:            Importo 0 o NULL
 

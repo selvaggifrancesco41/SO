@@ -1,0 +1,1 @@
+[2026-02-23 01:09:54] TO:user5@mail.it CUSTOMER:800005 NAME:Matteo Bianchi SUBJECT:Attiva 2FA BODY:Abbiamo rilevato accessi simultanei sul tuo conto. Attiva subito l'autenticazione a due fattori.

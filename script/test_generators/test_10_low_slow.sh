@@ -1,52 +1,71 @@
 #!/bin/bash
 
-# TEST GENERATOR 10: Anomalia low & slow - attacco lento e persistente
+# TEST 10: Generatore traffico LOW & SLOW
 #
-# SCOPO: Generare connessioni a BASSO TASSO (pochi dati per lungo tempo)
-#        che non saturano risorse ma persistono nel tempo
-#        Viene rilevato da problema_10_low_slow.sh
-#
-# METODO: Apre connessioni con trasferimento dati molto lento
+# SIMULA: Attacco lento con poche richieste distribuite nel tempo
+#         Rate basso ma persistente su periodo lungo
 
-SERVER="http://localhost:8000"
+# Output minimale: poche righe, facile da leggere
+log() {
+    # Stampa una riga sintetica
+    printf "%s\n" "$1"
+}
 
-echo "================================================================================"
-echo "[TEST 10] Generazione anomalia - attacco low & slow (lento e persistente)"
-echo "================================================================================"
-echo "[*] Pattern: Poche richieste, molto spaziate, su durata lunga"
-echo "[*] Tipo: Attacco distribuito che degrada risorse senza saturarle"
-echo ""
+# Endpoint server e sorgente dati
+SERVER_URL="http://localhost:8000"
+CSV_CLIENTI="/workspaces/SO/clienti_banca.csv"
 
-echo "[TEST] Generazione flusso low & slow..."
-
+# Parametri del test
 NUM_RICHIESTE=5
-DURATA_TOTALE=120  # 2 minuti
-INTERVALLO=$((DURATA_TOTALE / NUM_RICHIESTE))
+DURATA_TOTALE=30   # 30 secondi totali
+INTERVALLO=$((DURATA_TOTALE / NUM_RICHIESTE))   # ~6 secondi tra richieste
 
-echo "[*] Numero richieste: $NUM_RICHIESTE"
-echo "[*] Durata totale: ${DURATA_TOTALE}s"
-echo "[*] Intervallo tra richieste: ${INTERVALLO}s"
-echo ""
+# IP RANDOMIZZATO subnet 192.168.80.X (low & slow attacks)
+IP="192.168.80.$((RANDOM % 254 + 1))"
 
-# Genera richieste molto spaziate
+# ACCOUNT RANDOMIZZATO
+if [ ! -f "$CSV_CLIENTI" ]; then
+    echo "Errore: File clienti non trovato: $CSV_CLIENTI"
+    exit 1
+fi
+
+ACCOUNT=$(tail -n +2 "$CSV_CLIENTI" | shuf -n 1 | cut -d',' -f1)
+
+if [ -z "$ACCOUNT" ]; then
+    echo "Errore: Impossibile selezionare account dal CSV"
+    exit 1
+fi
+
+# Output minimale di avvio
+log "T10 start"
+
 for i in $(seq 1 $NUM_RICHIESTE); do
-    echo "[+] Richiesta low-slow #$i da 192.168.70.100"
+    # Alterna tra diverse azioni per sembrare realistico
+    ENDPOINT_RANDOM=$((RANDOM % 4))
+    case $ENDPOINT_RANDOM in
+        0) ENDPOINT="/login" ;;
+        1) ENDPOINT="/prelievo" ;;
+        2) ENDPOINT="/deposito" ;;
+        3) ENDPOINT="/bonifico" ;;
+    esac
     
-    # Richiesta lenta con timeout lungo
-    # --max-time: tempo massimo per completare
-    curl -s --max-time 30 \
-        -G "$SERVER/prelievo" \
-        --data-urlencode "customer_id=slow_client_$i" \
-        --data-urlencode "importo=10" \
-        -H "X-Forwarded-For: 192.168.70.100" > /dev/null 2>&1 &
+    IMPORTO=$((RANDOM % 1000 + 100))
     
-    # Aspetta prima della prossima (crea pattern LOW & SLOW)
-    sleep $INTERVALLO
+    # Richiesta lenta con --max-time per simulare slow request
+    curl -s -G "$SERVER_URL$ENDPOINT" \
+        --data-urlencode "customer_id=$ACCOUNT" \
+        --data-urlencode "importo=$IMPORTO" \
+        -H "X-Forwarded-For: $IP" \
+        --max-time 30 > /dev/null 2>&1 &
+    
+    # Aspetta tra le richieste (tranne l'ultima)
+    if [ $i -lt $NUM_RICHIESTE ]; then
+        sleep $INTERVALLO
+    fi
 done
 
-echo ""
-echo "[✓] Flusso low & slow generato"
-echo "[*] Pattern: $NUM_RICHIESTE richieste in ${DURATA_TOTALE}s = molto basso tasso"
-echo "[*] Ma PERSISTENTE nel tempo (tipico attacco distribuito)"
-echo "[*] Log: tail -f logs/low_slow_alerts.log"
+# Aspetta completamento richieste in background
 wait
+
+# Output minimale di fine
+log "T10 done"

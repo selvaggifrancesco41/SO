@@ -14,14 +14,30 @@
 #
 # DIPENDENZE: sqlite3
 
+# Output minimale: riduce il rumore sul terminale
+# FD 3 resta collegato al terminale per messaggi essenziali
+exec 3>&1
+# Silenzia stdout standard per tutte le stampe verbose
+exec 1>/dev/null
+
+# Stampa solo le righe essenziali su terminale
+log() {
+    # Usa FD 3 per non essere silenziato
+    printf "%s\n" "$1" >&3
+}
+
 BLACKLIST_PATH="/workspaces/SO/blacklist.csv"
 LOG_INCOERENZA="/workspaces/SO/logs/incoerenza_rete_alerts.log"
 DB_PATH="/workspaces/SO/data/bank_logs.db"
+LAST_CHECK_FILE="/tmp/problema09_last_check.txt"
 
 # Parametri
 SERVER_PORT=8000
-INTERVALLO_CHECK=10      # Controlla ogni 10 secondi
+INTERVALLO_CHECK=3       # Controlla ogni 3 secondi
 DURATA_MONITORAGGIO=60   # Durata totale 60 secondi
+
+# Soglia di blocco per risk_score (IP)
+RISK_BLOCK_THRESHOLD=100
 
 # DEFINIZIONE SUBNET AUTORIZZATE
 # Ogni tipo di operazione ha subnet specifiche da cui può provenire
@@ -48,6 +64,9 @@ SUBNET_PUBBLICHE_TEST="203.0.113"
 
 mkdir -p $(dirname "$LOG_INCOERENZA")
 
+# Array per tracciare IP già segnalati in questa sessione
+declare -A SEGNALATI
+
 controlla_blacklist() {
     local tipo_elemento="$1"
     local elemento="$2"
@@ -67,6 +86,21 @@ get_risk_score() {
     fi
 }
 
+# FUNZIONE: blocca_ip_se_necessario
+# Blocca l'IP con iptables quando il risk_score supera la soglia
+blocca_ip_se_necessario() {
+    local ip_to_block="$1"
+    local risk_score="$2"
+
+    # Blocca solo se supera la soglia e iptables e' disponibile
+    if [ "$risk_score" -ge "$RISK_BLOCK_THRESHOLD" ] && command -v iptables >/dev/null 2>&1; then
+        # Evita duplicati: -C verifica se la regola esiste gia'
+        if ! iptables -C INPUT -s "$ip_to_block" -j DROP 2>/dev/null; then
+            iptables -A INPUT -s "$ip_to_block" -j DROP 2>/dev/null
+        fi
+    fi
+}
+
 aggiungi_blacklist() {
     local tipo_elemento="$1"
     local elemento="$2"
@@ -75,15 +109,30 @@ aggiungi_blacklist() {
     local risk_score="$5"
     local note="$6"
     local timestamp=$(date '+%Y-%m-%d %H:%M:%S')
+    local stato="blacklisted"
+    local final_risk="$risk_score"
     
     if controlla_blacklist "$tipo_elemento" "$elemento"; then
         local current_risk=$(get_risk_score "$tipo_elemento" "$elemento")
         local recidivita=$(grep -c "^.*,${tipo_elemento},${elemento}," "$BLACKLIST_PATH")
         recidivita=$((recidivita + 1))
         local new_risk=$((current_risk + risk_score))
-        echo "${timestamp},${tipo_elemento},${elemento},${azione},${gravita},${recidivita},${new_risk},blacklisted,INCOERENZA_RETE,${note} [RECIDIVO]" >> "$BLACKLIST_PATH"
+        final_risk="$new_risk"
+        if [ "$tipo_elemento" = "IP" ] && [ "$final_risk" -ge "$RISK_BLOCK_THRESHOLD" ]; then
+            stato="blocked"
+            blocca_ip_se_necessario "$elemento" "$final_risk"
+            # Traccia blocco nel log problema
+            echo "BLOCKED IP: $elemento | risk=$final_risk" >> "$LOG_INCOERENZA"
+        fi
+        echo "${timestamp},${tipo_elemento},${elemento},${azione},${gravita},${recidivita},${final_risk},${stato},INCOERENZA_RETE,${note} [RECIDIVO]" >> "$BLACKLIST_PATH"
     else
-        echo "${timestamp},${tipo_elemento},${elemento},${azione},${gravita},1,${risk_score},blacklisted,INCOERENZA_RETE,${note}" >> "$BLACKLIST_PATH"
+        if [ "$tipo_elemento" = "IP" ] && [ "$final_risk" -ge "$RISK_BLOCK_THRESHOLD" ]; then
+            stato="blocked"
+            blocca_ip_se_necessario "$elemento" "$final_risk"
+            # Traccia blocco nel log problema
+            echo "BLOCKED IP: $elemento | risk=$final_risk" >> "$LOG_INCOERENZA"
+        fi
+        echo "${timestamp},${tipo_elemento},${elemento},${azione},${gravita},1,${final_risk},${stato},INCOERENZA_RETE,${note}" >> "$BLACKLIST_PATH"
     fi
 }
 
@@ -179,10 +228,14 @@ verifica_azione_autorizzata() {
 }
 
 
-echo "================================================================================"
-echo "[$(date '+%Y-%m-%d %H:%M:%S')] ANALISI INCOERENZA RETE (SUBNET) AVVIATA"
-echo "================================================================================" | tee -a "$LOG_INCOERENZA"
+# Avvio monitoraggio con output minimo
+log "P09 start"
+# Log dettagliato su file
+echo "================================================================================" >> "$LOG_INCOERENZA"
+echo "[$(date '+%Y-%m-%d %H:%M:%S')] ANALISI INCOERENZA RETE (SUBNET) AVVIATA" >> "$LOG_INCOERENZA"
+echo "================================================================================" >> "$LOG_INCOERENZA"
 
+# Output verbose silenziato da exec 1>/dev/null
 echo "[*] Porta: $SERVER_PORT"
 echo "[*] Verifica subnet autorizzate per tipo operazione"
 echo "[*] Intervallo: $INTERVALLO_CHECK secondi"
@@ -193,18 +246,22 @@ echo "[*] Subnet ATM: $SUBNET_ATM"
 echo "[*] Subnet API: $SUBNET_API"
 echo ""
 
+# Inizializza timestamp da file (resettato da run_problem.sh)
+if [ ! -f "$LAST_CHECK_FILE" ]; then
+    date -u '+%Y-%m-%dT%H:%M:%S' > "$LAST_CHECK_FILE"
+fi
+
 ITERAZIONI=0
 MAX_ITERAZIONI=$((DURATA_MONITORAGGIO / INTERVALLO_CHECK))
 ALERT_COUNT=0
 
-# Timestamp ultimo controllo (per evitare di riprocessare stessi log)
-LAST_CHECK_TIMESTAMP=$(date -d '1 minute ago' '+%Y-%m-%d %H:%M:%S')
-
-while [ $ITERAZIONI -le $MAX_ITERAZIONI ]; do
+while [ $ITERAZIONI -le $MAX_ITERAZIONI ] && [ $ALERT_COUNT -eq 0 ]; do
     
     echo "[Check #$ITERAZIONI] $(date '+%H:%M:%S')"
     
-    # Leggi log recenti dal database (ultimi 30 secondi)
+    LAST_CHECK_TIMESTAMP=$(cat "$LAST_CHECK_FILE")
+    
+    # Leggi log recenti dal database
     QUERY="SELECT ip_address, azione, customer_id, timestamp 
            FROM logs 
            WHERE timestamp > '$LAST_CHECK_TIMESTAMP' 
@@ -231,31 +288,47 @@ while [ $ITERAZIONI -le $MAX_ITERAZIONI ]; do
                 echo "  ├─ Timestamp: $timestamp"
                 echo "  └─ Motivo: $MOTIVO"
                 
-                # Blacklist
-                if controlla_blacklist "IP" "$ip"; then
-                    aggiungi_blacklist "IP" "$ip" "SUBNET_NON_AUTORIZZATA" \
-                        "CRITICA" 90 "Azione $azione da subnet inappropriata: $MOTIVO, customer: $customer"
-                    echo "  [!] AGGIUNTO A BLACKLIST (RECIDIVO)"
-                else
-                    aggiungi_blacklist "IP" "$ip" "SUBNET_NON_AUTORIZZATA" \
-                        "ALTA" 70 "Azione $azione da subnet inappropriata: $MOTIVO, customer: $customer"
-                    echo "  [!] AGGIUNTO A BLACKLIST"
-                fi
-                
-                ALERT_COUNT=$((ALERT_COUNT + 1))
-                
-                # Log
-                {
-                    echo "═══════════════════════════════════════════"
-                    echo "ALERT SUBNET NON AUTORIZZATA - $(date '+%Y-%m-%d %H:%M:%S')"
-                    echo "═══════════════════════════════════════════"
-                    echo "IP:              $ip"
-                    echo "Azione:          $azione"
-                    echo "Customer:        $customer"
-                    echo "Timestamp:       $timestamp"
-                    echo "Motivo:          $MOTIVO"
+                # Segnala solo se non già fatto in questa sessione
+                if [ -z "${SEGNALATI[$ip]}" ]; then
+                    SEGNALATI[$ip]=1
+                    
+                    # Blacklist
+                    if controlla_blacklist "IP" "$ip"; then
+                        aggiungi_blacklist "IP" "$ip" "SUBNET_NON_AUTORIZZATA" \
+                            "CRITICA" 90 "Azione $azione da subnet inappropriata: $MOTIVO; customer: $customer"
+                        echo "  [!] AGGIUNTO A BLACKLIST (RECIDIVO)"
+                    else
+                        aggiungi_blacklist "IP" "$ip" "SUBNET_NON_AUTORIZZATA" \
+                            "ALTA" 70 "Azione $azione da subnet inappropriata: $MOTIVO; customer: $customer"
+                        echo "  [!] AGGIUNTO A BLACKLIST"
+                    fi
+                    
+                    # Messaggio minimo di alert
+                    log "P09 alert $ip"
+
+                    ALERT_COUNT=$((ALERT_COUNT + 1))
+                    
+                    # Log
+                    {
+                        echo "═══════════════════════════════════════════"
+                        echo "ALERT SUBNET NON AUTORIZZATA - $(date '+%Y-%m-%d %H:%M:%S')"
+                        echo "═══════════════════════════════════════════"
+                        echo "IP:              $ip"
+                        echo "Azione:          $azione"
+                        echo "Customer:        $customer"
+                        echo "Timestamp:       $timestamp"
+                        echo "Motivo:          $MOTIVO"
+                        echo ""
+                    } >> "$LOG_INCOERENZA"
+                    
                     echo ""
-                } >> "$LOG_INCOERENZA"
+                    
+                    # ESCI IMMEDIATAMENTE dopo primo alert
+                    break
+                    
+                else
+                    echo "  [!] IP già segnalato in questa sessione (SKIP)"
+                fi
                 
                 echo ""
             fi
@@ -266,9 +339,14 @@ while [ $ITERAZIONI -le $MAX_ITERAZIONI ]; do
     echo "  → Log analizzati: $IPS_ANALIZZATI | Alert: $ALERT_COUNT"
     
     # Aggiorna timestamp per prossimo controllo
-    LAST_CHECK_TIMESTAMP=$(date '+%Y-%m-%d %H:%M:%S')
+    date -u '+%Y-%m-%dT%H:%M:%S' > "$LAST_CHECK_FILE"
     
     ITERAZIONI=$((ITERAZIONI + 1))
+    
+    # Exit se alert trovato
+    if [ $ALERT_COUNT -gt 0 ]; then
+        break
+    fi
     
     if [ $ITERAZIONI -le $MAX_ITERAZIONI ]; then
         sleep $INTERVALLO_CHECK
@@ -276,6 +354,7 @@ while [ $ITERAZIONI -le $MAX_ITERAZIONI ]; do
     
 done
 
+# Report finale (verbose, silenziato)
 echo ""
 echo "================================================================================"
 echo "[✓] Analisi completata"
@@ -283,3 +362,6 @@ echo "[*] Check eseguiti: $ITERAZIONI"
 echo "[*] Alert generati: $ALERT_COUNT"
 echo "[*] Log: $LOG_INCOERENZA"
 echo "================================================================================"
+
+# Messaggio minimo di fine
+log "P09 done"

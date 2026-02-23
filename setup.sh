@@ -17,6 +17,18 @@
 
 set -e
 
+# Output minimale: riduce il rumore sul terminale
+# FD 3 resta collegato al terminale per messaggi essenziali
+exec 3>&1
+# Silenzia stdout standard per tutte le stampe verbose
+exec 1>/dev/null
+
+# Stampa solo le righe essenziali su terminale
+log() {
+    # Usa FD 3 per non essere silenziato
+    printf "%s\n" "$1" >&3
+}
+
 BASE_DIR=$(pwd)
 LOGS_DIR="$BASE_DIR/logs"
 DATA_DIR="$BASE_DIR/data"
@@ -25,16 +37,15 @@ DB_FILE="$DATA_DIR/eventi_bancari.db"
 LOG_FILE="$LOGS_DIR/server.log"
 SERVER_PID_FILE="$LOGS_DIR/server.pid"
 
-echo "================================================================================"
-echo "             SETUP SISTEMA BANCARIO - INIZIALIZZAZIONE AUTOMATICA"
-echo "================================================================================"
-echo ""
+# Messaggio minimo di avvio
+log "setup start"
 
 # ============================================================================
 # FASE 1: PREPARAZIONE AMBIENTE
 # ============================================================================
 
-echo "[1/6] Preparazione ambiente..."
+# Fase 1: preparazione ambiente
+log "setup env"
 
 # Crea directory necessarie
 mkdir -p "$LOGS_DIR" "$DATA_DIR" "$SCRIPT_DIR/logs"
@@ -65,7 +76,8 @@ echo ""
 # FASE 2: INIZIALIZZAZIONE DATABASE
 # ============================================================================
 
-echo "[2/6] Inizializzazione database..."
+# Fase 2: inizializzazione database
+log "setup db"
 
 # Inizializza il database eventi_bancari.db
 python3 << 'EOF'
@@ -105,7 +117,8 @@ echo ""
 # FASE 3: POPOLAMENTO DATABASE (SE NECESSARIO)
 # ============================================================================
 
-echo "[3/6] Verifica dati nel database..."
+# Fase 3: verifica dati
+log "setup data"
 
 NUM_EVENTI=$(sqlite3 "$DB_FILE" "SELECT COUNT(*) FROM eventi;" 2>/dev/null || echo 0)
 
@@ -129,7 +142,8 @@ echo ""
 # FASE 4: AVVIO SERVER FLASK
 # ============================================================================
 
-echo "[4/6] Avvio server Flask..."
+# Fase 4: avvio server
+log "setup server"
 
 # Verifica se il server è già in esecuzione
 if [ -f "$SERVER_PID_FILE" ]; then
@@ -170,8 +184,8 @@ echo ""
 # FASE 5: DASHBOARD DI SICUREZZA
 # ============================================================================
 
-echo "[5/6] Dashboard di sicurezza..."
-echo ""
+# Fase 5: dashboard
+log "setup dashboard"
 
 if [ -f "$SCRIPT_DIR/dashboard_sicurezza.sh" ]; then
     bash "$SCRIPT_DIR/dashboard_sicurezza.sh"
@@ -185,19 +199,8 @@ echo ""
 # FASE 6: OPZIONI INTERATTIVE
 # ============================================================================
 
-echo "[6/6] Opzioni disponibili..."
-echo ""
-echo "================================================================================"
-echo "                    SISTEMA AVVIATO CON SUCCESSO"
-echo "================================================================================"
-echo ""
-echo "Server Flask:         http://localhost:8000 (PID: $SERVER_PID)"
-echo "Database:             $DB_FILE"
-echo "Log server:           $LOGS_DIR/flask.out"
-echo ""
-echo "Cosa vuoi fare adesso?"
-echo ""
-echo "  1) Eseguire tutti i controlli di sicurezza (10 problemi)"
+# Fase 6: opzioni finali (output minimo)
+log "setup done"
 echo "  2) Generare traffico casuale continuo (richiede Ctrl+C per fermare)"
 echo "  3) Visualizzare solo la dashboard"
 echo "  4) Niente, lasciare solo il server attivo"

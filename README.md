@@ -1,199 +1,206 @@
 # PROGETTO_SERVER_BANCA
-Progetto svolto individualmente che riprende una simulazione realistica in sistema operativo GNU/LINUX
 
-# Contesto del progetto
+Simulazione di un server bancario GNU/Linux con traffico applicativo e di rete generato da client e ATM. Gli script rilevano 10 anomalie realistiche con output minimale e logging dettagliato.
 
-Il progetto simula un server **GNU/Linux** che ospita un’applicazione bancaria fittizia, utilizzata da clienti simulati per effettuare operazioni tipiche come:
+## Struttura rapida
 
-- accessi
-- prelievi
-- depositi
-- bonifici
+- [script/](script/): monitoraggi problemi 01-10 e runner
+- [server/](server/): server di test
+- [data/](data/): database SQLite degli eventi
+- [logs/](logs/): log di alert e notifiche
+- [blacklist.csv](blacklist.csv): eventi di rischio e blocchi
+- [COMANDI_RETE_UTILIZZATI.md](COMANDI_RETE_UTILIZZATI.md): comandi di rete effettivi
 
-Il sistema è progettato per generare **traffico applicativo e di rete artificiale ma realistico**, con l’obiettivo di analizzare il comportamento del server, delle connessioni di rete, delle porte e dei socket attivi.
+## Esecuzione
 
-L’intero scenario riproduce una situazione **plausibile e credibile** che potrebbe verificarsi su un server reale in ambiente GNU/Linux.
-
----
-
-## Obiettivi del progetto
-
-L’obiettivo del progetto è simulare un’infrastruttura bancaria operante su sistema GNU/Linux e analizzarne il comportamento dal punto di vista della rete, dei servizi esposti e delle interazioni tra client, ATM e componenti applicative.
-
-In particolare, il progetto si pone i seguenti obiettivi:
-
-- **simulare un ambiente bancario realistico**, includendo utenti, ATM, API applicative e servizi di rete;
-- **generare traffico controllato e plausibile** verso il server, anche tramite l’utilizzo di task schedulati;
-- **registrare** in modo strutturato **le richieste** ricevute e le azioni eseguite, mantenendo una traccia cronologica degli eventi;
-- **analizzare** porte, socket e connessioni attive per individuare anomalie, incoerenze e comportamenti sospetti;
-- **definire** e **risolvere** problematiche realistiche legate alla sicurezza, all’affidabilità e alle prestazioni di un sistema bancario;
-- utilizzare prevalentemente strumenti e **comandi di rete** tipici degli ambienti GNU/Linux, riducendo al minimo l’interrogazione diretta dei dati applicativi;
-- **progettare soluzioni** tramite script Bash modulari, *riutilizzabili* e *adattabili* a contesti simili.
-
-L’approccio adottato mira a riprodurre scenari e criticità reali, ponendo l’attenzione non solo sulle singole operazioni, ma soprattutto sulla coerenza tra comportamento applicativo e contesto infrastrutturale.
-
-**L’analisi dei problemi viene effettuata attraverso l’individuazione e la definizione di 10 problematiche distinte, coerenti con il contesto simulato e finalizzate all’analisi del comportamento di rete e dei servizi del sistema.**
-
-
----
-
-## Elenco dei problemi
-
-1. [Rilevamento di flussi anomali di bonifici in ingresso (AML)](#1-rilevamento-di-flussi-anomali-di-bonifici-in-ingresso-anti-money-laundering)
-2. [Individuazione di accessi simultanei sospetti dallo stesso account](#2-individuazione-di-accessi-simultanei-sospetti-dallo-stesso-account)
-3. [Analisi degli accessi notturni fuori dal profilo abituale](#3-analisi-degli-accessi-notturni-fuori-dal-profilo-abituale)
-4. [Rilevamento ATM che comunicano su porte non autorizzate](#4-rilevamento-atm-che-comunicano-su-porte-non-autorizzate)
-5. [Rilevamento tentativi di brute-force sulle API del server](#5-rilevamento-tentativi-di-brute-force-sulle-api-del-server)
-6. [Correlazione tra anomalie di rete e degrado del servizio bancario](#6-correlazione-tra-anomalie-di-rete-e-degrado-del-servizio-bancario)
-7. [Rilevamento di pattern anomali nell’utilizzo delle API bancarie](#7-rilevamento-di-pattern-anomali-nellutilizzo-delle-api-bancarie)
-8. [Rilevamento di canali di comunicazione covert all’interno del traffico bancario](#8-rilevamento-di-canali-di-comunicazione-covert-allinterno-del-traffico-bancario)
-9. [Rilevamento di incoerenze tra contesto di rete e tipologia di operazione](#9-rilevamento-di-incoerenze-tra-contesto-di-rete-e-tipologia-di-operazione)
-10. [Rilevamento di comportamenti “silenziosi” ad alto impatto (Low & Slow)](#10-rilevamento-di-comportamenti-silenziosi-ad-alto-impatto)
-
-
----
-
-## Dataset utilizzato
-
-Il progetto utilizza un file CSV denominato **`clienti_banca.csv`**, che rappresenta l’anagrafica statica dei clienti della banca.
-
-### Intestazione del file
-
-```csv
-customer_id,first_name,last_name,tax_code,email,phone_number,address,city,postal_code,country,password_hash,two_factor_enabled,account_status,account_id,iban,account_type,account_balance,currency,card_id,card_number,card_expiry,card_status,last_login,opened_at
+```bash
+cd /workspaces/SO/script
+./run_problem.sh 1
 ```
 
-Il dataset contiene esclusivamente dati simulati ed è utilizzato come base informativa, non come database reale.
+Per eseguire tutti i controlli:
 
-I dati anagrafici sono separati dai log applicativi per mantenere una struttura coerente e realistica.
-
----
-
-### Generazione del traffico e degli eventi
-
-Il traffico applicativo viene generato tramite **script Bash** pianificati con cron, che simulano il comportamento di più clienti che interagiscono contemporaneamente con il server.
-
-Gli script simulano:
-
-- accessi e disconnessioni
-- prelievi e depositi
-- bonifici verso IBAN differenti
-- accessi da indirizzi IP diversi
-- sessioni concorrenti
-
----
-
-## Log degli eventi applicativi
-
-Ogni interazione con il server genera un evento registrato in un file di log strutturato, che rappresenta la **principale fonte** di raccoglimento dati del progetto.
-
-Gli eventi applicativi vengono registrati in tempo reale in un **database SQLite**, scelto per la sua leggerezza, affidabilità e idoneità alla gestione di log cronologici in ambienti GNU/Linux.
-
-### Esempio di file .log
-
-```sql
-timestamp,customer_id,ip_address,azione,importo,iban_destinatario,session_duration,source_type
-2026-02-02 10:15:03,1023,192.168.1.45,LOGIN,,,,USER
-2026-02-02 10:18:21,1023,192.168.1.45,BONIFICO,500,IT60X0542811101000000123456,180,USER
-
+```bash
+./esegui_tutti_controlli.sh
 ```
 
-### Azioni registrate
-- **`LOGIN`**
-- **`LOGOUT`**
-- **`PRELIEVO`**
-- **`DEPOSITO`**
-- **`BONIFICO`**
+## Comportamento comune
 
----
+- Ogni alert aggiorna [blacklist.csv](blacklist.csv) con `risk_score` e `recidivita`.
+- Per IP con `risk_score >= 100` lo stato diventa `blocked` e, se disponibile, viene applicato `iptables`.
+- Output a terminale ridotto al minimo; dettagli nei file di log.
 
-## Analisi di rete e di sistema
-Il focus principale del progetto **non è l’elaborazione dei dati anagrafici**, ma l’analisi del comportamento del server dal punto di vista di **rete e di sistema**.
+## Problemi monitorati
 
-### Oggetti dell'analisi
-- porte aperte
-- socket attivi
-- servizi in ascolto
-- connessioni simultanee
-- utilizzo anomalo delle risorse di rete
+### 1 - Flussi anomali bonifici in ingresso (AML)
 
----
+- **Spiegazione semplificata:** troppi mittenti diversi verso lo stesso IBAN in poco tempo possono indicare riciclaggio.
+- **Come rileva:** analizza `logs/realtime_access.log`, conta mittenti unici per IBAN in 60s (soglia 5).
+- **Dopo la rilevazione:** inserisce l'`ACCOUNT` in blacklist (risk 50/80) e logga in `logs/aml_alerts.log`.
 
-## Interazione con il dataset clienti
-L'interazione con il file **`clienti_banca.csv`** è limitata al recupero delle informazioni di supporto, ad esempio per verificare lo stato di un account o la mail di chi accede.
+### 2 - Accessi simultanei sullo stesso account
 
-### Esempio
+- **Spiegazione semplificata:** lo stesso account non dovrebbe essere attivo da molti IP insieme.
+- **Come rileva:** legge gli ultimi `LOGIN` da `logs/realtime_access.log` e conta IP distinti per `customer_id` (soglia 3).
+- **Dopo la rilevazione:** aggiunge l'`ACCOUNT` in blacklist (risk 40/60), scrive `logs/simultanei_alerts.log` e notifica il cliente in `logs/notifiche_email.txt`.
 
-```terminal
-grep ",active," clienti_banca.csv
+### 3 - Accessi notturni fuori profilo
+
+- **Spiegazione semplificata:** login in orari notturni sono sospetti se non abituali.
+- **Come rileva:** query SQLite sui `LOGIN` in fascia 22:00-06:00, risolve hostname con `host`.
+- **Dopo la rilevazione:** aggiunge l'`IP` in blacklist (risk 30/50), notifica il cliente e blocca l'IP se `risk_score >= 100`. Log: `logs/notturni_alerts.log`.
+
+### 4 - ATM con pattern anomali
+
+- **Spiegazione semplificata:** un ATM che si comporta in modo anomalo va isolato subito.
+- **Come rileva:** login da IP ATM in contesto non previsto (range `192.168.30.x`).
+- **Dopo la rilevazione:** isolamento immediato con `risk_score=100`, stato `blocked`, iptables se disponibile, log in `logs/atm_porte_alerts.log`.
+
+### 5 - Brute-force sulle API di login
+
+- **Spiegazione semplificata:** molti login in pochi secondi indicano tentativi automatici.
+- **Come rileva:** conta `LOGIN` per IP in 10s (soglia 10) nel database.
+- **Dopo la rilevazione:** aggiunge l'`IP` in blacklist (risk 70/100), blocca se `risk_score >= 100`, log in `logs/bruteforce_alerts.log`.
+
+### 6 - Correlazione rete e subnet non autorizzate
+
+- **Spiegazione semplificata:** IP fuori dalle subnet private attese sono sospetti.
+- **Come rileva:** verifica gli IP recenti rispetto a subnet private e raccoglie info di rete (`ip`, `arp`, `ping`).
+- **Dopo la rilevazione:** aggiunge l'`IP` in blacklist (risk 50/70), blocca se `risk_score >= 100`, log in `logs/correlazione_alerts.log`.
+
+### 7 - Pattern anomali nell'uso API
+
+- **Spiegazione semplificata:** troppe richieste ravvicinate alle API indicano automazione.
+- **Come rileva:** conta operazioni (PRELIEVO/DEPOSITO/BONIFICO) per IP in 15s (soglia 15) e verifica endpoint con `curl`.
+- **Dopo la rilevazione:** aggiunge l'`IP` in blacklist (risk 40/60), blocca se `risk_score >= 100`, log in `logs/pattern_api_alerts.log`.
+
+### 8 - Covert channels tramite operazioni fake
+
+- **Spiegazione semplificata:** operazioni con importo 0/NULL possono nascondere un canale covert.
+- **Come rileva:** cerca 5+ operazioni fake per IP nel database.
+- **Dopo la rilevazione:**
+  - blacklist IP (risk 70/90) e log in `logs/covert_channels_alerts.log`.
+  - blocco operazioni a importo 0 in `logs/operazioni_bloccate_zero.log`.
+  - sospensione API (log in `logs/api_sospese.log`) con entry blacklist aggiuntiva `API_SOSPESA` e `risk_score=100`.
+
+### 9 - Incoerenza rete e tipo operazione
+
+- **Spiegazione semplificata:** un'operazione lecita da una subnet sbagliata e' sospetta.
+- **Come rileva:** mappa subnet (clienti/ATM/API/admin) e verifica coerenza azione vs IP.
+- **Dopo la rilevazione:** aggiunge l'`IP` in blacklist (risk 70/90), blocca se `risk_score >= 100`, log in `logs/incoerenza_rete_alerts.log`.
+
+### 10 - Low & Slow ad alto impatto
+
+- **Spiegazione semplificata:** poche richieste ma persistenti nel tempo possono degradare il servizio.
+- **Come rileva:** individua IP con 3-8 richieste in 60s e rate basso.
+- **Dopo la rilevazione:** aggiunge l'`IP` in blacklist (risk 60), blocca se `risk_score >= 100`, log in `logs/low_slow_attacks.log`.
+
+## Note
+
+- Gli script terminano al primo alert per ridurre il rumore.
+- I log principali sono in `logs/` e possono essere ruotati o puliti a piacere.
+# PROGETTO_SERVER_BANCA
+
+Simulazione di un server bancario GNU/Linux con traffico applicativo e di rete generato da client e ATM. Gli script rilevano 10 anomalie realistiche con output minimale e logging dettagliato.
+
+## Struttura rapida
+
+- [script/](script/): monitoraggi problemi 01-10 e runner
+- [server/](server/): server di test
+- [data/](data/): database SQLite degli eventi
+- [logs/](logs/): log di alert e notifiche
+- [blacklist.csv](blacklist.csv): eventi di rischio e blocchi
+- [COMANDI_RETE_UTILIZZATI.md](COMANDI_RETE_UTILIZZATI.md): comandi di rete effettivi
+
+## Esecuzione
+
+```bash
+cd /workspaces/SO/script
+./run_problem.sh 1
 ```
-la maggior parte delle analisi viene effettuata **senza interrogare direttamente l'anagrafica**, concentrandosi sui log applicativi e sullo stato del sistema.
 
----
+Per eseguire tutti i controlli:
 
-## Simulazione di dispositivi fisici (ATM)
-
-Il progetto include la simulazione di **dispositivi fisici bancari**, in particolare **ATM (Automated Teller Machine)**, che interagiscono con il server tramite rete, analogamente a quanto avverrebbe in un contesto reale.
-
-Gli ATM simulati utilizzano una subnet dedicata **`(192.168.100.0/24)`**, separata dal traffico degli utenti, al fine di **facilitare l’analisi** delle connessioni di rete e l’individuazione di comportamenti anomali.
-
-Gli ATM sono trattati come **entità distinte dagli utenti finali**, caratterizzate da:
-- indirizzo IP dedicato
-- comportamento automatico
-- operazioni ripetitive (prelievi, interrogazioni)
-- assenza di interazione diretta con l’interfaccia utente
-
----
-
-La simulazione degli ATM consente di introdurre una componente “fisica” nell’ecosistema del progetto, mantenendo un approccio coerente con un ambiente GNU/Linux e con l’analisi delle risorse di rete.
-
-
-Per distinguere le operazioni effettuate dagli utenti da quelle generate da dispositivi fisici, il database degli eventi include un campo aggiuntivo che identifica la **tipologia di sorgente** dell’evento.
-
-### Schema logico degli eventi:
-
-```sql
-timestamp,customer_id,ip_address,azione,importo,iban_destinatario,session_duration,source_type
+```bash
+./esegui_tutti_controlli.sh
 ```
-Dove **`source_type`** può assumere valori come:
-- **`USER`** -> operazione effettuata da un cliente
-- **`ATM`** -> operazione effettuata da un dispositivo fisico
 
---- 
+## Comportamento comune
 
-# Problemi affrontati:
+- Ogni alert aggiorna [blacklist.csv](blacklist.csv) con `risk_score` e `recidivita`.
+- Per IP con `risk_score >= 100` lo stato diventa `blocked` e, se disponibile, viene applicato `iptables`.
+- Output a terminale ridotto al minimo; dettagli nei file di log.
 
-## 1-Rilevamento di flussi anomali di bonifici in ingresso (Anti-Money Laundering)
-Nel contesto bancario moderno, una delle principali minacce non deriva da singole operazioni chiaramente fraudolente, ma da **schemi di trasferimento distribuiti**, progettati per aggirare i controlli automatici antiriciclaggio (AML).
-Un conto corrente può apparire perfettamente legittimo se analizzato superficialmente, ma diventare sospetto quando si osserva il **comportamento aggregato dei bonifici in ingresso nel tempo**. In particolare, la ricezione ravvicinata di fondi provenienti da **IBAN diversi e non correlati** può indicare attività di money laundering, layering o utilizzo del conto come nodo di smistamento.
+## Problemi monitorati
 
-### Scenario operativo
+### 1 - Flussi anomali bonifici in ingresso (AML)
 
-Il problema si manifesta quando un cliente riceve, in un intervallo temporale ristretto:
+- **Spiegazione semplificata:** troppi mittenti diversi verso lo stesso IBAN in poco tempo possono indicare riciclaggio.
+- **Come rileva:** analizza `logs/realtime_access.log`, conta mittenti unici per IBAN in 60s (soglia 5).
+- **Dopo la rilevazione:** inserisce l'`ACCOUNT` in blacklist (risk 50/80) e logga in `logs/aml_alerts.log`.
 
-- numerosi bonifici di importo medio-basso
-- provenienti da conti diversi
-- senza una relazione evidente tra mittenti e beneficiario
+### 2 - Accessi simultanei sullo stesso account
 
-Ogni singola transazione risulta formalmente valida, autorizzata e coerente con le regole di sistema. Tuttavia, l’insieme delle operazioni evidenzia un **pattern anomalo** rispetto al profilo abituale del conto.
+- **Spiegazione semplificata:** lo stesso account non dovrebbe essere attivo da molti IP insieme.
+- **Come rileva:** legge gli ultimi `LOGIN` da `logs/realtime_access.log` e conta IP distinti per `customer_id` (soglia 3).
+- **Dopo la rilevazione:** aggiunge l'`ACCOUNT` in blacklist (risk 40/60), scrive `logs/simultanei_alerts.log` e notifica il cliente in `logs/notifiche_email.txt`.
 
+### 3 - Accessi notturni fuori profilo
 
-### Obiettivo dell’analisi
+- **Spiegazione semplificata:** login in orari notturni sono sospetti se non abituali.
+- **Come rileva:** query SQLite sui `LOGIN` in fascia 22:00-06:00, risolve hostname con `host`.
+- **Dopo la rilevazione:** aggiunge l'`IP` in blacklist (risk 30/50), notifica il cliente e blocca l'IP se `risk_score >= 100`. Log: `logs/notturni_alerts.log`.
 
-Analizzare i flussi di bonifici in ingresso per individuare conti che presentano comportamenti compatibili con attività sospette, senza basarsi esclusivamente su soglie statiche di importo.
+### 4 - ATM con pattern anomali
 
-L’analisi mira a:
+- **Spiegazione semplificata:** un ATM che si comporta in modo anomalo va isolato subito.
+- **Come rileva:** login da IP ATM in contesto non previsto (range `192.168.30.x`).
+- **Dopo la rilevazione:** isolamento immediato con `risk_score=100`, stato `blocked`, iptables se disponibile, log in `logs/atm_porte_alerts.log`.
 
-- rilevare concentrazioni anomale di bonifici nel tempo
-- correlare numero di mittenti unici e frequenza delle transazioni
-- confrontare il comportamento attuale con lo storico del conto
+### 5 - Brute-force sulle API di login
 
-L’obiettivo finale è **segnalare il conto come potenzialmente sospetto** e attivare misure di verifica preventiva, come l’invio di comunicazioni al cliente o l’escalation verso sistemi AML.
+- **Spiegazione semplificata:** molti login in pochi secondi indicano tentativi automatici.
+- **Come rileva:** conta `LOGIN` per IP in 10s (soglia 10) nel database.
+- **Dopo la rilevazione:** aggiunge l'`IP` in blacklist (risk 70/100), blocca se `risk_score >= 100`, log in `logs/bruteforce_alerts.log`.
 
-### Caratteristiche del comportamento sospetto
+### 6 - Correlazione rete e subnet non autorizzate
 
-I conti individuati presentano tipicamente:
-- molti mittenti diversi
+- **Spiegazione semplificata:** IP fuori dalle subnet private attese sono sospetti.
+- **Come rileva:** verifica gli IP recenti rispetto a subnet private e raccoglie info di rete (`ip`, `arp`, `ping`).
+- **Dopo la rilevazione:** aggiunge l'`IP` in blacklist (risk 50/70), blocca se `risk_score >= 100`, log in `logs/correlazione_alerts.log`.
+
+### 7 - Pattern anomali nell’uso API
+
+- **Spiegazione semplificata:** troppe richieste ravvicinate alle API indicano automazione.
+- **Come rileva:** conta operazioni (PRELIEVO/DEPOSITO/BONIFICO) per IP in 15s (soglia 15) e verifica endpoint con `curl`.
+- **Dopo la rilevazione:** aggiunge l'`IP` in blacklist (risk 40/60), blocca se `risk_score >= 100`, log in `logs/pattern_api_alerts.log`.
+
+### 8 - Covert channels tramite operazioni fake
+
+- **Spiegazione semplificata:** operazioni con importo 0/NULL possono nascondere un canale covert.
+- **Come rileva:** cerca 5+ operazioni fake per IP nel database.
+- **Dopo la rilevazione:**
+  - blacklist IP (risk 70/90) e log in `logs/covert_channels_alerts.log`.
+  - blocco operazioni a importo 0 in `logs/operazioni_bloccate_zero.log`.
+  - sospensione API (log in `logs/api_sospese.log`) con entry blacklist aggiuntiva `API_SOSPESA` e `risk_score=100`.
+
+### 9 - Incoerenza rete e tipo operazione
+
+- **Spiegazione semplificata:** un'operazione lecita da una subnet sbagliata e' sospetta.
+- **Come rileva:** mappa subnet (clienti/ATM/API/admin) e verifica coerenza azione vs IP.
+- **Dopo la rilevazione:** aggiunge l'`IP` in blacklist (risk 70/90), blocca se `risk_score >= 100`, log in `logs/incoerenza_rete_alerts.log`.
+
+### 10 - Low & Slow ad alto impatto
+
+- **Spiegazione semplificata:** poche richieste ma persistenti nel tempo possono degradare il servizio.
+- **Come rileva:** individua IP con 3-8 richieste in 60s e rate basso.
+- **Dopo la rilevazione:** aggiunge l'`IP` in blacklist (risk 60), blocca se `risk_score >= 100`, log in `logs/low_slow_attacks.log`.
+
+## Note
+
+- Gli script terminano al primo alert per ridurre il rumore.
+
+- I log principali sono in `logs/` e possono essere ruotati o puliti a piacere.
 - importi sotto le soglie di alert tradizionali
 - operazioni distribuite su finestre temporali brevi
 - assenza di una causale coerente o ricorrente

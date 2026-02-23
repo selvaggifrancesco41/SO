@@ -1,44 +1,49 @@
 #!/bin/bash
 
-# TEST GENERATOR 08: Anomalia canali covert - traffico persistente nascosto
+# TEST GENERATOR 08: Anomalia canali covert - operazioni fake
 #
-# SCOPO: Generare connessioni persistenti che rimangono aperte
-#        senza generare dati, simulando canale covert
+# SCOPO: Generare operazioni bancarie con importo 0 o NULL
+#        che potrebbero essere usate come canali nascosti per comunicazioni
 #        Viene rilevato da problema_08_covert_channels.sh
 #
-# METODO: Apre connessiones che rimangono in ESTABLISHED senza trasmissione dati
+# METODO: Fa richieste HTTP con importo=0 (operazioni fake)
 
-echo "================================================================================"
-echo "[TEST 08] Generazione anomalia - canali covert (traffico persistente)"
-echo "================================================================================"
-echo "[*] Simula connessioni persistenti senza dati"
-echo "[*] Tipico di esfiltrazione lenta e command & control"
-echo ""
+# Output minimale: poche righe, facile da leggere
+log() {
+    # Stampa una riga sintetica
+    printf "%s\n" "$1"
+}
 
-# Verifica netcat
-if ! command -v nc &> /dev/null; then
-    echo "[!] netcat non installato, uso sleep + /dev/tcp"
-fi
+# Endpoint server e sorgente dati
+SERVER="http://localhost:8000"
+CSV_CLIENTI="/workspaces/SO/clienti_banca.csv"
 
-echo "[TEST] Apertura connessioni persistenti verso porta 8000..."
+# Parametri del test
+NUM_FAKE_OPS=7
 
-NUM_COVERT=4
+# Genera IP casuale e account casuale
+IP_COVERT="192.168.70.$((RANDOM % 254 + 1))"
+COVERT_ACCOUNT=$(tail -n +2 "$CSV_CLIENTI" | shuf -n 1 | cut -d',' -f1)
 
-for i in $(seq 1 $NUM_COVERT); do
-    echo "[+] Connessione covert #$i (rimarrà aperta 60 secondi)"
-    
-    # Metodo 1: netcat se disponibile
-    if command -v nc &> /dev/null; then
-        timeout 60 nc localhost 8000 < /dev/null > /dev/null 2>&1 &
+# Output minimale di avvio
+log "T08 start"
+
+for i in $(seq 1 $NUM_FAKE_OPS); do
+    # Alterna tra PRELIEVO e DEPOSITO con importo=0
+    if [ $((i % 2)) -eq 0 ]; then
+        AZIONE="prelievo"
     else
-        # Metodo 2: bash con /dev/tcp
-        (sleep 60 < /dev/null > /dev/tcp/localhost/8000 2>/dev/null) &
+        AZIONE="deposito"
     fi
+    
+    # Richiesta con importo=0 (operazione fake)
+    curl -s -G "$SERVER/$AZIONE" \
+        --data-urlencode "customer_id=$COVERT_ACCOUNT" \
+        --data-urlencode "importo=0" \
+        -H "X-Forwarded-For: $IP_COVERT" > /dev/null 2>&1
+    
+    sleep 0.3
 done
 
-echo ""
-echo "[✓] $NUM_COVERT connessioni covert aperte"
-echo "[*] Rimangono attive per 60 secondi nello stato ESTABLISHED"
-echo "[*] Controlla connessioni: ss -tan | grep 127.0.0.1:8000"
-echo "[*] Log: tail -f logs/covert_channels.log"
-wait
+# Output minimale di fine
+log "T08 done"

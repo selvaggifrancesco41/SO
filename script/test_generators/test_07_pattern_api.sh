@@ -8,49 +8,55 @@
 #
 # METODO: Fa sempre la stessa sequenza di endpoint nello stesso ordine
 
+# Output minimale: poche righe, facile da leggere
+log() {
+    # Stampa una riga sintetica
+    printf "%s\n" "$1"
+}
+
+# Endpoint server e sorgente dati
 SERVER="http://localhost:8000"
+CSV_CLIENTI="/workspaces/SO/clienti_banca.csv"
+
+# Parametri del test
 CICLI=5
 
-echo "================================================================================"
-echo "[TEST 07] Generazione anomalia - pattern API ripetitivo (bot/automazione)"
-echo "================================================================================"
-echo "[*] Sequenza API da ripetere: /saldo → /bonifico_info → /saldo"
-echo "[*] Numero cicli: $CICLI"
-echo "[*] Pattern: RIGIDO E MECCANICO (tipico di bot)"
-echo ""
+# Genera IP casuale e account casuale
+IP_BOT="192.168.60.$((RANDOM % 254 + 1))"
+BOT_ACCOUNT=$(tail -n +2 "$CSV_CLIENTI" | shuf -n 1 | cut -d',' -f1)
 
-echo "[TEST] Generazione traffico API ripetitivo..."
+# Output minimale di avvio
+log "T07 start"
+
+# Seleziona ACCOUNT CASUALE all'inizio (varia ogni volta)
+# Già selezionato sopra: BOT_ACCOUNT
 
 for ciclo in $(seq 1 $CICLI); do
-    echo "[+] Ciclo $ciclo: sequenza rigida di API"
-    
     # Sequenza 1: /prelievo
     curl -s -G "$SERVER/prelievo" \
-        --data-urlencode "customer_id=bot_pattern" \
+        --data-urlencode "customer_id=$BOT_ACCOUNT" \
         --data-urlencode "importo=100" \
-        -H "X-Forwarded-For: 192.168.60.100" > /dev/null 2>&1 &
-    sleep 0.5
+        -H "X-Forwarded-For: $IP_BOT" > /dev/null 2>&1
+    sleep 0.3
     
     # Sequenza 2: /deposito (API correlata)
     curl -s -G "$SERVER/deposito" \
-        --data-urlencode "customer_id=bot_pattern" \
+        --data-urlencode "customer_id=$BOT_ACCOUNT" \
         --data-urlencode "importo=50" \
-        -H "X-Forwarded-For: 192.168.60.100" > /dev/null 2>&1 &
-    sleep 0.5
+        -H "X-Forwarded-For: $IP_BOT" > /dev/null 2>&1
+    sleep 0.3
     
-    # Sequenza 3: /prelievo (identica a primo)
+    # Sequenza 3: /prelievo (identica a primo - pattern rigido!)
     curl -s -G "$SERVER/prelievo" \
-        --data-urlencode "customer_id=bot_pattern" \
+        --data-urlencode "customer_id=$BOT_ACCOUNT" \
         --data-urlencode "importo=100" \
-        -H "X-Forwarded-For: 192.168.60.100" > /dev/null 2>&1 &
-    sleep 0.5
+        -H "X-Forwarded-For: $IP_BOT" > /dev/null 2>&1
+    sleep 0.3
     
-    # Attesa fra cicli
-    sleep 1
+    # Attesa fra cicli più breve per superare soglia velocità
+    sleep 0.5
 done
 
-echo ""
-echo "[✓] Pattern ripetitivo generato"
-echo "[*] Il pattern è SEMPRE IDENTICO (segno di automazione)"
-echo "[*] Controlla il log: tail -f logs/pattern_api.log"
-wait
+# Output minimale di fine
+log "T07 done"
+

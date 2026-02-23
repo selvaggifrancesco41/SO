@@ -1,38 +1,44 @@
 #!/bin/bash
 
-# TEST GENERATOR 06: Anomalia correlazione rete - degrado servizio
+# TEST GENERATOR 06: Anomalia correlazione rete - IP da subnet non autorizzate
 #
-# SCOPO: Generare spike di connessioni TCP verso il server
-#        per simulare degradazione progressiva del servizio
+# SCOPO: Generare login da IP pubblici (fuori subnet private)
+#        per simulare accessi da internet non autorizzati  
 #        Viene rilevato da problema_06_correlazione_rete.sh
 #
-# METODO: Apre molte connessioni simultanee verso porte diverse
+# METODO: Curl con X-Forwarded-For usando IP pubblici noti
 
-SERVER_IP="127.0.0.1"
-SERVER_PORT=8000
-NUM_CONNESSIONI=20
+# Output minimale: poche righe, facile da leggere
+log() {
+    # Stampa una riga sintetica
+    printf "%s\n" "$1"
+}
 
-echo "================================================================================"
-echo "[TEST 06] Generazione anomalia - spike di connessioni (degradazione)"
-echo "================================================================================"
-echo "[*] Target: $SERVER_IP:$SERVER_PORT"
-echo "[*] Numero connessioni simultanee: $NUM_CONNESSIONI"
-echo ""
+# Endpoint server e sorgente dati
+SERVER="http://localhost:8000"
+CSV_CLIENTI="/workspaces/SO/clienti_banca.csv"
 
-echo "[TEST] Apertura spike di connessioni..."
+# IP pubblici noti (DNS pubblici + altri server famosi)
+IP_PUBBLICI_POOL=("8.8.8.8" "8.8.4.4" "1.1.1.1" "1.0.0.1" "208.67.222.222" "208.67.220.220" "9.9.9.9" "149.112.112.112")
 
-for i in $(seq 1 $NUM_CONNESSIONI); do
-    # Usa bash /dev/tcp per mantenere connessione TCP aperta
-    # Mantiene socket fino a che non scade il timer
-    (bash -c "exec 3<>/dev/tcp/$SERVER_IP/$SERVER_PORT; sleep 30; exec 3>&-" > /dev/null 2>&1) &
-    
-    echo "[+] Connessione #$i aperta (timerà 30s)"
-    sleep 0.05
-done
+# Seleziona 1 IP pubblico casuale
+IP_PUBBLICO="${IP_PUBBLICI_POOL[$((RANDOM % ${#IP_PUBBLICI_POOL[@]}))]}"
 
-echo ""
-echo "[✓] Spike di $NUM_CONNESSIONI connessioni generato"
-echo "[*] Le connessioni rimangono aperte per 30 secondi"
-echo "[*] Controlla con: ss -tan | grep :8000 | wc -l"
-echo "[*] Log: tail -f logs/correlazione_rete.log"
-wait
+# Seleziona 1 account casuale
+CUSTOMER_ID=$(tail -n +2 "$CSV_CLIENTI" | shuf -n 1 | cut -d',' -f1)
+
+# Output minimale di avvio
+log "T06 start"
+
+RESPONSE=$(curl -s -G "$SERVER/login" \
+    --data-urlencode "customer_id=$CUSTOMER_ID" \
+    --data-urlencode "session_duration=10" \
+    -H "X-Forwarded-For: $IP_PUBBLICO" 2>/dev/null)
+
+# Risposta server ignorata per output minimale
+
+# Attende la registrazione della richiesta
+sleep 2
+
+# Output minimale di fine
+log "T06 done"

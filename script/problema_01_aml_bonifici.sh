@@ -13,6 +13,18 @@
 #
 # DIPENDENZE: tcpdump o tshark, grep, awk, sqlite3 (per lookup puntuali)
 
+# Output minimale: riduce il rumore sul terminale
+# FD 3 resta collegato al terminale per messaggi essenziali
+exec 3>&1
+# Silenzia stdout standard per tutte le stampe verbose
+exec 1>/dev/null
+
+# Stampa solo le righe essenziali su terminale
+log() {
+    # Usa FD 3 per non essere silenziato
+    printf "%s\n" "$1" >&3
+}
+
 # Percorsi file di configurazione e log
 BLACKLIST_PATH="/workspaces/SO/blacklist.csv"
 LOG_AML="/workspaces/SO/logs/aml_alerts.log"
@@ -21,13 +33,16 @@ DB_PATH="/workspaces/SO/data/bank_logs.db"  # Solo per lookup puntuali
 
 # Parametri soglia rilevamento
 SOGLIA_MITTENTI_UNICI=5     # Max mittenti distinti verso stesso IBAN
-FINESTRA_SECONDI=300        # Finestra temporale di analisi (5 minuti)
+FINESTRA_SECONDI=60         # Finestra temporale di analisi (1 minuto)
 SERVER_PORT=8000            # Porta del server Flask da monitorare
 
 # Crea directory per log se non esistono
 # mkdir -p: crea directory inclusi path intermedi, non fallisce se già esiste
 mkdir -p $(dirname "$LOG_AML")
 mkdir -p $(dirname "$STATE_FILE")
+
+# Array per tracciare IBAN già segnalati in questa sessione
+declare -A SEGNALATI
 
 # FUNZIONE: controlla_blacklist - Verifica se elemento già segnalato
 # ARG1: tipo_elemento (es. "IBAN", "IP", "PORTA")
@@ -105,9 +120,12 @@ aggiungi_blacklist() {
 }
 
 # ANALISI TRAFFICO DI RETE IN TEMPO REALE
-echo "================================================================================"
-echo "[$(date '+%Y-%m-%d %H:%M:%S')] AVVIO MONITORAGGIO RETE - AML Bonifici"
-echo "================================================================================" | tee -a "$LOG_AML"
+# Messaggio minimo di avvio
+log "P01 start"
+# Log dettagliato su file
+echo "================================================================================" >> "$LOG_AML"
+echo "[$(date '+%Y-%m-%d %H:%M:%S')] AVVIO MONITORAGGIO RETE - AML Bonifici" >> "$LOG_AML"
+echo "================================================================================" >> "$LOG_AML"
 
 # Inizializza file di stato per tracciare bonifici in memoria
 # > (redirect): crea/sovrascrive file vuoto
@@ -116,6 +134,7 @@ echo "==========================================================================
 
 REALTIME_LOG="/workspaces/SO/logs/realtime_access.log"
 
+# Output verbose silenziato da exec 1>/dev/null
 echo "[*] Monitoraggio del log in tempo reale: $REALTIME_LOG"
 echo "[*] Filtro: azione BONIFICO"
 echo "[*] Finestra temporale: $FINESTRA_SECONDI secondi"
@@ -126,9 +145,10 @@ echo ""
 COUNTER=0
 TIMESTAMP_START=$(date +%s)
 LAST_POSITION=0
+ALERT_COUNT=0
 
 # Monitora il file di log per FINESTRA_SECONDI
-while true; do
+while [ $ALERT_COUNT -eq 0 ]; do
     CURRENT_TIME=$(date +%s)
     ELAPSED=$((CURRENT_TIME - TIMESTAMP_START))
     
@@ -139,8 +159,9 @@ while true; do
     
     # Leggi nuove righe dal log (solo BONIFICO)
     # Format log: timestamp|customer_id|ip|azione|importo|iban|session_duration
+    # Usa process substitution < <(...) per evitare subshell con pipe
     if [ -f "$REALTIME_LOG" ]; then
-        tail -n +$((LAST_POSITION + 1)) "$REALTIME_LOG" 2>/dev/null | grep "|BONIFICO|" | while IFS='|' read -r timestamp customer_id ip_src azione importo iban_dest session_duration; do
+        while IFS='|' read -r timestamp customer_id ip_src azione importo iban_dest session_duration; do
             
             COUNTER=$((COUNTER + 1))
             LAST_POSITION=$((LAST_POSITION + 1))
@@ -162,27 +183,32 @@ while true; do
                 # CONTROLLO SOGLIA
                 if [ "$mittenti_unici" -ge "$SOGLIA_MITTENTI_UNICI" ]; then
                     
-                    # Verifica se IBAN è già stato segnalato in QUESTO ciclo
-                    if grep -q "^ALERTED:$iban_dest\$" "$STATE_FILE" 2>/dev/null; then
-                        echo "  → IBAN già segnalato in questo ciclo"
-                    else
+                    # Segnala solo se non già fatto in questa sessione
+                    if [ -z "${SEGNALATI[$iban_dest]}" ]; then
+                        SEGNALATI[$iban_dest]=1
+                        
+                        # Messaggio minimo di alert
+                        log "P01 alert $iban_dest"
+
                         echo ""
                         echo "  [!!!] ALERT AML: IBAN $iban_dest riceve da $mittenti_unici mittenti!"
                         echo ""
                         
-                        # Verifica se IBAN già in blacklist GLOBALE
-                        if controlla_blacklist "IBAN" "$iban_dest"; then
-                            echo "  [!] IBAN già in blacklist - RECIDIVO"
-                            aggiungi_blacklist "IBAN" "$iban_dest" "FLUSSO_AML_REAL_TIME" \
-                                "CRITICA" 80 "Rilevato in tempo reale: $mittenti_unici mittenti"
-                        else
-                            echo "  [!] Primo rilevamento - NUOVO"
-                            aggiungi_blacklist "IBAN" "$iban_dest" "FLUSSO_AML_REAL_TIME" \
-                                "ALTA" 50 "Rilevato in tempo reale: $mittenti_unici mittenti"
-                        fi
+                        # Estrai primo mittente coinvolto (rappresentante del pattern)
+                        primo_mittente=$(awk -F'|' -v iban="$iban_dest" '$2==iban {print $1}' "$STATE_FILE" | sort -u | head -1)
                         
-                        # Marca IBAN come già allertato in questo ciclo
-                        echo "ALERTED:$iban_dest" >> "$STATE_FILE"
+                        # Aggiungi solo UN mittente rappresentativo alla blacklist
+                        if [ -n "$primo_mittente" ]; then
+                            if controlla_blacklist "ACCOUNT" "$primo_mittente"; then
+                                echo "  [!] Customer $primo_mittente già in blacklist - RECIDIVO"
+                                aggiungi_blacklist "ACCOUNT" "$primo_mittente" "FLUSSO_AML_REAL_TIME" \
+                                    "CRITICA" 80 "Partecipa a schema AML verso IBAN $iban_dest; totale mittenti: $mittenti_unici"
+                            else
+                                echo "  [!] Customer $primo_mittente aggiunto a blacklist - NUOVO"
+                                aggiungi_blacklist "ACCOUNT" "$primo_mittente" "FLUSSO_AML_REAL_TIME" \
+                                    "ALTA" 50 "Partecipa a schema AML verso IBAN $iban_dest; totale mittenti: $mittenti_unici"
+                            fi
+                        fi
                         
                         # Log dettagliato dell'alert
                         {
@@ -197,15 +223,17 @@ while true; do
                             echo "IP origine:        $ip_src"
                             echo ""
                         } >> "$LOG_AML"
+                        
+                        ALERT_COUNT=$((ALERT_COUNT + 1))
+                        break  # Exit immediatamente dopo primo alert
+                    else
+                        echo "  → IBAN già segnalato in questo ciclo (SKIP)"
                     fi
                 fi
             fi
             
             echo ""
-        done
-        
-        # Aggiorna posizione ultima riga letta
-        LAST_POSITION=$(wc -l < "$REALTIME_LOG" 2>/dev/null || echo 0)
+        done < <(tail -n +$((LAST_POSITION + 1)) "$REALTIME_LOG" 2>/dev/null | grep "|BONIFICO|")
     fi
     
     # Attendi prima del prossimo check
@@ -213,10 +241,18 @@ while true; do
 done
 
 # Al termine della cattura
+# Report finale (verbose, silenziato)
 echo ""
 echo "================================================================================"
 echo "[✓] Monitoraggio completato"
 echo "[*] Transazioni analizzate: $COUNTER"
+echo "[*] Alert generati: $ALERT_COUNT"
+if [ $ALERT_COUNT -eq 0 ]; then
+    echo "[*] Nessun pattern AML rilevato in ${FINESTRA_SECONDI}s"
+fi
 echo "[*] Log: $LOG_AML"
 echo "[*] State file: $STATE_FILE"
 echo "================================================================================"
+
+# Messaggio minimo di fine
+log "P01 done"

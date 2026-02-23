@@ -6,32 +6,20 @@
 # Uso: ./run_problem.sh <numero_problema>
 # Es.: ./run_problem.sh 5   # Avvia problema_05 + test_05
 
+# Output minimale: poche righe, chiaro e veloce
+log() {
+    # Stampa una sola riga sintetica
+    printf "%s\n" "$1"
+}
+
+# Verifica argomento: serve un solo numero problema
 if [ $# -ne 1 ]; then
-    echo "================================================================================"
-    echo "ORCHESTRATORE TEST - SISTEMA SICUREZZA BANCARIA"
-    echo "================================================================================"
-    echo ""
-    echo "Uso: ./run_problem.sh <numero_problema>"
-    echo ""
-    echo "Problemi disponibili:"
-    echo "  1 - AML bonifici anomali"
-    echo "  2 - Accessi simultanei"
-    echo "  3 - Accessi notturni"
-    echo "  4 - ATM su porte non autorizzate"
-    echo "  5 - Brute-force login"
-    echo "  6 - Correlazione rete - degradazione"
-    echo "  7 - Pattern API anomali"
-    echo "  8 - Canali covert"
-    echo "  9 - Incoerenza rete"
-    echo " 10 - Attacchi low & slow"
-    echo ""
-    echo "Esempi:"
-    echo "  ./run_problem.sh 5    # Problema 05 brute-force"
-    echo "  ./run_problem.sh 1    # Problema 01 AML"
-    echo ""
+    # Messaggio essenziale di uso
+    log "Uso: ./run_problem.sh <1-10>"
     exit 1
 fi
 
+# Numero del problema richiesto
 NUMERO=$1
 
 # Determina il percorso dello script corrente (robusto per qualsiasi cartella)
@@ -41,12 +29,14 @@ TEST_SCRIPT="$SCRIPT_DIR/test_generators/test_$(printf '%02d' $NUMERO)_*.sh"
 
 # Verifica che gli script esistono
 if ! ls $PROBLEMA_SCRIPT > /dev/null 2>&1; then
-    echo "[!] ERRORE: Script di monitoraggio non trovato: $PROBLEMA_SCRIPT"
+    # Errore essenziale per script mancante
+    log "Errore: monitor non trovato"
     exit 1
 fi
 
 if ! ls $TEST_SCRIPT > /dev/null 2>&1; then
-    echo "[!] ERRORE: Script test non trovato: $TEST_SCRIPT"
+    # Errore essenziale per script mancante
+    log "Errore: test non trovato"
     exit 1
 fi
 
@@ -54,64 +44,89 @@ fi
 PROBLEMA_FULL=$(ls $PROBLEMA_SCRIPT)
 TEST_FULL=$(ls $TEST_SCRIPT)
 
-echo "================================================================================"
-echo "AVVIO ORCHESTRATO - PROBLEMA $(printf '%02d' $NUMERO)"
-echo "================================================================================"
-echo "[*] Monitoraggio:     $PROBLEMA_FULL"
-echo "[*] Test generatore:  $TEST_FULL"
-echo ""
-echo "[*] ISTRUZIONI:"
-echo "    1. Questo script avvierà prima il MONITORAGGIO"
-echo "    2. Aspetta il messaggio '[✓] In ascolto' o '[✓] Cattura avviata'"
-echo "    3. Premi INVIO quando pronto ad iniziare il TEST"
-echo "    4. Il test genererà anomalie"
-echo "    5. Il monitoraggio le rileverà in TEMPO REALE"
-echo ""
-# Problemi 3, 4 e 5 sono completamente automatici
-if [ "$NUMERO" != "3" ] && [ "$NUMERO" != "4" ] && [ "$NUMERO" != "5" ]; then
-    read -p "Premi INVIO per continuare..." continua
-fi
+# Output essenziale di avvio
+log "P$(printf '%02d' $NUMERO) start"
 
 # Avvia monitoraggio in background
-echo ""
-echo "[●] AVVIANDO MONITORAGGIO..."
+log "monitor start"
+
+# Resetta log realtime e state file per problema 01 e 02 (usano realtime_access.log)
+if [ "$NUMERO" = "1" ]; then
+    # Pulisce log realtime per evitare dati vecchi
+    > /workspaces/SO/logs/realtime_access.log
+    # Rimuove stato AML per ripartenza pulita
+    rm -f /workspaces/SO/logs/aml_state.tmp
+fi
+if [ "$NUMERO" = "2" ]; then
+    # Pulisce log realtime per problema 02
+    > /workspaces/SO/logs/realtime_access.log
+fi
+
+# Resetta timestamp per problema 03, 04, 05, 06, 07, 08 e 09 (evita rilevamento vecchi record)
+if [ "$NUMERO" = "3" ]; then
+    # Imposta timestamp di ultimo controllo
+    date -u '+%Y-%m-%dT%H:%M:%S' > /tmp/problema03_last_check.txt
+fi
+if [ "$NUMERO" = "4" ]; then
+    # Imposta timestamp di ultimo controllo
+    date -u '+%Y-%m-%dT%H:%M:%S' > /tmp/problema04_last_check.txt
+fi
+if [ "$NUMERO" = "5" ]; then
+    # Imposta timestamp di ultimo controllo
+    date -u '+%Y-%m-%dT%H:%M:%S' > /tmp/problema05_last_check.txt
+fi
+if [ "$NUMERO" = "6" ]; then
+    # Imposta timestamp di ultimo controllo
+    date -u '+%Y-%m-%dT%H:%M:%S' > /tmp/problema06_last_check.txt
+fi
+if [ "$NUMERO" = "7" ]; then
+    # Imposta timestamp di ultimo controllo
+    date -u '+%Y-%m-%dT%H:%M:%S' > /tmp/problema07_last_check.txt
+fi
+if [ "$NUMERO" = "8" ]; then
+    # Imposta timestamp di ultimo controllo
+    date -u '+%Y-%m-%dT%H:%M:%S' > /tmp/problema08_last_check.txt
+fi
+if [ "$NUMERO" = "9" ]; then
+    # Imposta timestamp di ultimo controllo
+    date -u '+%Y-%m-%dT%H:%M:%S' > /tmp/problema09_last_check.txt
+fi
+if [ "$NUMERO" = "10" ]; then
+    # Imposta timestamp di ultimo controllo
+    date -u '+%Y-%m-%dT%H:%M:%S' > /tmp/problema10_last_check.txt
+fi
+
 # Per problema 03 e 05, abilita TEST_MODE per parametri ottimizzati
 if [ "$NUMERO" = "3" ] || [ "$NUMERO" = "5" ]; then
-    TEST_MODE=1 $PROBLEMA_FULL &
+    # Avvia monitor con TEST_MODE per timing piu rapido
+    env TEST_MODE=1 bash "$PROBLEMA_FULL" &
 else
-    $PROBLEMA_FULL &
+    # Avvia monitor standard
+    bash "$PROBLEMA_FULL" &
 fi
 MONITOR_PID=$!
 
 # Aspetta che il monitoraggio sia pronto
 sleep 2
 
-echo ""
-echo "[✓] Monitoraggio in esecuzione (PID: $MONITOR_PID)"
-echo ""
-
-# Problemi 03, 04 e 05: avvio automatico del test dopo 3 secondi
-if [ "$NUMERO" = "3" ] || [ "$NUMERO" = "4" ] || [ "$NUMERO" = "5" ]; then
-    echo "[*] Test si avvierà automaticamente tra 3 secondi..."
-    sleep 3
-    echo ""
-    echo "[●] AVVIANDO TEST GENERATORE..."
-    $TEST_FULL
-else
-    read -p "Premi INVIO per avviare il TEST GENERATORE..." continua
-    echo ""
-    echo "[●] AVVIANDO TEST GENERATORE..."
-    $TEST_FULL
-fi
+# Avvio test generatore dopo breve pausa
+sleep 3
+log "test start"
+$TEST_FULL
 
 # Attendi completamento test
 wait $!
 
-echo ""
-echo "[✓] Test completato"
-echo "[*] Il monitoraggio continua in esecuzione (PID: $MONITOR_PID)"
-echo "[*] Premi Ctrl+C per terminare il monitoraggio"
+# Test terminato
+log "test done"
 
-# Attendi che l'utente termini il monitoraggio
-wait $MONITOR_PID
-echo "[✓] Orchestrazione terminata"
+# Termina automaticamente il monitoraggio
+if ps -p $MONITOR_PID > /dev/null 2>&1; then
+    # Chiude il processo monitor
+    kill $MONITOR_PID 2>/dev/null
+    # Attende la chiusura del monitor
+    wait $MONITOR_PID 2>/dev/null
+fi
+
+# Fine orchestrazione
+log "done"

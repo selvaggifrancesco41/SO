@@ -1,182 +1,365 @@
 ================================================================================
 ═══════════════════════════════════════════
-ALERT PATTERN API - 2026-02-22 18:06:24
+ALERT PATTERN API - 2026-02-22 22:14:05
 ═══════════════════════════════════════════
 IP:              127.0.0.1
 User-Agent:      curl/8.5.0
 Metodo:          GET
-URI:             /prelievo?customer_id=bot_pattern&importo=100
+URI:             /prelievo?customer_id=800007&importo=100
 Richieste/30s:   1
-Customer:        800018
+Customer:        test
 
 ═══════════════════════════════════════════
-ALERT PATTERN API - 2026-02-22 18:06:25
+ALERT PATTERN API - 2026-02-22 22:14:06
 ═══════════════════════════════════════════
 IP:              127.0.0.1
 User-Agent:      curl/8.5.0
 Metodo:          GET
-URI:             /deposito?customer_id=bot_pattern&importo=50
+URI:             /deposito?customer_id=800007&importo=50
 Richieste/30s:   2
-Customer:        800018
+Customer:        test
 
 ═══════════════════════════════════════════
-ALERT PATTERN API - 2026-02-22 18:06:25
+ALERT PATTERN API - 2026-02-22 22:14:06
 ═══════════════════════════════════════════
 IP:              127.0.0.1
 User-Agent:      curl/8.5.0
 Metodo:          GET
-URI:             /prelievo?customer_id=bot_pattern&importo=100
+URI:             /prelievo?customer_id=800007&importo=100
 Richieste/30s:   3
-Customer:        800018
+Customer:        test
 
 ═══════════════════════════════════════════
-ALERT PATTERN API - 2026-02-22 18:06:27
+ALERT PATTERN API - 2026-02-22 22:14:08
 ═══════════════════════════════════════════
 IP:              127.0.0.1
 User-Agent:      curl/8.5.0
 Metodo:          GET
-URI:             /prelievo?customer_id=bot_pattern&importo=100
+URI:             /prelievo?customer_id=800007&importo=100
 Richieste/30s:   4
-Customer:        800018
+Customer:        test
 
 ═══════════════════════════════════════════
-ALERT PATTERN API - 2026-02-22 18:06:27
+ALERT PATTERN API - 2026-02-22 22:14:08
 ═══════════════════════════════════════════
 IP:              127.0.0.1
 User-Agent:      curl/8.5.0
 Metodo:          GET
-URI:             /deposito?customer_id=bot_pattern&importo=50
+URI:             /deposito?customer_id=800007&importo=50
 Richieste/30s:   5
-Customer:        800018
+Customer:        test
 
 ═══════════════════════════════════════════
-ALERT PATTERN API - 2026-02-22 18:06:28
+ALERT PATTERN API - 2026-02-22 22:14:09
 ═══════════════════════════════════════════
 IP:              127.0.0.1
 User-Agent:      curl/8.5.0
 Metodo:          GET
-URI:             /prelievo?customer_id=bot_pattern&importo=100
+URI:             /prelievo?customer_id=800007&importo=100
 Richieste/30s:   6
-Customer:        800018
+Customer:        test
 
 ═══════════════════════════════════════════
-ALERT PATTERN API - 2026-02-22 18:06:29
+ALERT PATTERN API - 2026-02-22 22:14:11
 ═══════════════════════════════════════════
 IP:              127.0.0.1
 User-Agent:      curl/8.5.0
 Metodo:          GET
-URI:             /prelievo?customer_id=bot_pattern&importo=100
+URI:             /prelievo?customer_id=800007&importo=100
 Richieste/30s:   7
-Customer:        800018
+Customer:        test
 
 ═══════════════════════════════════════════
-ALERT PATTERN API - 2026-02-22 18:06:30
+ALERT PATTERN API - 2026-02-22 22:14:11
 ═══════════════════════════════════════════
 IP:              127.0.0.1
 User-Agent:      curl/8.5.0
 Metodo:          GET
-URI:             /deposito?customer_id=bot_pattern&importo=50
+URI:             /deposito?customer_id=800007&importo=50
 Richieste/30s:   8
-Customer:        800018
+Customer:        test
 
 ═══════════════════════════════════════════
-ALERT PATTERN API - 2026-02-22 18:06:30
+ALERT PATTERN API - 2026-02-22 22:14:11
 ═══════════════════════════════════════════
 IP:              127.0.0.1
 User-Agent:      curl/8.5.0
 Metodo:          GET
-URI:             /prelievo?customer_id=bot_pattern&importo=100
+URI:             /prelievo?customer_id=800007&importo=100
 Richieste/30s:   9
-Customer:        800018
+Customer:        test
 
 ═══════════════════════════════════════════
-ALERT PATTERN API - 2026-02-22 18:06:32
+ALERT PATTERN API - 2026-02-22 22:14:13
 ═══════════════════════════════════════════
 IP:              127.0.0.1
 User-Agent:      curl/8.5.0
 Metodo:          GET
-URI:             /prelievo?customer_id=bot_pattern&importo=100
+URI:             /prelievo?customer_id=800007&importo=100
 Richieste/30s:   10
-Customer:        800018
+Customer:        test
 
 ═══════════════════════════════════════════
-ALERT PATTERN API - 2026-02-22 18:06:32
+ALERT PATTERN API - 2026-02-22 22:14:13
 ═══════════════════════════════════════════
 IP:              127.0.0.1
 User-Agent:      curl/8.5.0
 Metodo:          GET
-URI:             /deposito?customer_id=bot_pattern&importo=50
+URI:             /deposito?customer_id=800007&importo=50
 Richieste/30s:   11
-Customer:        800018
+Customer:        test
 
 ═══════════════════════════════════════════
-ALERT PATTERN API - 2026-02-22 18:06:33
+ALERT PATTERN API - 2026-02-22 22:14:14
 ═══════════════════════════════════════════
 IP:              127.0.0.1
 User-Agent:      curl/8.5.0
 Metodo:          GET
-URI:             /prelievo?customer_id=bot_pattern&importo=100
+URI:             /prelievo?customer_id=800007&importo=100
 Richieste/30s:   12
-Customer:        800018
+Customer:        test
 
 ═══════════════════════════════════════════
-ALERT PATTERN API - 2026-02-22 18:06:34
+ALERT PATTERN API - 2026-02-22 22:14:15
 ═══════════════════════════════════════════
 IP:              127.0.0.1
 User-Agent:      curl/8.5.0
 Metodo:          GET
-URI:             /prelievo?customer_id=bot_pattern&importo=100
+URI:             /prelievo?customer_id=800007&importo=100
 Richieste/30s:   13
-Customer:        800018
+Customer:        test
 
 ═══════════════════════════════════════════
-ALERT PATTERN API - 2026-02-22 18:06:35
+ALERT PATTERN API - 2026-02-22 22:14:16
 ═══════════════════════════════════════════
 IP:              127.0.0.1
 User-Agent:      curl/8.5.0
 Metodo:          GET
-URI:             /deposito?customer_id=bot_pattern&importo=50
+URI:             /deposito?customer_id=800007&importo=50
 Richieste/30s:   14
-Customer:        800018
+Customer:        test
 
 ═══════════════════════════════════════════
-ALERT PATTERN API - 2026-02-22 18:06:35
+ALERT PATTERN API - 2026-02-22 22:14:16
 ═══════════════════════════════════════════
 IP:              127.0.0.1
 User-Agent:      curl/8.5.0
 Metodo:          GET
-URI:             /prelievo?customer_id=bot_pattern&importo=100
+URI:             /prelievo?customer_id=800007&importo=100
 Richieste/30s:   15
-Customer:        800018
+Customer:        test
 
 ================================================================================
 ═══════════════════════════════════════════
-ALERT PATTERN API - 2026-02-22 19:02:52
+ALERT PATTERN API - 2026-02-22 22:25:10
 ═══════════════════════════════════════════
 IP:              127.0.0.1
 User-Agent:      curl/8.5.0
 Metodo:          GET
-URI:             /prelievo?customer_id=bot_pattern&importo=100
+URI:             /prelievo?customer_id=800069&importo=100
 Richieste/30s:   1
 Customer:        test
 
 ═══════════════════════════════════════════
-ALERT PATTERN API - 2026-02-22 19:02:52
+ALERT PATTERN API - 2026-02-22 22:25:11
 ═══════════════════════════════════════════
 IP:              127.0.0.1
 User-Agent:      curl/8.5.0
 Metodo:          GET
-URI:             /deposito?customer_id=bot_pattern&importo=50
+URI:             /deposito?customer_id=800069&importo=50
 Richieste/30s:   2
 Customer:        test
 
 ═══════════════════════════════════════════
-ALERT PATTERN API - 2026-02-22 19:02:53
+ALERT PATTERN API - 2026-02-22 22:25:11
 ═══════════════════════════════════════════
 IP:              127.0.0.1
 User-Agent:      curl/8.5.0
 Metodo:          GET
-URI:             /prelievo?customer_id=bot_pattern&importo=100
+URI:             /prelievo?customer_id=800069&importo=100
 Richieste/30s:   3
 Customer:        test
+
+═══════════════════════════════════════════
+ALERT PATTERN API - 2026-02-22 22:25:13
+═══════════════════════════════════════════
+IP:              127.0.0.1
+User-Agent:      curl/8.5.0
+Metodo:          GET
+URI:             /prelievo?customer_id=800069&importo=100
+Richieste/30s:   4
+Customer:        test
+
+═══════════════════════════════════════════
+ALERT PATTERN API - 2026-02-22 22:25:13
+═══════════════════════════════════════════
+IP:              127.0.0.1
+User-Agent:      curl/8.5.0
+Metodo:          GET
+URI:             /deposito?customer_id=800069&importo=50
+Richieste/30s:   5
+Customer:        test
+
+═══════════════════════════════════════════
+ALERT PATTERN API - 2026-02-22 22:25:14
+═══════════════════════════════════════════
+IP:              127.0.0.1
+User-Agent:      curl/8.5.0
+Metodo:          GET
+URI:             /prelievo?customer_id=800069&importo=100
+Richieste/30s:   6
+Customer:        test
+
+═══════════════════════════════════════════
+ALERT PATTERN API - 2026-02-22 22:25:15
+═══════════════════════════════════════════
+IP:              127.0.0.1
+User-Agent:      curl/8.5.0
+Metodo:          GET
+URI:             /prelievo?customer_id=800069&importo=100
+Richieste/30s:   7
+Customer:        test
+
+═══════════════════════════════════════════
+ALERT PATTERN API - 2026-02-22 22:25:16
+═══════════════════════════════════════════
+IP:              127.0.0.1
+User-Agent:      curl/8.5.0
+Metodo:          GET
+URI:             /deposito?customer_id=800069&importo=50
+Richieste/30s:   8
+Customer:        test
+
+═══════════════════════════════════════════
+ALERT PATTERN API - 2026-02-22 22:25:16
+═══════════════════════════════════════════
+IP:              127.0.0.1
+User-Agent:      curl/8.5.0
+Metodo:          GET
+URI:             /prelievo?customer_id=800069&importo=100
+Richieste/30s:   9
+Customer:        test
+
+═══════════════════════════════════════════
+ALERT PATTERN API - 2026-02-22 22:25:18
+═══════════════════════════════════════════
+IP:              127.0.0.1
+User-Agent:      curl/8.5.0
+Metodo:          GET
+URI:             /prelievo?customer_id=800069&importo=100
+Richieste/30s:   10
+Customer:        test
+
+═══════════════════════════════════════════
+ALERT PATTERN API - 2026-02-22 22:25:18
+═══════════════════════════════════════════
+IP:              127.0.0.1
+User-Agent:      curl/8.5.0
+Metodo:          GET
+URI:             /deposito?customer_id=800069&importo=50
+Richieste/30s:   11
+Customer:        test
+
+═══════════════════════════════════════════
+ALERT PATTERN API - 2026-02-22 22:25:19
+═══════════════════════════════════════════
+IP:              127.0.0.1
+User-Agent:      curl/8.5.0
+Metodo:          GET
+URI:             /prelievo?customer_id=800069&importo=100
+Richieste/30s:   12
+Customer:        test
+
+═══════════════════════════════════════════
+ALERT PATTERN API - 2026-02-22 22:25:20
+═══════════════════════════════════════════
+IP:              127.0.0.1
+User-Agent:      curl/8.5.0
+Metodo:          GET
+URI:             /prelievo?customer_id=800069&importo=100
+Richieste/30s:   13
+Customer:        test
+
+═══════════════════════════════════════════
+ALERT PATTERN API - 2026-02-22 22:25:21
+═══════════════════════════════════════════
+IP:              127.0.0.1
+User-Agent:      curl/8.5.0
+Metodo:          GET
+URI:             /deposito?customer_id=800069&importo=50
+Richieste/30s:   14
+Customer:        test
+
+═══════════════════════════════════════════
+ALERT PATTERN API - 2026-02-22 22:25:21
+═══════════════════════════════════════════
+IP:              127.0.0.1
+User-Agent:      curl/8.5.0
+Metodo:          GET
+URI:             /prelievo?customer_id=800069&importo=100
+Richieste/30s:   15
+Customer:        test
+
+================================================================================
+═══════════════════════════════════════════
+ALERT PATTERN API - 2026-02-22 22:30:10
+═══════════════════════════════════════════
+IP:              192.168.60.55
+Customer:        800008
+Richieste/15s: 15
+Azione:          PRELIEVO
+
+================================================================================
+═══════════════════════════════════════════
+ALERT PATTERN API - 2026-02-22 22:30:33
+═══════════════════════════════════════════
+IP:              192.168.60.75
+Customer:        800087
+Richieste/15s: 15
+Azione:          PRELIEVO
+
+================================================================================
+═══════════════════════════════════════════
+ALERT PATTERN API - 2026-02-22 22:34:38
+═══════════════════════════════════════════
+IP:              192.168.60.162
+Customer:        800050
+Richieste/15s: 15
+Azione:          PRELIEVO
+
+================================================================================
+═══════════════════════════════════════════
+ALERT PATTERN API - 2026-02-22 23:18:53
+═══════════════════════════════════════════
+IP:              192.168.60.197
+Customer:        800087
+Richieste/15s: 15
+Azione:          PRELIEVO
+
+================================================================================
+═══════════════════════════════════════════
+ALERT PATTERN API - 2026-02-23 00:05:40
+═══════════════════════════════════════════
+IP:              192.168.60.18
+Customer:        800035
+Richieste/15s: 15
+Azione:          PRELIEVO
+
+================================================================================
+═══════════════════════════════════════════
+ALERT PATTERN API - 2026-02-23 00:14:54
+═══════════════════════════════════════════
+IP:              192.168.60.104
+Customer:        800005
+Richieste/15s: 15
+Azione:          PRELIEVO
+
+================================================================================
+═══════════════════════════════════════════
+ALERT PATTERN API - 2026-02-23 00:18:07
+═══════════════════════════════════════════
+IP:              192.168.60.110
+Customer:        800006
+Richieste/15s: 15
+Azione:          PRELIEVO
 

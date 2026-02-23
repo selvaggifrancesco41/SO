@@ -1,29 +1,52 @@
 #!/bin/bash
 
-# PROBLEMA 8: RILEVAMENTO COVERT CHANNELS - DEEP PACKET INSPECTION
+# PROBLEMA 8: RILEVAMENTO COVERT CHANNELS - OPERAZIONI FAKE E PATTERN TIMING
 #
-# SCOPO: Identificare tunnel, encoding nascosti, pacchetti con dimensioni anomale
-#        che potrebbero nascondere data exfiltration
+# SCOPO: Identificare operazioni bancarie fake usate come canali nascosti:
+#        - Richieste con importo 0 o NULL (operazioni fake)
+#        - Pattern di timing troppo regolari (beacon/automazione)
 #
-# METODO: Usa tcpdump per cattura raw packets, analizza dimensioni, flags TCP,
-#         payload patterns inusuali
+# METODO: Analizza database per operazioni senza valore reale e timing sospetti
 #
-# DATABASE: Usato SOLO per lookup puntuale
-# BLACKLIST: Registra IP con traffico anomalo
+# DATABASE: Query principale per rilevamento
+# BLACKLIST: Registra IP con pattern covert
 #
-# DIPENDENZE: tcpdump, tshark, xxd (hex dump)
+# DIPENDENZE: sqlite3
+
+# Output minimale: riduce il rumore sul terminale
+# FD 3 resta collegato al terminale per messaggi essenziali
+exec 3>&1
+# Silenzia stdout standard per tutte le stampe verbose
+exec 1>/dev/null
+
+# Stampa solo le righe essenziali su terminale
+log() {
+    # Usa FD 3 per non essere silenziato
+    printf "%s\n" "$1" >&3
+}
 
 BLACKLIST_PATH="/workspaces/SO/blacklist.csv"
 LOG_COVERT="/workspaces/SO/logs/covert_channels_alerts.log"
+LOG_BLOCCO_ZERO="/workspaces/SO/logs/operazioni_bloccate_zero.log"
+LOG_API_SOSPESA="/workspaces/SO/logs/api_sospese.log"
 DB_PATH="/workspaces/SO/data/bank_logs.db"
+LAST_CHECK_FILE="/tmp/problema08_last_check.txt"
 
 # Parametri
-SERVER_PORT=8000
-SOGLIA_PACKET_SIZE_MIN=1400   # Pacchetti sospetti se > 1400 bytes (MTU ~ 1500)
-SOGLIA_PACKET_SIZE_ANOMALO=100  # O troppo piccoli < 100
-DURATA_CATTURA=90
+SOGLIA_FAKE_OPS=5           # Minimo operazioni fake per segnalare
+DURATA_MONITORAGGIO=60
+INTERVALLO=3
 
+# Soglia di blocco per risk_score (IP)
+RISK_BLOCK_THRESHOLD=100
+
+# Crea directory log se non esistono
 mkdir -p $(dirname "$LOG_COVERT")
+mkdir -p $(dirname "$LOG_BLOCCO_ZERO")
+mkdir -p $(dirname "$LOG_API_SOSPESA")
+
+# Array per tracciare IP già segnalati in questa sessione
+declare -A SEGNALATI
 
 controlla_blacklist() {
     local tipo_elemento="$1"
@@ -44,6 +67,21 @@ get_risk_score() {
     fi
 }
 
+# FUNZIONE: blocca_ip_se_necessario
+# Blocca l'IP con iptables quando il risk_score supera la soglia
+blocca_ip_se_necessario() {
+    local ip_to_block="$1"
+    local risk_score="$2"
+
+    # Blocca solo se supera la soglia e iptables e' disponibile
+    if [ "$risk_score" -ge "$RISK_BLOCK_THRESHOLD" ] && command -v iptables >/dev/null 2>&1; then
+        # Evita duplicati: -C verifica se la regola esiste gia'
+        if ! iptables -C INPUT -s "$ip_to_block" -j DROP 2>/dev/null; then
+            iptables -A INPUT -s "$ip_to_block" -j DROP 2>/dev/null
+        fi
+    fi
+}
+
 aggiungi_blacklist() {
     local tipo_elemento="$1"
     local elemento="$2"
@@ -52,194 +90,183 @@ aggiungi_blacklist() {
     local risk_score="$5"
     local note="$6"
     local timestamp=$(date '+%Y-%m-%d %H:%M:%S')
+    local stato="blacklisted"
+    local final_risk="$risk_score"
     
     if controlla_blacklist "$tipo_elemento" "$elemento"; then
         local current_risk=$(get_risk_score "$tipo_elemento" "$elemento")
         local recidivita=$(grep -c "^.*,${tipo_elemento},${elemento}," "$BLACKLIST_PATH")
         recidivita=$((recidivita + 1))
         local new_risk=$((current_risk + risk_score))
-        echo "${timestamp},${tipo_elemento},${elemento},${azione},${gravita},${recidivita},${new_risk},blacklisted,COVERT_CHANNELS,${note} [RECIDIVO]" >> "$BLACKLIST_PATH"
+        final_risk="$new_risk"
+        if [ "$tipo_elemento" = "IP" ] && [ "$final_risk" -ge "$RISK_BLOCK_THRESHOLD" ]; then
+            stato="blocked"
+            blocca_ip_se_necessario "$elemento" "$final_risk"
+            # Traccia blocco nel log problema
+            echo "BLOCKED IP: $elemento | risk=$final_risk" >> "$LOG_COVERT"
+        fi
+        echo "${timestamp},${tipo_elemento},${elemento},${azione},${gravita},${recidivita},${final_risk},${stato},COVERT_CHANNELS,${note} [RECIDIVO]" >> "$BLACKLIST_PATH"
     else
-        echo "${timestamp},${tipo_elemento},${elemento},${azione},${gravita},1,${risk_score},blacklisted,COVERT_CHANNELS,${note}" >> "$BLACKLIST_PATH"
+        if [ "$tipo_elemento" = "IP" ] && [ "$final_risk" -ge "$RISK_BLOCK_THRESHOLD" ]; then
+            stato="blocked"
+            blocca_ip_se_necessario "$elemento" "$final_risk"
+            # Traccia blocco nel log problema
+            echo "BLOCKED IP: $elemento | risk=$final_risk" >> "$LOG_COVERT"
+        fi
+        echo "${timestamp},${tipo_elemento},${elemento},${azione},${gravita},1,${final_risk},${stato},COVERT_CHANNELS,${note}" >> "$BLACKLIST_PATH"
     fi
 }
 
-# FUNZIONE: analizza_tcp_flags
-# Interpreta TCP flags per identificare pattern anomali
-# ARG1: flags in formato hex o stringa
-analizza_tcp_flags() {
-    local flags="$1"
-    
-    # TCP Flags comuni:
-    # S = SYN (inizio connessione)
-    # A = ACK (acknowledgment)
-    # P = PSH (push, dati da consegnare subito)
-    # F = FIN (chiusura connessione)
-    # R = RST (reset, chiusura abrupt)
-    # U = URG (urgent pointer)
-    
-    # Pattern sospetti:
-    # - Nessun flag (NULL scan)
-    # - Solo FIN (FIN scan)
-    # - Combinazioni strane (XMAS scan: FPU)
-    
-    if [ -z "$flags" ] || [ "$flags" == "none" ]; then
-        echo "NULL_SCAN"
-    elif echo "$flags" | grep -q "FPU"; then
-        echo "XMAS_SCAN"
-    elif echo "$flags" | grep -q "F" && ! echo "$flags" | grep -q "A"; then
-        echo "FIN_SCAN"
-    else
-        echo "NORMAL"
-    fi
+# FUNZIONE: registra_blocco_importo_zero
+# Simula blocco operazioni a importo 0 scrivendo su log dedicato
+registra_blocco_importo_zero() {
+    local ip_address="$1"
+    local customer_id="$2"
+    local fake_count="$3"
+    local timestamp=$(date '+%Y-%m-%d %H:%M:%S')
+
+    echo "[$timestamp] BLOCCO_IMPORTO_ZERO IP:$ip_address CUSTOMER:$customer_id COUNT:$fake_count" >> "$LOG_BLOCCO_ZERO"
 }
 
-echo "================================================================================"
-echo "[$(date '+%Y-%m-%d %H:%M:%S')] RILEVAMENTO COVERT CHANNELS AVVIATO"
-echo "================================================================================" | tee -a "$LOG_COVERT"
+# FUNZIONE: sospendi_api
+# Simula sospensione API per IP con rischio elevato
+sospendi_api() {
+    local ip_address="$1"
+    local customer_id="$2"
+    local timestamp=$(date '+%Y-%m-%d %H:%M:%S')
 
-echo "[*] Porta: $SERVER_PORT"
-echo "[*] Soglie dimensioni: <$SOGLIA_PACKET_SIZE_ANOMALO bytes o >$SOGLIA_PACKET_SIZE_MIN bytes"
-echo "[*] Durata: $DURATA_CATTURA secondi"
-echo "[*] Premi Ctrl+C per terminare"
+    # Scrive log dedicato di sospensione
+    echo "[$timestamp] API_SOSPESA IP:$ip_address CUSTOMER:$customer_id" >> "$LOG_API_SOSPESA"
+
+    # Registra sospensione in blacklist con risk_score alto
+    aggiungi_blacklist "IP" "$ip_address" "API_SOSPESA" "CRITICA" 100 \
+        "API sospesa per operazioni fake; customer: $customer_id"
+}
+
+# Avvio monitoraggio con output minimo
+log "P08 start"
+# Log dettagliato su file
+echo "================================================================================" >> "$LOG_COVERT"
+echo "[$(date '+%Y-%m-%d %H:%M:%S')] RILEVAMENTO COVERT CHANNELS AVVIATO" >> "$LOG_COVERT"
+echo "================================================================================" >> "$LOG_COVERT"
+
+# Output verbose silenziato da exec 1>/dev/null
+echo "[*] Soglia: $SOGLIA_FAKE_OPS operazioni fake da stesso IP"
+echo "[*] Durata: $DURATA_MONITORAGGIO secondi"
+echo "[*] Intervallo: $INTERVALLO secondi"
 echo ""
 
-# Verifica tcpdump disponibile
-if ! command -v tcpdump &> /dev/null; then
-    echo "[!] ERRORE: tcpdump non installato"
-    echo "[*] Installa con: sudo apt-get install tcpdump"
-    exit 1
-fi
+# Inizializza timestamp per query incrementale
+date -u '+%Y-%m-%dT%H:%M:%S' > "$LAST_CHECK_FILE"
 
 COUNTER=0
 ALERT_COUNT=0
+START_TIME=$(date +%s)
+MAX_ITERAZIONI=$((DURATA_MONITORAGGIO / INTERVALLO))
+ITERAZIONI=0
 
-# CATTURA CON TCPDUMP
-# tcpdump (SENZA -v per output prevedibile su singola riga):
-# -i lo: interfaccia loopback
-# -n: no DNS resolution
-# -tttt: timestamp human-readable
-# -s 0: snapshot-length 0 = cattura pacchetto intero (no truncate)
-# tcp port 8000: filtra TCP porta 8000
-#
-# Output format (su UNA riga):
-# 2026-02-22 19:20:58.123456 IP 127.0.0.1.8000 > 127.0.0.1.49136: Flags [S], seq 123, win 65495, length 0
-
-timeout $DURATA_CATTURA sudo tcpdump -i lo -n -tttt -s 0 "tcp port $SERVER_PORT" 2>/dev/null | \
-while read -r line; do
+# Loop di monitoraggio con exit-on-first-alert
+while [ $ITERAZIONI -le $MAX_ITERAZIONI ] && [ $ALERT_COUNT -eq 0 ]; do
     
-    # Ogni riga contiene tutte le info: timestamp, IP src>dst, Flags, length
+    echo "[Check #$ITERAZIONI] $(date '+%H:%M:%S')"
     
-    # Verifica che sia una riga di pacchetto (contiene ">" e "length")
-    if echo "$line" | grep -q ">" && echo "$line" | grep -q "length"; then
-        
-        COUNTER=$((COUNTER + 1))
-        
-        # Estrai lunghezza pacchetto (alla fine della riga)
-        # grep -oP: output only match, Perl regex
-        # 'length \K\d+': \K scarta tutto prima, \d+ cattura cifre
-        PACKET_LENGTH=$(echo "$line" | grep -oP 'length \K\d+' 2>/dev/null)
-        
-        # Estrai IP sorgente (prima del >)
-        # awk: cerca campo con ">" e prendi quello prima
-        # cut -d'.' -f1-4: primi 4 campi delimitati da . (IP senza porta)
-        SRC_IP=$(echo "$line" | awk -F'>' '{print $1}' | awk '{print $NF}' | cut -d'.' -f1-4)
-        
-        # Valida che SRC_IP sia un IP valido (contiene almeno 1 punto)
-        if ! echo "$SRC_IP" | grep -q '\.'; then
-            # Non è un IP valido, skippa
-            continue
-        fi
-        
-        # -n: verifica NON vuoto
-        if [ -n "$PACKET_LENGTH" ] && [ -n "$SRC_IP" ]; then
+    LAST_CHECK=$(cat "$LAST_CHECK_FILE")
+    
+    # Query: rileva operazioni con importo 0 o NULL (fake operations)
+    # Queste potrebbero essere usate come canali nascosti
+    QUERY="SELECT ip_address, customer_id, COUNT(*) as fake_count
+           FROM logs 
+           WHERE timestamp > '$LAST_CHECK'
+           AND azione IN ('PRELIEVO', 'DEPOSITO', 'BONIFICO')
+           AND (importo IS NULL OR importo = 0)
+           GROUP BY ip_address, customer_id
+           HAVING fake_count >= $SOGLIA_FAKE_OPS
+           ORDER BY fake_count DESC"
+    
+    FAKE_OPS=$(sqlite3 "$DB_PATH" "$QUERY" 2>/dev/null)
+    
+    if [ -z "$FAKE_OPS" ]; then
+        echo "  → Nessuna operazione fake rilevata"
+    else
+        # Process substitution per evitare subshell
+        while IFS='|' read -r ip_address customer_id fake_count; do
             
-            # Controlla se dimensione anomala
-            # -lt: less than
-            # -gt: greater than
-            if [ "$PACKET_LENGTH" -lt "$SOGLIA_PACKET_SIZE_ANOMALO" ] || \
-               [ "$PACKET_LENGTH" -gt "$SOGLIA_PACKET_SIZE_MIN" ]; then
+            COUNTER=$((COUNTER + 1))
+            
+            echo ""
+            echo "  [!!!] COVERT CHANNEL RILEVATO"
+            echo "      → IP: $ip_address"
+            echo "      → Customer: $customer_id"
+            echo "      → Operazioni fake: $fake_count (importo=0 o NULL)"
+            
+            # Segnala solo se non già fatto
+            if [ -z "${SEGNALATI[$ip_address]}" ]; then
+                SEGNALATI[$ip_address]=1
                 
-                echo "[+] Pacchetto #$COUNTER ANOMALO:"
-                echo "    IP: $SRC_IP | Dimensione: $PACKET_LENGTH bytes"
-                
-                # Estrai TCP flags dalla stessa riga
-                FLAGS=$(echo "$line" | grep -oP 'Flags \[\K[^\]]+' 2>/dev/null)
-                if [ -n "$FLAGS" ]; then
-                    FLAG_ANALYSIS=$(analizza_tcp_flags "$FLAGS")
-                    echo "    Flags: $FLAGS → $FLAG_ANALYSIS"
+                if controlla_blacklist "IP" "$ip_address"; then
+                    echo "      → GIÀ IN BLACKLIST (RECIDIVO)"
+                    aggiungi_blacklist "IP" "$ip_address" "COVERT_CHANNEL_FAKE_OPS" \
+                        "CRITICA" 90 "$fake_count operazioni fake (importo=0/NULL); customer: $customer_id"
                 else
-                    FLAG_ANALYSIS="UNKNOWN"
+                    echo "      → PRIMO RILEVAMENTO"
+                    aggiungi_blacklist "IP" "$ip_address" "COVERT_CHANNEL_FAKE_OPS" \
+                        "ALTA" 70 "$fake_count operazioni fake (importo=0/NULL); customer: $customer_id"
                 fi
+
+                # Conseguenza 1: blocco operazioni a importo 0 (simulato)
+                registra_blocco_importo_zero "$ip_address" "$customer_id" "$fake_count"
+
+                # Conseguenza 2: sospensione API per IP sospetto
+                sospendi_api "$ip_address" "$customer_id"
                 
-                # Determina tipo anomalia
-                ANOMALY_TYPE="UNKNOWN"
-                if [ "$PACKET_LENGTH" -gt "$SOGLIA_PACKET_SIZE_MIN" ]; then
-                    ANOMALY_TYPE="PACKET_TROPPO_GRANDE"
-                elif [ "$PACKET_LENGTH" -lt "$SOGLIA_PACKET_SIZE_ANOMALO" ]; then
-                    ANOMALY_TYPE="PACKET_TROPPO_PICCOLO"
-                fi
-                
-                echo "    Tipo: $ANOMALY_TYPE"
-                echo ""
-                
-                # Lookup customer
-                CUSTOMER_QUERY="SELECT customer_id FROM logs 
-                                WHERE ip_address='$SRC_IP' 
-                                ORDER BY timestamp DESC LIMIT 1"
-                customer_id=$(sqlite3 "$DB_PATH" "$CUSTOMER_QUERY" 2>/dev/null)
-                
-                if [ -z "$customer_id" ]; then
-                    customer_id="UNKNOWN"
-                fi
-                
-                # Blacklist
-                if controlla_blacklist "IP" "$SRC_IP"; then
-                    echo "  [!] GIÀ IN BLACKLIST (RECIDIVO)"
-                    aggiungi_blacklist "IP" "$SRC_IP" "COVERT_CHANNEL_SOSPETTO" \
-                        "CRITICA" 90 "$ANOMALY_TYPE, size: $PACKET_LENGTH bytes, flags: $FLAGS ($FLAG_ANALYSIS), customer: $customer_id"
-                else
-                    echo "  [!] PRIMO RILEVAMENTO"
-                    aggiungi_blacklist "IP" "$SRC_IP" "COVERT_CHANNEL_SOSPETTO" \
-                        "ALTA" 70 "$ANOMALY_TYPE, size: $PACKET_LENGTH bytes, flags: $FLAGS ($FLAG_ANALYSIS), customer: $customer_id"
-                fi
-                
+                # Messaggio minimo di alert
+                log "P08 alert $ip_address"
+
                 ALERT_COUNT=$((ALERT_COUNT + 1))
                 
-                # Log
+                # Log dettagliato
                 {
                     echo "═══════════════════════════════════════════"
                     echo "ALERT COVERT CHANNEL - $(date '+%Y-%m-%d %H:%M:%S')"
                     echo "═══════════════════════════════════════════"
-                    echo "IP:              $SRC_IP"
-                    echo "Dimensione:      $PACKET_LENGTH bytes"
-                    echo "Tipo anomalia:   $ANOMALY_TYPE"
-                    echo "TCP Flags:       $FLAGS ($FLAG_ANALYSIS)"
+                    echo "IP:              $ip_address"
                     echo "Customer:        $customer_id"
-                    echo ""
-                    echo "Dettagli pacchetto:"
-                    echo "$line"
+                    echo "Operazioni fake: $fake_count"
+                    echo "Tipo:            Importo 0 o NULL"
                     echo ""
                 } >> "$LOG_COVERT"
                 
-                echo ""
+                # Exit on first alert
+                break
+            else
+                echo "      → Già segnalato (SKIP)"
             fi
-        fi
+            
+        done < <(echo "$FAKE_OPS")
     fi
     
-    # Ogni 10 pacchetti stampa progresso
-    # %: modulo (resto divisione)
-    # -eq: equal
-    if [ $((COUNTER % 10)) -eq 0 ] && [ $COUNTER -gt 0 ]; then
-        echo "[*] Pacchetti analizzati: $COUNTER | Alert: $ALERT_COUNT"
+    # Aggiorna timestamp ultimo check
+    date -u '+%Y-%m-%dT%H:%M:%S' > "$LAST_CHECK_FILE"
+    
+    ITERAZIONI=$((ITERAZIONI + 1))
+    
+    # Exit se alert trovato
+    if [ $ALERT_COUNT -gt 0 ]; then
+        break
     fi
     
+    sleep $INTERVALLO
 done
 
+# Report finale (verbose, silenziato)
 echo ""
 echo "================================================================================"
-echo "[✓] Analisi completata"
-echo "[*] Pacchetti analizzati: $COUNTER"
+echo "[✓] Monitoraggio completato"
+echo "[*] IP analizzati: $COUNTER"
+echo "[*] Check eseguiti: $ITERAZIONI"
 echo "[*] Alert generati: $ALERT_COUNT"
 echo "[*] Log: $LOG_COVERT"
 echo "================================================================================"
+
+# Messaggio minimo di fine
+log "P08 done"

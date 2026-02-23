@@ -9,43 +9,38 @@
 # METODO: Usa /dev/tcp di bash per creare connessioni verso porte non autorizzate
 # PREREQUISITO: server Flask in esecuzione
 
-echo "================================================================================"
-echo "[TEST 04] Generazione anomalia - ATM su porte non autorizzate"
-echo "================================================================================"
+# Output minimale: poche righe, facile da leggere
+log() {
+    # Stampa una riga sintetica
+    printf "%s\n" "$1"
+}
 
+# Output minimale di avvio
+log "T04 start"
+
+# Parametri server e sorgente dati
 SERVER="localhost"
 SERVER_PORT=8000
-ATM_IPS=("192.168.30.1" "192.168.30.2" "192.168.30.3")
-# Simuliamo ATM che si connettono al server (porta 8000) usando porte sorgente non autorizzate
-# Le porte sorgente fuori policy verranno rilevate dal monitoring
-NUM_CONNECTIONS=3
+CSV_CLIENTI="/workspaces/SO/clienti_banca.csv"
 
-echo "[*] ATM da testare: ${ATM_IPS[@]}"
-echo "[*] Le connessioni useranno porte sorgente fuori dalla policy autorizzata"
-echo ""
+# Seleziona 1 ACCOUNT CASUALE dal CSV per ATM
+CUSTOMER_ID=$(tail -n +2 "$CSV_CLIENTI" | shuf -n 1 | cut -d',' -f1)
 
-echo "[TEST] Generazione $NUM_CONNECTIONS connessioni da ATM con porte non conformi..."
-echo ""
+# Genera IP ATM casuale nel range monitorato (192.168.30.1-254)
+ATM_IP="192.168.30.$((RANDOM % 254 + 1))"
 
-# Generiamo richieste HTTP da IP ATM simulati
-# Il server le registrerà e il monitoring rileverà porte sorgente anomale
-for i in $(seq 0 $((NUM_CONNECTIONS - 1))); do
-    ATM_IP="${ATM_IPS[$i]}"
-    
-    echo "[+] Connessione ATM #$((i+1)) da IP $ATM_IP"
-    
-    # Simula un login da ATM (il monitoring controllerà la porta sorgente)
-    curl -s -G "http://$SERVER:$SERVER_PORT/login" \
-        --data-urlencode "customer_id=ATM_$((i+1))" \
-        --data-urlencode "session_duration=10" \
-        -H "X-Forwarded-For: $ATM_IP" > /dev/null &
-    
-    sleep 0.5
-done
+# Generiamo richiesta HTTP da IP ATM simulato
+# Il server la registrerà e il monitoring rileverà la porta sorgente anomala
 
-wait
+# Simula un login da ATM (il monitoring controllerà la porta sorgente)
+curl -s -G "http://$SERVER:$SERVER_PORT/login" \
+    --data-urlencode "customer_id=$CUSTOMER_ID" \
+    --data-urlencode "session_duration=10" \
+    -H "X-Forwarded-For: $ATM_IP" > /dev/null
 
-echo ""
-echo "[✓] Connessioni ATM generate"
-echo "[*] Il monitoring controllerà le porte sorgente delle connessioni attive"
-echo ""
+# Attende la registrazione della richiesta
+sleep 1
+
+# Output minimale di fine
+log "T04 done"
+

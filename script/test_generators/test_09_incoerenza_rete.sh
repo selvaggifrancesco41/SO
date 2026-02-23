@@ -8,45 +8,54 @@
 #
 # METODO: Operazioni da IP che non dovrebbero farle
 
+# Output minimale: poche righe, facile da leggere
+log() {
+    # Stampa una riga sintetica
+    printf "%s\n" "$1"
+}
+
+# Endpoint server e sorgente dati
 SERVER="http://localhost:8000"
+CSV_CLIENTI="/workspaces/SO/clienti_banca.csv"
 
-echo "================================================================================"
-echo "[TEST 09] Generazione anomalia - operazione da contesto di rete incoerente"
-echo "================================================================================"
-echo "[*] Simula BONIFICO da IP di ATM (dovrebbe essere da client normale)"
-echo "[*] Simula PRELIEVO da IP di API (dovrebbe essere da ATM)"
-echo ""
+# Seleziona 3 ACCOUNT CASUALI dal CSV (variano ogni esecuzione)
+ACCOUNT1=$(tail -n +2 "$CSV_CLIENTI" | shuf -n 1 | cut -d',' -f1)
+ACCOUNT2=$(tail -n +2 "$CSV_CLIENTI" | shuf -n 1 | cut -d',' -f1)
+ACCOUNT3=$(tail -n +2 "$CSV_CLIENTI" | shuf -n 1 | cut -d',' -f1)
 
-echo "[TEST] Operazioni da contesti incoerenti..."
+# IP casuali per ogni subnet
+IP_ATM="192.168.30.$((RANDOM % 254 + 1))"        # Range ATM (anomalo per BONIFICO)
+IP_API="192.168.40.$((RANDOM % 254 + 1))"        # Range API (anomalo per PRELIEVO)
+IP_PUBBLICO="203.0.113.$((RANDOM % 254 + 1))"    # IP pubblico (anomalo per LOGIN)
+
+# Output minimale di avvio
+log "T09 start"
 
 # Operazione 1: Bonifico da IP ATM (anomalo)
-echo "[+] Bonifico da 192.168.30.1 (range ATM - INCOERENTE!)"
+# Operazione 1: Bonifico da IP ATM (anomalo)
 curl -s -G "$SERVER/bonifico" \
-    --data-urlencode "customer_id=atm_001" \
+    --data-urlencode "customer_id=$ACCOUNT1" \
     --data-urlencode "importo=50000" \
-    --data-urlencode "iban=IT5678..." \
-    -H "X-Forwarded-For: 192.168.30.1" 2>/dev/null &
+    --data-urlencode "iban=IT60X0542811101000000123456" \
+    -H "X-Forwarded-For: $IP_ATM" > /dev/null 2>&1
 
 sleep 1
 
 # Operazione 2: Prelievo da IP API (anomalo)
-echo "[+] Prelievo da 192.168.40.50 (range API - INCOERENTE!)"
+# Operazione 2: Prelievo da IP API (anomalo)
 curl -s -G "$SERVER/prelievo" \
-    --data-urlencode "customer_id=api_client" \
+    --data-urlencode "customer_id=$ACCOUNT2" \
     --data-urlencode "importo=500" \
-    -H "X-Forwarded-For: 192.168.40.50" 2>/dev/null &
+    -H "X-Forwarded-For: $IP_API" > /dev/null 2>&1
 
 sleep 1
 
 # Operazione 3: Login da IP pubblico (anomalo)
-echo "[+] Login da 203.0.113.25 (IP pubblico esterno - INCOERENTE!)"
+# Operazione 3: Login da IP pubblico (anomalo)
 curl -s -G "$SERVER/login" \
-    --data-urlencode "customer_id=admin" \
+    --data-urlencode "customer_id=$ACCOUNT3" \
     --data-urlencode "session_duration=60" \
-    -H "X-Forwarded-For: 203.0.113.25" 2>/dev/null &
+    -H "X-Forwarded-For: $IP_PUBBLICO" > /dev/null 2>&1
 
-echo ""
-echo "[✓] Operazioni incoerenti generate"
-echo "[*] Sono FORMALMENTE CORRETTE ma contestualmente SOSPETTE"
-echo "[*] Log: tail -f logs/incoerenza_rete.log"
-wait
+# Output minimale di fine
+log "T09 done"

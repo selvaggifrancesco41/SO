@@ -6,6 +6,18 @@
 
 SERVER="http://localhost:8000"
 
+# Output minimale: riduce il rumore sul terminale
+# FD 3 resta collegato al terminale per messaggi essenziali
+exec 3>&1
+# Silenzia stdout standard per tutte le stampe verbose
+exec 1>/dev/null
+
+# Stampa solo le righe essenziali su terminale
+log() {
+    # Usa FD 3 per non essere silenziato
+    printf "%s\n" "$1" >&3
+}
+
 INTERVALLO_MIN=1
 INTERVALLO_MAX=4
 
@@ -108,7 +120,8 @@ azione_bonifico() {
 # CICLO PRINCIPALE
 # =========================
 
-echo "=== SIMULAZIONE ATTIVITÀ RANDOM ==="
+# Messaggio minimo di avvio
+log "sim start"
 
 verifica_server
 
@@ -145,5 +158,5 @@ do
     sleep_random
 done
 
-echo ""
-echo "Simulazione terminata."
+# Messaggio minimo di fine
+log "sim done"
