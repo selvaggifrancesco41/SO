@@ -88,13 +88,13 @@ salva_nel_db() {
     local ip=$5
 
     python3 << EOF
-import sqlite3
-from datetime import datetime
+import sqlite3 # Per interagire con SQLite
+from datetime import datetime # Per timestamp
 
-DB_PATH = "/workspaces/SO/data/bank_logs.db"
-timestamp = datetime.now().isoformat()
+DB_PATH = "/workspaces/SO/data/bank_logs.db" # Percorso del database
+timestamp = datetime.now().isoformat() # Valori passati dallo script bash
 
-raw_importo = "$importo"
+raw_importo = "$importo" 
 raw_iban = "$iban"
 
 if not raw_importo or raw_importo == "NULL":

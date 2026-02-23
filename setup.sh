@@ -231,6 +231,7 @@ echo ""
 echo "[*] Avvio automatico del generatore di traffico casuale..."
 echo "[*] Premi Ctrl+C per fermare"
 
+# Verifica se lo script di simulazione esiste e avvialo, altrimenti mostra un messaggio.
 if [ -f "$SCRIPT_DIR/simula_attivita_random.sh" ]; then
     cd "$SCRIPT_DIR"
     bash simula_attivita_random.sh

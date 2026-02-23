@@ -15,8 +15,8 @@ START=$(date +%s); declare -A SEEN
 # tail -f: segue il file in tempo reale
 tail -f "$REALTIME" 2>/dev/null | while IFS='|' read ts cid ip az imp iban sd; do
     # Stop after 60s for predictable tests.
-    [ $(($(date +%s) - START)) -ge 60 ] && break
-    [ -z "$imp" ] || [ "$imp" -gt 100 ] && continue
+    [ $(($(date +%s) - START)) -ge 60 ] && break # Solo per test prevedibili
+    [ -z "$imp" ] || [ "$imp" -gt 100 ] && continue #-z vuol dire "importo vuoto"; se importo > 100 non è "low"
     # Track per-customer small operations.
     echo "$cid|$ts" >> "$STATE"
     count=$(grep "^$cid|" "$STATE" 2>/dev/null | wc -l)
