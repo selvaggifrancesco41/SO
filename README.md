@@ -157,10 +157,10 @@ Il generatore `test_01_aml_bonifici.sh` invia 6 bonifici verso lo stesso IBAN co
 
 **Contesto e motivazione**
 Accessi simultanei dallo stesso account ma da IP diversi indicano session hijacking
- o credenziali condivise. E` un segnale forte e tipicamente affidabile. E` scelto
- perche` e` immediato, misurabile, e con basso tasso di falsi positivi.
+ o credenziali condivise. E` un segnale forte e tipicamente affidabile. E' scelto
+ perchè è immediato, misurabile, e con basso tasso di falsi positivi.
 
-**Perche` e` importante**
+**Perchè è importante**
 - segnala compromissione in corso
 - permette intervento prima di operazioni sensibili
 - attiva notifica al cliente se 2FA non e` attivo
@@ -204,10 +204,10 @@ fi
 
 **Contesto e motivazione**
 Gli accessi fuori profilo orario sono un segnale forte. Accessi notturni
- sono tipici di automazioni o attori malevoli. E` stato scelto perche`
- il contesto temporale e` semplice da interpretare e utile per escalation.
+ sono tipici di automazioni o attori malevoli. E' stato scelto perchè
+ il contesto temporale è semplice da interpretare e utile per escalation.
 
-**Perche` è importante**
+**Perchè è importante**
 - riduce falsi positivi con una regola chiara
 - permette notifica del cliente
 - evidenzia accessi fuori routine
@@ -249,10 +249,10 @@ fi
 
 **Contesto e motivazione**
 Gli ATM operano da subnet dedicate. Se appare traffico ATM in altri contesti
- e` indice di configurazione errata o compromissione. Il problema e` scelto
- perche` e` un segnale semplice ma ad alta criticita`.
+ e` indice di configurazione errata o compromissione. Il problema è scelto
+ perchè è un segnale semplice ma ad alta criticità.
 
-**Perche` e` importante**
+**Perchè è importante**
 - gli ATM sono asset critici
 - la subnet dedicata e` un confine di sicurezza naturale
 - segnala subito anomalie di configurazione o abuso
@@ -288,9 +288,9 @@ add_blacklist_entry "IP" "$ip" "ATM_ANOMALO" "MEDIA" "35" "RETE_ATM" "IP ATM sub
 
 **Contesto e motivazione**
 Molti tentativi di login dallo stesso IP in poco tempo indicano brute-force.
- E` un problema classico perche` ha segnali semplici e misurabili.
+ E` un problema classico perchè ha segnali semplici e misurabili.
 
-**Perche` e` importante**
+**Perchè è importante**
 - individua attacchi prima della compromissione
 - consente escalation automatica o manuale
 
@@ -327,10 +327,10 @@ fi
 
 **Contesto e motivazione**
 In una rete interna o controllata, IP pubblici indicano accessi non autorizzati
- o bypass di segmentazione. Il problema e` scelto perche` segnala
+ o bypass di segmentazione. Il problema è scelto perchè segnala
  violazioni di perimetro.
 
-**Perche` e` importante**
+**Perchè è importante**
 - rende visibili accessi da Internet
 - aiuta a individuare tunnel o proxy non autorizzati
 
@@ -364,10 +364,10 @@ fi
 ### P07 Pattern API
 
 **Contesto e motivazione**
-Bot e automazioni generano sequenze ripetitive. E` stato scelto perche`
+Bot e automazioni generano sequenze ripetitive. E' stato scelto perchè
  protegge l uso legittimo delle API.
 
-**Perche` e` importante**
+**Perchè è importante**
 - riduce abuso automatico
 - limita degrado del servizio
 
@@ -402,10 +402,10 @@ fi
 ### P08 Covert channels
 
 **Contesto e motivazione**
-Bonifici con importo 0 sono spesso segnali mascherati. Il problema e` scelto
- perche` individua canali di comunicazione nascosti.
+Bonifici con importo 0 sono spesso segnali mascherati. Il problema è scelto
+ perchè individua canali di comunicazione nascosti.
 
-**Perche` e` importante**
+**Perchè è importante**
 - intercetta segnali C2 o esfiltrazioni
 - blocca pattern di segnalazione nascosta
 
@@ -440,10 +440,10 @@ fi
 ### P09 Incoerenza rete
 
 **Contesto e motivazione**
-Un ATM non dovrebbe eseguire BONIFICO. Questa incoerenza e` un segnale critico.
- E` stato scelto perche` richiede una risposta immediata.
+Un ATM non dovrebbe eseguire BONIFICO. Questa incoerenza è un segnale critico.
+ E' stato scelto perchè richiede una risposta immediata.
 
-**Perche` e` importante**
+**Perchè è importante**
 - segnala compromissione o uso improprio
 - attiva subito blocco ad alto rischio
 
@@ -479,9 +479,9 @@ fi
 
 **Contesto e motivazione**
 Gli attacchi low & slow non superano soglie immediate ma degradano il servizio
- nel tempo. E` stato scelto perche` e` un caso spesso trascurato.
+ nel tempo. E' stato scelto perchè è un caso spesso trascurato.
 
-**Perche` e` importante**
+**Perchè è importante**
 - individua attacchi lenti prima che diventino sistemici
 - integra la difesa con segnali a bassa intensita`
 
@@ -514,76 +514,19 @@ fi
 **Output atteso**
 - riga in `blacklist.csv` con `LOW_SLOW`
 
-## Comandi e flag (approfondimento)
-
-Per completezza, ecco una spiegazione estesa dei flag piu` frequenti:
-
-- `tail -f`: segue il file in tempo reale, non termina finche` non viene interrotto.
-- `awk -F'|'`: imposta il separatore di campo a pipe.
-- `sort -u`: ordina e rimuove duplicati.
-- `wc -l`: conteggio righe, utile per soglie.
-- `grep -q`: non stampa, usa solo l exit status.
-- `cut -d',' -f1`: separa per virgola e seleziona il primo campo.
-- `date -d`: interpreta una data dal testo.
-- `date +%H`: estrae l ora come numero 00-23.
-- `curl -s`: output silenzioso.
-- `curl -G`: parametri nella query string.
-- `curl --data-urlencode`: URL-encode di parametri.
-- `curl --max-time`: timeout totale della richiesta.
 
 ## Test
 
 I generatori sono in `script/test_generators/` e vengono richiamati da
- `run_problem.sh`. Ogni test e` progettato per superare la soglia del monitor
+ `run_problem.sh`. Ogni test è progettato per superare la soglia del monitor
  corrispondente in un tempo breve.
 
 Note importanti:
 - P03 usa `TEST_MODE=1` nei test per bypassare l orario reale.
 - P05 e P03 partono in `TEST_MODE` quando eseguiti via `run_problem.sh`.
 
-## Note operative
 
-- Output terminale minimale (stdout silenziato, log su FD3).
-- Notifiche client in `logs/notifiche_email.txt` (P02, P03).
-- Nessun input da database o log storici: solo stream in tempo reale.
-
-## Appendice A: esempi di righe
-
-Esempio di riga flusso:
-
-```
-2026-02-23T04:01:10|800001|192.168.10.12|LOGIN|||
-```
-
-Esempio di riga blacklist:
-
-```
-2026-02-23 04:03:46,ACCOUNT,800038,ACCESSO_NOTTURNO,MEDIA,1,30,ACTIVE,PROFILO_RETE,Accesso anomalo 03:57
-```
-
-## Appendice B: checklist di verifica
-
-Checklist base prima di un test:
-- server in esecuzione
-- `logs/realtime_access.log` scrivibile
-- `blacklist.csv` con header corretto
-- script eseguibili con permessi
-- generatori disponibili
-
-Checklist dopo un test:
-- presenza di almeno una riga in `blacklist.csv`
-- incremento di `recidivita` se lo stesso elemento ricompare
-- stato `BLOCKED` quando risk >= 100
-
-## Appendice C: glossario minimo
-
-- **recidivita**: numero di eventi per lo stesso elemento.
-- **risk_score**: somma dei rischi accumulati.
-- **BLOCKED**: stato attivo quando risk >= 100.
-- **stream**: flusso continuo di eventi.
-- **finestra**: intervallo di 60 secondi usato per il conteggio.
-
-## Appendice D: catalogo comandi e flag (dettaglio)
+## Catalogo comandi e flag (in dettaglio)
 
 Questa sezione elenca i comandi usati e i flag con spiegazione estesa.
 Ogni riga descrive un comando o un flag specifico.
@@ -654,7 +597,7 @@ Ogni riga descrive un comando o un flag specifico.
 - `head -1 file`: prima riga in file.
 - `tail -1 file`: ultima riga in file.
 
-## Appendice E: walkthrough operativi (step by step)
+## Walkthrough operativi (step by step)
 
 Ogni walkthrough descrive un flusso realistico di esecuzione.
 Le righe sono volutamente dettagliate per fornire contesto completo.
@@ -816,42 +759,3 @@ Le righe sono volutamente dettagliate per fornire contesto completo.
 8. `risk_score` +35.
 9. Monitor termina.
 10. Fine.
-
-## Appendice F: Troubleshooting dettagliato
-
-Se un test non produce alert:
-- verifica che il server sia in esecuzione
-- verifica permessi su `logs/realtime_access.log`
-- controlla che il generatore invii richieste
-- usa `tail -f logs/realtime_access.log` per osservare lo stream
-- controlla che il monitor sia partito
-- controlla la soglia del problema
-- verifica che il test generi input coerenti
-- per P03 usa `TEST_MODE=1`
-- per P08 assicurati di usare BONIFICO importo 0
-- per P09 assicurati di usare IP 192.168.30.x e BONIFICO
-- per P10 verifica importi < 100
-- verifica che `blacklist.csv` abbia header corretto
-
-Se il push fallisce:
-- verifica Git LFS installato
-- esegui `git lfs install`
-- ripeti `git push`
-
-Se le notifiche non appaiono:
-- verifica `logs/notifiche_email.txt`
-- verifica email nel CSV clienti
-- verifica logica 2FA in P02
-
-Se l orario notturno non viene rilevato:
-- usa `TEST_MODE=1`
-- controlla il formato del timestamp nel log
-
-## Appendice G: note di stile e coerenza
-
-- Gli script silenziano stdout e mantengono log minimo su FD3.
-- Ogni script termina al primo alert per test rapidi.
-- La blacklist e` la sorgente unica di accumulo rischio.
-- Le notifiche sono solo per P02 e P03.
-- I test sono pensati per superare la soglia in meno di 60s.
-
