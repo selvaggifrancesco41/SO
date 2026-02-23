@@ -2658,3 +2658,97 @@
 2026-02-23 01:19:14,533 127.0.0.1 - - [23/Feb/2026 01:19:14] "GET /prelievo?customer_id=800054&importo=0 HTTP/1.1" 200 -
 2026-02-23 01:19:14,843 DEPOSITO customer_id=800054 ip=192.168.70.53 importo=0 iban=None
 2026-02-23 01:19:14,844 127.0.0.1 - - [23/Feb/2026 01:19:14] "GET /deposito?customer_id=800054&importo=0 HTTP/1.1" 200 -
+2026-02-23 10:30:16,308 [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:8000
+ * Running on http://10.0.15.65:8000
+2026-02-23 10:30:16,308 [33mPress CTRL+C to quit[0m
+2026-02-23 10:32:45,628 [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:8000
+ * Running on http://10.0.15.65:8000
+2026-02-23 10:32:45,628 [33mPress CTRL+C to quit[0m
+2026-02-23 10:35:36,854 LOGIN customer_id=123 ip=127.0.0.1 importo=None iban=None
+2026-02-23 10:35:36,854 127.0.0.1 - - [23/Feb/2026 10:35:36] "GET /login?customer_id=123&porta=999 HTTP/1.1" 200 -
+2026-02-23 10:35:52,889 LOGIN customer_id=test ip=127.0.0.1 importo=None iban=None
+2026-02-23 10:35:52,889 127.0.0.1 - - [23/Feb/2026 10:35:52] "GET /login?customer_id=test&porta=test HTTP/1.1" 200 -
+2026-02-23 10:35:52,923 LOGIN customer_id=800027 ip=192.168.171.155 importo=None iban=None
+2026-02-23 10:35:52,923 127.0.0.1 - - [23/Feb/2026 10:35:52] "GET /login?customer_id=800027&porta=12687 HTTP/1.1" 200 -
+2026-02-23 10:35:57,036 BONIFICO customer_id=800036 ip=192.168.174.156 importo=1428 iban=None
+2026-02-23 10:35:57,037 127.0.0.1 - - [23/Feb/2026 10:35:57] "GET /bonifico?customer_id=800036&importo=1428&iban_destinatario=IT36R03002032800000000051&porta=27155 HTTP/1.1" 200 -
+2026-02-23 10:35:58,077 LOGIN customer_id=800043 ip=10.54.144.83 importo=None iban=None
+2026-02-23 10:35:58,077 127.0.0.1 - - [23/Feb/2026 10:35:58] "GET /login?customer_id=800043&porta=32005 HTTP/1.1" 200 -
+2026-02-23 10:36:00,119 PRELIEVO customer_id=800071 ip=10.22.49.168 importo=637 iban=None
+2026-02-23 10:36:00,119 127.0.0.1 - - [23/Feb/2026 10:36:00] "GET /prelievo?customer_id=800071&importo=637&porta=6945 HTTP/1.1" 200 -
+2026-02-23 10:36:04,158 LOGIN customer_id=800085 ip=192.168.78.224 importo=None iban=None
+2026-02-23 10:36:04,158 127.0.0.1 - - [23/Feb/2026 10:36:04] "GET /login?customer_id=800085&porta=23286 HTTP/1.1" 200 -
+2026-02-23 10:36:06,201 PRELIEVO customer_id=800056 ip=10.117.86.183 importo=998 iban=None
+2026-02-23 10:36:06,201 127.0.0.1 - - [23/Feb/2026 10:36:06] "GET /prelievo?customer_id=800056&importo=998&porta=20994 HTTP/1.1" 200 -
+2026-02-23 10:36:10,268 BONIFICO customer_id=800015 ip=192.168.76.20 importo=2205 iban=None
+2026-02-23 10:36:10,269 127.0.0.1 - - [23/Feb/2026 10:36:10] "GET /bonifico?customer_id=800015&importo=2205&iban_destinatario=IT78R03002032800000000024&porta=30055 HTTP/1.1" 200 -
+2026-02-23 10:36:12,306 LOGIN customer_id=800044 ip=10.104.113.184 importo=None iban=None
+2026-02-23 10:36:12,306 127.0.0.1 - - [23/Feb/2026 10:36:12] "GET /login?customer_id=800044&porta=13670 HTTP/1.1" 200 -
+2026-02-23 10:36:14,348 PRELIEVO customer_id=800017 ip=10.185.154.156 importo=167 iban=None
+2026-02-23 10:36:14,349 127.0.0.1 - - [23/Feb/2026 10:36:14] "GET /prelievo?customer_id=800017&importo=167&porta=1176 HTTP/1.1" 200 -
+2026-02-23 10:36:16,389 PRELIEVO customer_id=800060 ip=192.168.123.4 importo=711 iban=None
+2026-02-23 10:36:16,389 127.0.0.1 - - [23/Feb/2026 10:36:16] "GET /prelievo?customer_id=800060&importo=711&porta=33774 HTTP/1.1" 200 -
+2026-02-23 10:36:17,455 BONIFICO customer_id=800009 ip=172.31.47.74 importo=4688 iban=None
+2026-02-23 10:36:17,456 127.0.0.1 - - [23/Feb/2026 10:36:17] "GET /bonifico?customer_id=800009&importo=4688&iban_destinatario=IT70R03002032800000000066&porta=13061 HTTP/1.1" 200 -
+2026-02-23 10:36:21,494 LOGIN customer_id=800043 ip=10.160.194.186 importo=None iban=None
+2026-02-23 10:36:21,494 127.0.0.1 - - [23/Feb/2026 10:36:21] "GET /login?customer_id=800043&porta=9995 HTTP/1.1" 200 -
+2026-02-23 10:36:25,551 PRELIEVO customer_id=800095 ip=10.42.48.86 importo=1024 iban=None
+2026-02-23 10:36:25,552 127.0.0.1 - - [23/Feb/2026 10:36:25] "GET /prelievo?customer_id=800095&importo=1024&porta=31778 HTTP/1.1" 200 -
+2026-02-23 10:36:28,618 BONIFICO customer_id=800021 ip=10.220.141.86 importo=2906 iban=None
+2026-02-23 10:36:28,619 127.0.0.1 - - [23/Feb/2026 10:36:28] "GET /bonifico?customer_id=800021&importo=2906&iban_destinatario=IT58R03002032800000000065&porta=25846 HTTP/1.1" 200 -
+2026-02-23 10:36:29,658 PRELIEVO customer_id=800010 ip=192.168.40.35 importo=4593 iban=None
+2026-02-23 10:36:29,659 127.0.0.1 - - [23/Feb/2026 10:36:29] "GET /prelievo?customer_id=800010&importo=4593&porta=2421 HTTP/1.1" 200 -
+2026-02-23 10:36:31,695 LOGIN customer_id=800029 ip=10.51.246.35 importo=None iban=None
+2026-02-23 10:36:31,696 127.0.0.1 - - [23/Feb/2026 10:36:31] "GET /login?customer_id=800029&porta=24556 HTTP/1.1" 200 -
+2026-02-23 10:36:32,732 LOGIN customer_id=800005 ip=192.168.73.31 importo=None iban=None
+2026-02-23 10:36:32,732 127.0.0.1 - - [23/Feb/2026 10:36:32] "GET /login?customer_id=800005&porta=19769 HTTP/1.1" 200 -
+2026-02-23 10:36:34,777 PRELIEVO customer_id=800037 ip=10.54.94.103 importo=998 iban=None
+2026-02-23 10:36:34,777 127.0.0.1 - - [23/Feb/2026 10:36:34] "GET /prelievo?customer_id=800037&importo=998&porta=3627 HTTP/1.1" 200 -
+2026-02-23 10:36:37,842 BONIFICO customer_id=800009 ip=192.168.101.134 importo=2222 iban=None
+2026-02-23 10:36:37,842 127.0.0.1 - - [23/Feb/2026 10:36:37] "GET /bonifico?customer_id=800009&importo=2222&iban_destinatario=IT53R03002032800000000049&porta=10784 HTTP/1.1" 200 -
+2026-02-23 10:36:39,883 PRELIEVO customer_id=800005 ip=10.142.13.208 importo=3527 iban=None
+2026-02-23 10:36:39,883 127.0.0.1 - - [23/Feb/2026 10:36:39] "GET /prelievo?customer_id=800005&importo=3527&porta=26544 HTTP/1.1" 200 -
+2026-02-23 10:36:41,924 PRELIEVO customer_id=800063 ip=172.22.98.133 importo=2931 iban=None
+2026-02-23 10:36:41,924 127.0.0.1 - - [23/Feb/2026 10:36:41] "GET /prelievo?customer_id=800063&importo=2931&porta=32107 HTTP/1.1" 200 -
+2026-02-23 10:36:43,991 BONIFICO customer_id=800066 ip=192.168.51.38 importo=4768 iban=None
+2026-02-23 10:36:43,991 127.0.0.1 - - [23/Feb/2026 10:36:43] "GET /bonifico?customer_id=800066&importo=4768&iban_destinatario=IT47R03002032800000000007&porta=23817 HTTP/1.1" 200 -
+2026-02-23 10:36:47,029 LOGIN customer_id=800090 ip=172.19.101.242 importo=None iban=None
+2026-02-23 10:36:47,030 127.0.0.1 - - [23/Feb/2026 10:36:47] "GET /login?customer_id=800090&porta=32402 HTTP/1.1" 200 -
+2026-02-23 10:36:49,214 BONIFICO customer_id=800024 ip=10.128.125.122 importo=3085 iban=None
+2026-02-23 10:36:49,214 127.0.0.1 - - [23/Feb/2026 10:36:49] "GET /bonifico?customer_id=800024&importo=3085&iban_destinatario=IT27R03002032800000000037&porta=1312 HTTP/1.1" 200 -
+2026-02-23 10:36:52,283 BONIFICO customer_id=800048 ip=172.19.216.183 importo=774 iban=None
+2026-02-23 10:36:52,284 127.0.0.1 - - [23/Feb/2026 10:36:52] "GET /bonifico?customer_id=800048&importo=774&iban_destinatario=IT26R03002032800000000028&porta=28105 HTTP/1.1" 200 -
+2026-02-23 10:36:55,370 BONIFICO customer_id=800061 ip=172.19.146.75 importo=494 iban=None
+2026-02-23 10:36:55,371 127.0.0.1 - - [23/Feb/2026 10:36:55] "GET /bonifico?customer_id=800061&importo=494&iban_destinatario=IT20R03002032800000000009&porta=25494 HTTP/1.1" 200 -
+2026-02-23 10:38:14,954 LOGIN customer_id=test ip=127.0.0.1 importo=None iban=None
+2026-02-23 10:38:14,954 127.0.0.1 - - [23/Feb/2026 10:38:14] "GET /login?customer_id=test&porta=test HTTP/1.1" 200 -
+2026-02-23 10:38:14,994 PRELIEVO customer_id=800064 ip=172.27.213.22 importo=4948 iban=None
+2026-02-23 10:38:14,995 127.0.0.1 - - [23/Feb/2026 10:38:14] "GET /prelievo?customer_id=800064&importo=4948&porta=24184 HTTP/1.1" 200 -
+2026-02-23 10:38:18,035 PRELIEVO customer_id=800017 ip=192.168.3.226 importo=3619 iban=None
+2026-02-23 10:38:18,036 127.0.0.1 - - [23/Feb/2026 10:38:18] "GET /prelievo?customer_id=800017&importo=3619&porta=23279 HTTP/1.1" 200 -
+2026-02-23 10:38:19,102 BONIFICO customer_id=800028 ip=10.227.112.77 importo=2952 iban=None
+2026-02-23 10:38:19,102 127.0.0.1 - - [23/Feb/2026 10:38:19] "GET /bonifico?customer_id=800028&importo=2952&iban_destinatario=IT18R03002032800000000057&porta=32193 HTTP/1.1" 200 -
+2026-02-23 10:38:23,149 LOGIN customer_id=800067 ip=192.168.20.97 importo=None iban=None
+2026-02-23 10:38:23,150 127.0.0.1 - - [23/Feb/2026 10:38:23] "GET /login?customer_id=800067&porta=7021 HTTP/1.1" 200 -
+2026-02-23 10:38:27,189 LOGIN customer_id=800035 ip=172.31.81.161 importo=None iban=None
+2026-02-23 10:38:27,190 127.0.0.1 - - [23/Feb/2026 10:38:27] "GET /login?customer_id=800035&porta=19716 HTTP/1.1" 200 -
+2026-02-23 10:38:28,245 PRELIEVO customer_id=800003 ip=172.30.61.141 importo=371 iban=None
+2026-02-23 10:38:28,245 127.0.0.1 - - [23/Feb/2026 10:38:28] "GET /prelievo?customer_id=800003&importo=371&porta=1908 HTTP/1.1" 200 -
+2026-02-23 10:38:30,313 BONIFICO customer_id=950001 ip=10.46.245.80 importo=3153 iban=None
+2026-02-23 10:38:30,313 127.0.0.1 - - [23/Feb/2026 10:38:30] "GET /bonifico?customer_id=950001&importo=3153&iban_destinatario=IT19R03002032800000000030&porta=23618 HTTP/1.1" 200 -
+2026-02-23 10:38:33,354 PRELIEVO customer_id=800031 ip=172.23.213.195 importo=2055 iban=None
+2026-02-23 10:38:33,355 127.0.0.1 - - [23/Feb/2026 10:38:33] "GET /prelievo?customer_id=800031&importo=2055&porta=28383 HTTP/1.1" 200 -
+2026-02-23 10:38:34,421 BONIFICO customer_id=800083 ip=192.168.96.242 importo=1412 iban=None
+2026-02-23 10:38:34,422 127.0.0.1 - - [23/Feb/2026 10:38:34] "GET /bonifico?customer_id=800083&importo=1412&iban_destinatario=IT67R03002032800000000035&porta=31883 HTTP/1.1" 200 -
+2026-02-23 10:38:35,462 LOGIN customer_id=800082 ip=10.148.154.116 importo=None iban=None
+2026-02-23 10:38:35,463 127.0.0.1 - - [23/Feb/2026 10:38:35] "GET /login?customer_id=800082&porta=31646 HTTP/1.1" 200 -
+2026-02-23 10:38:37,504 PRELIEVO customer_id=800033 ip=172.19.62.160 importo=815 iban=None
+2026-02-23 10:38:37,504 127.0.0.1 - - [23/Feb/2026 10:38:37] "GET /prelievo?customer_id=800033&importo=815&porta=24081 HTTP/1.1" 200 -
+2026-02-23 10:38:40,554 PRELIEVO customer_id=800039 ip=172.24.188.209 importo=1905 iban=None
+2026-02-23 10:38:40,555 127.0.0.1 - - [23/Feb/2026 10:38:40] "GET /prelievo?customer_id=800039&importo=1905&porta=12710 HTTP/1.1" 200 -
+2026-02-23 10:38:43,597 PRELIEVO customer_id=800002 ip=172.16.209.187 importo=4813 iban=None
+2026-02-23 10:38:43,597 127.0.0.1 - - [23/Feb/2026 10:38:43] "GET /prelievo?customer_id=800002&importo=4813&porta=5171 HTTP/1.1" 200 -

@@ -86,7 +86,7 @@ salva_nel_db() {
     local importo=$3
     local iban=$4
     local ip=$5
-    
+
     python3 << EOF
 import sqlite3
 from datetime import datetime
@@ -94,13 +94,26 @@ from datetime import datetime
 DB_PATH = "/workspaces/SO/data/bank_logs.db"
 timestamp = datetime.now().isoformat()
 
+raw_importo = "$importo"
+raw_iban = "$iban"
+
+if not raw_importo or raw_importo == "NULL":
+    importo_val = None
+else:
+    importo_val = float(raw_importo)
+
+if not raw_iban or raw_iban == "NULL":
+    iban_val = None
+else:
+    iban_val = raw_iban
+
 conn = sqlite3.connect(DB_PATH)
 cur = conn.cursor()
 cur.execute("""
     INSERT INTO logs
     (timestamp, customer_id, ip_address, azione, importo, iban_destinatario, session_duration)
     VALUES (?, ?, ?, ?, ?, ?, ?)
-""", ("$timestamp", "$customer_id", "$ip", "$azione", $importo, "$iban", None))
+""", ("$timestamp", "$customer_id", "$ip", "$azione", importo_val, iban_val, None))
 conn.commit()
 conn.close()
 EOF

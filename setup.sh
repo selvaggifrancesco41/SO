@@ -11,7 +11,7 @@
 # 3. Popola il database con dati realistici (se necessario)
 # 4. Avvia il server Flask
 # 5. Mostra la dashboard di sicurezza
-# 6. Offre opzioni per eseguire controlli o generare traffico
+# 6. Completa setup in modalita automatica (equivalente a scelta 4)
 #
 ################################################################################
 
@@ -55,14 +55,27 @@ if [ ! -d "venv" ]; then
     log "[✓] Virtualenv creato con pip incluso"
 fi
 
+# Recreate venv if the interpreter is not runnable on this system.
+if [ -x "$BASE_DIR/venv/bin/python" ]; then
+    if ! "$BASE_DIR/venv/bin/python" -c "import sys" >/dev/null 2>&1; then
+        log "[!] Virtualenv non compatibile. Ricreo..."
+        rm -rf "$BASE_DIR/venv"
+        python3 -m venv --upgrade-deps venv 2>&1 | grep -v "^$" || true
+        log "[✓] Virtualenv ricreato"
+    fi
+fi
+
 log "[*] Attivazione virtualenv..."
 source venv/bin/activate
 
+# Always use the venv interpreter for pip to avoid PEP 668 restrictions.
+VENV_PY="$BASE_DIR/venv/bin/python"
+
 # Installa Flask via pip dal venv
-if ! python3 -c "import flask" &>/dev/null; then
+if ! "$VENV_PY" -c "import flask" &>/dev/null; then
     log "[*] Installazione Flask..."
     # pip -q: output silenzioso
-    pip install -q flask
+    "$VENV_PY" -m pip install -q flask
     log "[✓] Flask installato"
 else
     log "[✓] Flask già installato"
