@@ -36,10 +36,10 @@ with open('$CSV_CLIENTI', 'r') as f:
 log "T02 start"
 
 # Genera NUM_SESSIONI login simultanei
-# Tutti nello stesso momento da "IP diversi"
+# Tutti dello STESSO account nello stesso momento da "IP diversi"
 for i in $(seq 1 $NUM_SESSIONI); do
-    # IP casuale ogni volta (subnet 192.168.10.X con X tra 10-250)
-    IP_MITTENTE="192.168.10.$((10 + RANDOM % 241))"
+    # IP casuale ad ogni sessione (subnet diversa)
+    IP_MITTENTE="192.168.$((RANDOM % 160 + 1)).$((RANDOM % 256))"
 
     # Parallel requests simulate simultaneous logins from different IPs.
     # --max-time 15: mantiene la connessione aperta per 15 secondi

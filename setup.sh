@@ -46,7 +46,7 @@ log "setup env"
 mkdir -p "$LOGS_DIR" "$DATA_DIR" "$SCRIPT_DIR/logs"
 touch "$LOG_FILE"
 
-# Verifica virtualenv - crealo con pip/setuptools/wheel
+# Verifica virtualenv - creato con pip/setuptools/wheel
 if [ ! -d "venv" ]; then
     log "[*] Virtualenv non trovato. Creazione in corso..."
     # python3 -m: esegue il modulo; --upgrade-deps: aggiorna pip/setuptools/wheel

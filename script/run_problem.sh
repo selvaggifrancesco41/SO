@@ -93,43 +93,52 @@ fi
 
 # Resetta timestamp per problema 03, 04, 05, 06, 07, 08 e 09 (evita rilevamento vecchi record)
 if [ "$NUMERO" = "3" ]; then
+    # Pulisce log realtime per evitare dati vecchi
+    > /workspaces/SO/logs/realtime_access.log
     # Imposta timestamp di ultimo controllo
     # date -u: usa UTC
     date -u '+%Y-%m-%dT%H:%M:%S' > /tmp/problema03_last_check.txt
 fi
 if [ "$NUMERO" = "4" ]; then
+    # Pulisce log realtime per problema 04
+    > /workspaces/SO/logs/realtime_access.log
     # Imposta timestamp di ultimo controllo
-    # date -u: usa UTC
     date -u '+%Y-%m-%dT%H:%M:%S' > /tmp/problema04_last_check.txt
 fi
 if [ "$NUMERO" = "5" ]; then
+    # Pulisce log realtime per problema 05
+    > /workspaces/SO/logs/realtime_access.log
     # Imposta timestamp di ultimo controllo
-    # date -u: usa UTC
     date -u '+%Y-%m-%dT%H:%M:%S' > /tmp/problema05_last_check.txt
 fi
 if [ "$NUMERO" = "6" ]; then
+    # Pulisce log realtime per problema 06
+    > /workspaces/SO/logs/realtime_access.log
     # Imposta timestamp di ultimo controllo
-    # date -u: usa UTC
     date -u '+%Y-%m-%dT%H:%M:%S' > /tmp/problema06_last_check.txt
 fi
 if [ "$NUMERO" = "7" ]; then
+    # Pulisce log realtime per problema 07
+    > /workspaces/SO/logs/realtime_access.log
     # Imposta timestamp di ultimo controllo
-    # date -u: usa UTC
     date -u '+%Y-%m-%dT%H:%M:%S' > /tmp/problema07_last_check.txt
 fi
 if [ "$NUMERO" = "8" ]; then
+    # Pulisce log realtime per problema 08
+    > /workspaces/SO/logs/realtime_access.log
     # Imposta timestamp di ultimo controllo
-    # date -u: usa UTC
     date -u '+%Y-%m-%dT%H:%M:%S' > /tmp/problema08_last_check.txt
 fi
 if [ "$NUMERO" = "9" ]; then
+    # Pulisce log realtime per problema 09
+    > /workspaces/SO/logs/realtime_access.log
     # Imposta timestamp di ultimo controllo
-    # date -u: usa UTC
     date -u '+%Y-%m-%dT%H:%M:%S' > /tmp/problema09_last_check.txt
 fi
 if [ "$NUMERO" = "10" ]; then
+    # Pulisce log realtime per problema 10
+    > /workspaces/SO/logs/realtime_access.log
     # Imposta timestamp di ultimo controllo
-    # date -u: usa UTC
     date -u '+%Y-%m-%dT%H:%M:%S' > /tmp/problema10_last_check.txt
 fi
 

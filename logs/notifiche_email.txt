@@ -1,1 +1,167 @@
-[2026-02-23 01:09:54] TO:user5@mail.it CUSTOMER:800005 NAME:Matteo Bianchi SUBJECT:Attiva 2FA BODY:Abbiamo rilevato accessi simultanei sul tuo conto. Attiva subito l'autenticazione a due fattori.
+═════════════════════════════════════════════════════
+EVENT: Accessi simultanei rilevati
+DATA: 2026-02-23 11:52:12
+CLIENTE: 800019
+EMAIL: user19@mail.it
+IP_SIMULTANEI: 3
+AVVISO: Account compromesso? 2FA NON ABILITATO!
+ACTION: Abilitare 2FA e verificare attività
+═════════════════════════════════════════════════════
+
+═════════════════════════════════════════════════════
+EVENT: Accesso anomalo rilevato
+DATA: 2026-02-23 11:52:19
+CLIENTE: 800019
+EMAIL: user19@mail.it
+unknown
+IP: 192.168.123.29
+AVVISO: Accesso rilevato fuori dagli orari abituali
+ACTION: Verificare l'accesso o contattare il supporto
+═════════════════════════════════════════════════════
+
+═════════════════════════════════════════════════════
+EVENT: Accesso anomalo rilevato
+DATA: 2026-02-23 11:52:40
+CLIENTE: 800019
+EMAIL: user19@mail.it
+unknown
+IP: 192.168.123.29
+AVVISO: Accesso rilevato fuori dagli orari abituali
+ACTION: Verificare l'accesso o contattare il supporto
+═════════════════════════════════════════════════════
+
+═════════════════════════════════════════════════════
+EVENT: Accesso anomalo rilevato
+DATA: 2026-02-23 11:52:51
+CLIENTE: 800019
+EMAIL: user19@mail.it
+unknown
+IP: 192.168.123.29
+AVVISO: Accesso rilevato fuori dagli orari abituali
+ACTION: Verificare l'accesso o contattare il supporto
+═════════════════════════════════════════════════════
+
+═════════════════════════════════════════════════════
+EVENT: Accesso anomalo rilevato
+DATA: 2026-02-23 11:54:18
+CLIENTE: 800094
+EMAIL: user94@mail.it
+unknown
+IP: 192.168.55.126
+AVVISO: Accesso rilevato fuori dagli orari abituali
+ACTION: Verificare l'accesso o contattare il supporto
+═════════════════════════════════════════════════════
+
+═════════════════════════════════════════════════════
+EVENT: Accesso anomalo rilevato
+DATA: 2026-02-23 11:54:29
+CLIENTE: 800055
+EMAIL: user55@mail.it
+unknown
+IP: 192.168.2.81
+AVVISO: Accesso rilevato fuori dagli orari abituali
+ACTION: Verificare l'accesso o contattare il supporto
+═════════════════════════════════════════════════════
+
+═════════════════════════════════════════════════════
+EVENT: Accessi simultanei rilevati
+DATA: 2026-02-23 11:54:54
+CLIENTE: 800092
+EMAIL: user92@mail.it
+IP_SIMULTANEI: 3
+AVVISO: Account compromesso? 2FA NON ABILITATO!
+ACTION: Abilitare 2FA e verificare attività
+═════════════════════════════════════════════════════
+
+═════════════════════════════════════════════════════
+EVENT: Accessi simultanei rilevati
+DATA: 2026-02-23 11:57:39
+CLIENTE: 800084
+EMAIL: user84@mail.it
+IP_SIMULTANEI: 3
+AVVISO: Account compromesso? 2FA NON ABILITATO!
+ACTION: Abilitare 2FA e verificare attività
+═════════════════════════════════════════════════════
+
+═════════════════════════════════════════════════════
+ALERT: Accessi simultanei rilevati
+DATA: 2026-02-23 11:59:45
+CLIENTE: 800025
+EMAIL: user25@mail.it
+IP_SIMULTANEI: 3
+2FA_ENABLED: False
+
+AVVISO: Account compromesso? Accessi simultanei da IP diversi SENZA 2FA abilitato!
+ACTION: URGENTE: Abilitare 2FA immediatamente e verificare attività sospetta.
+═════════════════════════════════════════════════════
+
+═════════════════════════════════════════════════════
+ALERT: Accessi simultanei rilevati
+DATA: 2026-02-23 12:00:02
+CLIENTE: 800050
+EMAIL: user50@mail.it
+IP_SIMULTANEI: 3
+2FA_ENABLED: False
+
+AVVISO: Account compromesso? Accessi simultanei da IP diversi SENZA 2FA abilitato!
+ACTION: URGENTE: Abilitare 2FA immediatamente e verificare attività sospetta.
+═════════════════════════════════════════════════════
+
+═════════════════════════════════════════════════════
+ALERT: Accessi simultanei rilevati
+DATA: 2026-02-23 12:00:12
+CLIENTE: 800036
+EMAIL: user36@mail.it
+IP_SIMULTANEI: 3
+2FA_ENABLED: True
+
+AVVISO: Accessi simultanei da IP diversi rilevati. 2FA è abilitato e ha protetto l'account.
+ACTION: Verificare immediatamente gli accessi e confermare se erano autorizzati.
+═════════════════════════════════════════════════════
+
+═════════════════════════════════════════════════════
+ALERT: Accessi simultanei rilevati
+DATA: 2026-02-23 12:01:47
+CLIENTE: 800044
+EMAIL: user44@mail.it
+IP_SIMULTANEI: 3
+2FA_ENABLED: True
+
+AVVISO: Accessi simultanei da IP diversi rilevati. 2FA è abilitato e ha protetto l'account.
+ACTION: Verificare immediatamente gli accessi e confermare se erano autorizzati.
+═════════════════════════════════════════════════════
+
+═════════════════════════════════════════════════════
+ALERT: Accessi simultanei rilevati
+DATA: 2026-02-23 12:01:55
+CLIENTE: 800030
+EMAIL: user30@mail.it
+IP_SIMULTANEI: 3
+2FA_ENABLED: True
+
+AVVISO: Accessi simultanei da IP diversi rilevati. 2FA è abilitato e ha protetto l'account.
+ACTION: Verificare immediatamente gli accessi e confermare se erano autorizzati.
+═════════════════════════════════════════════════════
+
+═════════════════════════════════════════════════════
+EVENT: Accesso anomalo rilevato
+DATA: 2026-02-23 12:02:19
+CLIENTE: 800069
+EMAIL: user69@mail.it
+unknown
+IP: 192.168.105.134
+AVVISO: Accesso rilevato fuori dagli orari abituali
+ACTION: Verificare l'accesso o contattare il supporto
+═════════════════════════════════════════════════════
+
+═════════════════════════════════════════════════════
+EVENT: Accesso anomalo rilevato
+DATA: 2026-02-23 12:02:30
+CLIENTE: 800059
+EMAIL: user59@mail.it
+unknown
+IP: 192.168.128.50
+AVVISO: Accesso rilevato fuori dagli orari abituali
+ACTION: Verificare l'accesso o contattare il supporto
+═════════════════════════════════════════════════════
+

@@ -25,23 +25,12 @@ NUM_ACCESSI=3
 # Output minimale di avvio
 log "T03 start"
 
-# Legge ora corrente (solo per logica locale)
-CURRENT_HOUR=$(date +%H)
-
-# Seleziona 3 ACCOUNT CASUALI dal CSV per accessi notturni
-# tail -n +2: salta header; shuf -n 1: una riga casuale; cut -d',' -f1: primo campo
-ACCOUNT1=$(tail -n +2 "$CSV_CLIENTI" | shuf -n 1 | cut -d',' -f1)
-ACCOUNT2=$(tail -n +2 "$CSV_CLIENTI" | shuf -n 1 | cut -d',' -f1)
-ACCOUNT3=$(tail -n +2 "$CSV_CLIENTI" | shuf -n 1 | cut -d',' -f1)
-
 for i in $(seq 1 $NUM_ACCESSI); do
-    # Emit a few login events from distinct IPs.
-    # Usa il ACCOUNT corrispondente (casuale)
-    if [ $i -eq 1 ]; then ACCOUNT="$ACCOUNT1"
-    elif [ $i -eq 2 ]; then ACCOUNT="$ACCOUNT2"
-    elif [ $i -eq 3 ]; then ACCOUNT="$ACCOUNT3"
-    fi
-    IP_MITTENTE="192.168.20.$i"
+    # Emit login events from random accounts and diverse IPs each time.
+    # Seleziona un ACCOUNT casuale ad ogni iterazione
+    ACCOUNT=$(tail -n +2 "$CSV_CLIENTI" | shuf -n 1 | cut -d',' -f1)
+    # IP casuale ad ogni iterazione (subnet 192.168.X.Y con X,Y casuali)
+    IP_MITTENTE="192.168.$((RANDOM % 160 + 1)).$((RANDOM % 256))"
     
     # GET /login - parametri nella query string
     # curl -s: silenzioso; -G: query string; --data-urlencode: URL-encode; -H: header

@@ -56,7 +56,7 @@ for ciclo in $(seq 1 $CICLI); do
         -H "X-Forwarded-For: $IP_BOT" > /dev/null 2>&1
     sleep 0.3
     
-    # Attesa fra cicli più breve per superare soglia velocità
+    # Attesa fra cicli breve per superare soglia velocità
     sleep 0.5
 done
 

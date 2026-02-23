@@ -46,7 +46,6 @@ log "P02 start"
 COUNTER=0
 ALERTS=0
 START=$(date +%s)
-declare -A SEEN
 
 # tail -f: segue il file in tempo reale
 tail -f "$REALTIME" 2>/dev/null | while IFS='|' read ts cid ip az imp iban sd; do
@@ -64,8 +63,7 @@ tail -f "$REALTIME" 2>/dev/null | while IFS='|' read ts cid ip az imp iban sd; d
     ips_unici=$(awk -F'|' -v c="$cid" '$1==c {print $2}' "$STATE" 2>/dev/null | sort -u | wc -l)
     echo "  IP unici: $ips_unici" >&3
     
-    if [ $ips_unici -ge 3 ] && [ -z "${SEEN[$cid]}" ]; then
-        SEEN[$cid]=1
+    if [ $ips_unici -ge 3 ]; then
         log "P02 alert $ips_unici IPs rilevati"
         # Append with accumulated risk/recidivita.
         add_blacklist_entry "ACCOUNT" "$cid" "ACCESSO_SIMULTANEO" "ALTA" "40" "ACCESSI_RETE" "$ips_unici IP simultanei"
@@ -76,22 +74,32 @@ tail -f "$REALTIME" 2>/dev/null | while IFS='|' read ts cid ip az imp iban sd; d
         EMAIL=$(echo "$INFO" | cut -d'|' -f1)
         TWO_FA=$(echo "$INFO" | cut -d'|' -f2)
         
-        # Se 2FA non è abilitato, invia notifica
-        if [ "$TWO_FA" != "True" ] && [ "$TWO_FA" != "true" ] && [ "$TWO_FA" != "Sì" ]; then
-            {
-                echo "═════════════════════════════════════════════════════"
-                echo "EVENT: Accessi simultanei rilevati"
-                echo "DATA: $(date '+%Y-%m-%d %H:%M:%S')"
-                echo "CLIENTE: $cid"
-                echo "EMAIL: $EMAIL"
-                echo "IP_SIMULTANEI: $ips_unici"
-                echo "AVVISO: Account compromesso? 2FA NON ABILITATO!"
-                echo "ACTION: Abilitare 2FA e verificare attività"
-                echo "═════════════════════════════════════════════════════"
-                echo ""
-            } >> "$NOTIFY"
-            log "P02 notify $EMAIL 2FA disabled"
+        # Scrivi notifica sempre, pero con messaggio diverso a seconda del 2FA
+        if [ "$TWO_FA" = "True" ] || [ "$TWO_FA" = "true" ] || [ "$TWO_FA" = "Sì" ]; then
+            # 2FA abilitato: accesso anomalo ma piu sicuro
+            AVVISO="Accessi simultanei da IP diversi rilevati. 2FA è abilitato e ha protetto l'account."
+            ACTION="Verificare immediatamente gli accessi e confermare se erano autorizzati."
+        else
+            # 2FA disabilitato: grosso problema
+            AVVISO="Account compromesso? Accessi simultanei da IP diversi SENZA 2FA abilitato!"
+            ACTION="URGENTE: Abilitare 2FA immediatamente e verificare attività sospetta."
         fi
+        
+        {
+            echo "═════════════════════════════════════════════════════"
+            echo "ALERT: Accessi simultanei rilevati"
+            echo "DATA: $(date '+%Y-%m-%d %H:%M:%S')"
+            echo "CLIENTE: $cid"
+            echo "EMAIL: $EMAIL"
+            echo "IP_SIMULTANEI: $ips_unici"
+            echo "2FA_ENABLED: $TWO_FA"
+            echo ""
+            echo "AVVISO: $AVVISO"
+            echo "ACTION: $ACTION"
+            echo "═════════════════════════════════════════════════════"
+            echo ""
+        } >> "$NOTIFY"
+        log "P02 notify $EMAIL simultanei"
         
         ALERTS=$((ALERTS+1))
         kill %1 2>/dev/null
