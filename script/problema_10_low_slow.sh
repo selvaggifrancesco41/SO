@@ -1,62 +1,41 @@
 #!/bin/bash
 
-# PROBLEMA 10: RILEVAMENTO ATTACCHI LOW & SLOW - RATE LIMITING
+# PROBLEMA 10: LOW & SLOW ATTACKS - NETWORK MONITORING  
 #
-# SCOPO: Identificare attacchi distribuiti lenti che inviano poche richieste
-#        distribuite su lungo periodo per evitare detection tradizionale
+# SCOPO: Rilevare attacchi a basso volume/bassa velocità
+#        (connessioni prolungate, bandwidth insufficiente per operazione normale)
 #
-# METODO: Analizza database per IP con pattern di richieste a basso rate
-#         ma persistenti nel tempo (distribuite su finestra lunga)
+# METODO: Usa 'ss' per monitorare connessioni stabilizzate
+#         Misura durata connessione e bytes trasmessi
+#         Se connessione > tempo atteso con dati << attesi: attacco low&slow
 #
-# DATABASE: Query principale per rilevamento
-# BLACKLIST: Registra IP con pattern low & slow
-#
-# DIPENDENZE: sqlite3
+# NETWORK TOOLS: ss
 
-# Output minimale: riduce il rumore sul terminale
-# FD 3 resta collegato al terminale per messaggi essenziali
+# Output minimale
 exec 3>&1
-# Silenzia stdout standard per tutte le stampe verbose
 exec 1>/dev/null
 
-# Stampa solo le righe essenziali su terminale
 log() {
-    # Usa FD 3 per non essere silenziato
     printf "%s\n" "$1" >&3
 }
 
 BLACKLIST_PATH="/workspaces/SO/blacklist.csv"
-LOG_LOWSLOW="/workspaces/SO/logs/low_slow_attacks.log"
-DB_PATH="/workspaces/SO/data/bank_logs.db"
-LAST_CHECK_FILE="/tmp/problema10_last_check.txt"
+LOG_SLOW="/workspaces/SO/logs/low_slow_alerts.log"
 
 # Parametri
-FINESTRA_ANALISI=60             # Analizza ultimi 60 secondi
-SOGLIA_RICHIESTE_MAX=8          # Max 8 richieste in finestra (rate basso)
-SOGLIA_RICHIESTE_MIN=3          # Min 3 richieste (persistente)
-INTERVALLO_CHECK=3
-DURATA_MONITORAGGIO=60
+SERVER_PORT=8000
+MONITORAGGIO_DURATA=30
+INTERVALLO_CHECK=5
+CONNESSIONE_TIMEOUT_THRESHOLD=20  # secondi - connessione < dati oppure > timeout
+BYTES_THRESHOLD=1024             # Almeno 1KB atteso per transazione
 
-# Soglia di blocco per risk_score (IP)
-RISK_BLOCK_THRESHOLD=100
+mkdir -p $(dirname "$LOG_SLOW")
 
-mkdir -p $(dirname "$LOG_LOWSLOW")
-
-# Array per tracciare IP già segnalati
 declare -A SEGNALATI
-ALERT_COUNT=0
+declare -A CONNESSIONE_START_TIME
+declare -A CONNESSIONE_BYTES
 
-get_timestamp() {
-    date -u '+%Y-%m-%dT%H:%M:%S'
-}
-
-# log_evento: scrive solo su file (stdout e' silenziato)
-log_evento() {
-    local messaggio="$1"
-    local timestamp=$(get_timestamp)
-    echo "[$timestamp] $messaggio" >> "$LOG_LOWSLOW"
-}
-
+# FUNZIONI COMUNI
 controlla_blacklist() {
     local tipo_elemento="$1"
     local elemento="$2"
@@ -73,6 +52,16 @@ get_risk_score() {
         echo 0
     else
         echo "$score"
+    fi
+}
+
+blocca_ip_se_necessario() {
+    local ip_to_block="$1"
+    local risk_score="$2"
+    if [ "$risk_score" -ge 100 ] && command -v iptables >/dev/null 2>&1; then
+        if ! iptables -C INPUT -s "$ip_to_block" -j DROP 2>/dev/null; then
+            iptables -A INPUT -s "$ip_to_block" -j DROP 2>/dev/null
+        fi
     fi
 }
 
@@ -93,120 +82,164 @@ aggiungi_blacklist() {
         recidivita=$((recidivita + 1))
         local new_risk=$((current_risk + risk_score))
         final_risk="$new_risk"
-        if [ "$tipo_elemento" = "IP" ] && [ "$final_risk" -ge "$RISK_BLOCK_THRESHOLD" ]; then
+        if [ "$tipo_elemento" = "IP" ] && [ "$final_risk" -ge 100 ]; then
             stato="blocked"
             blocca_ip_se_necessario "$elemento" "$final_risk"
-            # Traccia blocco nel log problema
-            echo "BLOCKED IP: $elemento | risk=$final_risk" >> "$LOG_LOWSLOW"
+            echo "BLOCKED IP: $elemento | risk=$final_risk" >> "$LOG_SLOW"
         fi
-        echo "${timestamp},${tipo_elemento},${elemento},${azione},${gravita},${recidivita},${final_risk},${stato},LOW_SLOW,${note} [RECIDIVO]" >> "$BLACKLIST_PATH"
+        echo "${timestamp},${tipo_elemento},${elemento},${azione},${gravita},${recidivita},${final_risk},${stato},LOW_SLOW_ATTACK,${note} [RECIDIVO]" >> "$BLACKLIST_PATH"
     else
-        if [ "$tipo_elemento" = "IP" ] && [ "$final_risk" -ge "$RISK_BLOCK_THRESHOLD" ]; then
+        if [ "$tipo_elemento" = "IP" ] && [ "$final_risk" -ge 100 ]; then
             stato="blocked"
             blocca_ip_se_necessario "$elemento" "$final_risk"
-            # Traccia blocco nel log problema
-            echo "BLOCKED IP: $elemento | risk=$final_risk" >> "$LOG_LOWSLOW"
+            echo "BLOCKED IP: $elemento | risk=$final_risk" >> "$LOG_SLOW"
         fi
-        echo "${timestamp},${tipo_elemento},${elemento},${azione},${gravita},1,${final_risk},${stato},LOW_SLOW,${note}" >> "$BLACKLIST_PATH"
+        echo "${timestamp},${tipo_elemento},${elemento},${azione},${gravita},1,${final_risk},${stato},LOW_SLOW_ATTACK,${note}" >> "$BLACKLIST_PATH"
     fi
 }
 
-# FUNZIONE: blocca_ip_se_necessario
-# Blocca l'IP con iptables quando il risk_score supera la soglia
-blocca_ip_se_necessario() {
-    local ip_to_block="$1"
-    local risk_score="$2"
-
-    # Blocca solo se supera la soglia e iptables e' disponibile
-    if [ "$risk_score" -ge "$RISK_BLOCK_THRESHOLD" ] && command -v iptables >/dev/null 2>&1; then
-        # Evita duplicati: -C verifica se la regola esiste gia'
-        if ! iptables -C INPUT -s "$ip_to_block" -j DROP 2>/dev/null; then
-            iptables -A INPUT -s "$ip_to_block" -j DROP 2>/dev/null
-        fi
-    fi
-}
-
-# Inizializza timestamp ultimo controllo
-if [ -f "$LAST_CHECK_FILE" ]; then
-    LAST_CHECK=$(cat "$LAST_CHECK_FILE")
-else
-    LAST_CHECK=$(date -u -d '2 minutes ago' '+%Y-%m-%dT%H:%M:%S')
-fi
-
-# Avvio monitoraggio con output minimo
+# INIZIO MONITORAGGIO
 log "P10 start"
 
-# Log dettagliato su file
-log_evento "=== AVVIO MONITORAGGIO LOW & SLOW ATTACKS ==="
-log_evento "Finestra analisi: $FINESTRA_ANALISI secondi"
-log_evento "Soglie richieste: MIN=$SOGLIA_RICHIESTE_MIN, MAX=$SOGLIA_RICHIESTE_MAX"
-log_evento "Ultimo controllo: $LAST_CHECK"
+echo "================================================================================" >> "$LOG_SLOW"
+echo "[$(date '+%Y-%m-%d %H:%M:%S')] ANALISI LOW & SLOW ATTACKS (NETWORK)" >> "$LOG_SLOW"
+echo "================================================================================" >> "$LOG_SLOW"
 
-# Calcola timestamp inizio finestra
-TIMESTAMP_FINESTRA=$(date -u -d "$FINESTRA_ANALISI seconds ago" '+%Y-%m-%dT%H:%M:%S')
-
-# Output verbose silenziato da exec 1>/dev/null
-echo "Controllo attacchi low & slow in corso..."
+echo "[*] Porta server: $SERVER_PORT"
+echo "[*] Intervallo check: $INTERVALLO_CHECK secondi"
+echo "[*] Durata monitoraggio: $MONITORAGGIO_DURATA secondi"
+echo "[*] Soglia timeout: $CONNESSIONE_TIMEOUT_THRESHOLD secondi"
+echo ""
 
 ITERAZIONI=0
-MAX_ITERAZIONI=$((DURATA_MONITORAGGIO / INTERVALLO_CHECK))
+MAX_ITERAZIONI=$((MONITORAGGIO_DURATA / INTERVALLO_CHECK))
+ALERT_COUNT=0
+ORA_START=$(date +%s)
 
-while [ $ITERAZIONI -le $MAX_ITERAZIONI ] && [ $ALERT_COUNT -eq 0 ]; do
+while [ $ITERAZIONI -le $MAX_ITERAZIONI ]; do
+    
     ITERAZIONI=$((ITERAZIONI + 1))
+    ORA_ATTUALE=$(date '+%H:%M:%S')
+    ORA_UNIX=$(date +%s)
+    TEMPO_TRASCORSO=$((ORA_UNIX - ORA_START))
     
-    # Query: IP con numero richieste in range basso (3-8) in finestra lunga (60s)
-    # Questo indica rate costante ma molto basso = pattern low & slow
-    while read; do
-        [ -z "$REPLY" ] && continue
-        
-        ip=$(echo "$REPLY" | cut -d '|' -f1)
-        num_req=$(echo "$REPLY" | cut -d '|' -f2)
-        customer_id=$(echo "$REPLY" | cut -d '|' -f3)
-        
-        # Calcola rate: richieste / secondi
-        rate=$(awk "BEGIN {printf \"%.2f\", $num_req / $FINESTRA_ANALISI}")
-        
-        # Low & Slow: poche richieste distribuite su lungo periodo
-        if [ -z "${SEGNALATI[$ip]}" ]; then
-            # Messaggio minimo di alert
-            log "P10 alert $ip"
-
-            log_evento "ALERT LOW & SLOW: IP $ip | Richieste: $num_req in ${FINESTRA_ANALISI}s | Rate: ${rate} req/s | Cliente: $customer_id"
-            
-            aggiungi_blacklist "IP" "$ip" "LOW_SLOW_ATTACK" "ALTA" 60 \
-                "Rate basso: ${rate} req/s; ${num_req} richieste in ${FINESTRA_ANALISI}s; customer: $customer_id"
-            
-            SEGNALATI[$ip]=1
-            ALERT_COUNT=$((ALERT_COUNT + 1))
-            break
-        fi
-    done < <(sqlite3 "$DB_PATH" <<EOF
-SELECT 
-    ip_address,
-    COUNT(*) as num_requests,
-    customer_id
-FROM logs
-WHERE timestamp > '$TIMESTAMP_FINESTRA'
-  AND timestamp > '$LAST_CHECK'
-GROUP BY ip_address, customer_id
-HAVING num_requests >= $SOGLIA_RICHIESTE_MIN 
-   AND num_requests <= $SOGLIA_RICHIESTE_MAX
-ORDER BY num_requests DESC;
-EOF
-)
+    echo "[Check #$ITERAZIONI @ $ORA_ATTUALE] Tempo trascorso: ${TEMPO_TRASCORSO}s"
     
-    [ $ALERT_COUNT -eq 0 ] && sleep $INTERVALLO_CHECK
+    # Ricava connessioni attive
+    echo "  → ss -tno | grep :$SERVER_PORT"
+    
+    # ss -tno mostra: Protocol, Recv-Q, Send-Q, Local Address, Peer Address, State, PID/Program
+    # Recv-Q e Send-Q indicano ristagno nei buffer
+    SS_OUTPUT=$(ss -tno 2>/dev/null | grep ":$SERVER_PORT " | awk '{print $5, $6, $7}')
+    
+    if [ -n "$SS_OUTPUT" ]; then
+        echo "  → Analizzando connessioni stagnanti..."
+        
+        while read -r source_addr recv_q send_q; do
+            
+            if [ -z "$source_addr" ]; then
+                continue
+            fi
+            
+            source_ip=$(echo "$source_addr" | cut -d: -f1)
+            
+            if [ -z "$source_ip" ] || [ "$source_ip" = "127.0.0.1" ]; then
+                continue
+            fi
+            
+            echo "  [*] IP Connesso: $source_ip"
+            echo "      → Recv-Q: $recv_q bytes | Send-Q: $send_q bytes"
+            
+            # Verifica prima occurrence per questa connessione
+            if [ -z "${CONNESSIONE_START_TIME[$source_ip]}" ]; then
+                CONNESSIONE_START_TIME[$source_ip]=$TEMPO_TRASCORSO
+                CONNESSIONE_BYTES[$source_ip]=$((recv_q + send_q))
+                echo "      → [REGISTRAZIONE] Connessione inizio"
+            else
+                # Controlla durata e volume
+                DURATA=$((TEMPO_TRASCORSO - CONNESSIONE_START_TIME[$source_ip]))
+                BYTES_TOTALI=$((recv_q + send_q))
+                BYTES_DELTA=$((BYTES_TOTALI - CONNESSIONE_BYTES[$source_ip]))
+                
+                echo "      → [CONNESSIONE ATTIVA] Durata: ${DURATA}s | Bytes: ${BYTES_TOTALI}B"
+                
+                # Rilevamento low&slow:
+                # 1. Connessione prolungata MA pochi dati trasmessi
+                # 2. Buffer stagnanti (dati non trasmessi)
+                
+                LOW_N_SLOW=0
+                MOTIVO=""
+                
+                # Condizione 1: Connessione > soglia timeout ma dati < soglia
+                if [ "$DURATA" -gt "$CONNESSIONE_TIMEOUT_THRESHOLD" ] && \
+                   [ "$BYTES_TOTALI" -lt "$BYTES_THRESHOLD" ]; then
+                    LOW_N_SLOW=1
+                    MOTIVO="Connessione prolungata (${DURATA}s) con dati insufficienti (${BYTES_TOTALI}B < ${BYTES_THRESHOLD}B)"
+                fi
+                
+                # Condizione 2: Buffer persistenti (Send-Q > 5KB per 2+ checK)
+                if [ "$send_q" -gt 5120 ]; then
+                    LOW_N_SLOW=1
+                    MOTIVO="Buffer Send-Q stagnante (${send_q}B)"
+                fi
+                
+                if [ "$LOW_N_SLOW" = "1" ]; then
+                    echo "      → [!] ANOMALIA LOW&SLOW RILEVATA!"
+                    echo "         Motivo: $MOTIVO"
+                    
+                    if [ -z "${SEGNALATI[$source_ip]}" ]; then
+                        SEGNALATI[$source_ip]=1
+                        
+                        # Risk score basato su durata e stagnazione
+                        risk_score=$((25 + (DURATA / 5) * 8))
+                        [ "$risk_score" -gt 85 ] && risk_score=85
+                        
+                        aggiungi_blacklist "IP" "$source_ip" "LOW_SLOW_ATTACK" "MEDIA" "$risk_score" \
+                            "Attacco low&slow: $MOTIVO"
+                        
+                        log "P10 alert $source_ip (${DURATA}s)"
+                        ALERT_COUNT=$((ALERT_COUNT + 1))
+                    fi
+                fi
+            fi
+            
+        done <<< "$SS_OUTPUT"
+        
+    else
+        echo "  → Nessuna connessione attiva"
+    fi
+    
+    echo ""
+    
+    # Se alert, posso stoppare anticipatamente
+    if [ "$ALERT_COUNT" -gt 0 ]; then
+        echo "  [*] Alert rilevati, continuando monitoraggio..."
+    fi
+    
+    sleep "$INTERVALLO_CHECK"
 done
 
-if [ $ALERT_COUNT -eq 0 ]; then
-    log_evento "Nessun pattern low & slow rilevato in ${DURATA_MONITORAGGIO}s"
+# REPORT FINALE
+echo ""
+echo "================================================================================"
+echo "[✓] Monitoraggio low&slow completato"
+echo "[*] Iterazioni: $ITERAZIONI"
+echo "[*] IP monitorati: ${#CONNESSIONE_START_TIME[@]}"
+echo "[*] Alert generati: $ALERT_COUNT"
+if [ "$ALERT_COUNT" -eq 0 ]; then
+    echo "[*] Nessun attacco low&slow rilevato"
 fi
+echo "[*] Log: $LOG_SLOW"
+echo "================================================================================"
 
-# Aggiorna timestamp ultimo controllo
-get_timestamp > "$LAST_CHECK_FILE"
+# Log finale
+{
+    echo "═══════════════════════════════════════════"
+    echo "LOW & SLOW ATTACK - $(date '+%Y-%m-%d %H:%M:%S')"
+    echo "═══════════════════════════════════════════"
+    echo "Connessioni monitorate: ${#CONNESSIONE_START_TIME[@]}"
+    echo "Alert generati: $ALERT_COUNT"
+} >> "$LOG_SLOW"
 
-log_evento "=== FINE MONITORAGGIO LOW & SLOW ==="
-log_evento "Iterazioni: $ITERAZIONI | Alert generati: $ALERT_COUNT"
-
-# Messaggio minimo di fine
 log "P10 done"
+

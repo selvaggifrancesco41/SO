@@ -1,59 +1,39 @@
 #!/bin/bash
 
-# PROBLEMA 5: RILEVAMENTO BRUTE-FORCE LOGIN - DATABASE ANALYSIS
+# PROBLEMA 5: RILEVAMENTO BRUTE-FORCE LOGIN - NETWORK MONITORING
 #
 # SCOPO: Rilevare tentativi di brute-force sulle API /login del server
-#        monitorando frequenza richieste HTTP da stessi IP sorgente
 #
-# METODO: Analizza database per contare login per IP in finestra temporale,
-#         rileva pattern di attacco (10+ tentativi in 10s)
+# METODO: Usa 'tshark' per catturare pacchetti HTTP POST verso /login
+#         Conta tentativi per IP sorgente, segnala se eccedono soglia
 #
-# DATABASE: Query periodiche per eventi LOGIN da stessi IP
-# BLACKLIST: Controlla e registra IP che eseguono brute-force
-#
-# DIPENDENZE: sqlite3, date, awk
+# NETWORK TOOLS: tshark, tcpdump, awk, grep
 
-# Output minimale: riduce il rumore sul terminale
-# FD 3 resta collegato al terminale per messaggi essenziali
+# Output minimale
 exec 3>&1
-# Silenzia stdout standard per tutte le stampe verbose
 exec 1>/dev/null
 
-# Stampa solo le righe essenziali su terminale
 log() {
-    # Usa FD 3 per non essere silenziato
     printf "%s\n" "$1" >&3
 }
 
 BLACKLIST_PATH="/workspaces/SO/blacklist.csv"
 LOG_BRUTEFORCE="/workspaces/SO/logs/bruteforce_alerts.log"
-DB_PATH="/workspaces/SO/data/bank_logs.db"
-LAST_CHECK_FILE="/tmp/problema05_last_check.txt"
 
-# Parametri rilevamento
-SOGLIA_TENTATIVI=10                # Max tentativi login da stesso IP in finestra
-FINESTRA_SECONDI=10                # Finestra temporale di analisi
-INTERVALLO_CHECK=2                 # Intervallo tra check (secondi)
-DURATA_MONITORAGGIO=60             # Durata totale monitoraggio
-
-# Soglia di blocco per risk_score (IP)
+# Parametri
+SERVER_PORT=8000
+SOGLIA_TENTATIVI=10
+FINESTRA_SECONDI=10
+DURATA_MONITORAGGIO=60
+INTERVALLO_CHECK=3
 RISK_BLOCK_THRESHOLD=100
 
 mkdir -p $(dirname "$LOG_BRUTEFORCE")
 
-# Inizializza timestamp ultimo check (solo se non esiste)
-if [ ! -f "$LAST_CHECK_FILE" ]; then
-    date -u '+%Y-%m-%dT%H:%M:%S' > "$LAST_CHECK_FILE"
-fi
-
-# Array per tracciare IP già segnalati in questa sessione
 declare -A SEGNALATI
+declare -A IP_TENTATIVI
 
-# FUNZIONE: controlla_blacklist
-# ARG1: tipo (IP, USER_ID, IBAN, PORTA, ATM_ID)
-# ARG2: valore elemento
-# RETURN: 0 se presente in blacklist, 1 se assente
-# NOTE: grep -q silent mode, 2>/dev/null scarta errori
+# FUNZIONI COMUNI
 controlla_blacklist() {
     local tipo_elemento="$1"
     local elemento="$2"
@@ -61,19 +41,11 @@ controlla_blacklist() {
     return $?
 }
 
-# FUNZIONE: get_risk_score
-# ARG1: tipo_elemento
-# ARG2: elemento
-# OUTPUT: risk_score (numero) oppure 0 se non trovato
-# NOTE: awk separa CSV con -F',', $7 è colonna risk_score
 get_risk_score() {
     local tipo_elemento="$1"
     local elemento="$2"
-    
     local score=$(awk -F',' -v tipo="$tipo_elemento" -v elem="$elemento" \
         '$3==tipo && $4==elem {print $7}' "$BLACKLIST_PATH" | tail -1)
-    
-    # -z: controllo se stringa vuota (zero length)
     if [ -z "$score" ]; then
         echo 0
     else
@@ -81,9 +53,16 @@ get_risk_score() {
     fi
 }
 
-# FUNZIONE: aggiungi_blacklist
-# ARGS: tipo, elemento, azione, gravita, risk_score, note
-# COMPORTAMENTO: Aggiunge a blacklist, se recidivo incrementa risk e recidivita
+blocca_ip_se_necessario() {
+    local ip_to_block="$1"
+    local risk_score="$2"
+    if [ "$risk_score" -ge "$RISK_BLOCK_THRESHOLD" ] && command -v iptables >/dev/null 2>&1; then
+        if ! iptables -C INPUT -s "$ip_to_block" -j DROP 2>/dev/null; then
+            iptables -A INPUT -s "$ip_to_block" -j DROP 2>/dev/null
+        fi
+    fi
+}
+
 aggiungi_blacklist() {
     local tipo_elemento="$1"
     local elemento="$2"
@@ -91,225 +70,144 @@ aggiungi_blacklist() {
     local gravita="$4"
     local risk_score="$5"
     local note="$6"
-    
     local timestamp=$(date '+%Y-%m-%d %H:%M:%S')
     local stato="blacklisted"
     local final_risk="$risk_score"
     
     if controlla_blacklist "$tipo_elemento" "$elemento"; then
-        # RECIDIVO
         local current_risk=$(get_risk_score "$tipo_elemento" "$elemento")
-        # grep -c conta numero di match
         local recidivita=$(grep -c "^.*,${tipo_elemento},${elemento}," "$BLACKLIST_PATH")
         recidivita=$((recidivita + 1))
-        # $(( )) arithmetic expansion per somma
         local new_risk=$((current_risk + risk_score))
         final_risk="$new_risk"
         if [ "$tipo_elemento" = "IP" ] && [ "$final_risk" -ge "$RISK_BLOCK_THRESHOLD" ]; then
             stato="blocked"
-            blocca_ip_con_iptables "$elemento"
-            # Traccia blocco nel log problema
+            blocca_ip_se_necessario "$elemento" "$final_risk"
             echo "BLOCKED IP: $elemento | risk=$final_risk" >> "$LOG_BRUTEFORCE"
         fi
-        
-        # >> append al file senza sovrascrivere
         echo "${timestamp},${tipo_elemento},${elemento},${azione},${gravita},${recidivita},${final_risk},${stato},BRUTEFORCE,${note} [RECIDIVO]" >> "$BLACKLIST_PATH"
     else
-        # NUOVO
         if [ "$tipo_elemento" = "IP" ] && [ "$final_risk" -ge "$RISK_BLOCK_THRESHOLD" ]; then
             stato="blocked"
-            blocca_ip_con_iptables "$elemento"
-            # Traccia blocco nel log problema
+            blocca_ip_se_necessario "$elemento" "$final_risk"
             echo "BLOCKED IP: $elemento | risk=$final_risk" >> "$LOG_BRUTEFORCE"
         fi
         echo "${timestamp},${tipo_elemento},${elemento},${azione},${gravita},1,${final_risk},${stato},BRUTEFORCE,${note}" >> "$BLACKLIST_PATH"
     fi
 }
 
-# FUNZIONE: blocca_ip_con_iptables
-# ARG1: IP da bloccare
-# AZIONE: Aggiunge regola iptables DROP per quell'IP
-# NOTE: Richiede sudo, verifica prima se iptables disponibile
-blocca_ip_con_iptables() {
-    local ip_to_block="$1"
-    
-    # command -v verifica se comando esiste nel PATH
-    if command -v iptables &> /dev/null; then
-        echo "[*] Tentativo blocco IP $ip_to_block con iptables..."
-        
-        # iptables -A INPUT: append regola alla chain INPUT
-        # -s: source IP
-        # -j DROP: jump to DROP target (scarta pacchetto)
-        # 2>&1: redirige stderr su stdout per catturare errori
-        sudo iptables -A INPUT -s "$ip_to_block" -j DROP 2>&1
-        
-        # $?: exit code del comando precedente (0 = success, != 0 = error)
-        if [ $? -eq 0 ]; then
-            echo "[✓] IP $ip_to_block bloccato con iptables"
-        else
-            echo "[!] Errore blocco (potrebbe servire sudo o permessi)"
-        fi
-    else
-        echo "[!] iptables non disponibile, skip blocco"
-    fi
-}
-
-# AVVIO MONITORAGGIO
-# Messaggio minimo di avvio
+# INIZIO MONITORAGGIO
 log "P05 start"
-# Log dettagliato su file
+
 echo "================================================================================" >> "$LOG_BRUTEFORCE"
-echo "[$(date '+%Y-%m-%d %H:%M:%S')] RILEVAMENTO BRUTE-FORCE AVVIATO" >> "$LOG_BRUTEFORCE"
+echo "[$(date '+%Y-%m-%d %H:%M:%S')] RILEVAMENTO BRUTE-FORCE (NETWORK)" >> "$LOG_BRUTEFORCE"
 echo "================================================================================" >> "$LOG_BRUTEFORCE"
 
-# Output verbose silenziato da exec 1>/dev/null
-echo "[*] Soglia tentativi: $SOGLIA_TENTATIVI in $FINESTRA_SECONDI secondi"
-echo "[*] Intervallo check: $INTERVALLO_CHECK secondi"
-echo "[*] Durata monitoraggio: $DURATA_MONITORAGGIO secondi"
+echo "[*] Port: $SERVER_PORT"
+echo "[*] Soglia: $SOGLIA_TENTATIVI tentativi in $FINESTRA_SECONDI secondi"
+echo "[*] Intervallo: $INTERVALLO_CHECK secondi"
+echo "[*] Durata: $DURATA_MONITORAGGIO secondi"
 echo ""
 
 ITERAZIONI=0
 MAX_ITERAZIONI=$((DURATA_MONITORAGGIO / INTERVALLO_CHECK))
 ALERT_COUNT=0
+CAPTURE_FILE="/tmp/brute_capture_$$.pcap"
+
+# Avvia cattura tshark in background
+# tshark: network protocol analyzer
+# -i lo: interface loopback
+# -f "tcp port 8000": cattura solo traffico TCP porta 8000
+# -w: scrivi in file pcap
+
+timeout $DURATA_MONITORAGGIO tshark -i lo -f "tcp port $SERVER_PORT" -w "$CAPTURE_FILE" >/dev/null 2>&1 &
+TSHARK_PID=$!
+sleep 0.5  # Dai tempo di start
 
 while [ $ITERAZIONI -le $MAX_ITERAZIONI ] && [ $ALERT_COUNT -eq 0 ]; do
     
+    ITERAZIONI=$((ITERAZIONI + 1))
     ORA_ATTUALE=$(date '+%H:%M:%S')
     echo "[Check #$ITERAZIONI] $ORA_ATTUALE"
     
-    # Leggi timestamp ultimo check
-    LAST_CHECK=$(cat "$LAST_CHECK_FILE" 2>/dev/null || echo "1970-01-01T00:00:00")
+    # Analizza cattura con tshark: estrai i POST verso /login
+    # -r: leggi dal file pcap
+    # -Y: apply filter (display filter)
+    # -T fields: output in fields
+    # -e: extrai campi specifici
     
-    # Query: trova tutti i login recenti dall'ultimo check
-    QUERY="SELECT timestamp, customer_id, ip_address 
-           FROM logs 
-           WHERE azione = 'LOGIN' 
-           AND timestamp > '$LAST_CHECK'
-           ORDER BY timestamp DESC"
-    
-    LOGIN_RECENTI=$(sqlite3 "$DB_PATH" "$QUERY" 2>/dev/null)
-    
-    if [ -n "$LOGIN_RECENTI" ]; then
-        # Estrai IP unici
-        IPS_UNICI=$(echo "$LOGIN_RECENTI" | cut -d'|' -f3 | sort -u)
+    if [ -f "$CAPTURE_FILE" ]; then
+        echo "  → Analizzando pacchetti catturati..."
         
-        echo "  → Login rilevati: $(echo "$LOGIN_RECENTI" | wc -l)"
-        echo "  → IP unici: $(echo "$IPS_UNICI" | wc -l)"
-        echo ""
+        # Estrai tentativi di login (POST /login) con IP sorgente
+        LOGIN_ATTEMPTS=$(tshark -r "$CAPTURE_FILE" -Y 'http.request.method == "POST" && http.request.uri contains "/login"' \
+            -T fields -e ip.src 2>/dev/null | sort | uniq -c)
         
-        # Per ogni IP unico, conta tentativi negli ultimi FINESTRA_SECONDI
-        while read -r suspicious_ip; do
+        if [ -n "$LOGIN_ATTEMPTS" ]; then
+            echo "  → Tentativi di login catturati:"
+            echo ""
             
-            if [ -z "$suspicious_ip" ]; then
-                continue
-            fi
-            
-            # Calcola timestamp inizio finestra (FINESTRA_SECONDI fa)
-            WINDOW_START=$(date -u -d "$FINESTRA_SECONDI seconds ago" '+%Y-%m-%dT%H:%M:%S' 2>/dev/null)
-            if [ -z "$WINDOW_START" ]; then
-                # Fallback per sistemi senza GNU date
-                WINDOW_START=$(date -u '+%Y-%m-%dT%H:%M:%S')
-            fi
-            
-            # Conta login da questo IP nella finestra temporale
-            COUNT_QUERY="SELECT COUNT(*) 
-                         FROM logs 
-                         WHERE azione = 'LOGIN' 
-                         AND ip_address = '$suspicious_ip'
-                         AND timestamp >= '$WINDOW_START'"
-            
-            TENTATIVI=$(sqlite3 "$DB_PATH" "$COUNT_QUERY" 2>/dev/null)
-            
-            # Query per customer_id associati
-            CUSTOMER_QUERY="SELECT DISTINCT customer_id 
-                            FROM logs 
-                            WHERE azione = 'LOGIN' 
-                            AND ip_address = '$suspicious_ip'
-                            AND timestamp >= '$WINDOW_START'
-                            ORDER BY customer_id 
-                            LIMIT 10"
-            
-            CUSTOMER_IDS=$(sqlite3 "$DB_PATH" "$CUSTOMER_QUERY" 2>/dev/null | paste -sd ',' -)
-            
-            echo "  → IP: $suspicious_ip | Tentativi ultimi ${FINESTRA_SECONDI}s: $TENTATIVI"
-            
-            # Controllo soglia
-            if [ "$TENTATIVI" -ge "$SOGLIA_TENTATIVI" ]; then
-                echo ""
-                echo "  [!!!] BRUTE-FORCE RILEVATO DA $suspicious_ip!"
-                echo "  [!!!] $TENTATIVI tentativi in $FINESTRA_SECONDI secondi"
+            while read -r count ip_src; do
                 
-                if [ -n "$CUSTOMER_IDS" ]; then
-                    echo "  [!!!] Account vittima: $CUSTOMER_IDS"
-                else
-                    CUSTOMER_IDS="UNKNOWN"
+                if [ -z "$ip_src" ]; then
+                    continue
                 fi
-                echo ""
                 
-                # Segnala solo se non già fatto in questa sessione
-                if [ -z "${SEGNALATI[$suspicious_ip]}" ]; then
-                    SEGNALATI[$suspicious_ip]=1
+                echo "  [!] IP: $ip_src | Tentativi: $count"
+                
+                # Controlla soglia brute-force
+                if [ "$count" -ge "$SOGLIA_TENTATIVI" ]; then
+                    echo "      → BRUTE-FORCE RILEVATO!"
                     
-                    # Controlla blacklist
-                    if controlla_blacklist "IP" "$suspicious_ip"; then
-                        echo "  → GIÀ IN BLACKLIST (RECIDIVO, gravità CRITICA)"
-                        aggiungi_blacklist "IP" "$suspicious_ip" "BRUTE_FORCE_LOGIN" \
-                            "CRITICA" 100 "Attacco brute-force: $TENTATIVI tentativi in ${FINESTRA_SECONDI}s, account vittima: $CUSTOMER_IDS"
-                    else
-                        echo "  → PRIMO RILEVAMENTO"
-                        aggiungi_blacklist "IP" "$suspicious_ip" "BRUTE_FORCE_LOGIN" \
-                            "ALTA" 70 "Attacco brute-force: $TENTATIVI tentativi in ${FINESTRA_SECONDI}s, account vittima: $CUSTOMER_IDS"
+                    if [ -z "${SEGNALATI[$ip_src]}" ]; then
+                        SEGNALATI[$ip_src]=1
+                        
+                        aggiungi_blacklist "IP" "$ip_src" "BRUTEFORCE_LOGIN" "ALTA" 70 \
+                            "$count tentativi login in ~${FINESTRA_SECONDI}s"
+                        
+                        # Log dettagliato
+                        {
+                            echo "═══════════════════════════════════════════"
+                            echo "ALERT BRUTE-FORCE - $(date '+%Y-%m-%d %H:%M:%S')"
+                            echo "═══════════════════════════════════════════"
+                            echo "IP Sorgente:   $ip_src"
+                            echo "Tentativi:     $count"
+                            echo "Soglia:        $SOGLIA_TENTATIVI"
+                            echo "Endpoint:      /login"
+                            echo "Metodo:        POST"
+                        } >> "$LOG_BRUTEFORCE"
+                        
+                        log "P05 alert $ip_src"
+                        ALERT_COUNT=$((ALERT_COUNT + 1))
+                        break
                     fi
-                    
-                    # Messaggio minimo di alert
-                    log "P05 alert $suspicious_ip"
-
-                    ALERT_COUNT=$((ALERT_COUNT + 1))
-                    
-                    # Log dettagliato
-                    {
-                        echo "═══════════════════════════════════════════"
-                        echo "ALERT BRUTE-FORCE - $(date '+%Y-%m-%d %H:%M:%S')"
-                        echo "═══════════════════════════════════════════"
-                        echo "IP attaccante:      $suspicious_ip"
-                        echo "Account vittima:    $CUSTOMER_IDS"
-                        echo "Tentativi:          $TENTATIVI"
-                        echo "Finestra:           $FINESTRA_SECONDI secondi"
-                        echo "Soglia:             $SOGLIA_TENTATIVI"
-                        echo ""
-                    } >> "$LOG_BRUTEFORCE"
-                    
-                    break
-                else
-                    echo "  → Già segnalato in questa sessione (SKIP)"
                 fi
-                
-                echo ""
-            fi
-        done < <(echo "$IPS_UNICI")
-    else
-        echo "  → Nessun login recente rilevato"
+            done <<< "$LOGIN_ATTEMPTS"
+        else
+            echo "  → Nessun tentativo di login rilevato nel traffico catturato"
+        fi
     fi
-    
-    # Aggiorna timestamp ultimo check
-    date -u '+%Y-%m-%dT%H:%M:%S' > "$LAST_CHECK_FILE"
     
     echo ""
-    ITERAZIONI=$((ITERAZIONI + 1))
-    
-    if [ $ITERAZIONI -lt $MAX_ITERAZIONI ] && [ $ALERT_COUNT -eq 0 ]; then
-        sleep $INTERVALLO_CHECK
-    fi
+    sleep $INTERVALLO_CHECK
 done
 
-# Report finale (verbose, silenziato)
+# Cleanup
+kill $TSHARK_PID 2>/dev/null
+wait $TSHARK_PID 2>/dev/null
+rm -f "$CAPTURE_FILE" 2>/dev/null
+
+# REPORT FINALE
+echo ""
 echo "================================================================================"
 echo "[✓] Monitoraggio completato"
-echo "[*] Check eseguiti: $ITERAZIONI"
-echo "[*] Alert brute-force: $ALERT_COUNT"
+echo "[*] Iterazioni: $ITERAZIONI"
+echo "[*] Alert generati: $ALERT_COUNT"
+if [ $ALERT_COUNT -eq 0 ]; then
+    echo "[*] Nessun brute-force rilevato"
+fi
 echo "[*] Log: $LOG_BRUTEFORCE"
 echo "================================================================================"
 
-# Messaggio minimo di fine
 log "P05 done"
 

@@ -4,19 +4,20 @@
 
 Questo progetto simula un **server bancario GNU/Linux** con monitoraggio avanzato di 10 anomalie di sicurezza critiche rilevabili attraverso:
 - **Analisi real-time di log** per rilevamenti veloci (P01, P02)
-- **Query periodiche database SQLite** per pattern complessi e storici (P03-P10)
+- **Comandi di rete in tempo reale** per monitoraggio diretto di connessioni, pacchetti e topologia (P03-P10)
 
-Ogni script mantiene un **output minimalista** sul terminale e registra dettagli completi in log specializzati. L'alert viene segnalato **al primo rilevamento** per focalizzare l'attenzione.
+Tutti i script utilizzano **comandi GNU/Linux standard** (`ss`, `netstat`, `tshark`, `tcpdump`, `dig`, `traceroute`, `arp`, `ping`, `ip`) come sorgente primaria di analisi, non interrogare il database. Ogni script mantiene un **output minimalista** sul terminale e registra dettagli completi in log specializzati. L'alert viene segnalato **al primo rilevamento** per focalizzare l'attenzione.
 
 ## Perché questo approccio?
 
-Nel settore bancario e nelle infrastrutture critiche, la sicurezza non si basa solo su autenticazione e autorizzazione. I problemi più subdoli sono quelli che **non violano formalmente alcuna regola** ma mostrano un comportamento **incoerente con i pattern attesi**.
+Nel settore bancario e nelle infrastrutture critiche, la sicurezza non si basa più solo su database storici. I problemi più subdoli sono quelli che **non violano formalmente alcuna regola** ma mostrano un comportamento **incoerente con i pattern di rete attesi**.
 
-Monitorando **log in tempo reale** e **interrogando il database periodicamente**, è possibile rilevare:
-- Anomalie **temporali** (accessi anomali in orari inaspettati)
-- Anomalie **comportamentali** (pattern di utilizzo insoliti)
-- Anomalie **di schema** (operazioni incoerenti con il tipo di client)
-- Anomalie **lente** (attacchi low-and-slow che non superano soglie istantanee)
+Monitorando **log in tempo reale** e **osservando direttamente il traffico e le connessioni di rete**, è possibile rilevare:
+- Anomalie **temporali** (accessi anomali in orari inaspettati, rilevabili da ss/netstat)
+- Anomalie **comportamentali** (pattern di utilizzo insoliti, visibili via tshark/tcpdump)
+- Anomalie **di schema** (operazioni incoerenti con il tipo di client, verificabili con dig/traceroute)
+- Anomalie **lente** (attacchi low-and-slow, tracciabili monitorando socket con ss -tno)
+- Anomalie **di rete** (subnet inattese, IP pubblici inaspettati, visibili da ss/arp/ip)
 
 ---
 
@@ -25,33 +26,33 @@ Monitorando **log in tempo reale** e **interrogando il database periodicamente**
 ```
 /workspaces/SO/
 ├── script/                           # 10 script di monitoraggio + orchestrator
-│   ├── problema_01_aml_bonifici.sh          # Real-time: rilevamento riciclaggio
-│   ├── problema_02_accessi_simultanei.sh    # Real-time: session hijacking
-│   ├── problema_03_accessi_notturni.sh      # DB: anomalie temporali
-│   ├── problema_04_atm_porte.sh             # DB: isolamento ATM
-│   ├── problema_05_bruteforce.sh            # DB: brute-force login
-│   ├── problema_06_correlazione_rete.sh     # DB: anomalie subnet
-│   ├── problema_07_pattern_api.sh           # DB: automazione sospetta
-│   ├── problema_08_covert_channels.sh       # DB: canali covert
-│   ├── problema_09_incoerenza_rete.sh       # DB: incoerenza operazione-client
-│   ├── problema_10_low_slow.sh              # DB: attacchi lenti
+│   ├── problema_01_aml_bonifici.sh          # Real-time log: rilevamento riciclaggio
+│   ├── problema_02_accessi_simultanei.sh    # Real-time log: session hijacking
+│   ├── problema_03_accessi_notturni.sh      # Network: ss + host - anomalie temporali
+│   ├── problema_04_atm_porte.sh             # Network: netstat - isolamento ATM
+│   ├── problema_05_bruteforce.sh            # Network: tshark - brute-force login
+│   ├── problema_06_correlazione_rete.sh     # Network: ip,arp,ping - anomalie subnet
+│   ├── problema_07_pattern_api.sh           # Network: tshark - automazione API
+│   ├── problema_08_covert_channels.sh       # Network: tcpdump - canali covert
+│   ├── problema_09_incoerenza_rete.sh       # Network: dig,traceroute - incoerenza
+│   ├── problema_10_low_slow.sh              # Network: ss -tno - attacchi lenti
 │   └── run_problem.sh                       # Orchestrator
 ├── server/
 │   └── server.py                    # Server Flask per test
 ├── data/
-│   └── bank_logs.db                 # Database SQLite con eventi
+│   └── bank_logs.db                 # Database SQLite (storico, non usato per rilevamento)
 ├── logs/
 │   ├── realtime_access.log          # Log centrale in tempo reale
 │   ├── aml_alerts.log
 │   ├── simultanei_alerts.log
-│   ├── notturni_alerts.log
-│   ├── atm_porte_alerts.log
-│   ├── bruteforce_alerts.log
-│   ├── correlazione_alerts.log
-│   ├── pattern_api_alerts.log
-│   ├── covert_channels_alerts.log
-│   ├── incoerenza_rete_alerts.log
-│   ├── low_slow_attacks.log
+│   ├── notturni_alerts.log          # P03: anomalie notturne
+│   ├── atm_porte_alerts.log         # P04: ATM anomali
+│   ├── bruteforce_alerts.log        # P05: brute-force
+│   ├── correlazione_alerts.log      # P06: subnet anomale
+│   ├── pattern_api_alerts.log       # P07: pattern API
+│   ├── covert_channels_alerts.log   # P08: covert channels
+│   ├── incoerenza_alerts.log        # P09: incoerenza rete
+│   ├── low_slow_alerts.log          # P10: low&slow
 │   ├── notifiche_email.txt          # Notifiche ai clienti
 │   ├── operazioni_bloccate_zero.log # Blocchi importo=0
 │   └── api_sospese.log              # API sospese
@@ -190,29 +191,39 @@ Il **fattore temporale** è un indicatore di anomalia comportamentale cruciale. 
 
 #### Metodo di rilevamento
 
-Lo script **interroga periodicamente il database SQLite**:
-- Query per LOGIN nella fascia sensibile (22:00-06:00)
-- Filtra solo **timestamp recenti** (ultimi 60 secondi)
-- Per ogni IP notturno, verifica se già noto o nuovo
-- Se nuovo, segnala
+Lo script **monitora le connessioni TCP attive in tempo reale**:
+- Usa `ss -tn state established` per ottenere le connessioni stabilizzate
+- Filtra solo le connessioni verso `SERVER_PORT` (porta server)
+- Per ogni IP connesso, estrae il peer address (sorgente)
+- Usa `host <IP>` per ottenere il reverse DNS
+- Verifica se l'ora attuale ricade nella fascia notturna (22:00-06:00)
+- Se nuovo IP notturno, segnala
 
 ```bash
 # File: problema_03_accessi_notturni.sh
-# Query SQLite: cerca LOGIN in fascia notturna
-QUERY="SELECT timestamp, customer_id, ip_address, azione 
-       FROM logs 
-       WHERE azione = 'LOGIN' 
-       AND datetime > datetime('now', '-60 seconds') 
-       AND (strftime('%H', datetime) >= '22' OR strftime('%H', datetime) < '06')"
+# Monitora connessioni TCP attive verso la porta server
+CONNESSIONI=$(ss -tn state established | grep ":$SERVER_PORT " | awk '{print $4}' | cut -d: -f1 | sort -u)
 
-LOGIN_NOTTURNI=$(sqlite3 "$DB_PATH" "$QUERY")
-
-# Per ogni match, controlla se IP è già noto
-if ! controlla_blacklist "IP" "$ip_address"; then
-    # IP nuovo in fascia notturna -> segnala
-    aggiungi_blacklist "IP" "$ip_address" "LOGIN_NOTTURNO" "MEDIA" 30 \
-        "Accesso notturno anomalo da $ip_address"
-fi
+while read -r suspicious_ip; do
+    if [ -z "$suspicious_ip" ] || [ "$suspicious_ip" = "127.0.0.1" ]; then
+        continue
+    fi
+    
+    # Verifica ora attuale
+    CURRENT_HOUR=$(date '+%H')
+    if [ "$CURRENT_HOUR" -ge 22 ] || [ "$CURRENT_HOUR" -lt 6 ]; then
+        
+        # Ricava hostname per validazione
+        HOSTNAME=$(host "$suspicious_ip" | grep "domain name pointer" | awk '{print $NF}')
+        
+        # Se non già segnalato
+        if ! controlla_blacklist "IP" "$suspicious_ip"; then
+            # Segnala accesso notturno anomalo
+            aggiungi_blacklist "IP" "$suspicious_ip" "LOGIN_NOTTURNO" "MEDIA" 30 \
+                "Accesso notturno da $suspicious_ip ($HOSTNAME)"
+        fi
+    fi
+done <<< "$CONNESSIONI"
 ```
 
 #### Comportamento dell'alert
@@ -232,32 +243,36 @@ Gli **ATM sono nodi critici** con comportamento altamente standardizzato. ATM da
 
 #### Metodo di rilevamento
 
-Lo script **interroga periodicamente il database SQLite**:
-- Query per LOGIN da IP ATM (range 192.168.30.%)
-- Conta i login dello stesso ATM negli ultimi 60 secondi
-- Se il count supera 10, segnala **ISOLAMENTO IMMEDIATO**
+Lo script **monitora le connessioni TCP della subnet ATM in tempo reale**:
+- Usa `netstat -tn` per ottenere tutte le connessioni TCP
+- Filtra solo le connessioni dalla subnet ATM (192.168.30.x)
+- Per ogni ATM (IP univoco), conta il numero di connessioni contemporanee
+- Se il count per un singolo ATM supera 5 connessioni, segnala **ISOLAMENTO IMMEDIATO**
 
 ```bash
 # File: problema_04_atm_porte.sh
-# Query: conta LOGIN da IP ATM negli ultimi 60s
-QUERY="SELECT ip, COUNT(*) as login_count 
-       FROM logs 
-       WHERE action='LOGIN' 
-       AND ip LIKE '192.168.30.%' 
-       AND datetime > datetime('now', '-60 seconds')
-       GROUP BY ip HAVING COUNT(*) > 10"
+# Monitora connessioni TCP dalla subnet ATM
+ATM_CONNECTIONS=$(netstat -tn | grep " $ATM_SUBNET\." | grep ":$SERVER_PORT ")
 
-ATM_LOGINS=$(sqlite3 "$DB_PATH" "$QUERY")
-
-# Se trovato pattern anomalo
-if [ -n "$ATM_LOGINS" ]; then
-    # ISOLA IMMEDIATAMENTE con risk_score=100
-    aggiungi_blacklist "IP" "$atm_ip" "ATM_ANOMALO" "CRITICA" 100 \
-        "$login_count login in 60s - ISOLAMENTO IMMEDIATO"
+while read -r line; do
+    # Estrai IP sorgente ATM
+    atm_ip=$(echo "$line" | awk '{print $5}' | cut -d: -f1)
     
-    # Applica DROP con iptables
-    iptables -A INPUT -s "$atm_ip" -j DROP
-fi
+    if [ -n "$atm_ip" ]; then
+        # Conta connessioni contemporanee per questo ATM
+        conn_count=$(echo "$ATM_CONNECTIONS" | grep "$atm_ip" | wc -l)
+        
+        # Se troppi login simultanei dal singolo ATM
+        if [ "$conn_count" -ge 5 ]; then
+            # ISOLA IMMEDIATAMENTE con risk_score=100
+            aggiungi_blacklist "IP" "$atm_ip" "ATM_ANOMALO" "CRITICA" 100 \
+                "$conn_count connessioni simultanee - ISOLAMENTO IMMEDIATO"
+            
+            # Applica DROP con iptables
+            iptables -A INPUT -s "$atm_ip" -j DROP 2>/dev/null
+        fi
+    fi
+done <<< "$ATM_CONNECTIONS"
 ```
 
 #### Comportamento dell'alert
@@ -277,32 +292,40 @@ Attacchi di **forza bruta** anche con rate limiting distribuito sono possibili. 
 
 #### Metodo di rilevamento
 
-Lo script **interroga periodicamente il database SQLite**:
-- Query per LOGIN dagli ultimi 10 secondi
-- Per ogni IP univoco, conta i tentativi nella finestra
-- Se il count supera 10, segnala
+Lo script **cattura e analizza il traffico HTTP in tempo reale**:
+- Usa `tshark` per catturare pacchetti HTTP verso la porta server
+- Filtra solo i metodi HTTP POST verso `/login`
+- Conta i tentativi di login per IP sorgente
+- Se un IP effettua 10+ tentativi in ~10 secondi, segnala brute-force
 
 ```bash
 # File: problema_05_bruteforce.sh
-# Calcola finestra temporale: ultimi 10 secondi
-WINDOW_START=$(date -u -d "10 seconds ago" '+%Y-%m-%dT%H:%M:%S')
+# Cattura traffico HTTP per 10 secondi
+CADURE=10
+CADURE_FILE="/tmp/bruteforce_$$.pcap"
+timeout "$DURATA" tshark -i lo -f "tcp port $SERVER_PORT" -w "$CAPTURE_FILE" -q 2>/dev/null
 
-# Query: conta LOGIN per IP nella finestra
-COUNT_QUERY="SELECT COUNT(*) 
-             FROM logs 
-             WHERE azione = 'LOGIN' 
-             AND ip_address = '$suspicious_ip'
-             AND timestamp >= '$WINDOW_START'"
+# Analizza il pcap per richieste HTTP POST /login
+LOGIN_ATTEMPTS=$(tshark -r "$CAPTURE_FILE" \
+    -Y 'http.request.method == "POST" && http.request.uri contains "/login"' \
+    -T fields -e ip.src 2>/dev/null)
 
-TENTATIVI=$(sqlite3 "$DB_PATH" "$COUNT_QUERY")
+# Conta tentativi per IP
+while read -r src_ip; do
+    if [ -n "$src_ip" ]; then
+        count=$(echo "$LOGIN_ATTEMPTS" | grep -c "^$src_ip$")
+        
+        # Se 10+ tentativi
+        if [ "$count" -ge 10 ]; then
+            # Brute-force rilevato
+            aggiungi_blacklist "IP" "$src_ip" "BRUTEFORCE_LOGIN" "ALTA" 70 \
+                "$count tentativi in ${DURATA}s - BRUTE-FORCE RILEVATO"
+            blocca_ip_se_necessario "$src_ip" 70
+        fi
+    fi
+done <<< "$(echo "$LOGIN_ATTEMPTS" | sort -u)"
 
-# Controllo soglia
-if [ "$TENTATIVI" -ge 10 ]; then
-    # Brute-force rilevato
-    aggiungi_blacklist "IP" "$suspicious_ip" "BRUTEFORCE_LOGIN" "ALTA" 70 \
-        "$TENTATIVI tentativi in 10s - BRUTE-FORCE RILEVATO"
-    blocca_ip_se_necessario "$suspicious_ip" 70
-fi
+rm -f "$CAPTURE_FILE"
 ```
 
 #### Comportamento dell'alert
@@ -322,23 +345,36 @@ Un'infrastruttura bancaria ha **subnet separate**: clienti pubblici su range pri
 
 #### Metodo di rilevamento
 
-Lo script **interroga periodicamente il database SQLite**:
-- Query per LOGIN recenti
-- Per ogni IP, verifica se appartiene alle subnet attese (10.0.0.0/8, 172.16.0.0/12, 192.168.0.0/16)
-- Se IP è pubblico o inatteso, segnala
+Lo script **monitora la topologia di rete locale e IP pubblici**:
+- Usa `ss -tn state established` per ottenere connessioni attive
+- Usa `ip addr show` per raccogliere le interfacce e subnet locali
+- Usa `arp -a` per visualizzare i dispositivi sulla rete locale
+- Usa `ping` per verificare latenza e raggiungibilità di IP anomali
+- Se un IP è pubblico o estraneo alle subnet attese, segnala
 
 ```bash
 # File: problema_06_correlazione_rete.sh
-IPS_RECENTI=$(sqlite3 "$DB_PATH" "$QUERY")  # Query LOGIN recenti
+# Raccolta topologia di rete: interfacce locali
+INTERFACCE=$(ip addr show | grep "inet " | awk '{print $2}' | grep -v "127.0.0.1")
 
-while read -r ip; do
-    # Controlla se IP è in range privato atteso
-    if ! echo "$ip" | grep -qE "^192.168|^10\.|^172.1[6-9]\.|^172.2[0-9]\.|^172.3[01]"; then
-        # IP pubblico/inatteso -> anomalia
-        aggiungi_blacklist "IP" "$ip" "SUBNET_ANOMALA" "MEDIA" 50 \
-            "Login da IP pubblico inatteso: $ip"
+# Raccolta ARP cache
+ARP_CACHE=$(arp -a | grep -E "192.168|10\.")
+
+# Connessioni al server
+CONNESSIONI=$(ss -tn state established | grep ":$SERVER_PORT " | awk '{print $4}' | cut -d: -f1 | sort -u)
+
+while read -r suspicious_ip; do
+    if is_private_ip "$suspicious_ip"; then
+        # IP privato (atteso)
+        continue
+    else
+        # IP PUBBLICO O INATTESO -> anomalia
+        LATENCY=$(ping -c 1 -W 1 "$suspicious_ip" 2>/dev/null | grep "time=" | awk -F'time=' '{print $2}' | cut -d' ' -f1)
+        
+        aggiungi_blacklist "IP" "$suspicious_ip" "SUBNET_ANOMALA" "MEDIA" 50 \
+            "Login da IP pubblico inatteso: $suspicious_ip; latenza: ${LATENCY}ms"
     fi
-done <<< "$IPS_RECENTI"
+done <<< "$CONNESSIONI"
 ```
 
 #### Comportamento dell'alert
@@ -357,28 +393,42 @@ Ogni tipo di client (app mobile, ATM, web portal) ha un **pattern di utilizzo ca
 
 #### Metodo di rilevamento
 
-Lo script **interroga periodicamente il database SQLite**:
-- Query per operazioni (PRELIEVO/DEPOSITO/BONIFICO) negli ultimi 15 secondi
-- Raggruppa per IP
-- Se un IP ha >15 operazioni in 15s, segnala
+Lo script **cattura e analizza il traffico HTTP in tempo reale**:
+- Usa `tshark` per catturare pacchetti HTTP verso la porta server
+- Analizza le richieste HTTP per endpoint univoci
+- Conta il numero di richieste per IP sorgente in una finestra temporale
+- Se un IP effettua troppe richieste HTTP in poco tempo, segnala pattern anomalo (automazione)
 
 ```bash
 # File: problema_07_pattern_api.sh
-# Query: conta operazioni API per IP in 15 secondi
-QUERY="SELECT ip_address, COUNT(*) as op_count 
-       FROM logs 
-       WHERE azione IN ('PRELIEVO', 'DEPOSITO', 'BONIFICO') 
-       AND datetime > datetime('now', '-15 seconds')
-       GROUP BY ip_address HAVING COUNT(*) > 15"
+# Cattura traffico HTTP per 20 secondi
+DURATION_CAPTURE=20
+CADURE_FILE="/tmp/api_capture_$$.pcap"
+timeout "$DURATION_CAPTURE" tshark -i lo -f "tcp port $SERVER_PORT" -w "$CAPTURE_FILE" -q 2>/dev/null
 
-RICHIESTE_RECENTI=$(sqlite3 "$DB_PATH" "$QUERY")
+# Analizza le richieste HTTP
+tshark -r "$CAPTURE_FILE" \
+    -Y "http.request.method" \
+    -T fields -e frame.time -e ip.src -e http.request.method -e http.request.uri > "$TSHARK_OUTPUT"
 
-# Per ogni match
-RICHIESTE_IP=$(sqlite3 "$DB_PATH" "$COUNT_QUERY")
-if [ "$RICHIESTE_IP" -gt 15 ]; then
-    aggiungi_blacklist "IP" "$ip" "PATTERN_ANOMALO_API" "MEDIA" 40 \
-        "$RICHIESTE_IP operazioni in 15s - AUTOMAZIONE SOSPETTA"
-fi
+# Conta richieste per IP
+while IFS=$'\t' read -r timestamp src_ip method uri; do
+    if [ -n "$src_ip" ]; then
+        count=$((${REQUEST_COUNTS[$src_ip]:-0} + 1))
+        REQUEST_COUNTS[$src_ip]=$count
+    fi
+done < "$TSHARK_OUTPUT"
+
+# Se troppe richieste -> automazione sospetta
+for ip in "${!REQUEST_COUNTS[@]}"; do
+    count=${REQUEST_COUNTS[$ip]}
+    if [ "$count" -ge 15 ]; then
+        aggiungi_blacklist "IP" "$ip" "PATTERN_API_ABUSE" "MEDIA" 40 \
+            "$count richieste HTTP in poco tempo - AUTOMAZIONE SOSPETTA"
+    fi
+done
+
+rm -f "$CAPTURE_FILE" "$TSHARK_OUTPUT"
 ```
 
 #### Comportamento dell'alert
@@ -397,50 +447,43 @@ Un **canale covert** è comunicazione nascosta dentro traffico legittimo. Nel ba
 
 #### Metodo di rilevamento
 
-Lo script **interroga periodicamente il database SQLite**:
-- Query per operazioni a importo=0 o NULL negli ultimi 60 secondi
-- Se un IP ha >5 operazioni fake, segnala con **conseguenze critiche**
+Lo script **cattura pacchetti anomali che indicano covert channels**:
+- Usa `tcpdump` per catturare pacchetti sulla localhost
+- Usa `tshark` per analizzare il pcap e cercare pattern anomali:
+  - Pacchetti ACK-only senza payload (flag 0x10)
+  - Pacchetti con zero-length payload suggestivi di comunicazione nascosta
+- Conta pattern anomali per IP sorgente
+- Inoltre, analizza il log realtime per operazioni a `importo=0` (fake operations)
+- Se pattern anomali o troppe operazioni fake, segnala covert channel
 
 ```bash
 # File: problema_08_covert_channels.sh
-# Query: estrai operazioni fake (importo=0 o NULL) in 60s
-QUERY="SELECT ip_address, customer_id, COUNT(*) as fake_count 
-       FROM logs 
-       WHERE (importo = 0 OR importo IS NULL) 
-       AND datetime > datetime('now', '-60 seconds')
-       GROUP BY ip_address, customer_id HAVING COUNT(*) >= 5"
+# Cattura pacchetti con tcpdump
+timeout "$DURATION_CAPTURE" tcpdump -i lo "tcp port $SERVER_PORT" -w "$CAPTURE_FILE" -q
 
-FAKE_OPS=$(sqlite3 "$DB_PATH" "$QUERY")
+# Analizza con tshark per pattern anomali
+tshark -r "$CAPTURE_FILE" -T fields -e ip.src -e tcp.flags -e tcp.len > "$TSHARK_ANALYSIS"
 
-# Se trovato canale covert
-if [ "$fake_count" -ge 5 ]; then
-    # CONSEGUENZE CRITICHE:
-    registra_blocco_importo_zero "$ip" "$customer_id" "$fake_count"  # Log blocco
-    sospendi_api "$ip" "$customer_id"  # Sospendi le API
-    
-    # Registra entry CRITICA in blacklist
-    aggiungi_blacklist "IP" "$ip" "API_SOSPESA" "CRITICA" 100 \
-        "Canale covert rilevato - API sospese"
-fi
+# Conta ACK-only packets (flags=0x10) e zero-payload
+while IFS=$'\t' read -r src_ip flags payload_len; do
+    if [ "$flags" = "0x10" ]; then
+        ACK_ONLY_PACKETS[$src_ip]=$((${ACK_ONLY_PACKETS[$src_ip]:-0} + 1))
+    fi
+    if [ "$payload_len" = "0" ] && [ "$flags" != "0x02" ]; then
+        ZERO_PAYLOAD[$src_ip]=$((${ZERO_PAYLOAD[$src_ip]:-0} + 1))
+    fi
+done < "$TSHARK_ANALYSIS"
 
-# FUNZIONE: registra_blocco_importo_zero
-# Scrive su log dedicato
-registra_blocco_importo_zero() {
-    local ip="$1"
-    local customer_id="$2"
-    local count="$3"
-    echo "[$timestamp] BLOCCO IP:$ip CUSTOMER:$customer_id FAKE_OPS:$count" >> "$LOG_BLOCCO_ZERO"
-}
-
-# FUNZIONE: sospendi_api
-# Sospende tutte le API per l'IP
-sospendi_api() {
-    local ip="$1"
-    local customer_id="$2"
-    echo "[$timestamp] API_SOSPESA IP:$ip CUSTOMER:$customer_id" >> "$LOG_API_SOSPESA"
-    aggiungi_blacklist "IP" "$ip" "API_SOSPESA" "CRITICA" 100 \
-        "Tutte le API sospese - canale covert"
-}
+# Se pattern anomali rilevati
+for ip in "${!ACK_ONLY_PACKETS[@]}"; do
+    count=${ACK_ONLY_PACKETS[$ip]}
+    if [ "$count" -ge 20 ]; then
+        # CONSEGUENZE CRITICHE
+        aggiungi_blacklist "IP" "$ip" "COVERT_ACK_FLOOD" "CRITICA" 100 \
+            "Flood ACK patterns rilevati - Canale covert - API SOSPESE"
+        sospendi_api "$ip"
+    fi
+done
 ```
 
 #### Comportamento dell'alert
@@ -461,29 +504,51 @@ Nel mondo reale, non tutte le operazioni sono lecite solo perché formalmente va
 
 #### Metodo di rilevamento
 
-Lo script **interroga periodicamente il database SQLite**:
-- Determina il "tipo di client" dall'IP sorgente (ATM vs web client vs admin)
-- Verifica se l'operazione è coerente con il tipo
-- Se c'è mismatch, segnala
+Lo script **classifica i client in base al tipo di rete e verifica coerenza operazioni**:
+- Usa `dig +short -x <IP>` per reverse DNS lookup e classificare il client type (ATM, PC_CLIENT, MOBILE, etc.)
+- Usa `traceroute` per analizzare il percorso di rete fino al client
+- Legge il log realtime per estrarre le operazioni eseguite
+- Verifica se l'operazione è coerente con il tipo di client rilevato
+- Se mismatch (es. BONIFICO da ATM, o PRELIEVO da ADMIN), segnala incoerenza
 
 ```bash
 # File: problema_09_incoerenza_rete.sh
-# Controlla coerenza operazione vs tipo di client
-case "$client_type|$operation" in
-    "ATM|BONIFICO")
-        # ATM non dovrebbe fare bonifici
-        aggiungi_blacklist "IP" "$ip" "INCOERENZA_RETE" "ALTA" 70 \
-            "ATM tentò BONIFICO - INCOERENTE"
-        ;;
-    "ADMIN|PRELIEVO")
-        # Admin non dovrebbe fare prelievi
-        aggiungi_blacklist "IP" "$ip" "INCOERENZA_RETE" "ALTA" 70 \
-            "ADMIN tentò PRELIEVO - INCOERENTE"
-        ;;
-    *)
-        # Coerente
-        ;;
-esac
+# Classificazione client type da IP
+classifica_client() {
+    local ip="$1"
+    
+    # Reverse lookup con dig
+    hostname=$(dig +short -x "$ip" | head -1)
+    
+    if [[ "$hostname" =~ [Aa][Tt][Mm]|bancomat ]]; then
+        echo "ATM"
+    elif [[ "$hostname" =~ [Cc]lient|[Pp]c|[Ww]eb ]]; then
+        echo "PC_CLIENT"
+    elif [[ "$hostname" =~ [Mm]obile|[Aa]pp ]]; then
+        echo "MOBILE"
+    else
+        echo "UNKNOWN"
+    fi
+}
+
+# Leggi operazioni dal log e verifica coerenza
+while IFS='|' read -r timestamp customer_id operation ip_source; do
+    client_type=$(classifica_client "$ip_source")
+    
+    case "$client_type|$operation" in
+        "ATM|BONIFICO")
+            # ATM non dovrebbe fare bonifici
+            aggiungi_blacklist "IP" "$ip_source" "INCOERENZA_RETE" "ALTA" 70 \
+                "ATM tentò BONIFICO - INCOERENTE"
+            ;;
+        "ADMIN|PRELIEVO")
+            # Admin non dovrebbe fare prelievi
+            aggiungi_blacklist "IP" "$ip_source" "INCOERENZA_RETE" "ALTA" 70 \
+                "ADMIN tentò PRELIEVO - INCOERENTE"
+            ;;
+    esac
+done < <(tail -50 "$LOG_REALTIME" | grep -E "BONIFICO|ATM|PRELIEVO|ONLINE" | 
+         awk -F',' '{print $1 "|" $3 "|" $4 "|" $5}')
 ```
 
 #### Comportamento dell'alert
@@ -503,25 +568,48 @@ Non tutti gli attacchi sono rumorosi. Gli attacchi **lenti e distribuiti** (low 
 
 #### Metodo di rilevamento
 
-Lo script **interroga periodicamente il database SQLite**:
-- Conta le richieste per IP negli ultimi 60 secondi
-- Se il count è tra 3 e 8 (rate basso ma sostenuto), segnala come Low & Slow
-- Continua il monitoraggio per correlare il pattern nel tempo
+Lo script **monitora le connessioni TCP stagnanti in tempo reale**:
+- Usa `ss -tno` per ottenere connessioni TCP con statistiche dettagliate (Recv-Q, Send-Q)
+- Traccia connessioni che rimangono stabilizzate per più di 20 secondi
+- Monitora il volume di dati trasmessi (Recv-Q + Send-Q)
+- Se una connessione è prolungata MA ha pochi dati trasmessi, indica attacco low&slow
+- Se Send-Q mostra ristagno (> 5KB per più check), indica possibile stall
 
 ```bash
 # File: problema_10_low_slow.sh
-# Query: estrai richieste per IP negli ultimi 60s
-QUERY="SELECT ip_address, COUNT(*) as req_count 
-       FROM logs 
-       WHERE datetime > datetime('now', '-60 seconds')
-       GROUP BY ip_address HAVING COUNT(*) BETWEEN 3 AND 8"
-
-# Se trovato pattern Low & Slow
-if [ "$count" -ge 3 ] && [ "$count" -le 8 ]; then
-    # Rate basso ma sostenuto -> Low & Slow
-    aggiungi_blacklist "IP" "$ip" "LOW_SLOW_ATTACK" "MEDIA" 60 \
-        "$count richieste in 60s - ATTACCO LENTO"
-fi
+# Monitora connessioni TCP con estadísticas
+while true; do
+    SS_OUTPUT=$(ss -tno 2>/dev/null | grep ":$SERVER_PORT " | awk '{print $5, $6, $7}')
+    
+    while read -r source_addr recv_q send_q; do
+        source_ip=$(echo "$source_addr" | cut -d: -f1)
+        
+        if [ -z "${CONNESSIONE_START_TIME[$source_ip]}" ]; then
+            # Prima occorrenza: registra
+            CONNESSIONE_START_TIME[$source_ip]=$TEMPO_ATTUALE
+            CONNESSIONE_BYTES[$source_ip]=$((recv_q + send_q))
+        else
+            # Connessione attiva: verifica durata e volume
+            DURATA=$((TEMPO_ATTUALE - CONNESSIONE_START_TIME[$source_ip]))
+            BYTES_TOTALI=$((recv_q + send_q))
+            
+            # Rilevamento low&slow:
+            if [ "$DURATA" -gt 20 ] && [ "$BYTES_TOTALI" -lt 1024 ]; then
+                # Connessione prolungata con pochi dati
+                aggiungi_blacklist "IP" "$source_ip" "LOW_SLOW_ATTACK" "MEDIA" 60 \
+                    "Connessione prolungata (${DURATA}s) con dati insufficienti (${BYTES_TOTALI}B)"
+            fi
+            
+            # Se Send-Q stagnante
+            if [ "$send_q" -gt 5120 ]; then
+                aggiungi_blacklist "IP" "$source_ip" "LOW_SLOW_SEND_STALL" "MEDIA" 50 \
+                    "Buffer Send-Q stagnante (${send_q}B)"
+            fi
+        fi
+    done <<< "$SS_OUTPUT"
+    
+    sleep 5
+done
 ```
 
 #### Comportamento dell'alert
@@ -535,8 +623,16 @@ fi
 
 ## Note operative
 
-- **Metodo P01-P02**: Real-time log analysis (tail + grep/awk)
-- **Metodo P03-P10**: Periodic SQLite queries (sqlite3 command)
+- **Metodo P01-P02**: Real-time log analysis (tail + grep/awk) per rilevamento veloce
+- **Metodo P03-P10**: Network monitoring commands per osservazione diretta del traffico:
+  - P03: `ss -tn state established` per connessioni TCP, `host` per reverse DNS
+  - P04: `netstat -tn` per monitoraggio subnet ATM
+  - P05: `tshark` per cattura HTTP e conteggio tentativi /login
+  - P06: `ip addr`, `arp -a`, `ping` per topologia rete
+  - P07: `tshark` per analisi richieste HTTP e pattern API
+  - P08: `tcpdump` + `tshark` per pacchetti anomali (ACK-only, zero-payload)
+  - P09: `dig` per reverse lookup client classification, `traceroute` per path analysis
+  - P10: `ss -tno` per monitoraggio buffer Send-Q e connessioni stagnanti
 - **Output**: Redirect stdout a /dev/null, usa FD3 per output critico
 - **Logging**: Dettagli completi in file specializzati per ogni problema
 - **Escalation**: Risk_score accumula per elementi recidivi
