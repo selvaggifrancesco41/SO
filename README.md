@@ -207,7 +207,7 @@ Gli accessi fuori profilo orario sono un segnale forte. Accessi notturni
  sono tipici di automazioni o attori malevoli. E` stato scelto perche`
  il contesto temporale e` semplice da interpretare e utile per escalation.
 
-**Perche` e` importante**
+**Perche` è importante**
 - riduce falsi positivi con una regola chiara
 - permette notifica del cliente
 - evidenzia accessi fuori routine
