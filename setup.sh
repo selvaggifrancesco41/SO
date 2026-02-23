@@ -7,7 +7,7 @@
 # DESCRIZIONE:
 # Script di setup automatico che:
 # 1. Prepara l'ambiente (virtualenv, dipendenze)
-# 2. Inizializza il database eventi_bancari.db
+# 2. Inizializza il database bank_logs.db
 # 3. Popola il database con dati realistici (se necessario)
 # 4. Avvia il server Flask
 # 5. Mostra la dashboard di sicurezza
@@ -28,7 +28,7 @@ BASE_DIR=$(pwd)
 LOGS_DIR="$BASE_DIR/logs"
 DATA_DIR="$BASE_DIR/data"
 SCRIPT_DIR="$BASE_DIR/script"
-DB_FILE="$DATA_DIR/eventi_bancari.db"
+DB_FILE="$DATA_DIR/bank_logs.db"
 LOG_FILE="$LOGS_DIR/server.log"
 SERVER_PID_FILE="$LOGS_DIR/server.pid"
 
@@ -89,12 +89,12 @@ echo ""
 # Fase 2: inizializzazione database
 log "setup db"
 
-# Inizializza il database eventi_bancari.db
+# Inizializza il database bank_logs.db
 python3 << 'EOF'
 import sqlite3
 import os
 
-DB_PATH = "data/eventi_bancari.db"
+DB_PATH = "data/bank_logs.db"
 os.makedirs(os.path.dirname(DB_PATH), exist_ok=True)
 
 conn = sqlite3.connect(DB_PATH)
@@ -118,7 +118,7 @@ cur.execute("""
 
 conn.commit()
 conn.close()
-print("[✓] Database eventi_bancari.db inizializzato")
+print("[✓] Database bank_logs.db inizializzato")
 EOF
 
 echo ""
@@ -208,54 +208,22 @@ fi
 echo ""
 
 # ============================================================================
-# FASE 6: OPZIONI INTERATTIVE
+# FASE 6: AVVIO AUTOMATICO GENERATORE TRAFFICO
 # ============================================================================
 
-# Fase 6: opzioni finali (output minimo)
+# Fase 6: avvio automatico simula_attivita_random.sh
 log "setup done"
-echo "  2) Generare traffico casuale continuo (richiede Ctrl+C per fermare)"
-echo "  3) Visualizzare solo la dashboard"
-echo "  4) Niente, lasciare solo il server attivo"
-echo ""
-read -p "Scelta [1-4]: " SCELTA
 
-case $SCELTA in
-    1)
-        echo ""
-        echo "[*] Esecuzione controlli di sicurezza..."
-        if [ -f "$SCRIPT_DIR/esegui_tutti_controlli.sh" ]; then
-            cd "$SCRIPT_DIR"
-            bash esegui_tutti_controlli.sh
-        else
-            echo "[!] Script non trovato: $SCRIPT_DIR/esegui_tutti_controlli.sh"
-        fi
-        ;;
-    2)
-        echo ""
-        echo "[*] Avvio generatore di traffico casuale..."
-        echo "[*] Premi Ctrl+C per fermare"
-        if [ -f "$SCRIPT_DIR/simula_attivita_random.sh" ]; then
-            cd "$SCRIPT_DIR"
-            bash simula_attivita_random.sh
-        else
-            echo "[!] Script non trovato: $SCRIPT_DIR/simula_attivita_random.sh"
-        fi
-        ;;
-    3)
-        echo ""
-        if [ -f "$SCRIPT_DIR/dashboard_sicurezza.sh" ]; then
-            bash "$SCRIPT_DIR/dashboard_sicurezza.sh"
-        fi
-        ;;
-    4)
-        echo ""
-        echo "[✓] Server in esecuzione in background"
-        ;;
-    *)
-        echo ""
-        echo "[!] Scelta non valida, server lasciato attivo"
-        ;;
-esac
+echo ""
+echo "[*] Avvio automatico del generatore di traffico casuale..."
+echo "[*] Premi Ctrl+C per fermare"
+
+if [ -f "$SCRIPT_DIR/simula_attivita_random.sh" ]; then
+    cd "$SCRIPT_DIR"
+    bash simula_attivita_random.sh
+else
+    echo "[!] Script non trovato: $SCRIPT_DIR/simula_attivita_random.sh"
+fi
 
 echo ""
 echo "================================================================================"

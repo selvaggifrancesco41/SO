@@ -31,8 +31,28 @@ NUM_RICHIESTE=50
 # =========================
 
 genera_ip() {
-    # Random IPv4 for simulated clients.
-    echo "$((RANDOM%256)).$((RANDOM%256)).$((RANDOM%256)).$((RANDOM%256))"
+    # Random IPv4 for simulated clients - avoid loopback (127.x.x.x)
+    # Generate realistic private IP ranges: 192.168.x.x, 10.x.x.x, 172.16-31.x.x
+    local primo_ottetto
+    case $((RANDOM % 3)) in
+        0) primo_ottetto="192" ;;
+        1) primo_ottetto="10" ;;
+        2) primo_ottetto="172" ;;
+    esac
+    
+    local secondo_ottetto
+    if [ "$primo_ottetto" = "172" ]; then
+        # Range 172.16-31.x.x
+        secondo_ottetto=$((16 + RANDOM % 16))
+    elif [ "$primo_ottetto" = "192" ]; then
+        # Range 192.168.x.x
+        secondo_ottetto="168"
+    else
+        # Range 10.x.x.x
+        secondo_ottetto=$((RANDOM % 256))
+    fi
+    
+    echo "$primo_ottetto.$secondo_ottetto.$((RANDOM%256)).$((RANDOM%256))"
 }
 
 genera_porta() {
