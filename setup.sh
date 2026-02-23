@@ -16,20 +16,15 @@
 ################################################################################
 
 set -e
-
-# Output minimale: riduce il rumore sul terminale
-# FD 3 resta collegato al terminale per messaggi essenziali
-exec 3>&1
-# Silenzia stdout standard per tutte le stampe verbose
-exec 1>/dev/null
+# Fail fast on errors to avoid partial setup.
 
 # Stampa solo le righe essenziali su terminale
 log() {
-    # Usa FD 3 per non essere silenziato
-    printf "%s\n" "$1" >&3
+    printf "%s\n" "$1"
 }
 
 BASE_DIR=$(pwd)
+# Resolve key paths once for reuse.
 LOGS_DIR="$BASE_DIR/logs"
 DATA_DIR="$BASE_DIR/data"
 SCRIPT_DIR="$BASE_DIR/script"
@@ -51,23 +46,38 @@ log "setup env"
 mkdir -p "$LOGS_DIR" "$DATA_DIR" "$SCRIPT_DIR/logs"
 touch "$LOG_FILE"
 
-# Verifica virtualenv
+# Verifica virtualenv - crealo con pip/setuptools/wheel
 if [ ! -d "venv" ]; then
-    echo "[*] Virtualenv non trovato. Creazione in corso..."
-    python3 -m venv venv
-    echo "[✓] Virtualenv creato"
+    log "[*] Virtualenv non trovato. Creazione in corso..."
+    # python3 -m: esegue il modulo; --upgrade-deps: aggiorna pip/setuptools/wheel
+    # grep -v: esclude righe vuote
+    python3 -m venv --upgrade-deps venv 2>&1 | grep -v "^$" || true
+    log "[✓] Virtualenv creato con pip incluso"
 fi
 
-echo "[*] Attivazione virtualenv..."
+log "[*] Attivazione virtualenv..."
 source venv/bin/activate
 
-# Installa/verifica dipendenze
+# Installa Flask via pip dal venv
 if ! python3 -c "import flask" &>/dev/null; then
-    echo "[*] Installazione Flask..."
+    log "[*] Installazione Flask..."
+    # pip -q: output silenzioso
     pip install -q flask
-    echo "[✓] Flask installato"
+    log "[✓] Flask installato"
 else
-    echo "[✓] Flask già installato"
+    log "[✓] Flask già installato"
+fi
+
+# Installa tool di cattura rete (tcpdump, tshark) per monitoraggio
+log "[*] Installazione tool di cattura rete..."
+# command -v: verifica se il comando esiste nel PATH
+if ! command -v tcpdump >/dev/null 2>&1; then
+    if command -v apk >/dev/null 2>&1; then
+        # apk add --no-cache: installa senza cache del repository
+        # grep -v: esclude righe vuote
+        apk add --no-cache tcpdump tshark 2>&1 | grep -v "^$" || true
+        log "[✓] tcpdump e tshark installati"
+    fi
 fi
 
 echo ""
@@ -157,6 +167,7 @@ if [ -f "$SERVER_PID_FILE" ]; then
 fi
 
 # Avvia il server in background
+# nohup: ignora SIGHUP; output su file
 nohup python3 server/server.py > logs/flask.out 2>&1 &
 SERVER_PID=$!
 echo $SERVER_PID > "$SERVER_PID_FILE"
@@ -164,6 +175,7 @@ echo $SERVER_PID > "$SERVER_PID_FILE"
 # Attendi che il server sia pronto
 echo -n "[*] Attesa avvio server"
 for i in {1..10}; do
+    # curl -s: silenzioso
     if curl -s http://localhost:8000/login?customer_id=test&porta=test > /dev/null 2>&1; then
         echo ""
         echo "[✓] Server Flask avviato correttamente (PID: $SERVER_PID)"

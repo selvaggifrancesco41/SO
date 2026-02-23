@@ -67,7 +67,8 @@ for i in $(seq 0 $((NUM_BONIFICI - 1))); do
     # IP casuale ogni volta (subnet 192.168.1.X con X tra 10-250)
     IP_MITTENTE="192.168.1.$((10 + RANDOM % 241))"
 
-    # Invio bonifico al server (GET con query string)
+    # Fire bonifico requests quickly to trigger AML threshold.
+    # curl -s: silenzioso; -G: parametri in query string; --data-urlencode: URL-encode; -H: header
     curl -s -G "$SERVER/bonifico" \
         --data-urlencode "customer_id=$CUSTOMER_ID" \
         --data-urlencode "importo=$IMPORTO" \
@@ -77,7 +78,7 @@ for i in $(seq 0 $((NUM_BONIFICI - 1))); do
     sleep 0.5
 done
 
-# Attende la fine delle richieste in background
+# Wait for background requests to finish.
 wait
 
 # Output minimale di fine

@@ -41,8 +41,9 @@ for i in $(seq 1 $NUM_SESSIONI); do
     # IP casuale ogni volta (subnet 192.168.10.X con X tra 10-250)
     IP_MITTENTE="192.168.10.$((10 + RANDOM % 241))"
 
-    # GET /login - parametri nella query string
+    # Parallel requests simulate simultaneous logins from different IPs.
     # --max-time 15: mantiene la connessione aperta per 15 secondi
+    # curl -s: silenzioso; --max-time 15: timeout totale 15s; -G: query string; --data-urlencode: URL-encode; -H: header
     curl -s --max-time 15 \
         -G "$SERVER/login" \
         --data-urlencode "customer_id=$ACCOUNT_TARGET" \

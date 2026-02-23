@@ -1,5 +1,7 @@
 #!/bin/bash
 
+# Run a monitor + its test generator, ensuring the server is available.
+
 # ORCHESTRATORE PRINCIPALE
 # Avvia il monitoraggio e il test generatore per un problema specifico
 #
@@ -12,6 +14,30 @@ log() {
     printf "%s\n" "$1"
 }
 
+ensure_server_running() {
+    # Start server if port 8000 is not listening.
+    local pid_file="/workspaces/SO/logs/server.pid"
+    # ss -ltn: -l in ascolto, -t TCP, -n numerico (niente DNS)
+    # grep -q: non stampa, usa solo l'exit status
+    if ss -ltn 2>/dev/null | grep -q ":8000"; then
+        return 0
+    fi
+
+    if [ -f "$pid_file" ]; then
+        local pid
+        pid=$(cat "$pid_file" 2>/dev/null)
+        # ps -p: filtra per PID
+        if [ -n "$pid" ] && ps -p "$pid" > /dev/null 2>&1; then
+            return 0
+        fi
+    fi
+
+    log "server start"
+    python3 /workspaces/SO/server/server.py > /workspaces/SO/logs/server.out 2>&1 &
+    echo $! > "$pid_file"
+    sleep 1
+}
+
 # Verifica argomento: serve un solo numero problema
 if [ $# -ne 1 ]; then
     # Messaggio essenziale di uso
@@ -22,7 +48,7 @@ fi
 # Numero del problema richiesto
 NUMERO=$1
 
-# Determina il percorso dello script corrente (robusto per qualsiasi cartella)
+# Resolve script paths regardless of current working directory.
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 PROBLEMA_SCRIPT="$SCRIPT_DIR/problema_$(printf '%02d' $NUMERO)_*.sh"
 TEST_SCRIPT="$SCRIPT_DIR/test_generators/test_$(printf '%02d' $NUMERO)_*.sh"
@@ -50,7 +76,10 @@ log "P$(printf '%02d' $NUMERO) start"
 # Avvia monitoraggio in background
 log "monitor start"
 
-# Resetta log realtime e state file per problema 01 e 02 (usano realtime_access.log)
+# Assicura che il server sia in esecuzione per i test
+ensure_server_running
+
+# Reset per-problem state to avoid stale detections.
 if [ "$NUMERO" = "1" ]; then
     # Pulisce log realtime per evitare dati vecchi
     > /workspaces/SO/logs/realtime_access.log
@@ -65,38 +94,46 @@ fi
 # Resetta timestamp per problema 03, 04, 05, 06, 07, 08 e 09 (evita rilevamento vecchi record)
 if [ "$NUMERO" = "3" ]; then
     # Imposta timestamp di ultimo controllo
+    # date -u: usa UTC
     date -u '+%Y-%m-%dT%H:%M:%S' > /tmp/problema03_last_check.txt
 fi
 if [ "$NUMERO" = "4" ]; then
     # Imposta timestamp di ultimo controllo
+    # date -u: usa UTC
     date -u '+%Y-%m-%dT%H:%M:%S' > /tmp/problema04_last_check.txt
 fi
 if [ "$NUMERO" = "5" ]; then
     # Imposta timestamp di ultimo controllo
+    # date -u: usa UTC
     date -u '+%Y-%m-%dT%H:%M:%S' > /tmp/problema05_last_check.txt
 fi
 if [ "$NUMERO" = "6" ]; then
     # Imposta timestamp di ultimo controllo
+    # date -u: usa UTC
     date -u '+%Y-%m-%dT%H:%M:%S' > /tmp/problema06_last_check.txt
 fi
 if [ "$NUMERO" = "7" ]; then
     # Imposta timestamp di ultimo controllo
+    # date -u: usa UTC
     date -u '+%Y-%m-%dT%H:%M:%S' > /tmp/problema07_last_check.txt
 fi
 if [ "$NUMERO" = "8" ]; then
     # Imposta timestamp di ultimo controllo
+    # date -u: usa UTC
     date -u '+%Y-%m-%dT%H:%M:%S' > /tmp/problema08_last_check.txt
 fi
 if [ "$NUMERO" = "9" ]; then
     # Imposta timestamp di ultimo controllo
+    # date -u: usa UTC
     date -u '+%Y-%m-%dT%H:%M:%S' > /tmp/problema09_last_check.txt
 fi
 if [ "$NUMERO" = "10" ]; then
     # Imposta timestamp di ultimo controllo
+    # date -u: usa UTC
     date -u '+%Y-%m-%dT%H:%M:%S' > /tmp/problema10_last_check.txt
 fi
 
-# Per problema 03 e 05, abilita TEST_MODE per parametri ottimizzati
+# TEST_MODE accelerates checks for specific problems.
 if [ "$NUMERO" = "3" ] || [ "$NUMERO" = "5" ]; then
     # Avvia monitor con TEST_MODE per timing piu rapido
     env TEST_MODE=1 bash "$PROBLEMA_FULL" &

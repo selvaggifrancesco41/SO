@@ -19,6 +19,7 @@ SERVER="http://localhost:8000"
 CSV_CLIENTI="/workspaces/SO/clienti_banca.csv"
 
 # Seleziona 3 ACCOUNT CASUALI dal CSV (variano ogni esecuzione)
+# tail -n +2: salta header; shuf -n 1: una riga casuale; cut -d',' -f1: primo campo
 ACCOUNT1=$(tail -n +2 "$CSV_CLIENTI" | shuf -n 1 | cut -d',' -f1)
 ACCOUNT2=$(tail -n +2 "$CSV_CLIENTI" | shuf -n 1 | cut -d',' -f1)
 ACCOUNT3=$(tail -n +2 "$CSV_CLIENTI" | shuf -n 1 | cut -d',' -f1)
@@ -32,7 +33,7 @@ IP_PUBBLICO="203.0.113.$((RANDOM % 254 + 1))"    # IP pubblico (anomalo per LOGI
 log "T09 start"
 
 # Operazione 1: Bonifico da IP ATM (anomalo)
-# Operazione 1: Bonifico da IP ATM (anomalo)
+# curl -s: silenzioso; -G: query string; --data-urlencode: URL-encode; -H: header
 curl -s -G "$SERVER/bonifico" \
     --data-urlencode "customer_id=$ACCOUNT1" \
     --data-urlencode "importo=50000" \
@@ -42,7 +43,6 @@ curl -s -G "$SERVER/bonifico" \
 sleep 1
 
 # Operazione 2: Prelievo da IP API (anomalo)
-# Operazione 2: Prelievo da IP API (anomalo)
 curl -s -G "$SERVER/prelievo" \
     --data-urlencode "customer_id=$ACCOUNT2" \
     --data-urlencode "importo=500" \
@@ -50,7 +50,6 @@ curl -s -G "$SERVER/prelievo" \
 
 sleep 1
 
-# Operazione 3: Login da IP pubblico (anomalo)
 # Operazione 3: Login da IP pubblico (anomalo)
 curl -s -G "$SERVER/login" \
     --data-urlencode "customer_id=$ACCOUNT3" \

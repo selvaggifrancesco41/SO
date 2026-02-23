@@ -16,9 +16,9 @@ SERVER_URL="http://localhost:8000"
 CSV_CLIENTI="/workspaces/SO/clienti_banca.csv"
 
 # Parametri del test
-NUM_RICHIESTE=5
-DURATA_TOTALE=30   # 30 secondi totali
-INTERVALLO=$((DURATA_TOTALE / NUM_RICHIESTE))   # ~6 secondi tra richieste
+NUM_RICHIESTE=8
+DURATA_TOTALE=24   # 24 secondi totali
+INTERVALLO=$((DURATA_TOTALE / NUM_RICHIESTE))   # ~3 secondi tra richieste
 
 # IP RANDOMIZZATO subnet 192.168.80.X (low & slow attacks)
 IP="192.168.80.$((RANDOM % 254 + 1))"
@@ -29,6 +29,7 @@ if [ ! -f "$CSV_CLIENTI" ]; then
     exit 1
 fi
 
+# tail -n +2: salta header; shuf -n 1: una riga casuale; cut -d',' -f1: primo campo
 ACCOUNT=$(tail -n +2 "$CSV_CLIENTI" | shuf -n 1 | cut -d',' -f1)
 
 if [ -z "$ACCOUNT" ]; then
@@ -40,18 +41,19 @@ fi
 log "T10 start"
 
 for i in $(seq 1 $NUM_RICHIESTE); do
-    # Alterna tra diverse azioni per sembrare realistico
-    ENDPOINT_RANDOM=$((RANDOM % 4))
+    # Spread small operations across time to simulate low-and-slow.
+    # Alterna tra azioni con importo basso
+    ENDPOINT_RANDOM=$((RANDOM % 3))
     case $ENDPOINT_RANDOM in
-        0) ENDPOINT="/login" ;;
-        1) ENDPOINT="/prelievo" ;;
-        2) ENDPOINT="/deposito" ;;
-        3) ENDPOINT="/bonifico" ;;
+        0) ENDPOINT="/prelievo" ;;
+        1) ENDPOINT="/deposito" ;;
+        2) ENDPOINT="/bonifico" ;;
     esac
     
-    IMPORTO=$((RANDOM % 1000 + 100))
+    IMPORTO=$((RANDOM % 90 + 10))
     
     # Richiesta lenta con --max-time per simulare slow request
+    # curl -s: silenzioso; -G: query string; --data-urlencode: URL-encode; -H: header; --max-time: timeout totale
     curl -s -G "$SERVER_URL$ENDPOINT" \
         --data-urlencode "customer_id=$ACCOUNT" \
         --data-urlencode "importo=$IMPORTO" \

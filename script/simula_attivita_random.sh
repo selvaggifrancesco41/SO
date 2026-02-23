@@ -1,5 +1,7 @@
 #!/bin/bash
 
+# Generate randomized user activity against the local Flask server.
+
 # =========================
 # CONFIGURAZIONE
 # =========================
@@ -7,7 +9,7 @@
 SERVER="http://localhost:8000"
 
 # Output minimale: riduce il rumore sul terminale
-# FD 3 resta collegato al terminale per messaggi essenziali
+# FD 3 stays on terminal for essential logs.
 exec 3>&1
 # Silenzia stdout standard per tutte le stampe verbose
 exec 1>/dev/null
@@ -29,6 +31,7 @@ NUM_RICHIESTE=50
 # =========================
 
 genera_ip() {
+    # Random IPv4 for simulated clients.
     echo "$((RANDOM%256)).$((RANDOM%256)).$((RANDOM%256)).$((RANDOM%256))"
 }
 
@@ -42,11 +45,14 @@ genera_importo() {
 
 get_random_cliente() {
     # Estrae un cliente casuale dal CSV (salta l'header)
+    # tail -n +2: salta header; shuf -n 1: una riga casuale
     tail -n +2 /workspaces/SO/clienti_banca.csv | shuf -n 1
 }
 
 verifica_server() {
+    # Abort if the server is not reachable.
     # Verifica se il server è raggiungibile
+    # curl -s: silenzioso; -m 2: timeout totale 2s
     if ! curl -s -m 2 "$SERVER/login?customer_id=test&porta=test" > /dev/null 2>&1; then
         echo "ERRORE: Il server su $SERVER non è raggiungibile"
         exit 1
@@ -54,6 +60,7 @@ verifica_server() {
 }
 
 salva_nel_db() {
+    # Mirror events into the local SQLite log for reference.
     local customer_id=$1
     local azione=$2
     local importo=$3
@@ -89,21 +96,26 @@ sleep_random() {
 # =========================
 
 azione_login() {
+    # Login action triggers server + DB write.
     salva_nel_db "$USER_ID" "LOGIN" "NULL" "NULL" "$IP"
+    # curl -s: silenzioso; -X GET: forza metodo; -H: header
     curl -s -X GET "$SERVER/login?customer_id=$USER_ID&porta=$PORTA" \
     -H "X-Forwarded-For: $IP"
 }
 
 azione_prelievo() {
+    # Prelievo action with a random amount.
     IMPORTO=$(genera_importo)
     echo "Importo prelievo: €$IMPORTO"
     salva_nel_db "$USER_ID" "PRELIEVO" "$IMPORTO" "NULL" "$IP"
 
+    # curl -s: silenzioso; -X GET: forza metodo; -H: header
     curl -s -X GET "$SERVER/prelievo?customer_id=$USER_ID&importo=$IMPORTO&porta=$PORTA" \
     -H "X-Forwarded-For: $IP"
 }
 
 azione_bonifico() {
+    # Bonifico action with a random target IBAN.
     IMPORTO=$(genera_importo)
     # Estrae un cliente casuale per l'IBAN destinatario
     CLIENTE_DEST=$(get_random_cliente)
@@ -111,6 +123,7 @@ azione_bonifico() {
     echo "Importo bonifico: €$IMPORTO | IBAN destinatario: $IBAN"
     salva_nel_db "$USER_ID" "BONIFICO" "$IMPORTO" "$IBAN" "$IP"
 
+    # curl -s: silenzioso; -X GET: forza metodo; -H: header
     curl -s -X GET "$SERVER/bonifico?customer_id=$USER_ID&importo=$IMPORTO&iban_destinatario=$IBAN&porta=$PORTA" \
     -H "X-Forwarded-For: $IP"
 }
@@ -127,8 +140,10 @@ verifica_server
 
 for ((i=1; i<=NUM_RICHIESTE; i++))
 do
+    # Iterate a fixed number of random requests.
     # Estrae un cliente casuale dal CSV
     CLIENTE=$(get_random_cliente)
+    # awk -F',': separatore CSV
     USER_ID=$(echo "$CLIENTE" | awk -F',' '{print $1}')
     
     IP=$(genera_ip)

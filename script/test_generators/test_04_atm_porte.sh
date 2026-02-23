@@ -24,6 +24,7 @@ SERVER_PORT=8000
 CSV_CLIENTI="/workspaces/SO/clienti_banca.csv"
 
 # Seleziona 1 ACCOUNT CASUALE dal CSV per ATM
+# tail -n +2: salta header; shuf -n 1: una riga casuale; cut -d',' -f1: primo campo
 CUSTOMER_ID=$(tail -n +2 "$CSV_CLIENTI" | shuf -n 1 | cut -d',' -f1)
 
 # Genera IP ATM casuale nel range monitorato (192.168.30.1-254)
@@ -33,6 +34,8 @@ ATM_IP="192.168.30.$((RANDOM % 254 + 1))"
 # Il server la registrerà e il monitoring rileverà la porta sorgente anomala
 
 # Simula un login da ATM (il monitoring controllerà la porta sorgente)
+# The IP range is the trigger, not the HTTP response content.
+# curl -s: silenzioso; -G: query string; --data-urlencode: URL-encode; -H: header
 curl -s -G "http://$SERVER:$SERVER_PORT/login" \
     --data-urlencode "customer_id=$CUSTOMER_ID" \
     --data-urlencode "session_duration=10" \

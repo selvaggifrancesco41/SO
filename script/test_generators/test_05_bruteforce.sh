@@ -26,14 +26,17 @@ SLEEP_TRA_TENTATIVI=0.5  # secondi tra un tentativo e l'altro
 IP_ATTACCANTE="192.168.40.$((RANDOM % 254 + 1))"
 
 # Seleziona UN account vittima (stesso per tutti i tentativi - realistico per bruteforce)
+# tail -n +2: salta header; shuf -n 1: una riga casuale; cut -d',' -f1: primo campo
 ACCOUNT=$(tail -n +2 "$CSV_CLIENTI" | shuf -n 1 | cut -d',' -f1)
 
 # Output minimale di avvio
 log "T05 start"
 
 for i in $(seq 1 $NUM_TENTATIVI); do
+    # Rapid repeated logins from the same IP.
     
     # GET /login - parametri nella query string (sincrono per garantire ordine)
+    # curl -s: silenzioso; -G: query string; --data-urlencode: URL-encode; -H: header
     RESPONSE=$(curl -s -G "$SERVER/login" \
         --data-urlencode "customer_id=$ACCOUNT" \
         --data-urlencode "session_duration=5" \

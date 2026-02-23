@@ -23,6 +23,7 @@ CICLI=5
 
 # Genera IP casuale e account casuale
 IP_BOT="192.168.60.$((RANDOM % 254 + 1))"
+# tail -n +2: salta header; shuf -n 1: una riga casuale; cut -d',' -f1: primo campo
 BOT_ACCOUNT=$(tail -n +2 "$CSV_CLIENTI" | shuf -n 1 | cut -d',' -f1)
 
 # Output minimale di avvio
@@ -32,7 +33,9 @@ log "T07 start"
 # Già selezionato sopra: BOT_ACCOUNT
 
 for ciclo in $(seq 1 $CICLI); do
+    # Deterministic sequence to emulate a bot.
     # Sequenza 1: /prelievo
+    # curl -s: silenzioso; -G: query string; --data-urlencode: URL-encode; -H: header
     curl -s -G "$SERVER/prelievo" \
         --data-urlencode "customer_id=$BOT_ACCOUNT" \
         --data-urlencode "importo=100" \

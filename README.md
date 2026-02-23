@@ -2,22 +2,21 @@
 
 ## Introduzione
 
-Questo progetto simula un **server bancario GNU/Linux** con monitoraggio avanzato di 10 anomalie di sicurezza critiche rilevabili attraverso:
-- **Analisi real-time di log** per rilevamenti veloci (P01, P02)
-- **Comandi di rete in tempo reale** per monitoraggio diretto di connessioni, pacchetti e topologia (P03-P10)
+Questo progetto simula un **server bancario GNU/Linux** con monitoraggio avanzato di 10 anomalie di sicurezza critiche rilevabili attraverso **flusso eventi in tempo reale**.
 
-Tutti i script utilizzano **comandi GNU/Linux standard** (`ss`, `netstat`, `tshark`, `tcpdump`, `dig`, `traceroute`, `arp`, `ping`, `ip`) come sorgente primaria di analisi, non interrogare il database. Ogni script mantiene un **output minimalista** sul terminale e registra dettagli completi in log specializzati. L'alert viene segnalato **al primo rilevamento** per focalizzare l'attenzione.
+Tutti gli script leggono **solo** il file `logs/realtime_access.log` (scritto dal server) usando `tail -f`. **Nessun log storico o database** viene usato come input di analisi. Ogni script mantiene un **output minimalista** sul terminale e scrive alert in `blacklist.csv`. L'alert viene segnalato **al primo rilevamento** per focalizzare l'attenzione.
 
 ## Perché questo approccio?
 
-Nel settore bancario e nelle infrastrutture critiche, la sicurezza non si basa più solo su database storici. I problemi più subdoli sono quelli che **non violano formalmente alcuna regola** ma mostrano un comportamento **incoerente con i pattern di rete attesi**.
+Nel settore bancario e nelle infrastrutture critiche, la sicurezza non si basa solo su database storici. I problemi più subdoli sono quelli che **non violano formalmente alcuna regola** ma mostrano un comportamento **incoerente con i pattern attesi**.
 
-Monitorando **log in tempo reale** e **osservando direttamente il traffico e le connessioni di rete**, è possibile rilevare:
-- Anomalie **temporali** (accessi anomali in orari inaspettati, rilevabili da ss/netstat)
-- Anomalie **comportamentali** (pattern di utilizzo insoliti, visibili via tshark/tcpdump)
-- Anomalie **di schema** (operazioni incoerenti con il tipo di client, verificabili con dig/traceroute)
-- Anomalie **lente** (attacchi low-and-slow, tracciabili monitorando socket con ss -tno)
-- Anomalie **di rete** (subnet inattese, IP pubblici inaspettati, visibili da ss/arp/ip)
+Monitorando **un flusso eventi in tempo reale** (timestamp, account, IP, azione, importo, IBAN, durata sessione) e mantenendo una finestra temporale breve, è possibile rilevare:
+- Anomalie **temporali** (accessi notturni)
+- Anomalie **comportamentali** (pattern ripetitivi o simultanei)
+- Anomalie **di coerenza** (operazioni da subnet non compatibili)
+- Anomalie **lente** (molte operazioni piccole distribuite nel tempo)
+
+**Database e log storici sono usati SOLO per scrivere alert, MAI per input.**
 
 ---
 
@@ -26,36 +25,24 @@ Monitorando **log in tempo reale** e **osservando direttamente il traffico e le 
 ```
 /workspaces/SO/
 ├── script/                           # 10 script di monitoraggio + orchestrator
-│   ├── problema_01_aml_bonifici.sh          # Real-time log: rilevamento riciclaggio
-│   ├── problema_02_accessi_simultanei.sh    # Real-time log: session hijacking
-│   ├── problema_03_accessi_notturni.sh      # Network: ss + host - anomalie temporali
-│   ├── problema_04_atm_porte.sh             # Network: netstat - isolamento ATM
-│   ├── problema_05_bruteforce.sh            # Network: tshark - brute-force login
-│   ├── problema_06_correlazione_rete.sh     # Network: ip,arp,ping - anomalie subnet
-│   ├── problema_07_pattern_api.sh           # Network: tshark - automazione API
-│   ├── problema_08_covert_channels.sh       # Network: tcpdump - canali covert
-│   ├── problema_09_incoerenza_rete.sh       # Network: dig,traceroute - incoerenza
-│   ├── problema_10_low_slow.sh              # Network: ss -tno - attacchi lenti
-│   └── run_problem.sh                       # Orchestrator
+│   ├── problema_01_aml_bonifici.sh          # Stream log: rilevamento riciclaggio
+│   ├── problema_02_accessi_simultanei.sh    # Stream log: session hijacking
+│   ├── problema_03_accessi_notturni.sh      # Stream log: anomalie temporali
+│   ├── problema_04_atm_porte.sh             # Stream log: subnet ATM inattesa
+│   ├── problema_05_bruteforce.sh            # Stream log: brute-force login
+│   ├── problema_06_correlazione_rete.sh     # Stream log: IP pubblico inatteso
+│   ├── problema_07_pattern_api.sh           # Stream log: automazione API
+│   ├── problema_08_covert_channels.sh       # Stream log: importo=0
+│   ├── problema_09_incoerenza_rete.sh       # Stream log: ATM esegue BONIFICO
+│   ├── problema_10_low_slow.sh              # Stream log: operazioni piccole ripetute
+│   └── run_problem.sh                       # Orchestrator (avvia monitor + test)
 ├── server/
 │   └── server.py                    # Server Flask per test
 ├── data/
-│   └── bank_logs.db                 # Database SQLite (storico, non usato per rilevamento)
+│   └── bank_logs.db                 # Database SQLite (storico, non usato per input)
 ├── logs/
-│   ├── realtime_access.log          # Log centrale in tempo reale
-│   ├── aml_alerts.log
-│   ├── simultanei_alerts.log
-│   ├── notturni_alerts.log          # P03: anomalie notturne
-│   ├── atm_porte_alerts.log         # P04: ATM anomali
-│   ├── bruteforce_alerts.log        # P05: brute-force
-│   ├── correlazione_alerts.log      # P06: subnet anomale
-│   ├── pattern_api_alerts.log       # P07: pattern API
-│   ├── covert_channels_alerts.log   # P08: covert channels
-│   ├── incoerenza_alerts.log        # P09: incoerenza rete
-│   ├── low_slow_alerts.log          # P10: low&slow
-│   ├── notifiche_email.txt          # Notifiche ai clienti
-│   ├── operazioni_bloccate_zero.log # Blocchi importo=0
-│   └── api_sospese.log              # API sospese
+│   ├── realtime_access.log          # Log centrale in tempo reale (input)
+│   └── notifiche_email.txt          # Notifiche ai clienti (output)
 ├── blacklist.csv                    # Blacklist incrementale con risk_score
 ├── clienti_banca.csv                # Dati clienti (email, 2FA, etc)
 └── README.md
@@ -69,201 +56,51 @@ cd /workspaces/SO/script
 ./run_problem.sh 1
 ```
 
-**Esegui tutti i 10 problemi in sequenza:**
-```bash
-./run_problem.sh
-```
+Ogni esecuzione avvia il monitor e poi il relativo generatore di test.
 
 ## Comportamento comune
 
 - Ogni alert aggiorna [blacklist.csv](blacklist.csv) con `risk_score` e `recidivita`.
-- Per IP con `risk_score >= 100` lo stato diventa `blocked` e viene applicato `iptables` DROP.
-- Output a terminale **ridotto al minimo**; dettagli completi nei file di log.
+- Quando il `risk_score` cumulato arriva a 100, lo `stato` diventa `BLOCKED`.
+- Output a terminale **ridotto al minimo**.
 - Gli script terminano al **primo alert** per focalizzare l'attenzione.
+- P02 e P03 scrivono notifiche in [logs/notifiche_email.txt](logs/notifiche_email.txt).
 
 ---
 
-## I 10 Problemi di Sicurezza
+## I 10 Problemi di Sicurezza (sintesi aggiornata)
 
-### PROBLEMA 1: Flussi anomali bonifici (AML)
-
-#### Contesto
-
-Nel settore bancario, il **riciclaggio di denaro** (money laundering) è uno dei crimini più sofisticati. Uno schema tipico: **molti bonifici da account diversi verso uno stesso IBAN in breve tempo**. Ogni transazione è formalmente valida, ma il **pattern complessivo è anomalo**.
-
-#### Metodo di rilevamento
-
-Lo script **monitora il file di log in tempo reale** `logs/realtime_access.log`:
-- Legge le nuove righe man mano che vengono scritte
-- Filtra solo gli eventi di azione "BONIFICO"
-- Traccia i bonifici in un file temporaneo (formato: `customer_id|iban_dest|importo|timestamp`)
-- Conta i **mittenti unici per IBAN negozio** negli ultimi 60 secondi
-- Se il count supera 5, segnala l'anomalia
-
-```bash
-# File: problema_01_aml_bonifici.sh
-# Legge nuove righe dal log (solo BONIFICO)
-tail -n +$((LAST_POSITION + 1)) "$REALTIME_LOG" | grep "|BONIFICO|" | \
-while IFS='|' read -r timestamp customer_id ip_src azione importo iban_dest ...
-    # Salva nel file di stato
-    echo "$customer_id|$iban_dest|$importo|$(date +%s)" >> "$STATE_FILE"
-    
-    # Conta mittenti unici per this IBAN
-    mittenti_unici=$(awk -F'|' -v iban="$iban_dest" '$2==iban {print $1}' "$STATE_FILE" | sort -u | wc -l)
-    
-    # Se supera soglia
-    if [ "$mittenti_unici" -ge 5 ]; then
-        # Segnala alert
+Formato del flusso `logs/realtime_access.log`:
+```
+timestamp|customer_id|ip|azione|importo|iban|session_duration
 ```
 
-#### Comportamento dell'alert
+Ogni monitor legge il flusso con `tail -f`, mantiene una finestra di 60s e scrive su [blacklist.csv](blacklist.csv) con rischio cumulativo.
 
-1. Registra su `logs/aml_alerts.log` l'IBAN sospetto e il numero di mittenti
-2. Aggiunge il primo mittente rappresentativo in blacklist con `risk_score=50`
-3. Se recidivo, incrementa il risk_score
-4. Se risk_score >= 100, blocca l'IP
+### Sintesi per problema
 
----
+1. **P01 AML bonifici**: se 5+ mittenti unici verso lo stesso IBAN in 60s → alert su account.
+2. **P02 accessi simultanei**: se 3+ IP diversi per lo stesso account → alert + notifica 2FA.
+3. **P03 accessi notturni**: se login in fascia 22-06 (o TEST_MODE) → alert + notifica.
+4. **P04 ATM subnet**: IP in 192.168.30.x → alert.
+5. **P05 bruteforce**: 5+ LOGIN dallo stesso IP → alert.
+6. **P06 IP pubblico**: IP non RFC1918 → alert.
+7. **P07 pattern API**: 10+ richieste dallo stesso IP → alert.
+8. **P08 covert channels**: BONIFICO con importo=0 → alert.
+9. **P09 incoerenza rete**: IP ATM (192.168.30.x) che fa BONIFICO → alert con risk 100.
+10. **P10 low & slow**: 8+ operazioni con importo < 100 per lo stesso account → alert.
 
-### PROBLEMA 2: Accessi simultanei sullo stesso account
-
-#### Contesto
-
-Uno dei segnali più affidabili di **compromissione delle credenziali**: lo stesso account è contemporaneamente attivo da **3+ indirizzi IP diversi**. Un utente legittimo accede da **un'unica locazione alla volta**.
-
-#### Metodo di rilevamento
-
-Lo script **monitora il file di log in tempo reale** `logs/realtime_access.log`:
-- Legge le ultime 50 righe del log
-- Filtra solo eventi di azione "LOGIN"
-- Raggruppa per `customer_id`
-- Conta quanti **IP diversi** sono attivi contemporaneamente per lo stesso customer
-- Se il count supera 3, segnala
+### Snippet tipico di monitor
 
 ```bash
-# File: problema_02_accessi_simultanei.sh
-tail -50 /workspaces/SO/logs/realtime_access.log | \
-    grep "|LOGIN|" | \
-    awk -F'|' '{print $2"|"$3}' | \  # estrai customer_id|ip
-    awk '
-        {
-            customer=$1; ip=$2
-            if (customer != "" && ip != "" && ip != "127.0.0.1") {
-                key = customer SUBSEP ip
-                seen[key] = 1
-            }
-        }
-        END {
-            for (k in seen) {
-                split(k, a, SUBSEP)
-                customer = a[1]
-                ip = a[2]
-                # Conta IP diversi per customer
-                if (++ ip_count[customer] >= 3) {
-                    # SEGNALA
+tail -f "$REALTIME" 2>/dev/null | while IFS='|' read ts cid ip az imp iban sd; do
+    [ $(($(date +%s) - START)) -ge 60 ] && break
+    # ... condizioni specifiche ...
+    add_blacklist_entry "ACCOUNT" "$cid" "AZIONE" "GRAVITA" "RISK" "ORIGINE" "NOTE"
+    kill %1 2>/dev/null; exit 0
+done &
+wait $!
 ```
-
-**Inoltre**, notifica il cliente via email se 2FA non è attivo:
-
-```bash
-# Se 2FA disattivo: richiedi attivazione urgente
-if [ "$twofa" = "false" ]; then
-    echo "[$timestamp] TO:$email SUBJECT:Attiva 2FA - URGENTE" >> "$NOTIFY_LOG"
-else
-    echo "[$timestamp] TO:$email SUBJECT:Accessi simultanei rilevati" >> "$NOTIFY_LOG"
-fi
-```
-
-#### Comportamento dell'alert
-
-1. Registra su `logs/simultanei_alerts.log` gli IP coinvolti
-2. Aggiunge il customer in blacklist con `risk_score=40`
-3. Scrive notifica cliente in `logs/notifiche_email.txt`
-4. Se risk_score >= 100, blocca gli IP
-
----
-
-### PROBLEMA 3: Accessi notturni fuori profilo
-
-#### Contesto
-
-Il **fattore temporale** è un indicatore di anomalia comportamentale cruciale. Un accesso legittimo alle 3 del mattino da un account che non ha mai avuto attività notturne è sospetto.
-
-#### Metodo di rilevamento
-
-Lo script **monitora le connessioni TCP attive in tempo reale**:
-- Usa `ss -tn state established` per ottenere le connessioni stabilizzate
-- Filtra solo le connessioni verso `SERVER_PORT` (porta server)
-- Per ogni IP connesso, estrae il peer address (sorgente)
-- Usa `host <IP>` per ottenere il reverse DNS
-- Verifica se l'ora attuale ricade nella fascia notturna (22:00-06:00)
-- Se nuovo IP notturno, segnala
-
-```bash
-# File: problema_03_accessi_notturni.sh
-# Monitora connessioni TCP attive verso la porta server
-CONNESSIONI=$(ss -tn state established | grep ":$SERVER_PORT " | awk '{print $4}' | cut -d: -f1 | sort -u)
-
-while read -r suspicious_ip; do
-    if [ -z "$suspicious_ip" ] || [ "$suspicious_ip" = "127.0.0.1" ]; then
-        continue
-    fi
-    
-    # Verifica ora attuale
-    CURRENT_HOUR=$(date '+%H')
-    if [ "$CURRENT_HOUR" -ge 22 ] || [ "$CURRENT_HOUR" -lt 6 ]; then
-        
-        # Ricava hostname per validazione
-        HOSTNAME=$(host "$suspicious_ip" | grep "domain name pointer" | awk '{print $NF}')
-        
-        # Se non già segnalato
-        if ! controlla_blacklist "IP" "$suspicious_ip"; then
-            # Segnala accesso notturno anomalo
-            aggiungi_blacklist "IP" "$suspicious_ip" "LOGIN_NOTTURNO" "MEDIA" 30 \
-                "Accesso notturno da $suspicious_ip ($HOSTNAME)"
-        fi
-    fi
-done <<< "$CONNESSIONI"
-```
-
-#### Comportamento dell'alert
-
-1. Registra su `logs/notturni_alerts.log` l'IP e il timestamp
-2. Aggiunge l'IP in blacklist con `risk_score=30`
-3. Notifica il cliente
-4. Se risk_score >= 100, blocca
-
----
-
-### PROBLEMA 4: ATM con pattern anomali
-
-#### Contesto
-
-Gli **ATM sono nodi critici** con comportamento altamente standardizzato. ATM da range specifico (192.168.30.x) che effettuano **molti login in breve tempo** indicano possibile compromissione o malware.
-
-#### Metodo di rilevamento
-
-Lo script **monitora le connessioni TCP della subnet ATM in tempo reale**:
-- Usa `netstat -tn` per ottenere tutte le connessioni TCP
-- Filtra solo le connessioni dalla subnet ATM (192.168.30.x)
-- Per ogni ATM (IP univoco), conta il numero di connessioni contemporanee
-- Se il count per un singolo ATM supera 5 connessioni, segnala **ISOLAMENTO IMMEDIATO**
-
-```bash
-# File: problema_04_atm_porte.sh
-# Monitora connessioni TCP dalla subnet ATM
-ATM_CONNECTIONS=$(netstat -tn | grep " $ATM_SUBNET\." | grep ":$SERVER_PORT ")
-
-while read -r line; do
-    # Estrai IP sorgente ATM
-    atm_ip=$(echo "$line" | awk '{print $5}' | cut -d: -f1)
-    
-    if [ -n "$atm_ip" ]; then
-        # Conta connessioni contemporanee per questo ATM
-        conn_count=$(echo "$ATM_CONNECTIONS" | grep "$atm_ip" | wc -l)
-        
-        # Se troppi login simultanei dal singolo ATM
-        if [ "$conn_count" -ge 5 ]; then
             # ISOLA IMMEDIATAMENTE con risk_score=100
             aggiungi_blacklist "IP" "$atm_ip" "ATM_ANOMALO" "CRITICA" 100 \
                 "$conn_count connessioni simultanee - ISOLAMENTO IMMEDIATO"

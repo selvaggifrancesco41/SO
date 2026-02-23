@@ -1,65 +1,35 @@
-# Comandi di Rete Utilizzati nei 10 Problemi
+# Comandi e Flag Utilizzati negli Script
 
-Questo documento sintetizza i comandi di rete usati dagli script in [script/](script/). Le query SQLite restano solo per lookup puntuali o per leggere i log, ma il focus e' sul contesto di rete.
+Questo documento descrive i comandi reali usati negli script `.sh` **attuali**. Il monitoraggio si basa sul flusso `logs/realtime_access.log` e non usa comandi di rete come input.
 
-## Elenco per problema
+## Comandi usati nei monitor
 
-### 01 - AML Bonifici
+- `tail -f`: segue il file in tempo reale (stream eventi).
+- `awk -F`: imposta il separatore di campo (CSV o pipe `|`).
+- `sort -u`: ordina e rimuove duplicati.
+- `wc -l`: conta il numero di righe.
+- `grep -q`: ricerca senza output, solo exit status.
+- `cut -d -f`: seleziona campi con separatore specifico.
+- `date -d`: parse di timestamp in formato testo.
+- `date -u`: data in UTC (usata nei reset dei test).
 
-- `tshark` (se disponibile) per analisi HTTP in tempo reale.
-- `awk`, `grep`, `sort` per parsing del traffico e conteggio mittenti.
+## Comandi usati nei test generator
 
-### 02 - Accessi simultanei
+- `curl -s`: output silenzioso.
+- `curl -G`: passa parametri in query string.
+- `curl --data-urlencode`: URL-encode dei parametri.
+- `curl --max-time`: timeout totale della richiesta.
+- `tail -n +2`: salta l'header del CSV.
+- `shuf -n 1`: seleziona una riga casuale.
+- `cut -d',' -f1`: seleziona il primo campo del CSV.
 
-- `ss` per socket TCP attive.
-- `awk`, `cut`, `sort` per estrazione e conteggio IP.
+## Comandi di supporto
 
-### 03 - Accessi notturni
+- `ss -ltn`: verifica se la porta 8000 e` in ascolto (solo per avvio server).
+- `ps -p`: verifica l'esistenza del PID.
+- `command -v`: controlla la presenza di un comando nel PATH.
 
-- `ss` per connessioni attive.
-- `date +%H` per fascia oraria.
-- `host` per reverse DNS.
+## Note
 
-### 04 - ATM porte anomale
-
-- `netstat` (o `ss`) per porte e connessioni.
-- `nc` (netcat) per verifiche rapide su porte sospette.
-
-### 05 - Brute-force login
-
-- `tshark` per intercettare richieste di login (quando usato in tempo reale).
-- `iptables` per blocchi automatici su IP con `risk_score` elevato.
-
-### 06 - Correlazione rete
-
-- `ip a` e `ip r` per interfacce e routing.
-- `arp -n` per mappare IP/MAC.
-- `ping` per RTT e raggiungibilita'.
-- `ss` per socket attive.
-
-### 07 - Pattern API
-
-- `curl` per test endpoint e tempi di risposta.
-- `tshark` per user-agent e richieste HTTP.
-- `grep -iE` per identificare user-agent sospetti.
-
-### 08 - Covert channels
-
-- `tcpdump` per ispezione pacchetti (payload/size) quando attivo.
-- `awk`, `grep` per pattern su dimensioni pacchetto.
-
-### 09 - Incoerenza rete
-
-- `traceroute` per path di rete.
-- `dig -x` per reverse DNS.
-- `ss` per connessioni attive.
-
-### 10 - Low & Slow
-
-- `ss -tno` per durata e timer connessioni.
-- `awk` per calcolo rate.
-
-## Note operative
-
-- I blocchi automatici usano `iptables` quando disponibile.
-- La maggior parte dei comandi e' eseguita in tempo reale, senza aggregazioni SQL pesanti.
+- Gli script non leggono database o log storici per input.
+- Gli alert vengono sempre scritti in `blacklist.csv` con risk cumulativo e stato `BLOCKED` a 100.

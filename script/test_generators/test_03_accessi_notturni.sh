@@ -29,11 +29,13 @@ log "T03 start"
 CURRENT_HOUR=$(date +%H)
 
 # Seleziona 3 ACCOUNT CASUALI dal CSV per accessi notturni
+# tail -n +2: salta header; shuf -n 1: una riga casuale; cut -d',' -f1: primo campo
 ACCOUNT1=$(tail -n +2 "$CSV_CLIENTI" | shuf -n 1 | cut -d',' -f1)
 ACCOUNT2=$(tail -n +2 "$CSV_CLIENTI" | shuf -n 1 | cut -d',' -f1)
 ACCOUNT3=$(tail -n +2 "$CSV_CLIENTI" | shuf -n 1 | cut -d',' -f1)
 
 for i in $(seq 1 $NUM_ACCESSI); do
+    # Emit a few login events from distinct IPs.
     # Usa il ACCOUNT corrispondente (casuale)
     if [ $i -eq 1 ]; then ACCOUNT="$ACCOUNT1"
     elif [ $i -eq 2 ]; then ACCOUNT="$ACCOUNT2"
@@ -42,6 +44,7 @@ for i in $(seq 1 $NUM_ACCESSI); do
     IP_MITTENTE="192.168.20.$i"
     
     # GET /login - parametri nella query string
+    # curl -s: silenzioso; -G: query string; --data-urlencode: URL-encode; -H: header
     curl -s -G "$SERVER/login" \
         --data-urlencode "customer_id=$ACCOUNT" \
         --data-urlencode "session_duration=$((RANDOM % 60))" \

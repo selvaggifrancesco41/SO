@@ -1,0 +1,8 @@
+{
+  "name": "SO",
+  "image": "mcr.microsoft.com/devcontainers/base:alpine",
+  "remoteUser": "vscode",
+  "containerEnv": {
+    "HOME": "/home/vscode"
+  }
+}
