@@ -109,6 +109,7 @@ Di seguito ogni problema e` descritto con:
 ### P01 AML bonifici
 
 **Contesto e motivazione**
+
 Il riciclaggio di denaro si manifesta con molti bonifici da account diversi verso
  un singolo IBAN in poco tempo. Il singolo bonifico e` lecito, ma il pattern e`anomalo. Il problema e` stato scelto perche` rende visibile la differenza tra
  validita` della singola operazione e anomalia del comportamento aggregato.
@@ -156,6 +157,7 @@ Il generatore `test_01_aml_bonifici.sh` invia 6 bonifici verso lo stesso IBAN co
 ### P02 Accessi simultanei
 
 **Contesto e motivazione**
+
 Accessi simultanei dallo stesso account ma da IP diversi indicano session hijacking
  o credenziali condivise. E` un segnale forte e tipicamente affidabile. E' scelto
  perchè è immediato, misurabile, e con basso tasso di falsi positivi.
@@ -203,6 +205,7 @@ fi
 ### P03 Accessi notturni
 
 **Contesto e motivazione**
+
 Gli accessi fuori profilo orario sono un segnale forte. Accessi notturni
  sono tipici di automazioni o attori malevoli. E' stato scelto perchè
  il contesto temporale è semplice da interpretare e utile per escalation.
@@ -248,6 +251,7 @@ fi
 ### P04 Subnet ATM
 
 **Contesto e motivazione**
+
 Gli ATM operano da subnet dedicate. Se appare traffico ATM in altri contesti
  e` indice di configurazione errata o compromissione. Il problema è scelto
  perchè è un segnale semplice ma ad alta criticità.
@@ -287,6 +291,7 @@ add_blacklist_entry "IP" "$ip" "ATM_ANOMALO" "MEDIA" "35" "RETE_ATM" "IP ATM sub
 ### P05 Brute-force
 
 **Contesto e motivazione**
+
 Molti tentativi di login dallo stesso IP in poco tempo indicano brute-force.
  E` un problema classico perchè ha segnali semplici e misurabili.
 
@@ -326,6 +331,7 @@ fi
 ### P06 IP pubblico inatteso
 
 **Contesto e motivazione**
+
 In una rete interna o controllata, IP pubblici indicano accessi non autorizzati
  o bypass di segmentazione. Il problema è scelto perchè segnala
  violazioni di perimetro.
@@ -364,6 +370,7 @@ fi
 ### P07 Pattern API
 
 **Contesto e motivazione**
+
 Bot e automazioni generano sequenze ripetitive. E' stato scelto perchè
  protegge l uso legittimo delle API.
 
@@ -402,6 +409,7 @@ fi
 ### P08 Covert channels
 
 **Contesto e motivazione**
+
 Bonifici con importo 0 sono spesso segnali mascherati. Il problema è scelto
  perchè individua canali di comunicazione nascosti.
 
@@ -440,6 +448,7 @@ fi
 ### P09 Incoerenza rete
 
 **Contesto e motivazione**
+
 Un ATM non dovrebbe eseguire BONIFICO. Questa incoerenza è un segnale critico.
  E' stato scelto perchè richiede una risposta immediata.
 
@@ -478,6 +487,7 @@ fi
 ### P10 Low & slow
 
 **Contesto e motivazione**
+
 Gli attacchi low & slow non superano soglie immediate ma degradano il servizio
  nel tempo. E' stato scelto perchè è un caso spesso trascurato.
 
