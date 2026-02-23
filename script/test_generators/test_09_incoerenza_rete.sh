@@ -32,29 +32,33 @@ IP_PUBBLICO="203.0.113.$((RANDOM % 254 + 1))"    # IP pubblico (anomalo per LOGI
 # Output minimale di avvio
 log "T09 start"
 
-# Operazione 1: Bonifico da IP ATM (anomalo)
-# curl -s: silenzioso; -G: query string; --data-urlencode: URL-encode; -H: header
-curl -s -G "$SERVER/bonifico" \
-    --data-urlencode "customer_id=$ACCOUNT1" \
-    --data-urlencode "importo=50000" \
-    --data-urlencode "iban=IT60X0542811101000000123456" \
-    -H "X-Forwarded-For: $IP_ATM" > /dev/null 2>&1
-
-sleep 1
-
-# Operazione 2: Prelievo da IP API (anomalo)
-curl -s -G "$SERVER/prelievo" \
-    --data-urlencode "customer_id=$ACCOUNT2" \
-    --data-urlencode "importo=500" \
-    -H "X-Forwarded-For: $IP_API" > /dev/null 2>&1
-
-sleep 1
-
-# Operazione 3: Login da IP pubblico (anomalo)
-curl -s -G "$SERVER/login" \
-    --data-urlencode "customer_id=$ACCOUNT3" \
-    --data-urlencode "session_duration=60" \
-    -H "X-Forwarded-For: $IP_PUBBLICO" > /dev/null 2>&1
+# Scegli una sola operazione tra le tre (random).
+OP_RANDOM=$((RANDOM % 3))
+case $OP_RANDOM in
+    0)
+        # Operazione 1: Bonifico da IP ATM (anomalo)
+        # curl -s: silenzioso; -G: query string; --data-urlencode: URL-encode; -H: header
+        curl -s -G "$SERVER/bonifico" \
+            --data-urlencode "customer_id=$ACCOUNT1" \
+            --data-urlencode "importo=50000" \
+            --data-urlencode "iban=IT60X0542811101000000123456" \
+            -H "X-Forwarded-For: $IP_ATM" > /dev/null 2>&1
+        ;;
+    1)
+        # Operazione 2: Prelievo da IP API (anomalo)
+        curl -s -G "$SERVER/prelievo" \
+            --data-urlencode "customer_id=$ACCOUNT2" \
+            --data-urlencode "importo=500" \
+            -H "X-Forwarded-For: $IP_API" > /dev/null 2>&1
+        ;;
+    2)
+        # Operazione 3: Login da IP pubblico (anomalo)
+        curl -s -G "$SERVER/login" \
+            --data-urlencode "customer_id=$ACCOUNT3" \
+            --data-urlencode "session_duration=60" \
+            -H "X-Forwarded-For: $IP_PUBBLICO" > /dev/null 2>&1
+        ;;
+esac
 
 # Output minimale di fine
 log "T09 done"

@@ -29,9 +29,11 @@ if [ ! -f "$CSV_CLIENTI" ]; then
     exit 1
 fi
 
+#prendiamo un account casuale
 # tail -n +2: salta header; shuf -n 1: una riga casuale; cut -d',' -f1: primo campo
 ACCOUNT=$(tail -n +2 "$CSV_CLIENTI" | shuf -n 1 | cut -d',' -f1)
 
+#-z vuol dire "stringa vuota", quindi se ACCOUNT è vuoto, esce con errore
 if [ -z "$ACCOUNT" ]; then
     echo "Errore: Impossibile selezionare account dal CSV"
     exit 1
