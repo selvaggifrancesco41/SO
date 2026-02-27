@@ -73,7 +73,7 @@ timestamp,tipo_elemento,elemento,azione_rilevata,gravita,recidivita,risk_score,s
 Regole:
 - `recidivita` e `risk_score` sono cumulativi per `tipo_elemento + elemento`.
 - Quando il `risk_score` raggiunge 100, lo `stato` diventa `BLOCKED`.
-- L accumulo e` gestito dalla funzione condivisa in `script/lib_blacklist.sh`.
+- L'accumulo è gestito dalla funzione condivisa in `script/lib_blacklist.sh`.
 
 Snippet base:
 
@@ -111,10 +111,10 @@ Di seguito ogni problema e` descritto con:
 **Contesto e motivazione**
 
 Il riciclaggio di denaro si manifesta con molti bonifici da account diversi verso
- un singolo IBAN in poco tempo. Il singolo bonifico e` lecito, ma il pattern e`anomalo. Il problema e` stato scelto perche` rende visibile la differenza tra
- validita` della singola operazione e anomalia del comportamento aggregato.
+ un singolo IBAN in poco tempo. Il singolo bonifico è lecito, ma il pattern è anomalo. Il problema è stato scelto perchè rende visibile la differenza tra
+ validità della singola operazione e anomalia del comportamento aggregato.
 
-**Perche` e` importante**
+**Perchè è importante**
 - riduce esposizione regolatoria
 - segnala prima che i fondi siano dispersi
 - offre un trigger chiaro per investigazioni AML
